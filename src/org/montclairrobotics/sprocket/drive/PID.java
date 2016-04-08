@@ -48,6 +48,9 @@ public class PID implements Updatable{
 		this.negVal=minIn;
 		this.posVal=maxIn;
 		setTarget();
+
+Update.add(this);
+
 	}
 	
 	public PID(double P,double I,double D,double minIn,double maxIn)
