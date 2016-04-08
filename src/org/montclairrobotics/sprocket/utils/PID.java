@@ -1,6 +1,5 @@
-package org.montclairrobotics.sprocket.drive;
+package org.montclairrobotics.sprocket.utils;
 
-import org.montclairrobotics.sprocket.Updatable;
 
 /*
  * Usage:
@@ -48,8 +47,7 @@ public class PID implements Updatable{
 		this.negVal=minIn;
 		this.posVal=maxIn;
 		setTarget();
-
-Update.add(this);
+		Update.add(this);
 
 	}
 	

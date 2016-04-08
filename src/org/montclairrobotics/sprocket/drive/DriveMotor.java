@@ -10,85 +10,51 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.VictorSP;
 
 public class DriveMotor {
+	//constants
+	public static enum M_TYPE{TALONSRX,VICTORSP,TALON};
+	private static final M_TYPE defaultType = M_TYPE.TALON;
+	private static final double DEFAULT_P = 0.1, DEFAULT_I = 0.001, DEFAULT_D = 0.0;
 	
-	private int motorPort, encoderPort1, encoderPort2;
-	private double speed;
-	
+	//set once
 	private Encoder encoder;
 	private SpeedController motor;
+	private double PID_P = 0.1, PID_I = 0.001, PID_D = 0.0;
 	
-	private boolean encoders;
-	
+	//variables
+	private double speed;
 	private static boolean shutdown=false;
-	private static char defaultType = 't'; //s FOR TALONSRX, v FOR VICTORSP, t for Talon XYZ
-	//Change values in Map for motor ports when switching modes
-	
-	public static final int ROT_TO_DEGREES = 360;
-	public static double PID_P = 0.1, PID_I = 0.001, PID_D = 0.0;
-	public static final double SCALE_FACTOR = 1;
-	
-	
-	
-	/*public DriveMotor(int id) {
-		this(Map.MOTOR_PORTS[id]);
-	}
-	public DriveMotor(int[] ports)
+
+	public DriveMotor(int m_port, M_TYPE type,int encoderPort1,int encoderPort2) 
 	{
-		this(ports,true);
+		this(m_port,type,encoderPort1,encoderPort2,DEFAULT_P,DEFAULT_I,DEFAULT_D);
 	}
-	
-	public DriveMotor(int id, boolean encoders)
+	public DriveMotor(int m_port, M_TYPE type,int encoderPort1,int encoderPort2,double P,double I,double D)
 	{
-		this(Map.MOTOR_PORTS[id], encoders);
+		this(m_port,type);
+		encoder = new Encoder(encoderPort1, encoderPort2);
 	}
-	public DriveMotor(int[]ports, boolean encoders)
+	public DriveMotor(int m_port)
 	{
-		this(ports,encoders,defaultType);
+		this(m_port,defaultType);
 	}
-	
-	public DriveMotor(int id,boolean encoders, char motorType)
+	public DriveMotor(int m_port,M_TYPE type)
 	{
-		this(Map.MOTOR_PORTS[id],encoders,motorType);
-	}*/
-	
-	public DriveMotor(int port)
-	{
-		this(port,0,0);
-	}
-	public DriveMotor(int port,int encoderPort0,int encoderPort1)
-	{
-		encoders=(encoderPort0!=0||encoderPort1!=0);
-		motorPort=port;
-	}
-	
-	
-	public DriveMotor(int[] ports, boolean encoders,char motorType) {
-		this.encoders = encoders;
-		//int[][] ports = type == 'd' ? Map.MOTOR_PORTS : Map.SHOOTER_PORTS;
-		motorPort = ports[0];
-		// What!?
-		switch(motorType)
+		switch(type)
 		{
-		case 's':
-			motor = new CANTalon(motorPort);
+		case TALONSRX:
+			motor = new CANTalon(m_port);
 			break;
-		case 'v':
-			motor = new VictorSP(motorPort);
+		case VICTORSP:
+			motor = new VictorSP(m_port);
 			break;
-		case 't':
-			motor = new Talon(motorPort);
+		case TALON:
+			motor = new Talon(m_port);
 			break;
 		default:
 			break;
 		}
-		
-		if(encoders) {
-			encoderPort1 = ports[1];
-			encoderPort2 = ports[2];
-			
-			encoder = new Encoder(encoderPort1, encoderPort2);
-		}
-		if(motor instanceof CANTalon) {
+		if(type==M_TYPE.TALONSRX)
+		{
 			CANTalon talon = (CANTalon)motor;
 			talon.setControlMode(TalonControlMode.PercentVbus.value);
 			talon.reset();
@@ -99,7 +65,7 @@ public class DriveMotor {
 	
 	public void setSpeed(double spd)
 	{
-		speed = encoders ? spd * ROT_TO_DEGREES : spd*SCALE_FACTOR; // Control scale constant
+		speed = spd;//encoders ? spd * ROT_TO_DEGREES : spd*SCALE_FACTOR; // Control scale constant
 	
 		if(Robot.debugOutputs) Robot.dashboard.putNumber("Motor "+motorPort, spd);
 	}
