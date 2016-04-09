@@ -43,8 +43,8 @@ public abstract class Button implements Updatable{
 		}
 	}
 
-	public abstract void onButtonDown();
-	public abstract void buttonDown();
-	public abstract void onButtonUp();
-	public abstract void buttonUp();
+	public void onButtonDown() {}
+	public void buttonDown() {}
+	public void onButtonUp() {}
+	public void buttonUp() {}
 }
