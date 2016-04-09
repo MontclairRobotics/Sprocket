@@ -8,8 +8,6 @@ import org.montclairrobotics.sprocket.utils.Update;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Encoder;
-//import edu.wpi.first.wpilibj.TalonSRX;
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -28,11 +26,10 @@ public class DriveMotor implements Updatable{
 	private double tgtSpeed,speed;
 	private static boolean shutdown=false;
 
-	public DriveMotor(int m_port, M_TYPE type,int[]encoderPorts,double P,double I,double D)
+	public DriveMotor(int m_port, M_TYPE type,int[]encoderPorts,PID encPID)
 	{
 		this(m_port,type,encoderPorts);
-		if(P!=0||I!=0||D!=0)
-			pid=new PID(P,I,D);
+		pid=encPID.copy();
 	}
 	public DriveMotor(int m_port, M_TYPE type,int[]encoderPorts) 
 	{

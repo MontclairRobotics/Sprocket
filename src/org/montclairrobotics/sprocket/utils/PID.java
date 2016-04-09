@@ -14,11 +14,11 @@ package org.montclairrobotics.sprocket.utils;
 
 public class PID implements Updatable{
 
-	double P,I,D,minIn,maxIn,minOut,maxOut;
+	private double P,I,D,minIn,maxIn,minOut,maxOut;
 	
-	double in,out;
-	double target;
-	double totalError, prevError, error;
+	private double in,out;
+	private double target;
+	private double totalError, prevError, error;
 	/*
 	 * P the Proportional constant
 	 * I the Integral constant
@@ -57,6 +57,18 @@ public class PID implements Updatable{
 		this.P=P;
 		this.I=I;
 		this.D=D;
+	}
+	public void setMinMaxInOut(double minIn, double maxIn, double minOut, double maxOut)
+	{
+		this.minOut=minOut;
+		this.maxOut=maxOut;
+		this.minIn=minIn;
+		this.maxIn=maxIn;
+	}
+	
+	public PID copy()
+	{
+		return new PID(P,I,D,minIn,maxIn,minOut,maxOut);
 	}
 	
 	public void setTarget()
@@ -132,15 +144,7 @@ public class PID implements Updatable{
 	public double getError(){
 		return error;
 	}
-	public double getP(){
-		return P;
-	}
-	public double getD(){
-		return D;
-	}
-	public double getI(){
-		return I;
-	}
+	
 	
 
 	public void update()
