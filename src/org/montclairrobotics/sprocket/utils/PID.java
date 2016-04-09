@@ -19,8 +19,6 @@ public class PID implements Updatable{
 	double in,out;
 	double target;
 	double totalError, prevError, error;
-	
-	public static final boolean gyroEnabled=true;
 	/*
 	 * P the Proportional constant
 	 * I the Integral constant
@@ -86,7 +84,7 @@ public class PID implements Updatable{
 		in=val;
 	}
 
-	public double getRaw()
+	public double getRawOut()
 	{
 		return out;
 	}

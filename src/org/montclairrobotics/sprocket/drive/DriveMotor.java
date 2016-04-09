@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.VictorSP;
 public class DriveMotor implements Updatable{
 	//static constants
 	public static enum M_TYPE{TALONSRX,VICTORSP,TALON};
-	private static final M_TYPE defaultType = M_TYPE.TALON;
 	
 	//constants
 	private Encoder encoder;
@@ -29,20 +28,16 @@ public class DriveMotor implements Updatable{
 	private double tgtSpeed,speed;
 	private static boolean shutdown=false;
 
-	public DriveMotor(int m_port, M_TYPE type,int encoderPort1,int encoderPort2,double P,double I,double D)
+	public DriveMotor(int m_port, M_TYPE type,int[]encoderPorts,double P,double I,double D)
 	{
-		this(m_port,type,encoderPort1,encoderPort2);
-		pid=new PID(P,I,D);
+		this(m_port,type,encoderPorts);
+		if(P!=0||I!=0||D!=0)
+			pid=new PID(P,I,D);
 	}
-	public DriveMotor(int m_port, M_TYPE type,int encoderPort1,int encoderPort2) 
+	public DriveMotor(int m_port, M_TYPE type,int[]encoderPorts) 
 	{
 		this(m_port,type);
-		encoder = new Encoder(encoderPort1, encoderPort2);
-	}
-	
-	public DriveMotor(int m_port)
-	{
-		this(m_port,defaultType);
+		encoder = new Encoder(encoderPorts[0],encoderPorts[1]);
 	}
 	public DriveMotor(int m_port,M_TYPE type)
 	{

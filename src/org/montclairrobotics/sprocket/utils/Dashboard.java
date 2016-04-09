@@ -7,15 +7,14 @@ import edu.wpi.first.wpilibj.Sendable;
 public class Dashboard {
 	
 	private static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard dashboard;
-	
-	private static boolean debugOutputs=true;
+	public static final boolean DEBUG_OUTPUTS=true;
 	
 	public static Sendable getData(String key)
 	{
 		return getData(key,false);
 	}
 	public static Sendable getData(String key,boolean debug) {
-		if(debugOutputs || !debug)
+		if(DEBUG_OUTPUTS || !debug)
 			return dashboard.getData(key);
 		return null;
 	}
@@ -25,7 +24,7 @@ public class Dashboard {
 		return getNumber(key,false);
 	}
 	public static double getNumber(String key,boolean debug) {
-		if(debugOutputs || !debug)
+		if(DEBUG_OUTPUTS || !debug)
 			return dashboard.getNumber(key);
 		return 0.0;
 	}
@@ -35,7 +34,7 @@ public class Dashboard {
 		return getString(key,false);
 	}
 	public static String getString(String key,boolean debug) {
-		if(debugOutputs || !debug)
+		if(DEBUG_OUTPUTS || !debug)
 			return dashboard.getString(key);
 		return "";
 	}
@@ -45,7 +44,7 @@ public class Dashboard {
 		putData(key,value,false);
 	}
 	public static void putData(String key, Sendable value,boolean debug) {
-		if(debugOutputs || !debug)
+		if(DEBUG_OUTPUTS || !debug)
 			dashboard.putData(key, value);
 	}
 	
@@ -54,7 +53,7 @@ public class Dashboard {
 		putNumber(key,value,false);
 	}
 	public static void putNumber(String key, double value,boolean debug) {
-		if(debugOutputs || !debug)
+		if(DEBUG_OUTPUTS || !debug)
 			dashboard.putNumber(key, value);
 	}
 	
@@ -63,7 +62,7 @@ public class Dashboard {
 		putString(key,value,false);
 	}
 	public static void putString(String key, String s,boolean debug) {
-		if(debugOutputs || !debug)
+		if(DEBUG_OUTPUTS || !debug)
 			dashboard.putString(key, s);
 	}
 	
