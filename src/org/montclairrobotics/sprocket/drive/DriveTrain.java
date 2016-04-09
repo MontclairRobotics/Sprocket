@@ -37,25 +37,40 @@ public class DriveTrain implements Updatable{
 	 * motorType = the type of the motor
 	 * p,i,d	= the p,i, and d values for the PID controller.
 	 */
-	public DriveTrain(int[] leftPorts,int[] rightPorts,M_TYPE motorType,int[][]leftEncoders,int[][]rightEncoders,double p,double i,double d,double encP,double encI,double encD)
-	{
-		this(leftPorts,rightPorts,motorType,leftEncoders,rightEncoders,encP,encI,encD);
-		pid = new PID(p,i,d,-180,180,-10,10);
-	}
-	public DriveTrain(int[] leftPorts,int[] rightPorts,M_TYPE motorType,int p,int i,int d)
-	{
-		this(leftPorts,rightPorts,motorType);
-		pid = new PID(p,i,d,-180,180,-10,10);
-	}
-	public DriveTrain(int[]leftPorts,int[]rightPorts)
-	{
+	
+	public DriveTrain(int[]leftPorts,int[]rightPorts){
 		this(leftPorts,rightPorts,defaultType);
 	}
-	public DriveTrain(int[]leftPorts,int[]rightPorts,M_TYPE motorType)
-	{
-		this(leftPorts,rightPorts,motorType,null,null,0.0,0.0,0.0);
+	public DriveTrain(int[]leftPorts,int[]rightPorts,M_TYPE motorType){
+		this(leftPorts,rightPorts,motorType,null);
 	}
-	public DriveTrain(int[]leftPorts,int[]rightPorts,M_TYPE motorType,int[][]leftEncoders,int[][]rightEncoders,double encP,double encI,double encD)
+	public DriveTrain(int[]leftPorts,int[]rightPorts,PID drivePID){
+		this(leftPorts,rightPorts,defaultType,drivePID);
+	}
+	public DriveTrain(int[]leftPorts,int[]rightPorts,M_TYPE motorType,PID drivePID){
+		this(leftPorts,rightPorts,motorType,drivePID,null,null);
+	}
+	public DriveTrain(int[]leftPorts,int[]rightPorts,int[][]leftEncoders,int[][]rightEncoders){
+		this(leftPorts,rightPorts,defaultType,null,leftEncoders,rightEncoders);
+	}
+	public DriveTrain(int[]leftPorts,int[]rightPorts,PID drivePID,int[][]leftEncoders,int[][]rightEncoders){
+		this(leftPorts,rightPorts,defaultType,drivePID,leftEncoders,rightEncoders);
+	}
+	public DriveTrain(int[]leftPorts,int[]rightPorts,M_TYPE motorType,PID drivePID,int[][]leftEncoders,int[][]rightEncoders){
+		this(leftPorts,rightPorts,motorType,drivePID,leftEncoders,rightEncoders,null);
+	}
+	public DriveTrain(int[]leftPorts,int[]rightPorts,int[][]leftEncoders,int[][]rightEncoders,PID encPID){
+		this(leftPorts,rightPorts,defaultType,null,leftEncoders,rightEncoders,encPID);
+	}
+	public DriveTrain(int[]leftPorts,int[]rightPorts,M_TYPE motorType,int[][]leftEncoders,int[][]rightEncoders,PID encPID){
+		this(leftPorts,rightPorts,motorType,null,leftEncoders,rightEncoders,encPID);
+	}
+	public DriveTrain(int[]leftPorts,int[]rightPorts,PID drivePID,int[][]leftEncoders,int[][]rightEncoders,PID encPID){
+		this(leftPorts,rightPorts,defaultType,drivePID,leftEncoders,rightEncoders,encPID);
+	}
+	
+	
+	public DriveTrain(int[]leftPorts,int[]rightPorts,M_TYPE motorType,PID drivePID,int[][]leftEncoders,int[][]rightEncoders,PID encPID)
 	{
 		leftWheels = new DriveMotor[leftPorts.length];
 		rightWheels = new DriveMotor[rightPorts.length];
@@ -65,22 +80,22 @@ public class DriveTrain implements Updatable{
 			if(leftEncoders==null)
 				leftWheels [i]= new DriveMotor(leftPorts[i],motorType);
 			else
-				leftWheels [i]=new DriveMotor(leftPorts[i],motorType,leftEncoders[(i<leftEncoders.length)?i:0],encP,encI,encD);
+				leftWheels [i]=new DriveMotor(leftPorts[i],motorType,leftEncoders[(i<leftEncoders.length)?i:0],encPID);
 		}
 		for(int i=0;i<rightPorts.length; i++)
 		{
 			if(rightEncoders==null)
 				rightWheels [i]= new DriveMotor(rightPorts[i],motorType);
 			else
-				rightWheels [i]=new DriveMotor(rightPorts[i],motorType,rightEncoders[(i<rightEncoders.length)?i:0],encP,encI,encD);
+				rightWheels [i]=new DriveMotor(rightPorts[i],motorType,rightEncoders[(i<rightEncoders.length)?i:0],encPID);
 		}
 		for(DriveMotor motor : rightWheels) {
 			motor.setInverted(true);
 		}
+		
+		pid=drivePID;
 		Update.add(this);
 	}
-	
-	//TO IMPLEMENT: DriveInches
 	
 	
 	public double getAvgEncoderClicks() {
@@ -109,27 +124,30 @@ public class DriveTrain implements Updatable{
 	{
 		setSpeedXY(x,y,false);
 	}
-	public void setSpeedXY(double x, double y,boolean lock)
+	public void setSpeedXY(double x,double y,boolean hardLock)
+	{
+		setSpeedXY(x,y,false,hardLock);
+	}
+	public void setSpeedXY(double x, double y,boolean softLock,boolean hardLock)
 	{   
 		x*=.75;
 		if (!forward) {
 			y = y*-1;
 		}
+        this.lock=hardLock;
+        tgtSpeed=y;
 		if (Math.abs(x)<Control.DEAD_ZONE)
 		{
 			if(Math.abs(y)<Control.DEAD_ZONE)
 			{
 				leftSpd=0;
 				rightSpd=0;
-				this.lock=false;
-				tgtSpeed=0;
 			}
 			else
 			{
 				leftSpd=y;
 				rightSpd=y;
-				this.lock=lock;
-				tgtSpeed=y;
+				lock=lock||softLock;
 			}
 		}
 		else
@@ -145,30 +163,46 @@ public class DriveTrain implements Updatable{
 			}
 	        leftSpd=(y+x)/max;
 	        rightSpd=(y-x)/max;
-	        this.lock=lock;
-	        tgtSpeed=y;
 		}
 		Dashboard.putNumber("leftSpeed", leftSpd,true);
 		Dashboard.putNumber("rightSpeed", rightSpd,true);
 	}
 
 	
-	private double getCurrentVal()//make this the input value
+	public double getGyroVal()//TODO TODO TODO make this the input value
 	{
 		return 0.0;
 	}
-	public void updateLock(boolean lock)
+	
+	public double rotateTo(double degrees)//returns absolute result
+	{
+		return rotateTo(degrees,true);
+	}
+	public double rotateTo(double degrees,boolean relative)//returns absolute result
+	{
+		if(relative)
+			degrees+=getGyroVal();
+		pid.setTarget(degrees);
+		lock=true;
+		loopsSinceLastLock=0;
+		return degrees;
+	}
+	
+	private void calcLock(boolean lock)
 	{
 		
 		if(lock)
 		{
 			if(loopsSinceLastLock>=TIME_TO_RESET_AUTOLOCK)
 			{
-				pid.setTarget(getCurrentVal());
+				pid.setTarget(getGyroVal());
+			}
+			else
+			{
+				execLock(pid.getRawOut());
 			}
 			loopsSinceLastLock=0;
-			pid.setCur(getCurrentVal());
-			calcCorrection(pid.getRawOut());
+			pid.setCur(getGyroVal());
 			Dashboard.putString("Lock", "ON");
 		}
 		else
@@ -178,7 +212,7 @@ public class DriveTrain implements Updatable{
 		}
 	}
 	
-	public void calcCorrection(double correction)
+	private void execLock(double correction)
 	{
 		if (tgtSpeed > 0){
 			if(1+correction > 0)
@@ -199,7 +233,7 @@ public class DriveTrain implements Updatable{
 	}
 	public void update()
 	{
-		updateLock(lock);
+		calcLock(lock);
 		for(int i=0; i<leftWheels.length; i++)
 		{
 			leftWheels[i].setSpeed(leftSpd);

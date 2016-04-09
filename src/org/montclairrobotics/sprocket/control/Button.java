@@ -9,10 +9,6 @@ public abstract class Button implements Updatable{
 	private int stick;
 	private int id;
 	
-	private Button()
-	{
-		//DON'T CALL THIS
-	}
 	
 	public Button(int stick,int id)
 	{
@@ -28,23 +24,23 @@ public abstract class Button implements Updatable{
 			if(!state)
 			{
 				state=true;
-				onButtonDown();
+				onDown();
 			}
-			buttonDown();
+			down();
 		}
 		else
 		{
 			if(state)
 			{
 				state=false;
-				onButtonUp();
+				onUp();
 			}
-			buttonUp();
+			up();
 		}
 	}
 
-	public void onButtonDown() {}
-	public void buttonDown() {}
-	public void onButtonUp() {}
-	public void buttonUp() {}
+	public void onDown() {}
+	public void down() {}
+	public void onUp() {}
+	public void up() {}
 }
