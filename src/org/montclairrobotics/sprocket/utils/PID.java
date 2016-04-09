@@ -1,6 +1,5 @@
-package org.montclairrobotics.sprocket.drive;
+package org.montclairrobotics.sprocket.utils;
 
-import org.montclairrobotics.sprocket.Updatable;
 
 /*
  * Usage:
@@ -15,16 +14,11 @@ import org.montclairrobotics.sprocket.Updatable;
 
 public class PID implements Updatable{
 
-	double P,I,D,minOut,maxOut;
+	double P,I,D,minIn,maxIn,minOut,maxOut;
 	
 	double in,out;
-	
 	double target;
 	double totalError, prevError, error;
-	
-	private double negVal,posVal;
-	
-	public static final boolean gyroEnabled=true;
 	/*
 	 * P the Proportional constant
 	 * I the Integral constant
@@ -38,6 +32,14 @@ public class PID implements Updatable{
 	 * maxOut
 	 * constrain output to these 
 	 */
+	public PID(double P,double I,double D)
+	{
+		this(P,I,D,0,0);
+	}
+	public PID(double P,double I,double D,double minIn,double maxIn)
+	{
+		this(P,I,D,minIn,maxIn,0,0);
+	}
 	public PID(double P,double I,double D, double minIn, double maxIn, double minOut, double maxOut)
 	{
 		this.P=P;
@@ -45,21 +47,22 @@ public class PID implements Updatable{
 		this.D=D;
 		this.minOut=minOut;
 		this.maxOut=maxOut;
-		this.negVal=minIn;
-		this.posVal=maxIn;
+		this.minIn=minIn;
+		this.maxIn=maxIn;
 		setTarget();
+		Update.add(this);
+	}
+
+	public void setPID(double P, double I, double D){
+		this.P=P;
+		this.I=I;
+		this.D=D;
 	}
 	
-	public PID(double P,double I,double D,double minIn,double maxIn)
+	public void setTarget()
 	{
-		this(P,I,D,minIn,maxIn,-10.0,10.0);
+		setTarget(0.0,true);
 	}
-	
-	public PID(double P,double I,double D)
-	{
-		this(P,I,D,0,0);
-	}
-	
 	public void setTarget(double t)
 	{
 		setTarget(t,true);
@@ -76,40 +79,29 @@ public class PID implements Updatable{
 		}
 	}
 	
-	public void setPID(double P, double I, double D){
-		this.P=P;
-		this.I=I;
-		this.D=D;
-	}
-	public void setMinMaxOut(double min, double max){
-		minOut = min;
-		maxOut = max;
-	}
-	
-	public void setTarget()
-	{
-		setTarget(0.0,true);
-	}
-	public void set(int val)
+	public void setCur(double val)
 	{
 		in=val;
 	}
 
-	public double get()
+	public double getRawOut()
 	{
 		return out;
 	}
 	
+	public double getAdjOut()
+	{
+		return target*(1+out);
+	}
 	
 	private double calculate(double val)
 	{
 		error=target-val;
-		if(negVal!=0&&posVal!=0)
+		if(minIn!=0&&maxIn!=0)
 		{
-			double diff=posVal-negVal;
-			error=((error-negVal)%diff+diff)%diff+negVal;
+			double diff=maxIn-minIn;
+			error=((error-minIn)%diff+diff)%diff+minIn;
 		}
-		//error=target-angle;
 		totalError+=error;
 		if (I != 0) 
 		{
@@ -130,8 +122,11 @@ public class PID implements Updatable{
 
 		prevError = error;
 		
-		if (out > maxOut) out=maxOut;
-		else if (out < minOut) out=minOut;
+		if(minOut!=0 || maxOut!=0)
+		{
+			if (out > maxOut) out=maxOut;
+			else if (out < minOut) out=minOut;
+		}
 		return out;
 	}
 	public double getError(){
