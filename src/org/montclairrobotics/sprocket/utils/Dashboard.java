@@ -1,8 +1,8 @@
 package org.montclairrobotics.sprocket.utils;
 
-import java.util.concurrent.ConcurrentHashMap;
-
+//import java.util.concurrent.ConcurrentHashMap;
 import edu.wpi.first.wpilibj.Sendable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Dashboard {
 	
@@ -15,7 +15,7 @@ public class Dashboard {
 	}
 	public static Sendable getData(String key,boolean debug) {
 		if(DEBUG_OUTPUTS || !debug)
-			return dashboard.getData(key);
+			return SmartDashboard.getData(key);
 		return null;
 	}
 	
@@ -25,7 +25,7 @@ public class Dashboard {
 	}
 	public static double getNumber(String key,boolean debug) {
 		if(DEBUG_OUTPUTS || !debug)
-			return dashboard.getNumber(key);
+			return SmartDashboard.getNumber(key);
 		return 0.0;
 	}
 	
@@ -35,7 +35,7 @@ public class Dashboard {
 	}
 	public static String getString(String key,boolean debug) {
 		if(DEBUG_OUTPUTS || !debug)
-			return dashboard.getString(key);
+			return SmartDashboard.getString(key);
 		return "";
 	}
 	
@@ -45,7 +45,7 @@ public class Dashboard {
 	}
 	public static void putData(String key, Sendable value,boolean debug) {
 		if(DEBUG_OUTPUTS || !debug)
-			dashboard.putData(key, value);
+			SmartDashboard.putData(key, value);
 	}
 	
 	public static void putNumber(String key, double value)
@@ -54,7 +54,7 @@ public class Dashboard {
 	}
 	public static void putNumber(String key, double value,boolean debug) {
 		if(DEBUG_OUTPUTS || !debug)
-			dashboard.putNumber(key, value);
+			SmartDashboard.putNumber(key, value);
 	}
 	
 	public static void putString(String key, String value)
@@ -63,7 +63,7 @@ public class Dashboard {
 	}
 	public static void putString(String key, String s,boolean debug) {
 		if(DEBUG_OUTPUTS || !debug)
-			dashboard.putString(key, s);
+			SmartDashboard.putString(key, s);
 	}
 	
 }

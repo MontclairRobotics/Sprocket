@@ -134,21 +134,20 @@ public class DriveTrain implements Updatable{
 		if (!forward) {
 			y = y*-1;
 		}
+        this.lock=hardLock;
+        tgtSpeed=y;
 		if (Math.abs(x)<Control.DEAD_ZONE)
 		{
 			if(Math.abs(y)<Control.DEAD_ZONE)
 			{
 				leftSpd=0;
 				rightSpd=0;
-				this.lock=false;
-				tgtSpeed=0;
 			}
 			else
 			{
 				leftSpd=y;
 				rightSpd=y;
-				this.lock=softLock||hardLock;
-				tgtSpeed=y;
+				lock=lock||softLock;
 			}
 		}
 		else
@@ -164,18 +163,31 @@ public class DriveTrain implements Updatable{
 			}
 	        leftSpd=(y+x)/max;
 	        rightSpd=(y-x)/max;
-	        this.lock=hardLock;
-	        tgtSpeed=y;
 		}
 		Dashboard.putNumber("leftSpeed", leftSpd,true);
 		Dashboard.putNumber("rightSpeed", rightSpd,true);
 	}
 
 	
-	private double getCurrentVal()//TODO TODO TODO make this the input value
+	public double getGyroVal()//TODO TODO TODO make this the input value
 	{
 		return 0.0;
 	}
+	
+	public double rotateTo(double degrees)//returns absolute result
+	{
+		return rotateTo(degrees,true);
+	}
+	public double rotateTo(double degrees,boolean relative)//returns absolute result
+	{
+		if(relative)
+			degrees+=getGyroVal();
+		pid.setTarget(degrees);
+		lock=true;
+		loopsSinceLastLock=0;
+		return degrees;
+	}
+	
 	private void calcLock(boolean lock)
 	{
 		
@@ -183,14 +195,14 @@ public class DriveTrain implements Updatable{
 		{
 			if(loopsSinceLastLock>=TIME_TO_RESET_AUTOLOCK)
 			{
-				pid.setTarget(getCurrentVal());
+				pid.setTarget(getGyroVal());
 			}
 			else
 			{
 				execLock(pid.getRawOut());
 			}
 			loopsSinceLastLock=0;
-			pid.setCur(getCurrentVal());
+			pid.setCur(getGyroVal());
 			Dashboard.putString("Lock", "ON");
 		}
 		else

@@ -9,6 +9,7 @@ public abstract class Button implements Updatable{
 	private int stick;
 	private int id;
 	
+	@SuppressWarnings("unused")
 	private Button()
 	{
 		//DON'T CALL THIS

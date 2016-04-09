@@ -144,8 +144,6 @@ public class PID implements Updatable{
 	public double getError(){
 		return error;
 	}
-	
-	
 
 	public void update()
 	{
