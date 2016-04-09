@@ -12,6 +12,12 @@ public class Buttons {
 		new ShootUp(5);
 		new Shoot(1);
 	}
+	
+	public void reset()
+	{
+		//Sets everything to default
+	}
+	
 	public class HalfDown extends Button
 	{
 		public HalfDown(int id)
