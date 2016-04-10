@@ -56,6 +56,12 @@ public class Auto extends StateMachine{
 	}
 	public static class Done extends State
 	{
+		public boolean isDone() {
+			return false;
+		}
+		public State getNextState() {
+			return null;
+		}
 		
 	}
 }

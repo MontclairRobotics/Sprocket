@@ -38,10 +38,15 @@ public class Robot extends IterativeRobot {
     
     public void autonomousInit() {
     	auto=new Auto(driveTrain);
+    	buttons.reset();
     }
     
     public void autonomousPeriodic() {
     	Update.update();
+    }
+    
+    public void teleopInit(){
+    	buttons.reset();
     }
     
     public void teleopPeriodic() {
