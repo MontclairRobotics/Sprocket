@@ -6,7 +6,7 @@ import org.montclairrobotics.sprocket.drive.DriveMotor.M_TYPE;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.utils.CameraServers;
 import org.montclairrobotics.sprocket.utils.PID;
-import org.montclairrobotics.sprocket.utils.Update;
+import org.montclairrobotics.sprocket.utils.Updater;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -42,7 +42,7 @@ public class Robot extends IterativeRobot {
     }
     
     public void autonomousPeriodic() {
-    	Update.update();
+    	Updater.update();
     }
     
     public void teleopInit(){
@@ -51,7 +51,7 @@ public class Robot extends IterativeRobot {
     
     public void teleopPeriodic() {
     	driveTrain.setSpeedXY(Control.getX(Control.DRIVE_STICK),Control.getY(Control.DRIVE_STICK),Control.getSlider(Control.DRIVE_STICK)<0.5,Control.getButton(Control.DRIVE_STICK,1));
-        Update.update();
+        Updater.update();
     }
     
 }

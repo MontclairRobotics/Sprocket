@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.Update;
+import org.montclairrobotics.sprocket.utils.Updater;
 
 
 public class AutoTurn implements Updatable {
@@ -17,7 +17,7 @@ public class AutoTurn implements Updatable {
 		driveTrain=dt;
 		degreesTgt=driveTrain.rotateTo(degrees);
 		done=false;
-		Update.add(this);
+		Updater.add(this);
 	}
 	
 	public boolean isDone()

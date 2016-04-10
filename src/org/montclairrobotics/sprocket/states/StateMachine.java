@@ -1,14 +1,14 @@
 package org.montclairrobotics.sprocket.states;
 
 import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.Update;
+import org.montclairrobotics.sprocket.utils.Updater;
 
 public abstract class StateMachine implements Updatable {
 	private State state;
 	
 	public StateMachine(State start)
 	{
-		Update.add(this);
+		Updater.add(this);
 		state=start;
 		state.onStart();
 	}

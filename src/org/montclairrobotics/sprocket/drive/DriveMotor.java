@@ -3,7 +3,7 @@ package org.montclairrobotics.sprocket.drive;
 import org.montclairrobotics.sprocket.utils.Dashboard;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.Update;
+import org.montclairrobotics.sprocket.utils.Updater;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
@@ -61,7 +61,7 @@ public class DriveMotor implements Updatable{
 			talon.enableControl();
 		}
 		this.port=m_port;
-		Update.add(this);
+		Updater.add(this);
 	}
 	
 	public void setSpeed(double spd)
