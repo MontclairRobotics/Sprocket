@@ -9,13 +9,15 @@ public class AutoTurn implements Updatable {
 	public static final double MAX_ERROR=3;//degrees
 	
 	private DriveTrain driveTrain;
+	private Lock lock;
 	private double degreesTgt;
 	private boolean done;
 	
-	public AutoTurn(double degrees,DriveTrain dt)
+	public AutoTurn(double degrees,DriveTrain dt,Lock l)
 	{
 		driveTrain=dt;
-		degreesTgt=driveTrain.rotateTo(degrees);
+		lock=l;
+		degreesTgt=lock.rotateTo(degrees);
 		done=false;
 		Update.add(this);
 	}
@@ -27,11 +29,12 @@ public class AutoTurn implements Updatable {
 
 	public void update() {
 		if(done)return;
-		driveTrain.setSpeedXY(0.0,0.0,true);
-		done=Math.abs((((driveTrain.getGyroVal()-degreesTgt)+180)%360+360)%360)<MAX_ERROR;
+		driveTrain.setSpeedXY(0.0,0.0);
+		lock.setLock(true);
+		done=Math.abs((((lock.getCurVal()-degreesTgt)+180)%360+360)%360)<MAX_ERROR;
 		if(done)
 		{
-			driveTrain.setSpeedXY(0.0,0.0,false);
+			driveTrain.setSpeedXY(0.0,0.0);
 		}
 	}
 }

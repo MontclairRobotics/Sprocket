@@ -3,15 +3,18 @@ package org.montclairrobotics.sprocket.examples;
 import org.montclairrobotics.sprocket.drive.AutoDrive;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.drive.AutoDrive.UNITS;
+import org.montclairrobotics.sprocket.drive.Lock;
 import org.montclairrobotics.sprocket.states.State;
 import org.montclairrobotics.sprocket.states.StateMachine;
 
 public class Auto extends StateMachine{
 
 	private static DriveTrain driveTrain;
-	public Auto(DriveTrain dt) {
+	private static Lock lock;
+	public Auto(DriveTrain dt,Lock l) {
 		super(new Start());
 		driveTrain=dt;
+		lock=l;
 	}
 	
 	public static class Start extends State
@@ -44,7 +47,7 @@ public class Auto extends StateMachine{
 		private AutoDrive d;
 		public void onStart()
 		{
-			d=new AutoDrive(10,UNITS.FEET,0.5,driveTrain,8);
+			d=new AutoDrive(10,UNITS.FEET,0.5,driveTrain,lock,8);
 		}
 		public boolean isDone(){
 			return d.isDone();
