@@ -1,5 +1,21 @@
 package org.montclairrobotics.sprocket.control;
 
+
+/*
+ * 
+ * Extend this class to make a button.
+ * 
+ * It is recommended to create these as sub-classes in in a larger class
+ * Each button must extend Button, 
+ * and call super with the stick and button id.
+ * The button has access to these events:
+ * 
+ * onDown-once when the button is pushed
+ * down-while the button is down
+ * onUp-once the button is released
+ * up-while the button is released
+ * 
+ */
 import org.montclairrobotics.sprocket.utils.Updatable;
 import org.montclairrobotics.sprocket.utils.Update;
 
@@ -38,9 +54,20 @@ public abstract class Button implements Updatable{
 			up();
 		}
 	}
-
+	/*
+	 * When the button is first pressed down
+	 */
 	public void onDown() {}
+	/*
+	 * When the button is down, every loop
+	 */
 	public void down() {}
+	/*
+	 * When the button is first released
+	 */
 	public void onUp() {}
+	/*
+	 * When the button is up, every loop
+	 */
 	public void up() {}
 }
