@@ -1,135 +1,70 @@
 package org.montclairrobotics.sprocket.drive;
 
-import org.montclairrobotics.sprocket.utils.Dashboard;
-import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.Updater;
 
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 
-public class DriveMotor implements Updatable{
-	//static constants
-	public static enum M_TYPE{TALONSRX,VICTORSP,TALON};
+public class DriveMotor implements Updatable {
 	
-	//constants
-	private Encoder encoder;
-	private SpeedController motor;
-	private PID pid;
-	private int port;
+	SpeedController motor;
+	Encoder encoder;
+	double power;
 	
-	//variables
-	private double tgtSpeed,speed;
-	private static boolean shutdown=false;
-
-	public DriveMotor(int m_port, M_TYPE type,int[]encoderPorts,PID encPID)
-	{
-		this(m_port,type,encoderPorts);
-		pid=encPID.copy();
-	}
-	public DriveMotor(int m_port, M_TYPE type,int[]encoderPorts) 
-	{
-		this(m_port,type);
-		encoder = new Encoder(encoderPorts[0],encoderPorts[1]);
-	}
-	public DriveMotor(int m_port,M_TYPE type)
-	{
-		switch(type)
-		{
-		case TALONSRX:
-			motor = new CANTalon(m_port);
-			break;
-		case VICTORSP:
-			motor = new VictorSP(m_port);
-			break;
-		case TALON:
-			motor = new Talon(m_port);
-			break;
-		default:
-			break;
-		}
-		if(type==M_TYPE.TALONSRX)
-		{
-			CANTalon talon = (CANTalon)motor;
-			talon.setControlMode(TalonControlMode.PercentVbus.value);
-			talon.reset();
-			talon.enable();
-			talon.enableControl();
-		}
-		this.port=m_port;
-		Updater.add(this);
+	/**
+	 * Plug in a pre-configured SpeedController into the DriveMotor class.
+	 * Makes as little modifications as possible
+	 * @param motor Motor controller that you want to use
+	 */
+	public DriveMotor(SpeedController motor) {
+		this(motor, null);
 	}
 	
-	public void setSpeed(double spd)
-	{
-		tgtSpeed = spd;
+	/**
+	 * Plug in a pre-configured SpeedController and accompanying encoder into the DriveMotor class.
+	 * @param motor Motor controller that you want to use
+	 * @param encoder Encoder that is directly related to the motor (the motor's speed directly correlates to its rate)
+	 */
+	public DriveMotor(SpeedController motor, Encoder encoder) {
+		this.motor = motor;
+		this.encoder = encoder;
 	}
 	
-	public void update()
-	{
-		if(shutdown)
-		{
-			speed = 0;
-			motor.set(0);
-			if(motor instanceof CANTalon) ((CANTalon)motor).disableControl();
-			return;
-		}
-		if(encoder==null||pid==null)
-		{
-			speed=tgtSpeed;
-		}
-		else
-		{
-			pid.setTarget(tgtSpeed);
-			pid.setCur(encoder.getRate());
-			speed=pid.getAdjOut();
-		}
-		Dashboard.putNumber("Motor "+this, speed,true);
+	/**
+	 * Uses a CANTalon to create a wrapper in which Sprocket can work with them.
+	 * @param motor CAN Talon that you want to use
+	 */
+	public DriveMotor(CANTalon motor) {
+		this(motor, null);
 	}
 	
-	public String toString()
-	{
-		return ""+port;
+	/**
+	 * Uses a CANTalon and an accompanying encoder to create a wrapper in which
+	 * Sprocket can work with them.
+	 * @param motor CAN Talon that you want to use
+	 * @param encoder Encoder that is directly related to the motor
+	 */
+	public DriveMotor(CANTalon motor, Encoder encoder) {
+		motor.changeControlMode(TalonControlMode.PercentVbus);
+		motor.reset();
+		motor.enable();
+		this.motor = motor;
+		this.encoder = encoder;
 	}
 	
-	public boolean isInverted() {
-		return motor.getInverted();
+	/**
+	 * Sets the speed of the motor controller
+	 * @param power A value from -1.0 to 1.0 where 1.0 is full forwards, -1.0 is full backwards and 0.0 is stop
+	 */
+	public void set(double power) {
+		this.power = power;
 	}
 	
-	public void setInverted(boolean invert) {
-		motor.setInverted(invert);
+	@Override
+	public void update() {
+		motor.set(power);
 	}
 	
-	public void toggleInvert() {
-		motor.setInverted(!motor.getInverted());
-	}
-	
-	public static void shutdown() {
-		shutdown = true;
-	}
-	
-	public double getDistance()
-	{
-		if(encoder==null)return 0.0;
-		return encoder.getDistance();
-	}
-	
-	public double getSpeed() {
-		return getRate();
-	}
-	
-	public double getRate() {
-		if(encoder==null) return 0.0;
-		return encoder.getRate();
-	}
-	
-	public void resetDistance()
-	{
-		if(encoder==null)return;
-		encoder.reset();
-	}
 }
