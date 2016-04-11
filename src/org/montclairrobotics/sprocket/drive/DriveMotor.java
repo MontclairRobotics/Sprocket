@@ -31,6 +31,23 @@ public class DriveMotor implements Updatable{
 	private double tgtSpeed;
 
 	
+	public DriveMotor(SpeedController motor)
+	{
+		this(motor,null,null,null,null);
+	}
+	public DriveMotor(SpeedController motor,Encoder encoder)
+	{
+		this(motor,encoder,null,null,null);
+	}
+	public DriveMotor(SpeedController motor,Encoder encoder,PID encPID)
+	{
+		this(motor,encoder,encPID,null,null);
+	}
+	public DriveMotor(SpeedController motor,Encoder encoder,PID encPID,Vector offset)
+	{
+		this(motor,encoder,encPID,offset,null);
+	}
+	
 	public DriveMotor(SpeedController motor,Encoder encoder,PID encPID,Vector offset,Angle orientation)
 	{
 		this.motor=motor;
