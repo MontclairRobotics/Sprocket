@@ -1,20 +1,11 @@
 package org.montclairrobotics.sprocket.control;
 
 
-/*
- * 
- * Extend this class to make a button.
+/**
+ * Allows for a button object which can respond to events
  * 
  * It is recommended to create these as sub-classes in in a larger class
- * Each button must extend Button, 
- * and call super with the stick and button id.
- * The button has access to these events:
- * 
- * onDown-once when the button is pushed
- * down-while the button is down
- * onUp-once the button is released
- * up-while the button is released
- * 
+ * @see org.montclairrobotics.sprocket.examples.Buttons
  */
 import org.montclairrobotics.sprocket.utils.Updatable;
 import org.montclairrobotics.sprocket.utils.Update;
@@ -25,7 +16,12 @@ public abstract class Button implements Updatable{
 	private int stick;
 	private int id;
 	
-	
+	/**
+	 * Creates a Button on a given joystick and button id
+	 * Call super(stick,buttonid) as the first line of a constructor to attach the button
+	 * @param stick The joystick id
+	 * @param id The button id
+	 */
 	public Button(int stick,int id)
 	{
 		Update.add(this);
@@ -33,6 +29,11 @@ public abstract class Button implements Updatable{
 		this.id=id;
 	}
 	
+	/**
+	 * Calls the events once per loop
+	 * This creates the events which can be processed.
+	 * This should be called automatically
+	 */
 	public void update()
 	{
 		if(Control.getButton(stick, id))
@@ -54,20 +55,20 @@ public abstract class Button implements Updatable{
 			up();
 		}
 	}
-	/*
-	 * When the button is first pressed down
+	/**
+	 * Calls this method automatically when the button is first pushed down.
 	 */
 	public void onDown() {}
-	/*
-	 * When the button is down, every loop
+	/**
+	 * Calls this method every loop while the button is down.
 	 */
 	public void down() {}
-	/*
-	 * When the button is first released
+	/**
+	 * Calls this method automatically when the button is first released.
 	 */
 	public void onUp() {}
-	/*
-	 * When the button is up, every loop
+	/**
+	 * Calls this method every loop while the button is up.
 	 */
 	public void up() {}
 }

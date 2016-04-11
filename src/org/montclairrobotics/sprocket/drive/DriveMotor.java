@@ -16,6 +16,12 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.VictorSP;
 
+/**
+ * An all purpose DriveMotor class supporting everything from Mecanum to Kiwi
+ * @author Jack Hymowitz
+ *
+ */
+
 public class DriveMotor implements Updatable{
 	
 	//constants
@@ -30,23 +36,19 @@ public class DriveMotor implements Updatable{
 	private Vector goal;
 
 	
-	public DriveMotor(SpeedController motor)
-	{
-		this(motor,null,null,null,null);
-	}
-	public DriveMotor(SpeedController motor,Encoder encoder)
-	{
-		this(motor,encoder,null,null,null);
-	}
-	public DriveMotor(SpeedController motor,Encoder encoder,PID encPID)
-	{
-		this(motor,encoder,encPID,null,null);
-	}
-	public DriveMotor(SpeedController motor,Encoder encoder,PID encPID,Vector offset)
-	{
-		this(motor,encoder,encPID,offset,null);
-	}
-	public DriveMotor(SpeedController motor,Encoder encoder,PID encPID,Vector offset,Angle forceAngle)
+	
+	/**
+	 * Creates a DriveMotor
+	 * Any optional field can be left as null
+	 * @param motor The SpeedController
+	 * @param offset The vector pointing from the robot's center of rotation
+	 * to this wheel
+	 * @param encoder OPTIONAL The Encoder attached to this motor
+	 * @param encPID OPTIONAL The PID for correcting the motor's speed
+	 * @param forceAngle OPTIONAL The Angle describing the force when this wheel turns
+	 * Use this as + or - 45 for Mecanum Wheels or the angle for Kiwi wheels
+	 */
+	public DriveMotor(SpeedController motor,Vector offset,Encoder encoder,PID encPID,Angle forceAngle)
 	{
 		this.motor=motor;
 		if(motor instanceof CANTalon)
@@ -65,25 +67,46 @@ public class DriveMotor implements Updatable{
 			this.forceAngle=new Degree(0);
 		Update.add(this);
 	}
-	
+	/**
+	 * Sets the speed as directly as possible
+	 * @param spd the speed
+	 */
 	public void setSpeed(double spd)
 	{
-		setVelocity(new Polar(spd,new Degree(0)));
+		setVelocity(new Polar(spd,0));
 	}
+	/**
+	 * Sets the velocity vector of the robot with no rotation
+	 * @param direction The velocity Vector of the robot
+	 */
 	public void setVelocity(Vector direction)
 	{
 		setVelocity(direction,0.0);
 	}
+	/**
+	 * Sets the velocity Vector of the robot with a rotation value
+	 * Calculates the goal Vector for this one wheel and saves it to goal.
+	 * @param direction The velocity Vector of the robot
+	 * @param rotation The rotation value from [-1,1]
+	 */
 	public void setVelocity(Vector direction,double rotation)
 	{
-		goal=direction.add(offset.getRotationVector(rotation)).rotate(forceAngle.opposite());
+		goal=direction.add(offset.getRotationVector(rotation)).rotate(forceAngle.negative());
 	}
-	
+	/**
+	 * Calculates the speed of this wheel
+	 * Overload this method for more complicated driveTrains
+	 * @param goal The goal velocity vector for this wheel
+	 * @return the speed as a double of this wheel
+	 */
 	public double calcSpeed(Vector goal)
 	{
 		return goal.getY();
 	}
-	
+	/**
+	 * The automatically called function to update the speed of this wheel
+	 * Will attempt to use a PID controller if it is not null.
+	 */
 	public void update()
 	{
 		double tgtSpeed=calcSpeed(goal);
