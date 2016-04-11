@@ -19,4 +19,8 @@ public abstract class Vector {
 	{
 		return new Polar(distance,this.getAngle().add(new Degree(90)));
 	}
+	public Vector rotate(Angle a)
+	{
+		return new Polar(this.getMag(),this.getAngle().add(a));
+	}
 }

@@ -17,11 +17,8 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.VictorSP;
 
 public class DriveMotor implements Updatable{
-	//static constants
-	public static enum M_TYPE{TALONSRX,VICTORSP,TALON};
 	
 	//constants
-	private int port;
 	private SpeedController motor;
 	private Encoder encoder;
 	private PID pid;
@@ -33,26 +30,11 @@ public class DriveMotor implements Updatable{
 	private Vector goal;
 	private double tgtSpeed;
 
-	public DriveMotor(int m_port,M_TYPE type,Encoder encoder,PID encPID,Vector offset,Angle orientation)
+	
+	public DriveMotor(SpeedController motor,Encoder encoder,PID encPID,Vector offset,Angle orientation)
 	{
-		this.port=m_port;
-		
-		this.orientation=orientation;
-		switch(type)
-		{
-		case TALONSRX:
-			motor = new CANTalon(m_port);
-			break;
-		case VICTORSP:
-			motor = new VictorSP(m_port);
-			break;
-		case TALON:
-			motor = new Talon(m_port);
-			break;
-		default:
-			break;
-		}
-		if(type==M_TYPE.TALONSRX)
+		this.motor=motor;
+		if(motor instanceof CANTalon)
 		{
 			CANTalon talon = (CANTalon)motor;
 			talon.setControlMode(TalonControlMode.PercentVbus.value);
@@ -60,7 +42,6 @@ public class DriveMotor implements Updatable{
 			talon.enable();
 			talon.enableControl();
 		}
-
 		this.encoder=encoder;
 		this.pid=encPID.copy();
 		this.offset=offset;
@@ -80,18 +61,19 @@ public class DriveMotor implements Updatable{
 	{
 		setVelocity(direction,0.0);
 	}
-	public void setVelocity(Vector direction,double rotation)//OVERWRITE THIS IN EXTENDED FUNCTIONS
+	public void setVelocity(Vector direction,double rotation)
 	{
-		goal=direction.add(offset.getRotationVector(rotation));
+		goal=direction.add(offset.getRotationVector(rotation)).rotate(orientation);
 	}
 	
-	public void setSpeed()
+	public void calcSpeed()
 	{
 		tgtSpeed=goal.getY();
 	}
 	
 	public void update()
 	{
+		calcSpeed();
 		double speed=0;
 		if(shutdown)
 		{
@@ -110,12 +92,7 @@ public class DriveMotor implements Updatable{
 			pid.setCur(encoder.getRate());
 			speed=pid.getAdjOut();
 		}
-		Dashboard.putNumber("Motor "+this, speed,true);
-	}
-	
-	public String toString()
-	{
-		return ""+port;
+		motor.set(speed);
 	}
 	
 	public boolean isInverted() {

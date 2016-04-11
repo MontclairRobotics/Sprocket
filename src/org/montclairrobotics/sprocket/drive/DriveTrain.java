@@ -3,10 +3,13 @@ package org.montclairrobotics.sprocket.drive;
 import org.montclairrobotics.sprocket.control.Control;
 import org.montclairrobotics.sprocket.drive.DriveMotor.M_TYPE;
 import org.montclairrobotics.sprocket.utils.Dashboard;
+import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.PID;
+import org.montclairrobotics.sprocket.utils.Polar;
 import org.montclairrobotics.sprocket.utils.Updatable;
 import org.montclairrobotics.sprocket.utils.Update;
 import org.montclairrobotics.sprocket.utils.Vector;
+import org.montclairrobotics.sprocket.utils.XY;
 
 
 public class DriveTrain implements Updatable
@@ -36,6 +39,10 @@ public class DriveTrain implements Updatable
 	
 	public DriveTrain(DriveMotor[] wheels){
 		Update.add(this);
+	}
+	public void drive(double speed, double rotation)
+	{
+		drive(new XY(0,speed),rotation);
 	}
 	public void drive(Vector direction)
 	{

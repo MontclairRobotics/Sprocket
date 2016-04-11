@@ -30,7 +30,7 @@ public class Robot extends IterativeRobot {
 	public static PID drivePID=new PID(0.03,0.0,0.3), motorPID=new PID(0.01,0.0,0.1);
 	public static String[] cams={"cam1","cam2"};
 	
-    public static Rover driveTrain;
+    public static DriveTrain driveTrain;
     public static GyroLock lock;
     public static Auto auto;
     public static CameraServers cameras;
@@ -38,7 +38,7 @@ public class Robot extends IterativeRobot {
     
     
     public void robotInit() {
-    	driveTrain=new Rover(wheels,motorType,encoders,motorPID);
+    	driveTrain=new DriveTrain(wheels,motorType,encoders,motorPID);
     	lock=new GyroLock(driveTrain, drivePID);
     	cameras=new CameraServers(cams);
     	cameras.start();
