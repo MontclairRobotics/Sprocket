@@ -7,31 +7,31 @@ import org.montclairrobotics.sprocket.utils.Vector;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 
+/**
+ * A module for the SwerveDrive
+ * Equivelent to the DriveModule, except it also contains a SwivelMotor
+ * for rotating the other motor
+ * @author Hymowitz
+ *
+ */
+
 public class SwerveModule extends DriveMotor{
-	
+
 	private SwivelMotor swivelMotor;
-	
-	public SwerveModule(SpeedController motor,SwivelMotor swivelMotor)
-	{
-		this(motor,swivelMotor,null,null,null,null);
-	}
-	public SwerveModule(SpeedController motor,SwivelMotor swivelMotor,Encoder encoder)
-	{
-		this(motor,swivelMotor,encoder,null,null,null);
-	}
-	public SwerveModule(SpeedController motor,SwivelMotor swivelMotor,Encoder encoder,PID encPID)
-	{
-		this(motor,swivelMotor,encoder,encPID,null,null);
-	}
-	public SwerveModule(SpeedController motor,SwivelMotor swivelMotor,Encoder encoder,PID encPID,Vector offset)
-	{
-		this(motor,swivelMotor,encoder,encPID,offset,null);
-	}
-	public SwerveModule(SpeedController motor,SwivelMotor swivelMotor, Encoder encoder, PID encPID,
-			Vector offset, Angle forceAngle) {
-		super(motor, encoder, encPID, offset, forceAngle);
+	/**
+	 * Creates a SwerveMotor like the DriveMotor, except it contains a SwivelMotor
+	 * @param swivelMotor the SwivelMotor
+	 * @see DriveMotor
+	 */
+	public SwerveModule(SpeedController motor, SwivelMotor swivelMotor,Vector offset, Encoder encoder,
+			PID encPID, Angle forceAngle) {
+		super(motor, offset, encoder, encPID, forceAngle);
+		this.swivelMotor=swivelMotor;
 	}
 	
+	/**
+	 * The method to set the speed to the swivel motor and the DriveMotor
+	 */
 	public double calcSpeed(Vector goal)
 	{
 		swivelMotor.setAngle(goal.getAngle());

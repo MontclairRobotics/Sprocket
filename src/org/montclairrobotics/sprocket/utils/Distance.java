@@ -1,6 +1,5 @@
 package org.montclairrobotics.sprocket.utils;
 
-import org.montclairrobotics.sprocket.drive.AutoDrive.UNITS;
 
 public class Distance {
 	public static final double WHEEL_CIRC=8;//TODO TODO TODO

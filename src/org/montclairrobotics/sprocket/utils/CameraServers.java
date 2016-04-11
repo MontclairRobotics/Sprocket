@@ -5,9 +5,9 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-
-/*
- * THIS IS THE FIRST CAMERASERVER LIBRARY, MODIFIED FOR MULTIPLE USB CAMERAS
+package org.montclairrobotics.sprocket.utils;
+/**
+ * The FIRST CameraServer library, modified for multiple USB cameras
  * 
  * USAGE:
  * construct with an array of camera names
@@ -16,9 +16,6 @@
  * call switchTo() to cycle through cameras,
  * or call switchTo(id) to jump to one camera
  */
-
-package org.montclairrobotics.sprocket.utils;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;

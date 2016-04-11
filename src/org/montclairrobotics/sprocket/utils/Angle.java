@@ -1,5 +1,13 @@
 package org.montclairrobotics.sprocket.utils;
 
+/**
+ * An abstract class to hold an angle
+ * Extended by Degree and Radian
+ * @author Hymowitz
+ * @see Degree
+ * @see Radian
+ */
+
 public abstract class Angle {
 	abstract public double toRadians();
 	abstract public double toDegrees();

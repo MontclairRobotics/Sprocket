@@ -1,5 +1,13 @@
 package org.montclairrobotics.sprocket.utils;
 
+/**
+ * Holds a two-dimensional vector in Polar or Cartesian form.
+ * @see Polar
+ * @see XY
+ * @author Hymowitz
+ *
+ */
+
 public abstract class Vector {
 	public abstract double getMag();
 	public abstract Angle getAngle();

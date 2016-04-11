@@ -9,6 +9,13 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.SpeedController;
 
+/**
+ * A mostly empty placeholder class for a SwivelMotor, 
+ * because I don't know how to implement one.
+ * @author Hymowitz
+ *
+ */
+
 public class SwivelMotor implements Updatable{
 
 	private Angle tgtAngle;

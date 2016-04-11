@@ -6,6 +6,12 @@ import org.montclairrobotics.sprocket.utils.Polar;
 import org.montclairrobotics.sprocket.utils.Updatable;
 import org.montclairrobotics.sprocket.utils.Update;
 
+/**
+ * This class should be instantiated each time 
+ * you want to auto turn a certain number of degrees
+ * @author Jack Hymowitz
+ *
+ */
 
 public class AutoTurn implements Updatable {
 	
@@ -15,7 +21,12 @@ public class AutoTurn implements Updatable {
 	private Lock lock;
 	private double degreesTgt;
 	private boolean done;
-	
+	/**
+	 * Create an instance of this object each time you want to autoturn
+	 * @param degrees the degrees to turn as a double
+	 * @param dt the DriveTrain to drive with
+	 * @param l the Lock to steer with
+	 */
 	public AutoTurn(double degrees,DriveTrain dt,Lock l)
 	{
 		driveTrain=dt;
@@ -32,7 +43,7 @@ public class AutoTurn implements Updatable {
 
 	public void update() {
 		if(done)return;
-		driveTrain.drive(new Polar(1,new Degree(0)),0);
+		driveTrain.drive(0,0);
 		lock.setLock(true);
 		done=Math.abs((((lock.getCurVal()-degreesTgt)+180)%360+360)%360)<MAX_ERROR;
 		if(done)

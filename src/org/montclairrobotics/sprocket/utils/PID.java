@@ -1,9 +1,8 @@
 package org.montclairrobotics.sprocket.utils;
 
 
-/*
- * Usage:
- * 
+/**
+ * A PID controller
  * Create with P,I,D values
  * Call setTarget() to set the target
  * Call get() to get the correction
