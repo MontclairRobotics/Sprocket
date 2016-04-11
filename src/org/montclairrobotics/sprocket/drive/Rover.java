@@ -7,37 +7,49 @@ import org.montclairrobotics.sprocket.utils.PID;
 
 public class Rover extends DriveTrain{
 	
-	private double leftSpd,rightSpd,tgtSpeed;
+	private static final double MIN_SPEED=0.1;
+	private static final double MAX_STRAIGHT_ROTATION=0.1;
+	private static final double ROT_FACTOR=0.75;
+	
+	private double leftSpeed,rightSpeed,tgtSpeed;
 	private boolean straight;
 	
 	public Rover(int[][] ports, M_TYPE motorType, int[][][] encoders, PID encPID) {
 		super(ports, motorType, encoders, encPID);
 	}
 
-	public void setSpeedTank(double lSpd,double rSpd)
+	public void driveTank(double lSpd,double rSpd)
 	{
-		leftSpd = lSpd;
-		rightSpd = rSpd;
+		leftSpeed = lSpd;
+		rightSpeed = rSpd;
 		tgtSpeed=(lSpd+rSpd)/2;
 	}
-	public void setSpeedXY(double x, double y)
+	
+	public void drivePolar(double speed,double angle,double rotation)
+	{
+		drivePolar(((angle>0)?speed:-speed),rotation);
+	}
+	public void drivePolar(double speed,double rotation)
+	{
+		driveXY(Math.sin(Math.toRadians(rotation)),(((rotation+90)%360<180)?speed:-speed));
+	}
+	
+	public void driveXY(double x, double y)
 	{   
-		x*=.75;
-		if (!forward) {
-			y = y*-1;
-		}
         tgtSpeed=y;
-		if (Math.abs(x)<Control.DEAD_ZONE)
+		x*=ROT_FACTOR;
+		if (Math.abs(x)<MAX_STRAIGHT_ROTATION)
 		{
-			if(Math.abs(y)<Control.DEAD_ZONE)
+			if(Math.abs(y)<MIN_SPEED)
 			{
-				leftSpd=0;
-				rightSpd=0;
+				tgtSpeed=0;
+				leftSpeed=0;
+				rightSpeed=0;
 			}
 			else
 			{
-				leftSpd=y;
-				rightSpd=y;
+				leftSpeed=y;
+				rightSpeed=y;
 			}
 			straight=true;
 		}
@@ -52,29 +64,29 @@ public class Rover extends DriveTrain{
 			{
 				max=1+Math.abs(x/y);
 			}
-	        leftSpd=(y+x)/max;
-	        rightSpd=(y-x)/max;
+	        leftSpeed=(y+x)/max;
+	        rightSpeed=(y-x)/max;
 	        straight=false;
 		}
-		Dashboard.putNumber("leftSpeed", leftSpd,true);
-		Dashboard.putNumber("rightSpeed", rightSpd,true);
+		Dashboard.putNumber("leftSpeed", leftSpeed,true);
+		Dashboard.putNumber("rightSpeed", rightSpeed,true);
 	}
 
 	public void correct(double correction)
 	{
 		if (tgtSpeed > 0){
 			if(1+correction > 0)
-				rightSpd=tgtSpeed*(1/(1+correction));
+				rightSpeed=tgtSpeed*(1/(1+correction));
 			else
-				rightSpd=0;
-			leftSpd=tgtSpeed*(1+correction);
+				rightSpeed=0;
+			leftSpeed=tgtSpeed*(1+correction);
 		}
 		else {
 			if(1+correction!=0)
-				leftSpd=tgtSpeed*(1/(1+correction));
+				leftSpeed=tgtSpeed*(1/(1+correction));
 			else
-				leftSpd=0;
-			rightSpd=tgtSpeed*(1+correction);
+				leftSpeed=0;
+			rightSpeed=tgtSpeed*(1+correction);
 		}
 	}
 	
@@ -86,11 +98,11 @@ public class Rover extends DriveTrain{
 	public void update() {
 		for(DriveMotor wheel:wheels[0])
 		{
-			wheel.setSpeed(leftSpd);
+			wheel.setSpeed(leftSpeed);
 		}
 		for(DriveMotor wheel:wheels[1])
 		{
-			wheel.setSpeed(rightSpd);
+			wheel.setSpeed(rightSpeed);
 		}
 	}
 }

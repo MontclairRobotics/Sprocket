@@ -30,7 +30,7 @@ public class Robot extends IterativeRobot {
 	public static PID drivePID=new PID(0.03,0.0,0.3), motorPID=new PID(0.01,0.0,0.1);
 	public static String[] cams={"cam1","cam2"};
 	
-    public static DriveTrain driveTrain;
+    public static Rover driveTrain;
     public static GyroLock lock;
     public static Auto auto;
     public static CameraServers cameras;
@@ -59,7 +59,7 @@ public class Robot extends IterativeRobot {
     }
     
     public void teleopPeriodic() {
-    	driveTrain.setSpeedXY(Control.getX(Control.DRIVE_STICK),Control.getY(Control.DRIVE_STICK));
+    	driveTrain.driveXY(Control.getX(Control.DRIVE_STICK),Control.getY(Control.DRIVE_STICK));
     	lock.setLock(Control.getSlider(Control.DRIVE_STICK)<0.5,Control.getButton(Control.DRIVE_STICK,1));
         Update.update();
     }

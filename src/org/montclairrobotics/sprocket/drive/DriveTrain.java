@@ -18,7 +18,6 @@ public abstract class DriveTrain implements Updatable
 	protected DriveMotor[][] wheels;
 	
 	//variables
-	protected boolean forward = true;
 	protected static boolean shutdown = false;
 	
 	/*
@@ -66,7 +65,7 @@ public abstract class DriveTrain implements Updatable
 		Update.add(this);
 	}
 	public abstract boolean isStraight();
-	public abstract void setSpeedPolar(double speed,double angle,double rotation);
+	public abstract void drivePolar(double speed,double angle,double rotation);
 	public abstract void correct(double correction);
 	
 	public double getAvgEncoderClicks() {
