@@ -1,6 +1,7 @@
 package org.montclairrobotics.sprocket.control;
 
 import org.montclairrobotics.sprocket.utils.Updatable;
+import org.montclairrobotics.sprocket.utils.UpdateClass;
 import org.montclairrobotics.sprocket.utils.Updater;
 /**
  * 
@@ -23,7 +24,7 @@ public abstract class Button implements Updatable{
 	 */
 	public Button(int stick , int id)
 	{
-		Updater.add(this);
+		Updater.add(this, UpdateClass.Control);
 		this.stick = stick;
 		this.id = id;
 	}

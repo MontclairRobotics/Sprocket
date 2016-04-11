@@ -1,6 +1,7 @@
 package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.utils.Updatable;
+import org.montclairrobotics.sprocket.utils.UpdateClass;
 import org.montclairrobotics.sprocket.utils.Updater;
 
 public class AutoDrive implements Updatable {
@@ -34,7 +35,7 @@ public class AutoDrive implements Updatable {
 		}
 		totDistance=driveTrain.getAvgEncoderClicks()+(distance*((speed>0)?1:-1));
 		dt.setSpeedXY(0.0, speed, true);
-		Updater.add(this);
+		Updater.add(this, UpdateClass.Autonomous);
 	}
 	
 	public boolean isDone()
