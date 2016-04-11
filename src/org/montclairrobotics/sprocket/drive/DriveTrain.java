@@ -90,6 +90,7 @@ public class DriveTrain implements Updatable
 	/**
 	 * Is the robot driving straight?
 	 * Used to enable AutoLock
+	 * @return Is the robot driving straight?
 	 */
 	public boolean isStraight()
 	{

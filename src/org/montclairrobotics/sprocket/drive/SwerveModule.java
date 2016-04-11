@@ -18,9 +18,17 @@ import edu.wpi.first.wpilibj.SpeedController;
 public class SwerveModule extends DriveMotor{
 
 	private SwivelMotor swivelMotor;
+	
 	/**
 	 * Creates a SwerveMotor like the DriveMotor, except it contains a SwivelMotor
+	 * @param motor the SpeedController
 	 * @param swivelMotor the SwivelMotor
+	 * @param offset The vector pointing from the robot's center of rotation
+	 * to this wheel
+	 * @param encoder OPTIONAL The Encoder attached to this motor
+	 * @param encPID OPTIONAL The PID for correcting the motor's speed
+	 * @param forceAngle OPTIONAL The Angle describing the force when this wheel turns
+	 * Use this as + or - 45 for Mecanum Wheels or the angle for Kiwi wheels
 	 * @see DriveMotor
 	 */
 	public SwerveModule(SpeedController motor, SwivelMotor swivelMotor,Vector offset, Encoder encoder,

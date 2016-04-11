@@ -35,7 +35,7 @@ public abstract class Lock implements Updatable{
 	
 	/**
 	 * Overwrite this method with a way of determining current heading
-	 * @return
+	 * @return the current heading value
 	 */
 	public abstract double getCurVal();
 	
