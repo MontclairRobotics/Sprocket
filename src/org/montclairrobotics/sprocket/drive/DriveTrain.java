@@ -84,7 +84,7 @@ public class DriveTrain implements Updatable
 	 */
 	public void drive(Vector direction,double rotation,Angle gyroAngle)
 	{
-		this.driveVector=new Polar(direction.getMag(),gyroAngle.subtract(direction.getAngle()));
+		this.driveVector=new Polar(direction.getMag(),gyroAngle.subtract(direction.getAngle()).negative());
 		this.driveRotation=rotation;
 	}
 	/**
