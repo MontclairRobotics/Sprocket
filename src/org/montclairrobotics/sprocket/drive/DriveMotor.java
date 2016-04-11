@@ -67,4 +67,38 @@ public class DriveMotor implements Updatable {
 		motor.set(power);
 	}
 	
+	/**
+	 * Returns raw encoder clicks
+	 * @return The total amount of encoder pulses. Returns 0 if encoder is null
+	 */
+	public int getEncoderClicks() {
+		if(encoder != null) {
+			return encoder.getRaw();
+		} else {
+			return 0;
+		}
+	}
+	
+	/**
+	 * Returns the total distance recorded by the encoder, scaled by the setEncoderDistance value
+	 * @return The total distance recorded by the encoder. Returns 0.0 is encoder is null
+	 */
+	public double getEncoderDistance() {
+		if(encoder != null) {
+			return encoder.getDistance();
+		} else {
+			return 0.0;
+		}
+	}
+	
+	/**
+	 * Sets the distance the encoder travels for each pulse
+	 * @param scale The distance for each encoder pulse
+	 */
+	public void setEncoderDistancePerPulse(double scale) {
+		if(encoder != null) {
+			encoder.setDistancePerPulse(scale);
+		}
+	}
+	
 }

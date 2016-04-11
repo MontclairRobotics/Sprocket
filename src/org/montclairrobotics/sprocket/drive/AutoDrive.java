@@ -8,7 +8,7 @@ public class AutoDrive implements Updatable {
 	
 	public enum UNITS{ROTATIONS,DEGREES,INCHES,FEET};
 	
-	private DriveTrain driveTrain;
+	private IDriveTrain driveTrain;
 	private double totDistance;
 	private double speed;
 	private boolean done;
@@ -33,8 +33,8 @@ public class AutoDrive implements Updatable {
 			distance*=360;
 			u=UNITS.DEGREES;
 		}
-		totDistance=driveTrain.getAvgEncoderClicks()+(distance*((speed>0)?1:-1));
-		dt.setSpeedXY(0.0, speed, true);
+		totDistance=driveTrain.getAverageEncoderClicks()+(distance*((speed>0)?1:-1));
+		dt.setSpeed(0, speed, 0);
 		Updater.add(this, UpdateClass.Autonomous);
 	}
 	
@@ -45,10 +45,10 @@ public class AutoDrive implements Updatable {
 	
 	public void update() {
 		if(done) return;
-		done=speed>0==driveTrain.getAvgEncoderClicks()>totDistance;
+		done=speed>0==driveTrain.getAverageEncoderClicks()>totDistance;
 		if(done)
 		{
-			driveTrain.setSpeedXY(0.0,0.0);
+			driveTrain.setSpeed(0, speed, 0);
 		}
 	}
 }
