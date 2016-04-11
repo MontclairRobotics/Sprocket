@@ -1,7 +1,11 @@
 package org.montclairrobotics.sprocket.utils;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 /**
  * 
@@ -11,8 +15,18 @@ import java.util.Map.Entry;
  */
 public class Updater {
 	
-	private static HashMap<Updatable, Priority> objects = new HashMap<Updatable, Priority>();
-	private static final Priority[] priorities = {Priority.HIGHEST, Priority.HIGH, Priority.NORMAL, Priority.LOW, Priority.LOWEST};
+	private static TreeMap<Priority, Updatable> objects = new TreeMap<Priority, Updatable>(new Comparator<Priority>() {
+		@Override
+		public int compare(Priority o1, Priority o2) {
+			if(o1.getPriority() < o2.getPriority()) {
+				return 1;
+			} else if(o1.getPriority() == o2.getPriority()) {
+				return 0;
+			} else {
+				return -1;
+			}
+		}
+	});
 	
 	/**
 	 * Adds an object implementing Updatable to the list of objects that will
@@ -25,7 +39,7 @@ public class Updater {
 	}*/
 	
 	public static void add(Updatable obj, Priority priority) {
-		objects.put(obj, priority);
+		objects.put(priority, obj);
 	}
 	
 	/**
@@ -33,12 +47,8 @@ public class Updater {
 	 */
 	public static void update()
 	{
-		for(Priority p : priorities) {
-			for(Entry<Updatable, Priority> obj : objects.entrySet()) {
-				if(obj.getValue() == p ) {
-					obj.getKey().update();
-				}
-			}
+		for(Updatable obj : objects.values()) {
+			obj.update();
 		}
 	}
 }
