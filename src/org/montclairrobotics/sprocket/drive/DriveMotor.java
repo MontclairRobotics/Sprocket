@@ -23,12 +23,11 @@ public class DriveMotor implements Updatable{
 	private Encoder encoder;
 	private PID pid;
 	private Vector offset;
-	private Angle orientation;
+	private Angle forceAngle;
 	
 	//variables
 	private static boolean shutdown=false;
 	private Vector goal;
-	private double tgtSpeed;
 
 	
 	public DriveMotor(SpeedController motor)
@@ -47,8 +46,7 @@ public class DriveMotor implements Updatable{
 	{
 		this(motor,encoder,encPID,offset,null);
 	}
-	
-	public DriveMotor(SpeedController motor,Encoder encoder,PID encPID,Vector offset,Angle orientation)
+	public DriveMotor(SpeedController motor,Encoder encoder,PID encPID,Vector offset,Angle forceAngle)
 	{
 		this.motor=motor;
 		if(motor instanceof CANTalon)
@@ -62,11 +60,9 @@ public class DriveMotor implements Updatable{
 		this.encoder=encoder;
 		this.pid=encPID.copy();
 		this.offset=offset;
-		this.orientation=orientation;
-		if(orientation==null)
-		{
-			this.orientation=new Degree(0);
-		}
+		this.forceAngle=forceAngle;
+		if(forceAngle==null)
+			this.forceAngle=new Degree(0);
 		Update.add(this);
 	}
 	
@@ -80,17 +76,17 @@ public class DriveMotor implements Updatable{
 	}
 	public void setVelocity(Vector direction,double rotation)
 	{
-		goal=direction.add(offset.getRotationVector(rotation)).rotate(orientation);
+		goal=direction.add(offset.getRotationVector(rotation)).rotate(forceAngle.opposite());
 	}
 	
-	public void calcSpeed()
+	public double calcSpeed(Vector goal)
 	{
-		tgtSpeed=goal.getY();
+		return goal.getY();
 	}
 	
 	public void update()
 	{
-		calcSpeed();
+		double tgtSpeed=calcSpeed(goal);
 		double speed=0;
 		if(shutdown)
 		{
