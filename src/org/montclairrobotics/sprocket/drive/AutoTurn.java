@@ -1,5 +1,8 @@
 package org.montclairrobotics.sprocket.drive;
 
+import org.montclairrobotics.sprocket.utils.Angle;
+import org.montclairrobotics.sprocket.utils.Degree;
+import org.montclairrobotics.sprocket.utils.Polar;
 import org.montclairrobotics.sprocket.utils.Updatable;
 import org.montclairrobotics.sprocket.utils.Update;
 
@@ -29,12 +32,12 @@ public class AutoTurn implements Updatable {
 
 	public void update() {
 		if(done)return;
-		driveTrain.setSpeedXY(0.0,0.0);
+		driveTrain.drive(new Polar(1,new Degree(0)),0);
 		lock.setLock(true);
 		done=Math.abs((((lock.getCurVal()-degreesTgt)+180)%360+360)%360)<MAX_ERROR;
 		if(done)
 		{
-			driveTrain.setSpeedXY(0.0,0.0);
+			driveTrain.drive(new Polar(0,new Degree(0)),0);
 		}
 	}
 }

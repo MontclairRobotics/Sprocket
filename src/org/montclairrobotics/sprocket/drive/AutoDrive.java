@@ -1,5 +1,7 @@
 package org.montclairrobotics.sprocket.drive;
 
+import org.montclairrobotics.sprocket.utils.Degree;
+import org.montclairrobotics.sprocket.utils.Polar;
 import org.montclairrobotics.sprocket.utils.Updatable;
 import org.montclairrobotics.sprocket.utils.Update;
 
@@ -35,7 +37,7 @@ public class AutoDrive implements Updatable {
 			u=UNITS.DEGREES;
 		}
 		totDistance=driveTrain.getAvgEncoderClicks()+(distance*((speed>0)?1:-1));
-		dt.setSpeedXY(0.0, speed);
+		driveTrain.drive(new Polar(speed,new Degree(0)));
 		l.setLock(true);
 		Update.add(this);
 	}
@@ -50,7 +52,7 @@ public class AutoDrive implements Updatable {
 		done=speed>0==driveTrain.getAvgEncoderClicks()>totDistance;
 		if(done)
 		{
-			driveTrain.setSpeedXY(0.0,0.0);
+			driveTrain.drive(new Polar(0,new Degree(0)));
 		}
 	}
 }

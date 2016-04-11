@@ -6,19 +6,23 @@ import org.montclairrobotics.sprocket.utils.Dashboard;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Updatable;
 import org.montclairrobotics.sprocket.utils.Update;
+import org.montclairrobotics.sprocket.utils.Vector;
 
-/*
- * Please note this is for a traditional chasis with wheels on one side and wheels on another
- */
 
-public abstract class DriveTrain implements Updatable
+public class DriveTrain implements Updatable
 {
+	public static final double MIN_SPEED=0.1;
+	public static final double MAX_STRAIGHT_ROTATION=0.1;
+	public static final double ROT_FACTOR=0.75;
 	
 	//constants
-	protected DriveMotor[][] wheels;
+	protected DriveMotor[] wheels;
 	
 	//variables
 	protected static boolean shutdown = false;
+	private Vector driveVector;
+	private double driveRotation;
+	
 	
 	/*
 	 * leftPorts = the ports for the left motors
@@ -30,55 +34,43 @@ public abstract class DriveTrain implements Updatable
 	 * p,i,d	= the p,i, and d values for the PID controller.
 	 */
 	
-	public DriveTrain(int[][]ports,M_TYPE motorType){
-		this(ports,motorType,null);
-	}
-	public DriveTrain(int[][]ports,M_TYPE motorType,int[][][]encoders){
-		this(ports,motorType,encoders,null);
-	}
-	public DriveTrain(int[][]ports,M_TYPE motorType,int[][][]encoders,PID encPID)
-	{
-		wheels = new DriveMotor[2][ports[0].length];
-		
-		for(int c=0; c<wheels.length; c++)
-		{
-			for(int r=0;r<wheels[0].length;r++)
-			{
-				if(encoders==null)
-				{
-					wheels [c][r]= new DriveMotor(ports[c][r],motorType);
-				}
-				else if(r>=encoders[0].length)
-				{
-					wheels [c][r]= new DriveMotor(ports[c][r],motorType,encoders[c][0],encPID);
-				}
-				else
-				{
-					wheels [c][r]= new DriveMotor(ports[c][r],motorType,encoders[c][r],encPID);
-				}
-				if(c==1)
-				{
-					wheels[c][r].setInverted(true);
-				}
-			}
-		}
+	public DriveTrain(DriveMotor[] wheels){
 		Update.add(this);
 	}
-	public abstract boolean isStraight();
-	public abstract void drivePolar(double speed,double angle,double rotation);
-	public abstract void correct(double correction);
+	public void drive(Vector direction)
+	{
+		drive(direction);
+	}
+	public void drive(Vector direction,double rotation)
+	{
+		this.driveVector=direction;
+		this.driveRotation=rotation;
+	}
+	public boolean isStraight()
+	{
+		return driveRotation<MAX_STRAIGHT_ROTATION;
+	}
+	public void correct(double correction)
+	{
+		driveRotation+=correction;
+	}
 	
 	public double getAvgEncoderClicks() {
 		double sum = 0;
-		
-		for (int c = 0; c < wheels.length;c++)
+
+		for (int i = 0; i < wheels.length;i++)
 		{
-			for(int r=0;r<wheels[0].length;r++)
-			{
-				sum+=wheels[c][r].getDistance();
-			}
+			sum+=wheels[i].getDistance();
 		}
 		
-		return sum / (wheels.length*wheels[0].length);
+		return sum / (wheels.length);
+	}
+	
+	public void update()
+	{
+		for(DriveMotor wheel:wheels)
+		{
+			wheel.setVelocity(driveVector,driveRotation);
+		}
 	}
 }
