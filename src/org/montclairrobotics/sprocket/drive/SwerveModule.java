@@ -30,7 +30,6 @@ public class SwerveModule extends DriveMotor{
 	public SwerveModule(SpeedController motor,SwivelMotor swivelMotor, Encoder encoder, PID encPID,
 			Vector offset, Angle forceAngle) {
 		super(motor, encoder, encPID, offset, forceAngle);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public double calcSpeed(Vector goal)

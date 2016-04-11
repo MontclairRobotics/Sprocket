@@ -1,7 +1,6 @@
 package org.montclairrobotics.sprocket.drive;
 
-import org.montclairrobotics.sprocket.control.Control;
-import org.montclairrobotics.sprocket.utils.Dashboard;
+import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Polar;
@@ -16,12 +15,19 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.VictorSP;
 
+/*
+ * DriveTrain
+ * 
+ * USAGE:
+ * construct with a list of DriveMotors containing all of the wheels
+ * 
+ * call drive() with a direction Vector, a rotation double, and a gyro Angle
+ * The gyro Angle may be ommited for Robot-centric control, or included for Field-centric control
+ */
 
 public class DriveTrain implements Updatable
 {
 	public static enum M_TYPE{TALONSRX,VICTORSP,TALON};
-	
-	
 	
 	public static final double MIN_SPEED=0.1;
 	public static final double MAX_STRAIGHT_ROTATION=0.1;
@@ -35,32 +41,25 @@ public class DriveTrain implements Updatable
 	private Vector driveVector;
 	private double driveRotation;
 	
-	
-	/*
-	 * leftPorts = the ports for the left motors
-	 * rightPorts = the ports for the right motors
-	 * encoders = two dimensional array; collection of 2 ports per encoder. 
-	 * 				if there is only one encoder or less than the entire length, 
-	 * 				the remainder will be filled with encoder[0]
-	 * motorType = the type of the motor
-	 * p,i,d	= the p,i, and d values for the PID controller.
-	 */
-	
 	public DriveTrain(DriveMotor[] wheels){
 		this.wheels=wheels;
 		Update.add(this);
 	}
 	public void drive(double speed, double rotation)
 	{
-		drive(new XY(0,speed),rotation);
+		drive(new Polar(speed,0),rotation);
 	}
 	public void drive(Vector direction)
 	{
-		drive(direction);
+		drive(direction,0.0);
 	}
 	public void drive(Vector direction,double rotation)
 	{
-		this.driveVector=direction;
+		drive(direction,rotation,new Degree(0));
+	}
+	public void drive(Vector direction,double rotation,Angle gyroAngle)
+	{
+		this.driveVector=new Polar(direction.getMag(),gyroAngle.subtract(direction.getAngle()));
 		this.driveRotation=rotation;
 	}
 	public boolean isStraight()
@@ -92,7 +91,7 @@ public class DriveTrain implements Updatable
 	}
 	
 	
-	
+	//STATIC METHODS TO HELP MAKE DRIVETRAIN
 	public static DriveMotor[] makeStandardWheels(int[] leftPorts,int[] rightPorts,M_TYPE type,
 			int[][]leftEncoders,int[][]rightEncoders,PID encPID)
 	{

@@ -13,8 +13,23 @@ public class Degree extends Angle{
 		return Math.toRadians(degrees);
 	}
 
-	@Override
 	public double toDegrees() {
 		return degrees;
+	}
+	public Angle add(Angle a)
+	{
+		return new Degree(this.toDegrees()+a.toDegrees());
+	}
+	public Angle subtract(Angle a)
+	{
+		return new Degree(this.toDegrees()-a.toDegrees());
+	}
+	public Angle opposite()
+	{
+		return new Degree(this.toDegrees()+180);
+	}
+	
+	public Angle negative() {
+		return new Degree(-this.toDegrees());
 	}
 }

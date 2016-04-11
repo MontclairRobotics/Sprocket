@@ -10,7 +10,10 @@ public class Polar extends Vector{
 		this.mag=Math.abs(mag);
 		this.angle=((mag>0)?angle:angle.opposite());
 	}
-	
+	public Polar(double mag,double degrees)
+	{
+		this(mag,new Degree(degrees));
+	}
 	public double getMag() {
 		return mag;
 	}

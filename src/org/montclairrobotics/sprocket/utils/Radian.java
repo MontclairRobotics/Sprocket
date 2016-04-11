@@ -18,4 +18,21 @@ public class Radian extends Angle{
 		return Math.toDegrees(radians);
 	}
 
+	public Angle add(Angle a)
+	{
+		return new Radian(this.toRadians()+a.toRadians());
+	}
+	public Angle subtract(Angle a)
+	{
+		return new Radian(this.toRadians()-a.toRadians());
+	}
+	public Angle opposite()
+	{
+		return new Radian(this.toRadians()+Math.PI);
+	}
+
+	public Angle negative() {
+		return new Radian(this.toRadians());
+	}
+
 }
