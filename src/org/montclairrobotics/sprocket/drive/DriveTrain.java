@@ -148,18 +148,22 @@ public class DriveTrain implements Updatable
 	
 	//STATIC METHODS
 	
+	public static DriveTrain makeStandard(int[] leftPorts,int[] rightPorts,M_TYPE type)
+	{
+		return makeStandard(leftPorts,rightPorts,type,null,null,null);
+	}
+	
 	/**
-	 * A helper, optional method to create a list of DriveMotors in a standard,
-	 * rover position.
+	 * A helper, optional method to create a DriveTrain in a standard configuration
 	 * @param leftPorts The ports of the left motors
 	 * @param rightPorts The ports of the right motors
 	 * @param type The type of the motors
 	 * @param leftEncoders OPTIONAL A two dimensional array of encoder ports for the left motors; each encoder requires 2 ports
 	 * @param rightEncoders OPTIONAL A two dimensional array of encoder ports for the right motors
 	 * @param encPID OPTIONAL The PID controller for the encoders to correct each DriveMotor
-	 * @return List of DriveMotors for DriveTrain
+	 * @return a new DriveTrain with these settings
 	 */
-	public static DriveMotor[] makeStandardWheels(int[] leftPorts,int[] rightPorts,M_TYPE type,
+	public static DriveTrain makeStandard(int[] leftPorts,int[] rightPorts,M_TYPE type,
 			int[][]leftEncoders,int[][]rightEncoders,PID encPID)
 	{
 		Vector leftOffset=new XY(-1,0),rightOffset=new XY(1,0);
@@ -176,8 +180,39 @@ public class DriveTrain implements Updatable
 			r[i]=new DriveMotor(makeMotor(rightPorts[j],type),rightOffset,makeEncoder(rightEncoders,j),encPID,null);
 			i++;
 		}
-		return r;
+		return new DriveTrain(r);
 	}
+	
+	public static DriveTrain makeMecanum(int flPort,int frPort,int blPort,int brPort,M_TYPE type)
+	{
+		return makeMecanum(flPort,frPort,blPort,brPort,type,null,null,null,null,null);
+	}
+	
+	/**
+	 * Helper method to make a standard Mecanum DriveTrain
+	 * @param flPort Front Left motor port
+	 * @param frPort Front Right motor port
+	 * @param blPort Back Left motor port
+	 * @param brPort Back Right motor port
+	 * @param type Motor type
+	 * @param flEncoder Front Left encoder port
+	 * @param frEncoder Front Right encoder port
+	 * @param blEncoder Back Left encoder port
+	 * @param brEncoder Back Right encoder port
+	 * @param encPID Encoder PID values
+	 * @return a new DriveTrain with these settings.
+	 */
+	public static DriveTrain makeMecanum(int flPort,int frPort,int blPort,int brPort,M_TYPE type,
+			int[] flEncoder,int[] frEncoder,int[] blEncoder,int[] brEncoder,PID encPID)
+	{
+		DriveMotor[] r= new DriveMotor[4];
+		r[0]=new DriveMotor(makeMotor(flPort,type),new XY(-1, 1),makeEncoder(flEncoder),encPID,new Degree( 45));
+		r[1]=new DriveMotor(makeMotor(frPort,type),new XY( 1, 1),makeEncoder(frEncoder),encPID,new Degree(-45));
+		r[2]=new DriveMotor(makeMotor(blPort,type),new XY(-1,-1),makeEncoder(blEncoder),encPID,new Degree(-45));
+		r[3]=new DriveMotor(makeMotor(brPort,type),new XY( 1,-1),makeEncoder(brEncoder),encPID,new Degree( 45));
+		return new DriveTrain(r);
+	}
+	
 	/**
 	 * Helper method to create a SpeedController of a given type
 	 * @param port The motor port
@@ -207,6 +242,10 @@ public class DriveTrain implements Updatable
 	public static Encoder makeEncoder(int[][] ports,int i)
 	{
 		if(ports==null||ports.length>=i)return null;
-		return new Encoder(ports[i][0],ports[i][1]);
+		return makeEncoder(ports[i]);
+	}
+	public static Encoder makeEncoder(int[] ports)
+	{
+		return new Encoder(ports[0],ports[1]);
 	}
 }
