@@ -1,9 +1,14 @@
 package org.montclairrobotics.sprocket.drive;
 
+import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Dashboard;
+import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.PID;
+import org.montclairrobotics.sprocket.utils.Polar;
 import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.Update;
+import org.montclairrobotics.sprocket.utils.UpdateClass;
+import org.montclairrobotics.sprocket.utils.Updater;
+import org.montclairrobotics.sprocket.utils.Vector;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
@@ -12,124 +17,46 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.VictorSP;
 
-public class DriveMotor implements Updatable{
-	//static constants
-	public static enum M_TYPE{TALONSRX,VICTORSP,TALON};
+/**
+ * An all purpose DriveMotor class supporting everything from Mecanum to Kiwi
+ * @author Jack Hymowitz
+ *
+ */
+
+public class DriveMotor extends Motor{
 	
 	//constants
-	private Encoder encoder;
-	private SpeedController motor;
-	private PID pid;
-	private int port;
+	private Vector offset;
+	private Angle forceAngle;
 	
-	//variables
-	private double tgtSpeed,speed;
-	private static boolean shutdown=false;
-
-	public DriveMotor(int m_port, M_TYPE type,int[]encoderPorts,PID encPID)
+	/**
+	 * Creates a DriveMotor
+	 * Any optional field can be left as null
+	 * @param motor The SpeedController
+	 * @param offset The vector pointing from the robot's center of rotation
+	 * to this wheel
+	 * @param encoder OPTIONAL The Encoder attached to this motor
+	 * @param encPID OPTIONAL The PID for correcting the motor's speed
+	 * @param forceAngle OPTIONAL The Angle describing the force when this wheel turns
+	 * Use this as + or - 45 for Mecanum Wheels or the angle for Kiwi wheels
+	 */
+	public DriveMotor(SpeedController motor,Vector offset,Encoder encoder,PID encPID,Angle forceAngle)
 	{
-		this(m_port,type,encoderPorts);
-		pid=encPID.copy();
+		super(motor, encoder, encPID);
+		this.offset=offset;
+		this.forceAngle=forceAngle;
+		if(forceAngle==null)
+			this.forceAngle=new Degree(0);
+		Updater.add(this, UpdateClass.MotorController);
 	}
-	public DriveMotor(int m_port, M_TYPE type,int[]encoderPorts) 
+	/**
+	 * Sets the velocity Vector of the robot with a rotation value
+	 * Calculates the goal Vector for this one wheel and saves it to goal.
+	 * @param direction The velocity Vector of the robot
+	 * @param rotation The rotation value from [-1,1]
+	 */
+	public void setVelocity(Vector direction,double rotation)
 	{
-		this(m_port,type);
-		encoder = new Encoder(encoderPorts[0],encoderPorts[1]);
-	}
-	public DriveMotor(int m_port,M_TYPE type)
-	{
-		switch(type)
-		{
-		case TALONSRX:
-			motor = new CANTalon(m_port);
-			break;
-		case VICTORSP:
-			motor = new VictorSP(m_port);
-			break;
-		case TALON:
-			motor = new Talon(m_port);
-			break;
-		default:
-			break;
-		}
-		if(type==M_TYPE.TALONSRX)
-		{
-			CANTalon talon = (CANTalon)motor;
-			talon.setControlMode(TalonControlMode.PercentVbus.value);
-			talon.reset();
-			talon.enable();
-			talon.enableControl();
-		}
-		this.port=m_port;
-		Update.add(this);
-	}
-	
-	public void setSpeed(double spd)
-	{
-		tgtSpeed = spd;
-	}
-	
-	public void update()
-	{
-		if(shutdown)
-		{
-			speed = 0;
-			motor.set(0);
-			if(motor instanceof CANTalon) ((CANTalon)motor).disableControl();
-			return;
-		}
-		if(encoder==null||pid==null)
-		{
-			speed=tgtSpeed;
-		}
-		else
-		{
-			pid.setTarget(tgtSpeed);
-			pid.setCur(encoder.getRate());
-			speed=pid.getAdjOut();
-		}
-		Dashboard.putNumber("Motor "+this, speed,true);
-	}
-	
-	public String toString()
-	{
-		return ""+port;
-	}
-	
-	public boolean isInverted() {
-		return motor.getInverted();
-	}
-	
-	public void setInverted(boolean invert) {
-		motor.setInverted(invert);
-	}
-	
-	public void toggleInvert() {
-		motor.setInverted(!motor.getInverted());
-	}
-	
-	public static void shutdown() {
-		shutdown = true;
-	}
-	
-	public double getDistance()
-	{
-		if(encoder==null)return 0.0;
-		return encoder.getDistance();
-	}
-	
-	public double getSpeed() {
-		return getRate();
-	}
-	
-	public double getRate() {
-		if(encoder==null) return 0.0;
-		return encoder.getRate();
-	}
-	
-	public void resetDistance()
-	{
-		if(encoder==null)return;
-		encoder.reset();
-	}
+		setVelocity(direction.add(offset.getRotationVector(rotation)).rotate(forceAngle.negative()));
+	}	
 }

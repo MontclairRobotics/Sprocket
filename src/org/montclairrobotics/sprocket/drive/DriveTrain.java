@@ -1,246 +1,212 @@
 package org.montclairrobotics.sprocket.drive;
 
-import org.montclairrobotics.sprocket.control.Control;
-import org.montclairrobotics.sprocket.drive.DriveMotor.M_TYPE;
-import org.montclairrobotics.sprocket.utils.Dashboard;
+import org.montclairrobotics.sprocket.utils.Angle;
+import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.PID;
+import org.montclairrobotics.sprocket.utils.Polar;
 import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.Update;
+import org.montclairrobotics.sprocket.utils.UpdateClass;
+import org.montclairrobotics.sprocket.utils.Updater;
+import org.montclairrobotics.sprocket.utils.Vector;
+import org.montclairrobotics.sprocket.utils.XY;
 
-/*
- * Please note this is for a traditional chasis with wheels on one side and wheels on another
+import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.VictorSP;
+
+/**
+ * The main drivetrain class which holds a set of wheels
+ * This is mainly a container for wheels; a lot of the calculations has been moved away from this class.
+ * 
  */
 
-public class DriveTrain implements Updatable{
-	//static constants
-	public static final double DEFAULT_P=0.03,DEFAULT_I=0,DEFAULT_D=0.3;
-	private static final int TIME_TO_RESET_AUTOLOCK=5;//iterations until lock is deactivated
-	private static final M_TYPE defaultType = M_TYPE.TALON;
+public class DriveTrain implements Updatable
+{
+	public static enum M_TYPE{TALONSRX,VICTORSP,TALON};
+	
+	public static final double MIN_SPEED=0.1;
+	public static final double MAX_STRAIGHT_ROTATION=0.1;
+	public static final double ROT_FACTOR=0.75;
 	
 	//constants
-	private DriveMotor[] leftWheels, rightWheels;
-	private PID pid;
+	protected DriveMotor[] wheels;
 	
 	//variables
-	double tgtSpeed,leftSpd, rightSpd;
-	private boolean forward = true;
-	public boolean lock;
-	private int loopsSinceLastLock=TIME_TO_RESET_AUTOLOCK;
-	public static boolean shutdown = false;
-	
-	/*
-	 * leftPorts = the ports for the left motors
-	 * rightPorts = the ports for the right motors
-	 * encoders = two dimensional array; collection of 2 ports per encoder. 
-	 * 				if there is only one encoder or less than the entire length, 
-	 * 				the remainder will be filled with encoder[0]
-	 * motorType = the type of the motor
-	 * p,i,d	= the p,i, and d values for the PID controller.
+	protected static boolean shutdown = false;
+	private Vector driveVector;
+	private double driveRotation;
+	/**
+	 * Creates a DriveTrain with a list of wheels.
+	 * Each wheel knows where it is on the robot.
+	 * @param wheels a list of DriveMotors
+	 * @see makeStandardWheels
 	 */
-	
-	public DriveTrain(int[]leftPorts,int[]rightPorts){
-		this(leftPorts,rightPorts,defaultType);
+	public DriveTrain(DriveMotor[] wheels){
+		this.wheels=wheels;
+		Updater.add(this, UpdateClass.DriveTrain);
 	}
-	public DriveTrain(int[]leftPorts,int[]rightPorts,M_TYPE motorType){
-		this(leftPorts,rightPorts,motorType,null);
-	}
-	public DriveTrain(int[]leftPorts,int[]rightPorts,PID drivePID){
-		this(leftPorts,rightPorts,defaultType,drivePID);
-	}
-	public DriveTrain(int[]leftPorts,int[]rightPorts,M_TYPE motorType,PID drivePID){
-		this(leftPorts,rightPorts,motorType,drivePID,null,null);
-	}
-	public DriveTrain(int[]leftPorts,int[]rightPorts,int[][]leftEncoders,int[][]rightEncoders){
-		this(leftPorts,rightPorts,defaultType,null,leftEncoders,rightEncoders);
-	}
-	public DriveTrain(int[]leftPorts,int[]rightPorts,PID drivePID,int[][]leftEncoders,int[][]rightEncoders){
-		this(leftPorts,rightPorts,defaultType,drivePID,leftEncoders,rightEncoders);
-	}
-	public DriveTrain(int[]leftPorts,int[]rightPorts,M_TYPE motorType,PID drivePID,int[][]leftEncoders,int[][]rightEncoders){
-		this(leftPorts,rightPorts,motorType,drivePID,leftEncoders,rightEncoders,null);
-	}
-	public DriveTrain(int[]leftPorts,int[]rightPorts,int[][]leftEncoders,int[][]rightEncoders,PID encPID){
-		this(leftPorts,rightPorts,defaultType,null,leftEncoders,rightEncoders,encPID);
-	}
-	public DriveTrain(int[]leftPorts,int[]rightPorts,M_TYPE motorType,int[][]leftEncoders,int[][]rightEncoders,PID encPID){
-		this(leftPorts,rightPorts,motorType,null,leftEncoders,rightEncoders,encPID);
-	}
-	public DriveTrain(int[]leftPorts,int[]rightPorts,PID drivePID,int[][]leftEncoders,int[][]rightEncoders,PID encPID){
-		this(leftPorts,rightPorts,defaultType,drivePID,leftEncoders,rightEncoders,encPID);
-	}
-	
-	
-	public DriveTrain(int[]leftPorts,int[]rightPorts,M_TYPE motorType,PID drivePID,int[][]leftEncoders,int[][]rightEncoders,PID encPID)
+	/**
+	 * Drive with a simulated tank drive
+	 * @param left left Joystick
+	 * @param right right Joystick
+	 */
+	public void driveTank(double left,double right)
 	{
-		leftWheels = new DriveMotor[leftPorts.length];
-		rightWheels = new DriveMotor[rightPorts.length];
-		
-		for(int i=0; i<leftPorts.length; i++)
-		{
-			if(leftEncoders==null)
-				leftWheels [i]= new DriveMotor(leftPorts[i],motorType);
-			else
-				leftWheels [i]=new DriveMotor(leftPorts[i],motorType,leftEncoders[(i<leftEncoders.length)?i:0],encPID);
-		}
-		for(int i=0;i<rightPorts.length; i++)
-		{
-			if(rightEncoders==null)
-				rightWheels [i]= new DriveMotor(rightPorts[i],motorType);
-			else
-				rightWheels [i]=new DriveMotor(rightPorts[i],motorType,rightEncoders[(i<rightEncoders.length)?i:0],encPID);
-		}
-		for(DriveMotor motor : rightWheels) {
-			motor.setInverted(true);
-		}
-		
-		pid=drivePID;
-		Update.add(this);
+		Vector netV=new Polar(Math.abs(left),((left>0)?45:135)).add(new Polar(Math.abs(right),((right>0)?-45:-135)));
+		drive(netV.getY(),netV.getX());
 	}
-	
-	
+	/**
+	 * Used to be setSpeedXY(),
+	 * maintained for reverse compatibility and simplicity
+	 * @param speed the forward speed
+	 * @param rotation the rotation
+	 */
+	public void drive(double speed, double rotation)
+	{
+		drive(new Polar(speed,0),rotation);
+	}
+	/**
+	 * Drive in a specific vector without any rotation
+	 * Robot-centric
+	 * @param direction The direction to translate along
+	 */
+	public void drive(Vector direction)
+	{
+		drive(direction,0.0);
+	}
+	/**
+	 * Drive in a specific vector with rotation
+	 * Robot-centric
+	 * @param direction The direction to translate along
+	 * @param rotation A value from [-1,1] to rotate
+	 */
+	public void drive(Vector direction,double rotation)
+	{
+		drive(direction,rotation,new Degree(0));
+	}
+	/**
+	 * Drive in a specific vector with rotation
+	 * Field-centric
+	 * @param direction The direction to translate along
+	 * @param rotation A value from [-1,1] to rotate
+	 * @param gyroAngle The current heading from a gyroscope
+	 */
+	public void drive(Vector direction,double rotation,Angle gyroAngle)
+	{
+		this.driveVector=new Polar(direction.getMag(),gyroAngle.subtract(direction.getAngle()).negative());
+		this.driveRotation=rotation;
+	}
+	/**
+	 * Is the robot driving straight?
+	 * Used to enable AutoLock
+	 * @return Is the robot driving straight?
+	 */
+	public boolean isStraight()
+	{
+		return driveRotation<MAX_STRAIGHT_ROTATION;
+	}
+	/**
+	 * Add or subtract some rotation
+	 * Used as the output of AutoLock
+	 * @param correction the correction value
+	 */
+	public void correct(double correction)
+	{
+		driveRotation+=correction;
+	}
+	/**
+	 * Gets the average distance covered by the encoders
+	 * !!!!!! This method will not currently work as required 
+	 * because right and left motors spin in oposite directions, 
+	 * canceling each other out.
+	 * @return the distance the robot has traveled
+	 */
 	public double getAvgEncoderClicks() {
 		double sum = 0;
-		
-		for (int i = 0; i < leftWheels.length;i++)
-		{
-			sum += leftWheels[i].getDistance();
-		}
-		for(int i=0;i<rightWheels.length;i++)
-		{
-			sum+=rightWheels[i].getDistance();
-		}
-		
-		return sum / (leftWheels.length+rightWheels.length);
-	}
-	
-	public void setSpeedTank(double lSpd,double rSpd)
-	{
-		leftSpd = lSpd;
-		rightSpd = rSpd;
-		tgtSpeed=(lSpd+rSpd)/2;
-	}
-	
-	public void setSpeedXY(double x, double y)
-	{
-		setSpeedXY(x,y,false);
-	}
-	public void setSpeedXY(double x,double y,boolean hardLock)
-	{
-		setSpeedXY(x,y,false,hardLock);
-	}
-	public void setSpeedXY(double x, double y,boolean softLock,boolean hardLock)
-	{   
-		x*=.75;
-		if (!forward) {
-			y = y*-1;
-		}
-        this.lock=hardLock;
-        tgtSpeed=y;
-		if (Math.abs(x)<Control.DEAD_ZONE)
-		{
-			if(Math.abs(y)<Control.DEAD_ZONE)
-			{
-				leftSpd=0;
-				rightSpd=0;
-			}
-			else
-			{
-				leftSpd=y;
-				rightSpd=y;
-				lock=lock||softLock;
-			}
-		}
-		else
-		{
-			double max;
-			if(Math.abs(x)>=Math.abs(y))
-			{
-				max=1+Math.abs(y/x);
-			}
-			else
-			{
-				max=1+Math.abs(x/y);
-			}
-	        leftSpd=(y+x)/max;
-	        rightSpd=(y-x)/max;
-		}
-		Dashboard.putNumber("leftSpeed", leftSpd,true);
-		Dashboard.putNumber("rightSpeed", rightSpd,true);
-	}
 
-	
-	public double getGyroVal()//TODO TODO TODO make this the input value
-	{
-		return 0.0;
-	}
-	
-	public double rotateTo(double degrees)//returns absolute result
-	{
-		return rotateTo(degrees,true);
-	}
-	public double rotateTo(double degrees,boolean relative)//returns absolute result
-	{
-		if(relative)
-			degrees+=getGyroVal();
-		pid.setTarget(degrees);
-		lock=true;
-		loopsSinceLastLock=0;
-		return degrees;
-	}
-	
-	private void calcLock(boolean lock)
-	{
+		for (int i = 0; i < wheels.length;i++)
+		{
+			sum+=wheels[i].getDistance();
+		}
 		
-		if(lock)
-		{
-			if(loopsSinceLastLock>=TIME_TO_RESET_AUTOLOCK)
-			{
-				pid.setTarget(getGyroVal());
-			}
-			else
-			{
-				execLock(pid.getRawOut());
-			}
-			loopsSinceLastLock=0;
-			pid.setCur(getGyroVal());
-			Dashboard.putString("Lock", "ON");
-		}
-		else
-		{
-			loopsSinceLastLock++;
-			Dashboard.putString("Lock", "OFF");
-		}
+		return sum / (wheels.length);
 	}
-	
-	private void execLock(double correction)
-	{
-		if (tgtSpeed > 0){
-			if(1+correction > 0)
-				rightSpd=tgtSpeed*(1/(1+correction));
-			else
-				rightSpd=0;
-			leftSpd=tgtSpeed*(1+correction);
-		}
-		else {
-			if(1+correction!=0)
-				leftSpd=tgtSpeed*(1/(1+correction));
-			else
-				leftSpd=0;
-			rightSpd=tgtSpeed*(1+correction);
-		}
-		Dashboard.putNumber("Correction", correction,true);
-		Dashboard.putNumber("Error", pid.getError(),true);
-	}
+	/**
+	 * Sets each wheel to the current translation vector and rotation vector,
+	 * leaving the wheels to figure out how fast to spin.
+	 */
 	public void update()
 	{
-		calcLock(lock);
-		for(int i=0; i<leftWheels.length; i++)
+		for(DriveMotor wheel:wheels)
 		{
-			leftWheels[i].setSpeed(leftSpd);
-		}	
-		for(int i=0; i<rightWheels.length; i++)
+			wheel.setVelocity(driveVector,driveRotation);
+		}
+	}
+	
+	
+	//STATIC METHODS
+	
+	/**
+	 * A helper, optional method to create a list of DriveMotors in a standard,
+	 * rover position.
+	 * @param leftPorts The ports of the left motors
+	 * @param rightPorts The ports of the right motors
+	 * @param type The type of the motors
+	 * @param leftEncoders OPTIONAL A two dimensional array of encoder ports for the left motors; each encoder requires 2 ports
+	 * @param rightEncoders OPTIONAL A two dimensional array of encoder ports for the right motors
+	 * @param encPID OPTIONAL The PID controller for the encoders to correct each DriveMotor
+	 * @return List of DriveMotors for DriveTrain
+	 */
+	public static DriveMotor[] makeStandardWheels(int[] leftPorts,int[] rightPorts,M_TYPE type,
+			int[][]leftEncoders,int[][]rightEncoders,PID encPID)
+	{
+		Vector leftOffset=new XY(-1,0),rightOffset=new XY(1,0);
+		
+		DriveMotor[] r=new DriveMotor[leftPorts.length+rightPorts.length];
+		int i=0;
+		for(int j=0;j<leftPorts.length;j++)
 		{
-			rightWheels[i].setSpeed(rightSpd);
-		};
+			r[i]=new DriveMotor(makeMotor(leftPorts[j],type),leftOffset,makeEncoder(leftEncoders,j),encPID,null);
+			i++;
+		}
+		for(int j=0;j<rightPorts.length;j++)
+		{
+			r[i]=new DriveMotor(makeMotor(rightPorts[j],type),rightOffset,makeEncoder(rightEncoders,j),encPID,null);
+			i++;
+		}
+		return r;
+	}
+	/**
+	 * Helper method to create a SpeedController of a given type
+	 * @param port The motor port
+	 * @param type The motor type
+	 * @return The SpeedController
+	 */
+	public static SpeedController makeMotor(int port,M_TYPE type)
+	{
+		switch(type)
+		{
+		case TALONSRX:
+			return new CANTalon(port);
+		case VICTORSP:
+			return new VictorSP(port);
+		case TALON:
+			return new Talon(port);
+		default:
+			return null;
+		}
+	}
+	/**
+	 * Helper method to create an Encoder from a two dimensional array
+	 * @param ports the two dimensional array
+	 * @param i the encoder id
+	 * @return the Encoder
+	 */
+	public static Encoder makeEncoder(int[][] ports,int i)
+	{
+		if(ports==null||ports.length>=i)return null;
+		return new Encoder(ports[i][0],ports[i][1]);
 	}
 }
