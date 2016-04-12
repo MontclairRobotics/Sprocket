@@ -7,12 +7,6 @@ public class Priority {
 	public static final Priority LOW = new Priority(0);
 	public static final Priority LOWEST = new Priority(Integer.MIN_VALUE);
 	
-	public static final int
-		GET_INPUT=1,
-		CALCULATE=2,
-		OUTPUT=3
-		;
-	
 	int p;
 	
 	public static Priority lowerThan(Priority p) {
