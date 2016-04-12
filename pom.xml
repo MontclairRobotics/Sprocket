@@ -17,6 +17,15 @@
         </configuration>
       </plugin>
     </plugins>
+    
+    <resources>
+      <resource>
+        <directory>src/org/montclairrobotics/sprocket/</directory>
+        <excludes>
+          <exclude>examples/**</exclude>
+        </excludes>
+      </resource>
+    </resources>
   </build>
   
   <repositories>
