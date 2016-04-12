@@ -5,7 +5,6 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 /**
- * 
  * @author Jack Hymowitz, Rafi Baum
  * Runs all the modules which need to be updated in each tick
  * 
