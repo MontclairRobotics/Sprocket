@@ -1,7 +1,6 @@
 
 package org.montclairrobotics.sprocket.examples;
 
-import org.montclairrobotics.sprocket.control.Control;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.drive.DriveTrain.M_TYPE;
 import org.montclairrobotics.sprocket.drive.Lock;
