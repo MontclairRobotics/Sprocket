@@ -53,7 +53,7 @@ public class DriveTrain implements Updatable
 	 */
 	public void driveTank(double left,double right)
 	{
-		Vector netV=new XY(1,left).add(new XY(-1,right));
+		Vector netV=new XY(-1,left).add(new XY(1,right));
 		drive(netV.getY(),netV.getX());
 	}
 	/**
