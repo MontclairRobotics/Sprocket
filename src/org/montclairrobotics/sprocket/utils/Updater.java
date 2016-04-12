@@ -1,6 +1,7 @@
 package org.montclairrobotics.sprocket.utils;
 
 import java.util.Comparator;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 /**
@@ -37,7 +38,7 @@ public class Updater {
 	 * @see UpdateClass
 	 */
 	public static void add(Updatable obj, Priority priority) {
-		objects.put(priority, obj);
+		if(!objects.containsKey(priority)) objects.put(priority, obj);
 	}
 	
 	/**
@@ -50,6 +51,19 @@ public class Updater {
 		}
 	}
 	
-	
+	/**
+	 * Removes an updatable from the queue
+	 * @param obj The object to be deleted
+	 * @return True if deleted, false if the object cannot be found
+	 */
+	public static boolean remove(Updatable obj) {
+		for(Entry<Priority, Updatable> set : objects.entrySet()) {
+			if(set.getValue() == obj) {
+				objects.remove(set.getKey());
+				return true;
+			}
+		}
+		return false;
+	}
 	
 }
