@@ -46,6 +46,11 @@ public class DriveTrain implements Updatable
 		this.wheels=wheels;
 		Update.add(this);
 	}
+	/**
+	 * Drive with Tank
+	 * @param left left Joystick
+	 * @param right right Joystick
+	 */
 	public void driveTank(double left,double right)
 	{
 		Vector netV=new XY(-1,left).add(new XY(1,right));
