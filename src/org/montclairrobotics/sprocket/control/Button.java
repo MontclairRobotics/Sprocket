@@ -11,9 +11,10 @@ import org.montclairrobotics.sprocket.utils.Updatable;
 import org.montclairrobotics.sprocket.utils.UpdateClass;
 import org.montclairrobotics.sprocket.utils.Updater;
 
+
 public abstract class Button implements Updatable{
 	
-	private boolean state=false;
+	private boolean state = false;
 	private int stick;
 	private int id;
 	
@@ -56,20 +57,24 @@ public abstract class Button implements Updatable{
 			up();
 		}
 	}
+	
 	/**
-	 * Calls this method automatically when the button is first pushed down.
+	 * Fires when the button is depressed
 	 */
 	public void onDown() {}
+	
 	/**
-	 * Calls this method every loop while the button is down.
+	 * Fires every tick the button is depressed
 	 */
 	public void down() {}
+	
 	/**
-	 * Calls this method automatically when the button is first released.
+	 * Fires when the button is released/not pressed
 	 */
 	public void onUp() {}
+	
 	/**
-	 * Calls this method every loop while the button is up.
+	 * Fires for each tick the button is released/not pressed
 	 */
 	public void up() {}
 }
