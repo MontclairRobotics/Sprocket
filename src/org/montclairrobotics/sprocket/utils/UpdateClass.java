@@ -1,5 +1,10 @@
 package org.montclairrobotics.sprocket.utils;
 
+/**
+ * Some pre-defined priorities for the Updater class
+ * @see Priority
+ *
+ */
 public class UpdateClass {
 	public static final Priority ControlTranslator = Priority.HIGH;
 	public static final Priority MotorController = Priority.LOW;
