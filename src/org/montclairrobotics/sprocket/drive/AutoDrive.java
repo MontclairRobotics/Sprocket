@@ -4,7 +4,8 @@ import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.Distance;
 import org.montclairrobotics.sprocket.utils.Polar;
 import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.Update;
+import org.montclairrobotics.sprocket.utils.UpdateClass;
+import org.montclairrobotics.sprocket.utils.Updater;
 import org.montclairrobotics.sprocket.utils.Vector;
 
 /**
@@ -45,7 +46,7 @@ public class AutoDrive implements Updatable {
 		totDistance=driveTrain.getAvgEncoderClicks()+distance*((speed>0)?1:-1);
 		driveTrain.drive(velocity);
 		lock.setLock(true);
-		Update.add(this);
+		Updater.add(this, UpdateClass.Autonomous);
 	}
 	/**
 	 * Used to determine if you are done driving

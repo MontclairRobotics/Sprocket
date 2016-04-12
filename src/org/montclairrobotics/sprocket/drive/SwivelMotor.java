@@ -4,7 +4,8 @@ import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.Update;
+import org.montclairrobotics.sprocket.utils.UpdateClass;
+import org.montclairrobotics.sprocket.utils.Updater;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
@@ -37,7 +38,7 @@ public class SwivelMotor extends Motor{
 			talon.enableControl();
 		}
 		tgtAngle=new Degree(0);
-		Update.add(this);
+		Updater.add(this, UpdateClass.MotorController);
 	}
 	public void setAngle(Angle a)
 	{

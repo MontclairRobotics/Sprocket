@@ -3,7 +3,8 @@ package org.montclairrobotics.sprocket.drive;
 import org.montclairrobotics.sprocket.utils.Dashboard;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.Update;
+import org.montclairrobotics.sprocket.utils.UpdateClass;
+import org.montclairrobotics.sprocket.utils.Updater;
 
 /** 
  * This class should be extended to add the autolock functionality.
@@ -30,7 +31,7 @@ public abstract class Lock implements Updatable{
 	{
 		driveTrain=dt;
 		this.pid=pid;
-		Update.add(this);
+		Updater.add(this, UpdateClass.ControlTranslator);
 	}
 	
 	/**

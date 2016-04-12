@@ -6,7 +6,8 @@ import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Polar;
 import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.Update;
+import org.montclairrobotics.sprocket.utils.UpdateClass;
+import org.montclairrobotics.sprocket.utils.Updater;
 import org.montclairrobotics.sprocket.utils.Vector;
 
 import edu.wpi.first.wpilibj.CANTalon;
@@ -46,7 +47,7 @@ public class DriveMotor extends Motor{
 		this.forceAngle=forceAngle;
 		if(forceAngle==null)
 			this.forceAngle=new Degree(0);
-		Update.add(this);
+		Updater.add(this, UpdateClass.MotorController);
 	}
 	/**
 	 * Sets the velocity Vector of the robot with a rotation value

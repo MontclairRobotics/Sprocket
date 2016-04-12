@@ -8,7 +8,8 @@ package org.montclairrobotics.sprocket.control;
  * @see org.montclairrobotics.sprocket.examples.Buttons
  */
 import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.Update;
+import org.montclairrobotics.sprocket.utils.UpdateClass;
+import org.montclairrobotics.sprocket.utils.Updater;
 
 public abstract class Button implements Updatable{
 	
@@ -24,7 +25,7 @@ public abstract class Button implements Updatable{
 	 */
 	public Button(int stick,int id)
 	{
-		Update.add(this);
+		Updater.add(this, UpdateClass.Control);
 		this.stick=stick;
 		this.id=id;
 	}

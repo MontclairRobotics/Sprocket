@@ -60,7 +60,7 @@ public class PID implements Updatable{
 		this.minIn=minIn;
 		this.maxIn=maxIn;
 		setTarget();
-		Update.add(this);
+		Updater.add(this, UpdateClass.ControlTranslator);
 	}
 
 	public void setPID(double P, double I, double D){

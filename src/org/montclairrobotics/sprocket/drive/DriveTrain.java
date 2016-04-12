@@ -5,7 +5,8 @@ import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Polar;
 import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.Update;
+import org.montclairrobotics.sprocket.utils.UpdateClass;
+import org.montclairrobotics.sprocket.utils.Updater;
 import org.montclairrobotics.sprocket.utils.Vector;
 import org.montclairrobotics.sprocket.utils.XY;
 
@@ -44,7 +45,7 @@ public class DriveTrain implements Updatable
 	 */
 	public DriveTrain(DriveMotor[] wheels){
 		this.wheels=wheels;
-		Update.add(this);
+		Updater.add(this, UpdateClass.DriveTrain);
 	}
 	/**
 	 * Used to be setSpeedXY(),

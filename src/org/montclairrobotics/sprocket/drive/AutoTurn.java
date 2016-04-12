@@ -4,7 +4,8 @@ import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.Polar;
 import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.Update;
+import org.montclairrobotics.sprocket.utils.UpdateClass;
+import org.montclairrobotics.sprocket.utils.Updater;
 
 /**
  * This class should be instantiated each time 
@@ -33,7 +34,7 @@ public class AutoTurn implements Updatable {
 		lock=l;
 		degreesTgt=lock.rotateTo(degrees);
 		done=false;
-		Update.add(this);
+		Updater.add(this, UpdateClass.Autonomous);
 	}
 	
 	public boolean isDone()
