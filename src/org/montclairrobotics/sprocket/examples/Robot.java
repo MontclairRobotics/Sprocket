@@ -1,7 +1,6 @@
 
 package org.montclairrobotics.sprocket.examples;
 
-import org.montclairrobotics.sprocket.control.Control;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.drive.DriveTrain.M_TYPE;
 import org.montclairrobotics.sprocket.drive.Lock;
@@ -27,7 +26,7 @@ public class Robot extends IterativeRobot {
     public static GyroLock lock;
     public static Auto auto;
     public static CameraServers cameras;
-    public static Buttons buttons;
+    public static Valves valves;
     
     
     public void robotInit() {
@@ -35,12 +34,12 @@ public class Robot extends IterativeRobot {
     	lock=new GyroLock(driveTrain, drivePID);
     	cameras=new CameraServers(cams);
     	cameras.start();
-    	buttons=new Buttons();
+    	valves=new Valves();
     }
     
     public void autonomousInit() {
     	auto=new Auto(driveTrain,lock);
-    	buttons.reset();
+    	//buttons.reset();
     }
     
     public void autonomousPeriodic() {
@@ -48,7 +47,7 @@ public class Robot extends IterativeRobot {
     }
     
     public void teleopInit(){
-    	buttons.reset();
+    	//buttons.reset();
     }
     
     public void teleopPeriodic() {

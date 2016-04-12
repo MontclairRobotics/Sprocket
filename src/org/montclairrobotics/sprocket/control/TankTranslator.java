@@ -33,7 +33,7 @@ public class TankTranslator implements Updatable {
 		double X = joysticks[0].getY() - joysticks[1].getY();
 		double Y = (joysticks[0].getY() + joysticks[1].getY())/2;
 		
-		Vector vector = new Polar(Math.sqrt(X*X + Y*Y), new Radian(Math.atan2(Y, X)));
+		Vector vector = new XY(X, Y);
 		driveTrain.drive(vector);
 	}
 
