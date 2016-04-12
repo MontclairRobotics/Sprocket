@@ -1,9 +1,7 @@
 package org.montclairrobotics.sprocket.control;
 
 import org.montclairrobotics.sprocket.drive.DriveTrain;
-import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.UpdateClass;
-import org.montclairrobotics.sprocket.utils.Updater;
+import org.montclairrobotics.sprocket.utils.*;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -33,10 +31,11 @@ public class TankTranslator implements Updatable {
 	
 	@Override
 	public void update() {
-		double left = joysticks[0].getY();
-		double right = joysticks[1].getY();
+		double X = joysticks[0].getY() - joysticks[1].getY();
+		double Y = (joysticks[0].getY() + joysticks[1].getY())/2;
 		
-		driveTrain.setSpeedTank(left, right);
+		Vector vector = new Polar(Math.sqrt(X*X + Y*Y), new Radian(Math.atan2(Y, X)));
+		driveTrain.drive(vector);
 	}
 
 }

@@ -5,9 +5,9 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-
-/*
- * THIS IS THE FIRST CAMERASERVER LIBRARY, MODIFIED FOR MULTIPLE USB CAMERAS
+package org.montclairrobotics.sprocket.utils;
+/**
+ * The FIRST CameraServer library, modified for multiple USB cameras
  * 
  * USAGE:
  * construct with an array of camera names
@@ -16,9 +16,6 @@
  * call switchTo() to cycle through cameras,
  * or call switchTo(id) to jump to one camera
  */
-
-package org.montclairrobotics.sprocket.utils;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -122,7 +119,7 @@ public class CameraServers {
    * 640x480 video, this method could take between 40 and 50 milliseconds to
    * complete.
    *
-   * This shouldn't be called if {@link #startAutomaticCapture} is called.
+   * 
    *
    * @param image The IMAQ image to show on the dashboard
    */
@@ -161,9 +158,7 @@ public class CameraServers {
   /**
    * Start automatically capturing images to send to the dashboard. You should
    * call this method to just see a camera feed on the dashboard without doing
-   * any vision processing on the roboRIO. {@link #setImage} shouldn't be called
-   * after this is called. This overload calles
-   * {@link #startAutomaticCapture(String)} with the default camera name
+   * any vision processing on the roboRIO. 
    */
   /*public void startAutomaticCapture() {
     startAutomaticCapture(USBCamera.kDefaultCameraName);
@@ -273,7 +268,7 @@ private synchronized void startBroadcast(USBCamera camera) {
 
   /**
    * check if auto capture is started
-   *
+   *@return if auto capture is started
    */
   public synchronized boolean isAutoCaptureStarted() {
     return m_autoCaptureStarted;

@@ -1,16 +1,17 @@
 package org.montclairrobotics.sprocket.control;
 
+
+/**
+ * Allows for a button object which can respond to events
+ * 
+ * It is recommended to create these as sub-classes in in a larger class
+ * @see org.montclairrobotics.sprocket.examples.Buttons
+ */
 import org.montclairrobotics.sprocket.utils.Updatable;
 import org.montclairrobotics.sprocket.utils.UpdateClass;
 import org.montclairrobotics.sprocket.utils.Updater;
-/**
- * 
- * @author Jack Hymowitz
- * This class provides an abstract implementation for working with buttons.
- * The default implementations fire the abstract methods depending on the state
- * of the button. What happens on these events can be modified by the developer.
- *
- */
+
+
 public abstract class Button implements Updatable{
 	
 	private boolean state = false;
@@ -18,19 +19,22 @@ public abstract class Button implements Updatable{
 	private int id;
 	
 	/**
-	 * Creates a button class
-	 * @param stick ID of the Joystick that has the button
-	 * @param id Button ID
+	 * Creates a Button on a given joystick and button id
+	 * Call super(stick,buttonid) as the first line of a constructor to attach the button
+	 * @param stick The joystick id
+	 * @param id The button id
 	 */
-	public Button(int stick , int id)
+	public Button(int stick,int id)
 	{
 		Updater.add(this, UpdateClass.Control);
-		this.stick = stick;
-		this.id = id;
+		this.stick=stick;
+		this.id=id;
 	}
 	
 	/**
-	 * Updates the button class, getting its state from the Joystick/Controller and firing event methods if needed
+	 * Calls the events once per loop
+	 * This creates the events which can be processed.
+	 * This should be called automatically
 	 */
 	public void update()
 	{

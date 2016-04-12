@@ -1,6 +1,7 @@
 package org.montclairrobotics.sprocket.control;
 
 import org.montclairrobotics.sprocket.drive.DriveTrain;
+import org.montclairrobotics.sprocket.utils.Polar;
 import org.montclairrobotics.sprocket.utils.Updatable;
 import org.montclairrobotics.sprocket.utils.UpdateClass;
 import org.montclairrobotics.sprocket.utils.Updater;
@@ -32,17 +33,9 @@ public class ArcadeTranslator implements Updatable {
 	
 	@Override
 	public void update() {
-		double x = stick.getX();
-		double y = stick.getY();
-		
-		double max;
-		if(Math.abs(x) >= Math.abs(y)) {
-			max = 1 + (y/x);
-		} else {
-			max = 1 + (x/y);
-		}
-		
-		driveTrain.setSpeedTank(((y+x)/max), (y-x)/max);
+		double magnitude = stick.getMagnitude();
+		double angle = stick.getDirectionDegrees();
+		driveTrain.drive(new Polar(magnitude, angle));
 	}
 
 }
