@@ -8,8 +8,6 @@ import edu.wpi.first.wpilibj.Joystick;
 /**
  * Performs translation from two, tank drive, joysticks into a velocity vector
  * that can be used with a Sprocket drive train.
- * @author rafibaum
- *
  */
 public class TankTranslator implements Updatable {
 	
@@ -20,6 +18,7 @@ public class TankTranslator implements Updatable {
 	 * Instantiates the translator with two joysticks, one per side
 	 * @param leftStick The joystick for the left side of the robot
 	 * @param rightStick The joystick for the right side of the robot
+	 * @param driveTrain The drivetrain to direct the translated joystick inputs to
 	 */
 	public TankTranslator(DriveTrain driveTrain, Joystick leftStick, Joystick rightStick) {
 		this.driveTrain = driveTrain;

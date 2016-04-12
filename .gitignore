@@ -29,8 +29,10 @@ Temporary Items
 .apdisk
 
 
+
 ### Java ###
 *.class
+doc
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/

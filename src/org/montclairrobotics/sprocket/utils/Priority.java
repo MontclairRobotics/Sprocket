@@ -28,7 +28,11 @@ public class Priority {
 	}
 	
 	/**
+	 * Gets a priority lower than the specified priority (i.e. an object with the returned priority
+	 * will run after an object with the priority argument)
 	 * @see #lowerThan(Priority)
+	 * @param p An object with a higher priority than what you want
+	 * @return An object with a lower priority than the original
 	 */
 	public static Priority after(Priority p) {
 		return lowerThan(p);
@@ -46,7 +50,11 @@ public class Priority {
 	}
 	
 	/**
+	 * Gets a priority higher than the specified priority (i.e. an object with the returned priority
+	 * will run before an object with the priority argument)
 	 * @see #higherThan(Priority)
+	 * @param p An object with a lower priority than what you want
+	 * @return An object with a higher priority than the original
 	 */
 	public static Priority before(Priority p) {
 		return higherThan(p);

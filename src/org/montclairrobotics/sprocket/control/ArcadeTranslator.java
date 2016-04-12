@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.Joystick;
 /**
  * Converts joystick inputs into a vector that can be used
  * with Sprocket drive trains for an arcade-drive style configuration.
- * @author rafibaum
  *
  */
 public class ArcadeTranslator implements Updatable {
@@ -22,8 +21,8 @@ public class ArcadeTranslator implements Updatable {
 	
 	/**
 	 * Constructs the translator with a drive train and a joystick
-	 * @param driveTrain
-	 * @param stick
+	 * @param driveTrain The drivetrain in which the control inputs will be directed to
+	 * @param stick The joystick to read the inputs from
 	 */
 	public ArcadeTranslator(DriveTrain driveTrain, Joystick stick) {
 		this.driveTrain = driveTrain;

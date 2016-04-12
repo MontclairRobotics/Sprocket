@@ -18,23 +18,20 @@ public class PID implements Updatable{
 	private double in,out;
 	private double target;
 	private double totalError, prevError, error;
-	/**
-	 * P the Proportional constant
-	 * I the Integral constant
-	 * D the Derivative constant
-	 * 
-	 * minIn the lowest input value
-	 * maxIn the highest input value
-	 * These will wrap the values between the min and max; max+1=min
-	 * 
-	 * minOut 
-	 * maxOut
-	 * constrain output to these 
-	 */
+
 	public PID(double P,double I,double D)
 	{
 		this(P,I,D,0,0);
 	}
+	
+	/**
+	 * @param P the Propotional Constant
+	 * @param I the Integral Constant
+	 * @param D the Derivitive Constant
+	 * @param minIn OPTIONAL the minimum input, or 0 to ignore. Use with maxIn to "wrap" the values, 
+	 * eg. so the error between 5 degrees and 355 degrees is 10 degrees
+	 * @param maxIn OPTIONAL the maximum input, or 0 to ignore
+	 */
 	public PID(double P,double I,double D,double minIn,double maxIn)
 	{
 		this(P,I,D,minIn,maxIn,0,0);
