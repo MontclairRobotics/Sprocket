@@ -51,7 +51,7 @@ public class Valves {
 	{
 		public HalfDown(int id)
 		{
-			super(Control.SHOOT_STICK,id);
+			super(Control.sticks[1],id);
 		}
 		public void onDown()
 		{
@@ -62,7 +62,7 @@ public class Valves {
 	{
 		public HalfUp(int id)
 		{
-			super(Control.SHOOT_STICK,id);
+			super(Control.sticks[1],id);
 		}
 		public void onDown()
 		{
@@ -73,7 +73,7 @@ public class Valves {
 	{
 		public ShootDown(int id)
 		{
-			super(Control.SHOOT_STICK,id);
+			super(Control.sticks[1],id);
 		}
 		public void onDown()
 		{
@@ -84,7 +84,7 @@ public class Valves {
 	{
 		public ShootUp(int id)
 		{
-			super(Control.SHOOT_STICK,id);
+			super(Control.sticks[1],id);
 		}
 		public void onDown()
 		{
@@ -95,7 +95,7 @@ public class Valves {
 	{
 		public Shoot(int id)
 		{
-			super(Control.SHOOT_STICK,id);
+			super(Control.sticks[1],id);
 		}
 		public void onDown()
 		{
