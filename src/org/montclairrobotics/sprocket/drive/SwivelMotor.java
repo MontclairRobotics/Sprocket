@@ -17,19 +17,16 @@ import edu.wpi.first.wpilibj.SpeedController;
  *
  */
 
-public class SwivelMotor implements Updatable{
+public class SwivelMotor extends Motor{
 
 	private Angle tgtAngle;
-	private SpeedController motor;
-	private Encoder encoder;
 	private PID pid;
-	private static boolean shutdown=false;
+	private Encoder encoder;
 	
-	public SwivelMotor(SpeedController motor,Encoder encoder,PID pid)
+	public SwivelMotor(SpeedController motor,Encoder encoder,PID encPID)
 	{
-		this.motor=motor;
+		super(motor);
 		this.encoder=encoder;
-		this.pid=pid.copy();
 		this.pid.setMinMaxInOut(-180, 180, -1, 1);
 		if(motor instanceof CANTalon)
 		{
@@ -46,19 +43,10 @@ public class SwivelMotor implements Updatable{
 	{
 		this.tgtAngle=a;
 	}
-	
-	public void update()
+	public double calcSpeed()
 	{
-		if(shutdown)
-		{
-			motor.set(0.0);
-		}
 		pid.setTarget(tgtAngle.toDegrees(),false);
 		pid.in(encoder.getDistance());
-		motor.set(pid.out());
-	}
-	
-	public static void shutdown() {
-		shutdown = true;
+		return pid.out();
 	}
 }
