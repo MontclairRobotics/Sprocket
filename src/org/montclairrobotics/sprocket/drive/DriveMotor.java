@@ -61,6 +61,7 @@ public class DriveMotor implements Updatable{
 		}
 		this.encoder=encoder;
 		this.pid=encPID.copy();
+		this.pid.setMinMaxInOut(-180, 180, -1, 1);
 		this.offset=offset;
 		this.forceAngle=forceAngle;
 		if(forceAngle==null)
@@ -124,9 +125,9 @@ public class DriveMotor implements Updatable{
 		}
 		else
 		{
-			pid.setTarget(tgtSpeed);
-			pid.setCur(encoder.getRate());
-			speed=pid.getAdjOut();
+			pid.setTarget(tgtSpeed,false);
+			pid.in(encoder.getRate());
+			speed=tgtSpeed*(1+pid.out());
 		}
 		motor.set(speed);
 	}

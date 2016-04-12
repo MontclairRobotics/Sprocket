@@ -102,10 +102,10 @@ public abstract class Lock implements Updatable{
 			}
 			else
 			{
-				driveTrain.correct(pid.getRawOut());
+				driveTrain.correct(pid.out());
 			}
 			loopsSinceLastLock=0;
-			pid.setCur(getCurVal());
+			pid.in(getCurVal());
 		}
 		else
 		{

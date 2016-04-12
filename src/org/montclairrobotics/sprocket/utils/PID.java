@@ -18,7 +18,7 @@ public class PID implements Updatable{
 	private double in,out;
 	private double target;
 	private double totalError, prevError, error;
-	/*
+	/**
 	 * P the Proportional constant
 	 * I the Integral constant
 	 * D the Derivative constant
@@ -39,6 +39,17 @@ public class PID implements Updatable{
 	{
 		this(P,I,D,minIn,maxIn,0,0);
 	}
+	/**
+	 * 
+	 * @param P the Propotional Constant
+	 * @param I the Integral Constant
+	 * @param D the Derivitive Constant
+	 * @param minIn OPTIONAL the minimum input, or 0 to ignore. Use with maxIn to "wrap" the values, 
+	 * eg. so the error between 5 degrees and 355 degrees is 10 degrees
+	 * @param maxIn OPTIONAL the maximum input, or 0 to ignore
+	 * @param minOut OPTIONAL the minimum output to constrain to, or 0 to ignore
+	 * @param maxOut OPTIONAL the maximum output to constrain to, or 0 to ignore
+	 */
 	public PID(double P,double I,double D, double minIn, double maxIn, double minOut, double maxOut)
 	{
 		this.P=P;
@@ -64,7 +75,10 @@ public class PID implements Updatable{
 		this.minIn=minIn;
 		this.maxIn=maxIn;
 	}
-	
+	/**
+	 * Copy constructor so you can copy PID controllers
+	 * @return a copy of this PID controller
+	 */
 	public PID copy()
 	{
 		return new PID(P,I,D,minIn,maxIn,minOut,maxOut);
@@ -78,7 +92,11 @@ public class PID implements Updatable{
 	{
 		setTarget(t,true);
 	}
-	//sets the setpoint. If reset is true, will reset calculations
+	/**
+	 * Sets the setpoint
+	 * @param t the target/setpoint
+	 * @param reset true if the PID should reset, false otherwise
+	 */
 	public void setTarget(double t,boolean reset)
 	{
 		target=t;
@@ -90,19 +108,22 @@ public class PID implements Updatable{
 		}
 	}
 	
-	public void setCur(double val)
+	/**
+	 * Set the input value (do this once per loop)
+	 * @param val the input value
+	 */
+	public void in(double val)
 	{
 		in=val;
 	}
 
-	public double getRawOut()
+	/**
+	 * Get the output value
+	 * @return the output
+	 */
+	public double out()
 	{
 		return out;
-	}
-	
-	public double getAdjOut()
-	{
-		return target*(1+out);
 	}
 	
 	private double calculate(double val)
