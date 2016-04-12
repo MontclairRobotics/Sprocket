@@ -42,7 +42,7 @@ public class PIDtuner extends PID{
 	private enum PeakTypes {FIRST,HIGH,LOW};		
 			
 	private double lastLoops=Timer.getFPGATimestamp()*1000,loops=lastLoops;
-	private int sampleTime;
+	private double sampleTime;
 	private boolean on=false;
 	private int peakCount=0;
 	private PeakTypes peakType;
@@ -107,7 +107,7 @@ public class PIDtuner extends PID{
 		
 	  boolean isMax=true,isMin=true;
 	  //id peaks
-	  for(int i=nLookBack-1;i>=0;i--)
+	  for(int i=lastInputs.length-1;i>=0;i--)
 	  {
 	    double val = lastInputs[i];
 	    if(isMax) isMax = refVal>val;
@@ -188,47 +188,19 @@ public class PIDtuner extends PID{
 		return 0.075 * Ku * Pu;  //Kd = Kc * Td
 	}
 
-	void setOutputStep(double Step)
-	{
-		oStep = Step;
-	}
-
-	double getOutputStep()
-	{
-		return oStep;
-	}
-
-		
-	void setNoiseBand(double Band)
-	{
-		noiseBand = Band;
-	}
-
-	double getNoiseBand()
-	{
-		return noiseBand;
-	}
-
 	void setLookbackSec(int value)
 	{
-	    if (value<1) value = 1;
+		if (value<1) value = 1;
 		
 		if(value<25)
 		{
 			lastInputs=new double[value * 4];
-			sampleTime = 250;
+			sampleTime = 0.250;
 		}
 		else
 		{
-			lastInputs = new double[100];
-			sampleTime = value*10;
+			lastInputs=new double[100];
+			sampleTime = value*0.001;
 		}
-	}
-
-	int getLookbackSec()
-	{
-		return lastInputs.length * sampleTime / 1000;
-	}
-
-	
+	}	
 }
