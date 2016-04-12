@@ -16,16 +16,11 @@ public class Updater {
 	 * TreeMaps are sorted by default, and they are used here in order to execute Updatables
 	 * in the correct order without any weird sorting while in runtime
 	 */
-	private static TreeMap<Priority, Updatable> objects = new TreeMap<Priority, Updatable>(new Comparator<Priority>() {
+	private static TreeMap<Priority, Updatable> objects = 
+			new TreeMap<Priority, Updatable>(new Comparator<Priority>() {
 		@Override
 		public int compare(Priority o1, Priority o2) {
-			if(o1.getPriority() < o2.getPriority()) {
-				return 1;
-			} else if(o1.getPriority() == o2.getPriority()) {
-				return 0;
-			} else {
-				return -1;
-			}
+			return o2.getPriority()-o1.getPriority();
 		}
 	});
 	
