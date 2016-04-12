@@ -47,13 +47,13 @@ public class DriveTrain implements Updatable
 		Update.add(this);
 	}
 	/**
-	 * Drive with Tank
+	 * Drive with a simulated tank drive
 	 * @param left left Joystick
 	 * @param right right Joystick
 	 */
 	public void driveTank(double left,double right)
 	{
-		Vector netV=new XY(-1,left).add(new XY(1,right));
+		Vector netV=new Polar(Math.abs(left),((left>0)?45:135)).add(new Polar(Math.abs(right),((right>0)?-45:-135)));
 		drive(netV.getY(),netV.getX());
 	}
 	/**

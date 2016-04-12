@@ -169,4 +169,13 @@ public class PID implements Updatable{
 	{
 		out=calculate(in);
 	}
+	
+	public double getIn()
+	{
+		return in;
+	}
+	public void setOut(double val)
+	{
+		out=val;
+	}
 }
