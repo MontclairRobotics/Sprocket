@@ -101,7 +101,7 @@ public class Motor implements Updatable{
 		{
 			pid.setTarget(tgtSpeed,false);
 			pid.in(encoder.getRate());
-			speed=tgtSpeed*(1+pid.out());
+			speed=pid.out();//tgtSpeed*(1+pid.out());
 		}
 		motor.set(speed);
 	}
