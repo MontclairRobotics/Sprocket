@@ -11,9 +11,11 @@ import java.util.TreeMap;
  */
 public class Updater {
 	
-	private static TreeMap<Priority, Updatable> objects = new TreeMap<Priority, Updatable>(new Comparator<Priority>() {
+	private static TreeMap<Priority, Updatable> objects = 
+			new TreeMap<Priority, Updatable>(new Comparator<Priority>() {
 		@Override
 		public int compare(Priority o1, Priority o2) {
+			/*
 			if(o1.getPriority() < o2.getPriority()) {
 				return 1;
 			} else if(o1.getPriority() == o2.getPriority()) {
@@ -21,6 +23,8 @@ public class Updater {
 			} else {
 				return -1;
 			}
+			*/
+			return o2.getPriority()-o1.getPriority();
 		}
 	});
 	
