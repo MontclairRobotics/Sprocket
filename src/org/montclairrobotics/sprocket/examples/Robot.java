@@ -1,6 +1,7 @@
 
 package org.montclairrobotics.sprocket.examples;
 
+import org.montclairrobotics.sprocket.control.ArcadeTranslator;
 import org.montclairrobotics.sprocket.control.Control;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.drive.DriveTrain.M_TYPE;
@@ -28,6 +29,7 @@ public class Robot extends IterativeRobot {
     public static Auto auto;
     public static CameraServers cameras;
     public static Valves valves;
+    public static ArcadeTranslator controller;
     
     
     public void robotInit() {
@@ -36,6 +38,7 @@ public class Robot extends IterativeRobot {
     	cameras=new CameraServers(cams);
     	cameras.start();
     	valves=new Valves();
+    	controller=new ArcadeTranslator(driveTrain, Control.sticks[Control.DRIVE_STICK]);
     }
     
     public void autonomousInit() {

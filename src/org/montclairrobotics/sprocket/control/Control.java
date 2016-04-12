@@ -11,7 +11,7 @@ public class Control {
 
 	public static final double DEAD_ZONE=0.15;
 	
-	private static Joystick[] sticks = {
+	public static Joystick[] sticks = {
 			new Joystick(DRIVE_STICK),
 			new Joystick(SHOOT_STICK)
 	};
