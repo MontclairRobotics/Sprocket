@@ -31,7 +31,7 @@ public class Robot extends IterativeRobot {
     
     
     public void robotInit() {
-    	driveTrain=new DriveTrain(DriveTrain.makeStandardWheels(leftWheels, rightWheels, motorType, leftEncoders, rightEncoders, motorPID));
+    	driveTrain=DriveTrain.makeStandard(leftWheels, rightWheels, motorType, leftEncoders, rightEncoders, motorPID);
     	lock=new GyroLock(driveTrain, drivePID);
     	cameras=new CameraServers(cams);
     	cameras.start();
