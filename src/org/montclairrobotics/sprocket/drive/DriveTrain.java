@@ -46,6 +46,11 @@ public class DriveTrain implements Updatable
 		this.wheels=wheels;
 		Update.add(this);
 	}
+	public void driveTank(double left,double right)
+	{
+		Vector netV=new XY(-1,left).add(new XY(1,right));
+		drive(netV.getY(),netV.getX());
+	}
 	/**
 	 * Used to be setSpeedXY(),
 	 * maintained for reverse compatibility and simplicity
