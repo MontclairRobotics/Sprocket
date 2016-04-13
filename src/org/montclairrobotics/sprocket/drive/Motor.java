@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 
 public class Motor implements Updatable{
 	
-	private Vector goal;
+	private Vector goal,actualVector;
 	private SpeedController motor;
 	private Encoder encoder;
 	private PID pid;
@@ -77,7 +77,16 @@ public class Motor implements Updatable{
 	 */
 	public double calcSpeed(Vector goal)
 	{
-		return goal.getY();
+		actualVector=new XY(0,goal.getY());
+		return actualVector.getY();
+	}
+	public Vector getGoal()
+	{
+		return goal;
+	}
+	public Vector getActual()
+	{
+		return actualVector;
 	}
 	/**
 	 * The automatically called function to update the speed of this wheel
@@ -146,5 +155,8 @@ public class Motor implements Updatable{
 	{
 		if(encoder==null)return;
 		encoder.reset();
+	}
+	public void setActual(Vector actualVector) {
+		this.actualVector = actualVector;
 	}
 }

@@ -54,7 +54,7 @@ public class DriveTrain implements Updatable
 	 */
 	public void driveTank(double left,double right)
 	{
-		Vector netV=new Polar(Math.abs(left),((left>0)?45:135)).add(new Polar(Math.abs(right),((right>0)?-45:-135)));
+		Vector netV=new Polar(Math.abs(left),45).add(new Polar(Math.abs(right),-45));
 		drive(netV.getY(),netV.getX());
 	}
 	/**
@@ -117,21 +117,16 @@ public class DriveTrain implements Updatable
 		driveRotation+=correction;
 	}
 	/**
-	 * Gets the average distance covered by the encoders
-	 * !!!!!! This method will not currently work as required 
-	 * because right and left motors spin in oposite directions, 
-	 * canceling each other out.
+	 * Gets the total distance the robot has traveled
 	 * @return the distance the robot has traveled
 	 */
-	public double getAvgEncoderClicks() {
-		double sum = 0;
-
-		for (int i = 0; i < wheels.length;i++)
+	public Vector getAvgDirectionDistance() {
+		Vector r=new XY(0,0);
+		for(DriveMotor wheel:wheels)
 		{
-			sum+=wheels[i].getDistance();
+			r.add(wheel.getDirectionDistance());
 		}
-		
-		return sum / (wheels.length);
+		return new Polar(r.getMag()/wheels.length,r.getAngle());
 	}
 	/**
 	 * Sets each wheel to the current translation vector and rotation vector,

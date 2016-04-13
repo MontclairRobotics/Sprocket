@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.VictorSP;
 
 /**
@@ -25,9 +26,12 @@ import edu.wpi.first.wpilibj.VictorSP;
 
 public class DriveMotor extends Motor{
 	
+	private static final double WHEEL_CIRCUMFRANCE = 8;//TODO
 	//constants
 	private Vector offset;
 	private Angle forceAngle;
+	private Vector totDistance;
+	private double lastLoops=Timer.getFPGATimestamp();	
 	
 	/**
 	 * Creates a DriveMotor
@@ -58,5 +62,20 @@ public class DriveMotor extends Motor{
 	public void setVelocity(Vector direction,double rotation)
 	{
 		setVelocity(direction.add(offset.getRotationVector(rotation)).rotate(forceAngle.negative()));
-	}	
+	}
+	
+	public void update()
+	{
+		super.update();
+		double loops=Timer.getFPGATimestamp();
+		double diff=loops-lastLoops;
+		lastLoops=loops;
+		
+		Vector actual=super.getActual();
+		totDistance.add(new Polar(super.getRate()*diff*WHEEL_CIRCUMFRANCE/360,actual.getAngle()));
+	}
+	public Vector getDirectionDistance() {
+		// TODO Auto-generated method stub
+		return totDistance;
+	}
 }
