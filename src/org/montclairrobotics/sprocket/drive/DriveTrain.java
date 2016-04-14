@@ -22,10 +22,6 @@ import edu.wpi.first.wpilibj.VictorSP;
  * 
  */
 
-I want to know what happens if I just put this here
-
-
-
 public class DriveTrain implements Updatable
 {
 	public static enum M_TYPE{TALONSRX,VICTORSP,TALON};
