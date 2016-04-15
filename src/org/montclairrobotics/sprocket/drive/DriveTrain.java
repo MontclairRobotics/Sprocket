@@ -59,11 +59,11 @@ public class DriveTrain implements Updatable{
 	public void driveTank(double left,double right,Angle gyroAngle)
 	{
 		Vector netV=new Polar(Math.abs(left),45).makeFractionOfSquare().add(new Polar(Math.abs(right),-45).makeFractionOfSquare());
-		drive(netV.getY(),netV.getX(),gyroAngle);
+		driveSpeedRotation(netV.getY(),netV.getX(),gyroAngle);
 	}
-	public void drive(double speed,double rotation)
+	public void driveSpeedRotation(double speed,double rotation)
 	{
-		drive(speed,rotation,new Degree(0));
+		driveSpeedRotation(speed,rotation,new Degree(0));
 	}
 	/**
 	 * Used to be setSpeedXY(),
@@ -72,7 +72,7 @@ public class DriveTrain implements Updatable{
 	 * @param rotation the rotation
 	 * @param gyroAngle the current heading
 	 */
-	public void drive(double speed, double rotation,Angle gyroAngle)
+	public void driveSpeedRotation(double speed, double rotation,Angle gyroAngle)
 	{
 		drive(new XY(0,speed),rotation,gyroAngle);
 	}
