@@ -176,12 +176,12 @@ public class DriveTrain implements Updatable{
 		int i=0;
 		for(int j=0;j<leftPorts.length;j++)
 		{
-			r[i]=new DriveMotor(Motor.makeMotor(leftPorts[j],type),leftOffset,Motor.makeEncoder(leftEncoders,j),encPID,null);
+			r[i]=new DriveMotor(Motor.makeMotor(leftPorts[j],type),leftOffset,Motor.makeEncoder(leftEncoders,j),encPID,new Degree(0));
 			i++;
 		}
 		for(int j=0;j<rightPorts.length;j++)
 		{
-			r[i]=new DriveMotor(Motor.makeMotor(rightPorts[j],type),rightOffset,Motor.makeEncoder(rightEncoders,j),encPID,null);
+			r[i]=new DriveMotor(Motor.makeMotor(rightPorts[j],type),rightOffset,Motor.makeEncoder(rightEncoders,j),encPID,new Degree(180));
 			i++;
 		}
 		return new DriveTrain(r);
@@ -211,9 +211,9 @@ public class DriveTrain implements Updatable{
 	{
 		DriveMotor[] r= new DriveMotor[4];
 		r[0]=new DriveMotor(Motor.makeMotor(flPort,type),new XY(-1, 1),Motor.makeEncoder(flEncoder),encPID,new Degree( 45));
-		r[1]=new DriveMotor(Motor.makeMotor(frPort,type),new XY( 1, 1),Motor.makeEncoder(frEncoder),encPID,new Degree(-45));
+		r[1]=new DriveMotor(Motor.makeMotor(frPort,type),new XY( 1, 1),Motor.makeEncoder(frEncoder),encPID,new Degree(135));
 		r[2]=new DriveMotor(Motor.makeMotor(blPort,type),new XY(-1,-1),Motor.makeEncoder(blEncoder),encPID,new Degree(-45));
-		r[3]=new DriveMotor(Motor.makeMotor(brPort,type),new XY( 1,-1),Motor.makeEncoder(brEncoder),encPID,new Degree( 45));
+		r[3]=new DriveMotor(Motor.makeMotor(brPort,type),new XY( 1,-1),Motor.makeEncoder(brEncoder),encPID,new Degree(-135));
 		return new DriveTrain(r);
 	}
 	
