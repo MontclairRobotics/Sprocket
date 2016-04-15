@@ -54,7 +54,7 @@ public class Robot extends IterativeRobot {
     }
     
     public void teleopPeriodic() {
-    	driveTrain.drive(Control.getX(Control.DRIVE_STICK),Control.getY(Control.DRIVE_STICK));
+    	driveTrain.driveSpeedRotation(Control.getX(Control.DRIVE_STICK),Control.getY(Control.DRIVE_STICK));
     	lock.setLock(Control.getSlider(Control.DRIVE_STICK)<0.5,Control.getButton(Control.DRIVE_STICK,1));
         Updater.update();
     }
