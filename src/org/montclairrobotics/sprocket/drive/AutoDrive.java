@@ -22,8 +22,8 @@ public class AutoDrive implements Updatable {
 	private Vector velocity;
 	private DriveTrain driveTrain;
 	private Lock lock;
-	private double totDistance;
-	private double speed;
+	private Vector start;
+	private double distance;
 	private boolean done;
 	/**
 	 * Create an instance of this object each time you want to autodrive
@@ -43,7 +43,7 @@ public class AutoDrive implements Updatable {
 		this.lock=l;
 		done=false;
 		
-		totDistance=driveTrain.getAvgEncoderClicks()+distance*((speed>0)?1:-1);
+		start=driveTrain.getAvgDirectionDistance();
 		driveTrain.drive(velocity);
 		lock.setLock(true);
 		Updater.add(this, UpdateClass.Autonomous);
@@ -60,10 +60,10 @@ public class AutoDrive implements Updatable {
 	public void update() {
 		if(done) return;
 		driveTrain.drive(velocity);
-		done=speed>0==driveTrain.getAvgEncoderClicks()>totDistance;
+		done=distance>=start.opposite().add(driveTrain.getAvgDirectionDistance()).rotate(velocity.getAngle().negative()).getY();
 		if(done)
 		{
-			driveTrain.drive(0.0,0.0);
+			driveTrain.driveSpeedRotation(0.0,0.0);
 		}
 	}
 }

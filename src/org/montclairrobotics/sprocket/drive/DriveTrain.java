@@ -1,5 +1,6 @@
 package org.montclairrobotics.sprocket.drive;
 
+import org.montclairrobotics.sprocket.drive.Motor.M_TYPE;
 import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.PID;
@@ -22,9 +23,7 @@ import edu.wpi.first.wpilibj.VictorSP;
  * 
  */
 
-public class DriveTrain implements Updatable
-{
-	public static enum M_TYPE{TALONSRX,VICTORSP,TALON};
+public class DriveTrain implements Updatable{
 	
 	public static final double MIN_SPEED=0.1;
 	public static final double MAX_STRAIGHT_ROTATION=0.1;
@@ -47,25 +46,35 @@ public class DriveTrain implements Updatable
 		this.wheels=wheels;
 		Updater.add(this, UpdateClass.DriveTrain);
 	}
+	public void driveTank(double left,double right)
+	{
+		driveTank(left,right,new Degree(0));
+	}
 	/**
 	 * Drive with a simulated tank drive
 	 * @param left left Joystick
 	 * @param right right Joystick
+	 * @param gyroAngle the current heading
 	 */
-	public void driveTank(double left,double right)
+	public void driveTank(double left,double right,Angle gyroAngle)
 	{
-		Vector netV=new Polar(Math.abs(left),((left>0)?45:135)).add(new Polar(Math.abs(right),((right>0)?-45:-135)));
-		drive(netV.getY(),netV.getX());
+		Vector netV=new Polar(Math.abs(left),45).makeFractionOfSquare().add(new Polar(Math.abs(right),-45).makeFractionOfSquare());
+		driveSpeedRotation(netV.getY(),netV.getX(),gyroAngle);
+	}
+	public void driveSpeedRotation(double speed,double rotation)
+	{
+		driveSpeedRotation(speed,rotation,new Degree(0));
 	}
 	/**
 	 * Used to be setSpeedXY(),
 	 * maintained for reverse compatibility and simplicity
 	 * @param speed the forward speed
 	 * @param rotation the rotation
+	 * @param gyroAngle the current heading
 	 */
-	public void drive(double speed, double rotation)
+	public void driveSpeedRotation(double speed, double rotation,Angle gyroAngle)
 	{
-		drive(new Polar(speed,0),rotation);
+		drive(new XY(0,speed),rotation,gyroAngle);
 	}
 	/**
 	 * Drive in a specific vector without any rotation
@@ -117,21 +126,16 @@ public class DriveTrain implements Updatable
 		driveRotation+=correction;
 	}
 	/**
-	 * Gets the average distance covered by the encoders
-	 * !!!!!! This method will not currently work as required 
-	 * because right and left motors spin in oposite directions, 
-	 * canceling each other out.
+	 * Gets the total distance the robot has traveled
 	 * @return the distance the robot has traveled
 	 */
-	public double getAvgEncoderClicks() {
-		double sum = 0;
-
-		for (int i = 0; i < wheels.length;i++)
+	public Vector getAvgDirectionDistance() {
+		Vector r=new XY(0,0);
+		for(DriveMotor wheel:wheels)
 		{
-			sum+=wheels[i].getDistance();
+			r.add(wheel.getDirectionDistance());
 		}
-		
-		return sum / (wheels.length);
+		return new Polar(r.getMag()/wheels.length,r.getAngle());
 	}
 	/**
 	 * Sets each wheel to the current translation vector and rotation vector,
@@ -172,12 +176,12 @@ public class DriveTrain implements Updatable
 		int i=0;
 		for(int j=0;j<leftPorts.length;j++)
 		{
-			r[i]=new DriveMotor(makeMotor(leftPorts[j],type),leftOffset,makeEncoder(leftEncoders,j),encPID,null);
+			r[i]=new DriveMotor(Motor.makeMotor(leftPorts[j],type),leftOffset,Motor.makeEncoder(leftEncoders,j),encPID,null);
 			i++;
 		}
 		for(int j=0;j<rightPorts.length;j++)
 		{
-			r[i]=new DriveMotor(makeMotor(rightPorts[j],type),rightOffset,makeEncoder(rightEncoders,j),encPID,null);
+			r[i]=new DriveMotor(Motor.makeMotor(rightPorts[j],type),rightOffset,Motor.makeEncoder(rightEncoders,j),encPID,null);
 			i++;
 		}
 		return new DriveTrain(r);
@@ -206,46 +210,13 @@ public class DriveTrain implements Updatable
 			int[] flEncoder,int[] frEncoder,int[] blEncoder,int[] brEncoder,PID encPID)
 	{
 		DriveMotor[] r= new DriveMotor[4];
-		r[0]=new DriveMotor(makeMotor(flPort,type),new XY(-1, 1),makeEncoder(flEncoder),encPID,new Degree( 45));
-		r[1]=new DriveMotor(makeMotor(frPort,type),new XY( 1, 1),makeEncoder(frEncoder),encPID,new Degree(-45));
-		r[2]=new DriveMotor(makeMotor(blPort,type),new XY(-1,-1),makeEncoder(blEncoder),encPID,new Degree(-45));
-		r[3]=new DriveMotor(makeMotor(brPort,type),new XY( 1,-1),makeEncoder(brEncoder),encPID,new Degree( 45));
+		r[0]=new DriveMotor(Motor.makeMotor(flPort,type),new XY(-1, 1),Motor.makeEncoder(flEncoder),encPID,new Degree( 45));
+		r[1]=new DriveMotor(Motor.makeMotor(frPort,type),new XY( 1, 1),Motor.makeEncoder(frEncoder),encPID,new Degree(-45));
+		r[2]=new DriveMotor(Motor.makeMotor(blPort,type),new XY(-1,-1),Motor.makeEncoder(blEncoder),encPID,new Degree(-45));
+		r[3]=new DriveMotor(Motor.makeMotor(brPort,type),new XY( 1,-1),Motor.makeEncoder(brEncoder),encPID,new Degree( 45));
 		return new DriveTrain(r);
 	}
 	
-	/**
-	 * Helper method to create a SpeedController of a given type
-	 * @param port The motor port
-	 * @param type The motor type
-	 * @return The SpeedController
-	 */
-	public static SpeedController makeMotor(int port,M_TYPE type)
-	{
-		switch(type)
-		{
-		case TALONSRX:
-			return new CANTalon(port);
-		case VICTORSP:
-			return new VictorSP(port);
-		case TALON:
-			return new Talon(port);
-		default:
-			return null;
-		}
-	}
-	/**
-	 * Helper method to create an Encoder from a two dimensional array
-	 * @param ports the two dimensional array
-	 * @param i the encoder id
-	 * @return the Encoder
-	 */
-	public static Encoder makeEncoder(int[][] ports,int i)
-	{
-		if(ports==null||ports.length>=i)return null;
-		return makeEncoder(ports[i]);
-	}
-	public static Encoder makeEncoder(int[] ports)
-	{
-		return new Encoder(ports[0],ports[1]);
-	}
+	
+	
 }

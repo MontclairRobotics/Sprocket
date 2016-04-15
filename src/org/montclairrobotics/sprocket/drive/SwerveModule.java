@@ -43,6 +43,7 @@ public class SwerveModule extends DriveMotor{
 	public double calcSpeed(Vector goal)
 	{
 		swivelMotor.setAngle(goal.getAngle());
+		setActual(goal);
 		return goal.getMag();
 	}
 	

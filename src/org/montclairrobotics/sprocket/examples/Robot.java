@@ -3,7 +3,7 @@ package org.montclairrobotics.sprocket.examples;
 
 import org.montclairrobotics.sprocket.control.ArcadeTranslator;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
-import org.montclairrobotics.sprocket.drive.DriveTrain.M_TYPE;
+import org.montclairrobotics.sprocket.drive.Motor.M_TYPE;
 import org.montclairrobotics.sprocket.drive.Lock;
 import org.montclairrobotics.sprocket.utils.CameraServers;
 import org.montclairrobotics.sprocket.utils.PID;
@@ -54,7 +54,7 @@ public class Robot extends IterativeRobot {
     }
     
     public void teleopPeriodic() {
-    	driveTrain.drive(Control.getX(Control.DRIVE_STICK),Control.getY(Control.DRIVE_STICK));
+    	driveTrain.driveSpeedRotation(Control.getX(Control.DRIVE_STICK),Control.getY(Control.DRIVE_STICK));
     	lock.setLock(Control.getSlider(Control.DRIVE_STICK)<0.5,Control.getButton(Control.DRIVE_STICK,1));
         Updater.update();
     }

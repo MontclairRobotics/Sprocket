@@ -21,7 +21,6 @@ public class PIDtuner extends PID{
 	private double oStep;
 	private double noiseBand;
 	private double[] lastInputs;
-	private int nLookBack=0;
 	private double peak2=0.0;
 	private double peak1=0.0;
 	private double[] peaks=new double[MAX_OSCILLATIONS];

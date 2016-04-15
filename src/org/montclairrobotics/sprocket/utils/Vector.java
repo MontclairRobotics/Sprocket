@@ -31,4 +31,17 @@ public abstract class Vector {
 	{
 		return new Polar(this.getMag(),this.getAngle().add(a));
 	}
+	public Vector makeFractionOfSquare()
+	{
+		double rad=getAngle().toRadians();
+		double cos=Math.cos(rad),sin=Math.sin(rad);
+		if(Math.abs(cos)>Math.abs(sin))
+		{
+			return new Polar(getMag()/cos,getAngle());
+		}
+		else
+		{
+			return new Polar(getMag()/sin,getAngle());
+		}
+	}
 }
