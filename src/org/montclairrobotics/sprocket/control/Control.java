@@ -32,6 +32,11 @@ public class Control {
 		return sticks[joystick].getZ();
 	}
 	
+	public static Joystick getJoystick(int joystick)
+	{
+		return sticks[joystick];
+	}
+	
 	public static double getSlider(int joystick)
 	{
 		return sticks[joystick].getThrottle();

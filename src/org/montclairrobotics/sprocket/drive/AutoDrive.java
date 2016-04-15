@@ -63,7 +63,7 @@ public class AutoDrive implements Updatable {
 		done=distance>=start.opposite().add(driveTrain.getAvgDirectionDistance()).rotate(velocity.getAngle().negative()).getY();
 		if(done)
 		{
-			driveTrain.drive(0.0,0.0);
+			driveTrain.driveSpeedRotation(0.0,0.0);
 		}
 	}
 }

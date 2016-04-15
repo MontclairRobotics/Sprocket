@@ -44,7 +44,7 @@ public class AutoTurn implements Updatable {
 
 	public void update() {
 		if(done)return;
-		driveTrain.drive(0,0);
+		driveTrain.driveSpeedRotation(0,0);
 		lock.setLock(true);
 		done=Math.abs((((lock.getCurVal()-degreesTgt)+180)%360+360)%360)<MAX_ERROR;
 		if(done)
