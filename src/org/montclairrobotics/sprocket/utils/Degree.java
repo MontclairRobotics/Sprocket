@@ -3,6 +3,8 @@ package org.montclairrobotics.sprocket.utils;
 public class Degree extends Angle{
 
 	private double degrees;
+	private double radians;
+	private boolean calcRad=false;
 	
 	public Degree(double d)
 	{
@@ -10,7 +12,12 @@ public class Degree extends Angle{
 	}
 	
 	public double toRadians() {
-		return Math.toRadians(degrees);
+		if(!calcRad)
+		{
+			radians=Math.toRadians(degrees);
+			calcRad=true;
+		}
+		return radians;
 	}
 
 	public double toDegrees() {

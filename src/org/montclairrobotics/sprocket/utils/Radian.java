@@ -4,6 +4,8 @@ public class Radian extends Angle{
 
 	public static final double RAD_IN_180=Math.toRadians(180);
 	private double radians;
+	private double degrees;
+	private boolean calcDeg=false;
 	
 	public Radian(double r)
 	{
@@ -15,7 +17,12 @@ public class Radian extends Angle{
 	}
 
 	public double toDegrees() {
-		return Math.toDegrees(radians);
+		if(!calcDeg)
+		{
+			degrees=Math.toDegrees(radians);
+			calcDeg=true;
+		}
+		return degrees;
 	}
 
 	public Angle add(Angle a)
