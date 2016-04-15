@@ -36,15 +36,16 @@ public class SwerveModule extends DriveMotor{
 		super(motor, offset, encoder, encPID, forceAngle);
 		this.swivelMotor=swivelMotor;
 	}
-	
 	/**
 	 * The method to set the speed to the swivel motor and the DriveMotor
 	 */
-	public double calcSpeed(Vector goal)
+	public void setVelocity(Vector v)
 	{
-		swivelMotor.setAngle(goal.getAngle());
-		setActual(goal);
-		return goal.getMag();
+		super.setVelocity(v);
+		swivelMotor.setAngle(v.getAngle().add(getForceAngle()));
 	}
-	
+	public Angle getForceAngle()
+	{
+		return swivelMotor.getAngle();
+	}
 }

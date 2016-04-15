@@ -27,7 +27,7 @@ public class Motor implements Updatable{
 	
 	public static enum M_TYPE{TALONSRX,VICTORSP,TALON};
 	
-	private Vector goal,actualVector;
+	private double goal;
 	private SpeedController motor;
 	private Encoder encoder;
 	private PID pid;
@@ -57,40 +57,18 @@ public class Motor implements Updatable{
 		this.pid.setMinMaxInOut(0, 0, -1, 1);
 		Updater.add(this, UpdateClass.MotorController);
 	}
+
 	/**
-	 * Sets the speed (not directly)
+	 * Sets the speed
 	 * @param spd The speed to spin at
 	 */
 	public void setSpeed(double spd)
 	{
-		setVelocity(new XY(spd,0));
+		goal=spd;
 	}
-	/**
-	 * Sets the velocity vector of this wheel with no rotation
-	 * @param v The velocity Vector of the robot
-	 */
-	public void setVelocity(Vector v)
-	{
-		goal=v;
-	}
-	/**
-	 * Calculates the speed of this wheel
-	 * Overload this method for more complicated driveTrains
-	 * @param goal The goal velocity vector for this wheel
-	 * @return the speed as a double of this wheel
-	 */
-	public double calcSpeed(Vector goal)
-	{
-		actualVector=new XY(0,goal.getY());
-		return actualVector.getY();
-	}
-	public Vector getGoal()
+	public double calcSpeed()
 	{
 		return goal;
-	}
-	public Vector getActual()
-	{
-		return actualVector;
 	}
 	/**
 	 * The automatically called function to update the speed of this wheel
@@ -98,7 +76,7 @@ public class Motor implements Updatable{
 	 */
 	public void update()
 	{
-		double tgtSpeed=calcSpeed(goal);
+		double tgtSpeed=calcSpeed();
 		double speed=0;
 		if(shutdown)
 		{
@@ -160,10 +138,6 @@ public class Motor implements Updatable{
 		if(encoder==null)return;
 		encoder.reset();
 	}
-	public void setActual(Vector actualVector) {
-		this.actualVector = actualVector;
-	}
-	
 	/**
 	 * Helper method to create a SpeedController of a given type
 	 * @param port The motor port

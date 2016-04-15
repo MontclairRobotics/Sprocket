@@ -44,6 +44,10 @@ public class SwivelMotor extends Motor{
 	{
 		this.tgtAngle=a;
 	}
+	public Angle getAngle()
+	{
+		return new Degree(encoder.getDistance());
+	}
 	public double calcSpeed()
 	{
 		pid.setTarget(tgtAngle.toDegrees(),false);
