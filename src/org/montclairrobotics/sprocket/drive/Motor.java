@@ -13,6 +13,8 @@ import org.montclairrobotics.sprocket.utils.XY;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 
 /**
@@ -22,6 +24,8 @@ import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
  */
 
 public class Motor implements Updatable{
+	
+	public static enum M_TYPE{TALONSRX,VICTORSP,TALON};
 	
 	private Vector goal,actualVector;
 	private SpeedController motor;
@@ -158,5 +162,42 @@ public class Motor implements Updatable{
 	}
 	public void setActual(Vector actualVector) {
 		this.actualVector = actualVector;
+	}
+	
+	/**
+	 * Helper method to create a SpeedController of a given type
+	 * @param port The motor port
+	 * @param type The motor type
+	 * @return The SpeedController
+	 */
+	public static SpeedController makeMotor(int port,M_TYPE type)
+	{
+		switch(type)
+		{
+		case TALONSRX:
+			return new CANTalon(port);
+		case VICTORSP:
+			return new VictorSP(port);
+		case TALON:
+			return new Talon(port);
+		default:
+			return null;
+		}
+	}
+	
+	/**
+	 * Helper method to create an Encoder from a two dimensional array
+	 * @param ports the two dimensional array
+	 * @param i the encoder id
+	 * @return the Encoder
+	 */
+	public static Encoder makeEncoder(int[][] ports,int i)
+	{
+		if(ports==null||ports.length>=i)return null;
+		return makeEncoder(ports[i]);
+	}
+	public static Encoder makeEncoder(int[] ports)
+	{
+		return new Encoder(ports[0],ports[1]);
 	}
 }
