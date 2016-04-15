@@ -15,6 +15,7 @@ public class PID implements Updatable{
 
 	private double P,I,D,minIn,maxIn,minOut,maxOut;
 	
+	private boolean calculated=false;
 	private double in,out;
 	private double target;
 	private double totalError, prevError, error;
@@ -112,6 +113,8 @@ public class PID implements Updatable{
 	public void in(double val)
 	{
 		in=val;
+		calculate();
+		calculated=true;
 	}
 
 	/**
@@ -121,6 +124,12 @@ public class PID implements Updatable{
 	public double out()
 	{
 		return out;
+	}
+	
+	private void calculate()
+	{
+		if(calculated)return;
+		out=calculate(in);
 	}
 	
 	private double calculate(double val)
@@ -164,7 +173,8 @@ public class PID implements Updatable{
 
 	public void update()
 	{
-		out=calculate(in);
+		calculate();
+		calculated=false;
 	}
 	
 	public double getIn()

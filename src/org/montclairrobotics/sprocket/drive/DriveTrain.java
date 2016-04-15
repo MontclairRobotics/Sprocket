@@ -40,7 +40,7 @@ public class DriveTrain implements Updatable{
 	 * Creates a DriveTrain with a list of wheels.
 	 * Each wheel knows where it is on the robot.
 	 * @param wheels a list of DriveMotors
-	 * @see makeStandardWheels
+	 * @see makeStandard
 	 */
 	public DriveTrain(DriveMotor[] wheels){
 		this.wheels=wheels;
