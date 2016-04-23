@@ -2,6 +2,7 @@ package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Degree;
+import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Polar;
 import org.montclairrobotics.sprocket.utils.Updatable;
@@ -26,20 +27,19 @@ import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 public class Motor implements Updatable{
 	
 	public static enum M_TYPE{TALONSRX,VICTORSP,TALON};
+
+	private static final double DEGREES_PER_SECOND_MAX_SPEED = 180;
 	
 	private double goal;
 	private SpeedController motor;
 	private Encoder encoder;
 	private PID pid;
 	private static boolean shutdown=false;
-	
-	public Motor(SpeedController motor){this(motor,null,null);}
-	public Motor(SpeedController motor,Encoder encoder){this(motor,encoder,null);}
 	/**
 	 * Creates a motor with an encoder and pid controller
 	 * @param motor The SpeedController to use
 	 */
-	public Motor(SpeedController motor,Encoder encoder,PID encPID)
+	public Motor(SpeedController motor)
 	{
 		this.motor=motor;
 		if(motor instanceof CANTalon)
@@ -56,13 +56,28 @@ public class Motor implements Updatable{
 	public Motor setEncoder(Encoder e)
 	{
 		this.encoder=e;
+		if(pid!=null)pid.setInput(new EncoderRate(encoder));
 		return this;
 	}
 	
 	public Motor setPID(PID a)
 	{
-		this.pid=a.copy().setMinMax(0, 0, -1, 1);
+		this.pid=a.copy().setInput(new EncoderRate(encoder)).setMinMax(0, 0, -1, 1);
 		return this;
+	}
+	
+	public static class EncoderRate implements Input
+	{
+		private Encoder enc;
+		public EncoderRate(Encoder enc)
+		{
+			this.enc=enc;
+		}
+		public double getInput()
+		{
+			if(enc==null)return 0.0;
+			return enc.getRate();
+		}
 	}
 	
 	/**
@@ -98,9 +113,8 @@ public class Motor implements Updatable{
 		}
 		else
 		{
-			pid.setTarget(tgtSpeed,false);
-			pid.in(encoder.getRate());
-			speed=pid.out();//tgtSpeed*(1+pid.out());
+			pid.setTarget(tgtSpeed*DEGREES_PER_SECOND_MAX_SPEED);
+			speed=pid.get();//tgtSpeed*(1+pid.out());
 		}
 		motor.set(speed);
 	}

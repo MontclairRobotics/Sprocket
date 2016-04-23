@@ -27,10 +27,8 @@ public class PIDtuner extends PID{
 	private double Ku=0.0;
 	private double Pu=0.0;
 	
-	public PIDtuner(double P, double I, double D, double minIn, double maxIn,
-			double minOut, double maxOut,
-			double noiseBand,double outputChange,int samplingTime) {
-		super(P, I, D, minIn, maxIn, minOut, maxOut);
+	public PIDtuner(double noiseBand,double outputChange,int samplingTime) {
+		super();
 		
 		this.noiseBand = noiseBand;
 		this.oStep = outputChange;
@@ -47,7 +45,7 @@ public class PIDtuner extends PID{
 		loops=(int)(Timer.getFPGATimestamp()*1000);
 		if((loops-lastLoops)<sampleTime) return;
 		lastLoops = loops;
-		double refVal = getIn();
+		double refVal = getInput();
 		if(!on)
 		{ //initialize working variables the first time around
 			peakType = PeakTypes.FIRST;

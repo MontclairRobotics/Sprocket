@@ -2,6 +2,7 @@ package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Degree;
+import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Updatable;
 import org.montclairrobotics.sprocket.utils.UpdateClass;
@@ -28,17 +29,8 @@ public class SwivelMotor extends Motor{
 	{
 		super(motor);
 		this.encoder=encoder;
-		this.pid.setMinMaxInOut(-180, 180, -1, 1);
-		if(motor instanceof CANTalon)
-		{
-			CANTalon talon = (CANTalon)motor;
-			talon.setControlMode(TalonControlMode.PercentVbus.value);
-			talon.reset();
-			talon.enable();
-			talon.enableControl();
-		}
+		this.pid.setInput(new EncoderDistance(encoder)).setMinMax(-180, 180, -1, 1);
 		tgtAngle=new Degree(0);
-		Updater.add(this, UpdateClass.MotorController);
 	}
 	public void setAngle(Angle a)
 	{
@@ -51,7 +43,19 @@ public class SwivelMotor extends Motor{
 	public double calcSpeed()
 	{
 		pid.setTarget(tgtAngle.toDegrees(),false);
-		pid.in(encoder.getDistance());
-		return pid.out();
+		return pid.get();
+	}
+	public static class EncoderDistance implements Input
+	{
+		private Encoder enc;
+		public EncoderDistance(Encoder enc)
+		{
+			this.enc=enc;
+		}
+		public double getInput()
+		{
+			if(enc==null)return 0.0;
+			return enc.getDistance();
+		}
 	}
 }

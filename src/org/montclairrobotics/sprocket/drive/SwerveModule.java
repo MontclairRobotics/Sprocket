@@ -31,9 +31,8 @@ public class SwerveModule extends DriveMotor{
 	 * Use this as + or - 45 for Mecanum Wheels or the angle for Kiwi wheels
 	 * @see DriveMotor
 	 */
-	public SwerveModule(SpeedController motor, SwivelMotor swivelMotor,Vector offset, Encoder encoder,
-			PID encPID, Angle forceAngle) {
-		super(motor, offset, encoder, encPID, forceAngle);
+	public SwerveModule(SpeedController motor, SwivelMotor swivelMotor,Vector offset, Angle forceAngle) {
+		super(motor, offset, forceAngle);
 		this.swivelMotor=swivelMotor;
 	}
 	/**

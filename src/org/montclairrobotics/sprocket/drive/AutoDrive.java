@@ -21,7 +21,6 @@ public class AutoDrive implements Updatable {
 	
 	private Vector velocity;
 	private DriveTrain driveTrain;
-	private Lock lock;
 	private Vector start;
 	private double distance;
 	private boolean done;
@@ -32,20 +31,18 @@ public class AutoDrive implements Updatable {
 	 * @param dt the DriveTrain to drive with
 	 * @param l the Lock to steer with
 	 */
-	public AutoDrive(Distance distance,Vector velocity,DriveTrain dt,Lock l)
+	public AutoDrive(Distance distance,Vector velocity,DriveTrain dt)
 	{
-		this(distance.getDistance(),velocity,dt,l);
+		this(distance.getDistance(),velocity,dt);
 	}
-	public AutoDrive(double distance,Vector velocity,DriveTrain dt,Lock l)
+	public AutoDrive(double distance,Vector velocity,DriveTrain dt)
 	{
 		this.velocity=velocity;
 		this.driveTrain=dt;
-		this.lock=l;
 		done=false;
 		
 		start=driveTrain.getAvgDirectionDistance();
 		driveTrain.drive(velocity);
-		lock.setLock(true);
 		Updater.add(this, UpdateClass.Autonomous);
 	}
 	/**

@@ -13,10 +13,11 @@ package org.montclairrobotics.sprocket.utils;
 
 public class PID implements Updatable{
 
+	private Input input;
 	private double P,I,D,minIn,maxIn,minOut,maxOut;
 	
 	private boolean calculated=false;
-	private double in,out;
+	private double out;
 	private double target;
 	private double totalError, prevError, error;
 	/**
@@ -30,12 +31,12 @@ public class PID implements Updatable{
 	 * @param minOut OPTIONAL the minimum output to constrain to, or 0 to ignore
 	 * @param maxOut OPTIONAL the maximum output to constrain to, or 0 to ignore
 	 */
-	public PID(double P,double I,double D)
+	public PID()
 	{
-		
-		this.P=P;
-		this.I=I;
-		this.D=D;
+		this.input=null;
+		this.P=0.0;
+		this.I=0.0;
+		this.D=0.0;
 		this.minOut=0.0;
 		this.maxOut=0.0;
 		this.minIn=0.0;
@@ -43,7 +44,11 @@ public class PID implements Updatable{
 		setTarget();
 		Updater.add(this, UpdateClass.ControlTranslator);
 	}
-
+	public PID setInput(Input i)
+	{
+		this.input=i;
+		return this;
+	}
 	public PID setPID(double P, double I, double D){
 		this.P=P;
 		this.I=I;
@@ -64,23 +69,23 @@ public class PID implements Updatable{
 	 */
 	public PID copy()
 	{
-		return new PID(P,I,D).setMinMax(minIn,maxIn,minOut,maxOut);
+		return new PID().setInput(input).setPID(P,I,D).setMinMax(minIn,maxIn,minOut,maxOut);
 	}
 	
-	public void setTarget()
+	public PID setTarget()
 	{
-		setTarget(0.0,true);
+		return setTarget(0.0,false);
 	}
-	public void setTarget(double t)
+	public PID setTarget(double t)
 	{
-		setTarget(t,true);
+		return setTarget(t,false);
 	}
 	/**
 	 * Sets the setpoint
 	 * @param t the target/setpoint
 	 * @param reset true if the PID should reset, false otherwise
 	 */
-	public void setTarget(double t,boolean reset)
+	public PID setTarget(double t,boolean reset)
 	{
 		target=t;
 		if(reset)
@@ -89,32 +94,24 @@ public class PID implements Updatable{
 			prevError=0.0;
 			totalError=0.0;
 		}
-	}
-	
-	/**
-	 * Set the input value (do this once per loop)
-	 * @param val the input value
-	 */
-	public void in(double val)
-	{
-		in=val;
-		calculate();
-		calculated=true;
+		return this;
 	}
 
 	/**
 	 * Get the output value
 	 * @return the output
 	 */
-	public double out()
+	public double get()
 	{
+		runCalculate();
 		return out;
 	}
 	
-	private void calculate()
+	private void runCalculate()
 	{
-		if(calculated)return;
-		out=calculate(in);
+		if(calculated||input==null)return;
+		out=calculate(input.getInput());
+		calculated=true;
 	}
 	
 	private double calculate(double val)
@@ -152,22 +149,23 @@ public class PID implements Updatable{
 		}
 		return out;
 	}
+	
+	public void setOut(double out)
+	{
+		this.out=out;
+	}
+	
+	public double getInput()
+	{
+		return input.getInput();
+	}
 	public double getError(){
 		return error;
 	}
 
 	public void update()
 	{
-		calculate();
+		runCalculate();
 		calculated=false;
-	}
-	
-	public double getIn()
-	{
-		return in;
-	}
-	public void setOut(double val)
-	{
-		out=val;
 	}
 }
