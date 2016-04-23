@@ -38,8 +38,6 @@ public class Motor implements Updatable{
 	/**
 	 * Creates a motor with an encoder and pid controller
 	 * @param motor The SpeedController to use
-	 * @param encoder The Encoder to use
-	 * @param encPID The PID values to use (will be copied, can use one PID instance with multiple motors)
 	 */
 	public Motor(SpeedController motor,Encoder encoder,PID encPID)
 	{
@@ -52,12 +50,21 @@ public class Motor implements Updatable{
 			talon.enable();
 			talon.enableControl();
 		}
-		this.encoder=encoder;
-		this.pid=encPID.copy();
-		this.pid.setMinMaxInOut(0, 0, -1, 1);
 		Updater.add(this, UpdateClass.MotorController);
 	}
 
+	public Motor setEncoder(Encoder e)
+	{
+		this.encoder=e;
+		return this;
+	}
+	
+	public Motor setPID(PID a)
+	{
+		this.pid=a.copy().setMinMax(0, 0, -1, 1);
+		return this;
+	}
+	
 	/**
 	 * Sets the speed
 	 * @param spd The speed to spin at

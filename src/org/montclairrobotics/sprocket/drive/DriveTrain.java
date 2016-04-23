@@ -46,36 +46,21 @@ public class DriveTrain implements Updatable{
 		this.wheels=wheels;
 		Updater.add(this, UpdateClass.DriveTrain);
 	}
-	public void driveTank(double left,double right)
-	{
-		driveTank(left,right,new Degree(0));
-	}
+	
 	/**
-	 * Drive with a simulated tank drive
-	 * @param left left Joystick
-	 * @param right right Joystick
-	 * @param gyroAngle the current heading
+	 * Sets each wheel to the current translation vector and rotation vector,
+	 * leaving the wheels to figure out how fast to spin.
 	 */
-	public void driveTank(double left,double right,Angle gyroAngle)
+	public void update()
 	{
-		Vector netV=new Polar(Math.abs(left),45).makeFractionOfSquare().add(new Polar(Math.abs(right),-45).makeFractionOfSquare());
-		driveSpeedRotation(netV.getY(),netV.getX(),gyroAngle);
+		for(DriveMotor wheel:wheels)
+		{
+			wheel.setVelocity(driveVector,driveRotation);
+		}
 	}
-	public void driveSpeedRotation(double speed,double rotation)
-	{
-		driveSpeedRotation(speed,rotation,new Degree(0));
-	}
-	/**
-	 * Used to be setSpeedXY(),
-	 * maintained for reverse compatibility and simplicity
-	 * @param speed the forward speed
-	 * @param rotation the rotation
-	 * @param gyroAngle the current heading
-	 */
-	public void driveSpeedRotation(double speed, double rotation,Angle gyroAngle)
-	{
-		drive(new XY(0,speed),rotation,gyroAngle);
-	}
+	
+	/**DRIVE METHODS**/
+	
 	/**
 	 * Drive in a specific vector without any rotation
 	 * Robot-centric
@@ -107,6 +92,43 @@ public class DriveTrain implements Updatable{
 		this.driveVector=new Polar(direction.getMag(),gyroAngle.subtract(direction.getAngle()).negative());
 		this.driveRotation=rotation;
 	}
+	
+	
+	/**DRIVE HELPER METHODS**/
+	
+	public void driveTank(double left,double right)
+	{
+		driveTank(left,right,new Degree(0));
+	}
+	/**
+	 * Drive with a simulated tank drive
+	 * @param left left Joystick
+	 * @param right right Joystick
+	 * @param gyroAngle the current heading
+	 */
+	public void driveTank(double left,double right,Angle gyroAngle)
+	{
+		Vector netV=new Polar(Math.abs(left),45).makeFractionOfSquare().add(new Polar(Math.abs(right),-45).makeFractionOfSquare());
+		driveSpeedRotation(netV.getY(),netV.getX(),gyroAngle);
+	}
+	public void driveSpeedRotation(double speed,double rotation)
+	{
+		driveSpeedRotation(speed,rotation,new Degree(0));
+	}
+	/**
+	 * Used to be setSpeedXY(),
+	 * maintained for reverse compatibility and simplicity
+	 * @param speed the forward speed
+	 * @param rotation the rotation
+	 * @param gyroAngle the current heading
+	 */
+	public void driveSpeedRotation(double speed, double rotation,Angle gyroAngle)
+	{
+		drive(new XY(0,speed),rotation,gyroAngle);
+	}
+	
+	/**OTHER METHODS**/
+	
 	/**
 	 * Is the robot driving straight?
 	 * Used to enable AutoLock
@@ -137,17 +159,7 @@ public class DriveTrain implements Updatable{
 		}
 		return new Polar(r.getMag()/wheels.length,r.getAngle());
 	}
-	/**
-	 * Sets each wheel to the current translation vector and rotation vector,
-	 * leaving the wheels to figure out how fast to spin.
-	 */
-	public void update()
-	{
-		for(DriveMotor wheel:wheels)
-		{
-			wheel.setVelocity(driveVector,driveRotation);
-		}
-	}
+	
 	
 	
 	//STATIC METHODS
@@ -176,12 +188,12 @@ public class DriveTrain implements Updatable{
 		int i=0;
 		for(int j=0;j<leftPorts.length;j++)
 		{
-			r[i]=new DriveMotor(Motor.makeMotor(leftPorts[j],type),leftOffset,Motor.makeEncoder(leftEncoders,j),encPID,new Degree(0));
+			r[i]=new DriveMotor(Motor.makeMotor(leftPorts[j],type),leftOffset,new Degree(0)).setEncoder(Motor.makeEncoder(leftEncoders,j)).setPID(encPID);
 			i++;
 		}
 		for(int j=0;j<rightPorts.length;j++)
 		{
-			r[i]=new DriveMotor(Motor.makeMotor(rightPorts[j],type),rightOffset,Motor.makeEncoder(rightEncoders,j),encPID,new Degree(180));
+			r[i]=new DriveMotor(Motor.makeMotor(rightPorts[j],type),rightOffset,new Degree(180)).setEncoder(Motor.makeEncoder(rightEncoders,j)).setPID(encPID);
 			i++;
 		}
 		return new DriveTrain(r);

@@ -19,24 +19,6 @@ public class PID implements Updatable{
 	private double in,out;
 	private double target;
 	private double totalError, prevError, error;
-
-	public PID(double P,double I,double D)
-	{
-		this(P,I,D,0,0);
-	}
-	
-	/**
-	 * @param P the Propotional Constant
-	 * @param I the Integral Constant
-	 * @param D the Derivitive Constant
-	 * @param minIn OPTIONAL the minimum input, or 0 to ignore. Use with maxIn to "wrap" the values, 
-	 * eg. so the error between 5 degrees and 355 degrees is 10 degrees
-	 * @param maxIn OPTIONAL the maximum input, or 0 to ignore
-	 */
-	public PID(double P,double I,double D,double minIn,double maxIn)
-	{
-		this(P,I,D,minIn,maxIn,0,0);
-	}
 	/**
 	 * 
 	 * @param P the Propotional Constant
@@ -48,30 +30,33 @@ public class PID implements Updatable{
 	 * @param minOut OPTIONAL the minimum output to constrain to, or 0 to ignore
 	 * @param maxOut OPTIONAL the maximum output to constrain to, or 0 to ignore
 	 */
-	public PID(double P,double I,double D, double minIn, double maxIn, double minOut, double maxOut)
+	public PID(double P,double I,double D)
 	{
+		
 		this.P=P;
 		this.I=I;
 		this.D=D;
-		this.minOut=minOut;
-		this.maxOut=maxOut;
-		this.minIn=minIn;
-		this.maxIn=maxIn;
+		this.minOut=0.0;
+		this.maxOut=0.0;
+		this.minIn=0.0;
+		this.maxIn=0.0;
 		setTarget();
 		Updater.add(this, UpdateClass.ControlTranslator);
 	}
 
-	public void setPID(double P, double I, double D){
+	public PID setPID(double P, double I, double D){
 		this.P=P;
 		this.I=I;
 		this.D=D;
+		return this;
 	}
-	public void setMinMaxInOut(double minIn, double maxIn, double minOut, double maxOut)
+	public PID setMinMax(double minIn, double maxIn, double minOut, double maxOut)
 	{
 		this.minOut=minOut;
 		this.maxOut=maxOut;
 		this.minIn=minIn;
 		this.maxIn=maxIn;
+		return this;
 	}
 	/**
 	 * Copy constructor so you can copy PID controllers
@@ -79,7 +64,7 @@ public class PID implements Updatable{
 	 */
 	public PID copy()
 	{
-		return new PID(P,I,D,minIn,maxIn,minOut,maxOut);
+		return new PID(P,I,D).setMinMax(minIn,maxIn,minOut,maxOut);
 	}
 	
 	public void setTarget()

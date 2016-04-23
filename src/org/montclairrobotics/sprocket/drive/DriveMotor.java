@@ -47,14 +47,22 @@ public class DriveMotor extends Motor{
 	 * @param forceAngle OPTIONAL The Angle describing the force when this wheel turns
 	 * Use this as + or - 45 for Mecanum Wheels or the angle for Kiwi wheels
 	 */
-	public DriveMotor(SpeedController motor,Vector offset,Encoder encoder,PID encPID,Angle forceAngle)
+	public DriveMotor(SpeedController motor,Vector offset,Angle forceAngle)
 	{
-		super(motor, encoder, encPID);
+		super(motor);
 		this.offset=offset;
 		this.forceAngle=forceAngle;
 		if(forceAngle==null)
 			this.forceAngle=new Degree(0);
 		Updater.add(this, UpdateClass.MotorController);
+	}
+	public DriveMotor setEncoder(Encoder e)
+	{
+		return (DriveMotor)super.setEncoder(e);
+	}
+	public DriveMotor setPID(PID a)
+	{
+		return (DriveMotor)super.setPID(a);
 	}
 	/**
 	 * Sets the velocity Vector of the robot with a rotation value
