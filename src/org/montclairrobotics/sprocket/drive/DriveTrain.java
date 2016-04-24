@@ -3,6 +3,7 @@ package org.montclairrobotics.sprocket.drive;
 import org.montclairrobotics.sprocket.drive.Motor.M_TYPE;
 import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Degree;
+import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Polar;
 import org.montclairrobotics.sprocket.utils.Updatable;
@@ -25,57 +26,50 @@ import edu.wpi.first.wpilibj.VictorSP;
 
 public class DriveTrain implements Updatable{
 	
+	public static final double DEGREES_PER_LOOP=90;
 	public static final double MIN_SPEED=0.1;
 	public static final double MAX_STRAIGHT_ROTATION=0.1;
 	public static final double ROT_FACTOR=0.75;
 	
 	//constants
-	protected DriveMotor[] wheels;
+	private DriveMotor[] wheels;
+	private PID lockPID;
 	
 	//variables
-	protected static boolean shutdown = false;
+	private static boolean shutdown = false;
 	private Vector driveVector;
 	private double driveRotation;
 	/**
 	 * Creates a DriveTrain with a list of wheels.
 	 * Each wheel knows where it is on the robot.
 	 * @param wheels a list of DriveMotors
-	 * @see makeStandardWheels
+	 * @see makeStandard
 	 */
 	public DriveTrain(DriveMotor[] wheels){
 		this.wheels=wheels;
 		Updater.add(this, UpdateClass.DriveTrain);
 	}
-	public void driveTank(double left,double right)
+	public DriveTrain setLockPID(PID pid)
 	{
-		driveTank(left,right,new Degree(0));
+		this.lockPID=pid.setMinMax(-180,180,-1,1);
+		return this;
 	}
+	
 	/**
-	 * Drive with a simulated tank drive
-	 * @param left left Joystick
-	 * @param right right Joystick
-	 * @param gyroAngle the current heading
+	 * Sets each wheel to the current translation vector and rotation vector,
+	 * leaving the wheels to figure out how fast to spin.
 	 */
-	public void driveTank(double left,double right,Angle gyroAngle)
+	public void update()
 	{
-		Vector netV=new Polar(Math.abs(left),45).makeFractionOfSquare().add(new Polar(Math.abs(right),-45).makeFractionOfSquare());
-		driveSpeedRotation(netV.getY(),netV.getX(),gyroAngle);
+		correct();
+		for(DriveMotor wheel:wheels)
+		{
+			wheel.setVelocity(driveVector,driveRotation);
+		}
 	}
-	public void driveSpeedRotation(double speed,double rotation)
-	{
-		driveSpeedRotation(speed,rotation,new Degree(0));
-	}
-	/**
-	 * Used to be setSpeedXY(),
-	 * maintained for reverse compatibility and simplicity
-	 * @param speed the forward speed
-	 * @param rotation the rotation
-	 * @param gyroAngle the current heading
-	 */
-	public void driveSpeedRotation(double speed, double rotation,Angle gyroAngle)
-	{
-		drive(new XY(0,speed),rotation,gyroAngle);
-	}
+	
+	/**DRIVE METHODS**/
+	
 	/**
 	 * Drive in a specific vector without any rotation
 	 * Robot-centric
@@ -93,20 +87,62 @@ public class DriveTrain implements Updatable{
 	 */
 	public void drive(Vector direction,double rotation)
 	{
-		drive(direction,rotation,new Degree(0));
-	}
-	/**
-	 * Drive in a specific vector with rotation
-	 * Field-centric
-	 * @param direction The direction to translate along
-	 * @param rotation A value from [-1,1] to rotate
-	 * @param gyroAngle The current heading from a gyroscope
-	 */
-	public void drive(Vector direction,double rotation,Angle gyroAngle)
-	{
-		this.driveVector=new Polar(direction.getMag(),gyroAngle.subtract(direction.getAngle()).negative());
+		this.driveVector=direction;
 		this.driveRotation=rotation;
 	}
+	
+	public void correct()
+	{
+		if(lockPID==null) return;
+		driveRotation=lockPID.setTarget(lockPID.getInput()+driveRotation*DEGREES_PER_LOOP).get();
+	}
+	
+	public Angle getHeading()
+	{
+		if(lockPID==null)return null;
+		return new Degree(lockPID.getInput());
+	}
+	
+	/**DRIVE HELPER METHODS**/
+	
+	/**
+	 * Drive with a simulated tank drive
+	 * @param left left Joystick
+	 * @param right right Joystick
+	 * @param gyroAngle the current heading
+	 */
+	public void driveTank(double left,double right)
+	{
+		Vector netV=new Polar(Math.abs(left),45).makeFractionOfSquare().add(new Polar(Math.abs(right),-45).makeFractionOfSquare());
+		driveSpeedRotation(netV.getY(),netV.getX());
+	}
+	/**
+	 * Drive with a Speed And Rotation
+	 * May input the joystick x and y values respectively
+	 * @param speed Joystick Y
+	 * @param rotation Joystick X
+	 */
+	public void driveSpeedRotation(double speed,double rotation)
+	{
+		drive(new XY(0,speed),rotation);
+	}
+	
+	/**OTHER METHODS**/
+	public Angle rotateTo(Angle target)
+	{
+		return rotateTo(target,true);
+	}
+	public Angle rotateTo(Angle target,boolean relativeToRobot)
+	{
+		if(lockPID==null)return null;
+		if(relativeToRobot)
+		{
+			target=new Degree(target.toDegrees()-lockPID.getInput());
+		}
+		lockPID.setTarget(target.toDegrees());
+		return target;
+	}
+	
 	/**
 	 * Is the robot driving straight?
 	 * Used to enable AutoLock
@@ -115,15 +151,6 @@ public class DriveTrain implements Updatable{
 	public boolean isStraight()
 	{
 		return driveRotation<MAX_STRAIGHT_ROTATION;
-	}
-	/**
-	 * Add or subtract some rotation
-	 * Used as the output of AutoLock
-	 * @param correction the correction value
-	 */
-	public void correct(double correction)
-	{
-		driveRotation+=correction;
 	}
 	/**
 	 * Gets the total distance the robot has traveled
@@ -137,17 +164,7 @@ public class DriveTrain implements Updatable{
 		}
 		return new Polar(r.getMag()/wheels.length,r.getAngle());
 	}
-	/**
-	 * Sets each wheel to the current translation vector and rotation vector,
-	 * leaving the wheels to figure out how fast to spin.
-	 */
-	public void update()
-	{
-		for(DriveMotor wheel:wheels)
-		{
-			wheel.setVelocity(driveVector,driveRotation);
-		}
-	}
+	
 	
 	
 	//STATIC METHODS
@@ -176,12 +193,12 @@ public class DriveTrain implements Updatable{
 		int i=0;
 		for(int j=0;j<leftPorts.length;j++)
 		{
-			r[i]=new DriveMotor(Motor.makeMotor(leftPorts[j],type),leftOffset,Motor.makeEncoder(leftEncoders,j),encPID,null);
+			r[i]=new DriveMotor(Motor.makeMotor(leftPorts[j],type),leftOffset,new Degree(0)).setEncoder(Motor.makeEncoder(leftEncoders,j)).setPID(encPID);
 			i++;
 		}
 		for(int j=0;j<rightPorts.length;j++)
 		{
-			r[i]=new DriveMotor(Motor.makeMotor(rightPorts[j],type),rightOffset,Motor.makeEncoder(rightEncoders,j),encPID,null);
+			r[i]=new DriveMotor(Motor.makeMotor(rightPorts[j],type),rightOffset,new Degree(180)).setEncoder(Motor.makeEncoder(rightEncoders,j)).setPID(encPID);
 			i++;
 		}
 		return new DriveTrain(r);
@@ -210,13 +227,10 @@ public class DriveTrain implements Updatable{
 			int[] flEncoder,int[] frEncoder,int[] blEncoder,int[] brEncoder,PID encPID)
 	{
 		DriveMotor[] r= new DriveMotor[4];
-		r[0]=new DriveMotor(Motor.makeMotor(flPort,type),new XY(-1, 1),Motor.makeEncoder(flEncoder),encPID,new Degree( 45));
-		r[1]=new DriveMotor(Motor.makeMotor(frPort,type),new XY( 1, 1),Motor.makeEncoder(frEncoder),encPID,new Degree(-45));
-		r[2]=new DriveMotor(Motor.makeMotor(blPort,type),new XY(-1,-1),Motor.makeEncoder(blEncoder),encPID,new Degree(-45));
-		r[3]=new DriveMotor(Motor.makeMotor(brPort,type),new XY( 1,-1),Motor.makeEncoder(brEncoder),encPID,new Degree( 45));
+		r[0]=new DriveMotor(Motor.makeMotor(flPort,type),new XY(-1, 1),new Degree(  45)).setEncoder(Motor.makeEncoder(flEncoder)).setPID(encPID);
+		r[1]=new DriveMotor(Motor.makeMotor(frPort,type),new XY( 1, 1),new Degree( 135)).setEncoder(Motor.makeEncoder(frEncoder)).setPID(encPID);
+		r[2]=new DriveMotor(Motor.makeMotor(blPort,type),new XY(-1,-1),new Degree( -45)).setEncoder(Motor.makeEncoder(blEncoder)).setPID(encPID);
+		r[3]=new DriveMotor(Motor.makeMotor(brPort,type),new XY( 1,-1),new Degree(-135)).setEncoder(Motor.makeEncoder(brEncoder)).setPID(encPID);
 		return new DriveTrain(r);
 	}
-	
-	
-	
 }

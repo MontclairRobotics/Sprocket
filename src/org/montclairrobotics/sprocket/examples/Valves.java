@@ -55,7 +55,7 @@ public class Valves {
 		}
 		public void onDown()
 		{
-			//Lower half
+			lowerOne();
 		}
 	}
 	public class HalfUp extends Button
@@ -66,7 +66,7 @@ public class Valves {
 		}
 		public void onDown()
 		{
-			//raise half
+			raiseOne();
 		}
 	}
 	public class ShootDown extends Button
@@ -77,7 +77,7 @@ public class Valves {
 		}
 		public void onDown()
 		{
-			//Lower Shooter
+			lower();
 		}
 	}
 	public class ShootUp extends Button
@@ -88,7 +88,7 @@ public class Valves {
 		}
 		public void onDown()
 		{
-			//Raise Shooter
+			raise();
 		}
 	}
 	public class Shoot extends Button
@@ -99,11 +99,11 @@ public class Valves {
 		}
 		public void onDown()
 		{
-			//Shoot piston out
+			shootOut();
 		}
 		public void onUp()
 		{
-			//Shoot piston in
+			shootOut();
 		}
 	}
 	

@@ -13,29 +13,13 @@ package org.montclairrobotics.sprocket.utils;
 
 public class PID implements Updatable{
 
+	private Input input;
 	private double P,I,D,minIn,maxIn,minOut,maxOut;
 	
-	private double in,out;
+	private boolean calculated=false;
+	private double out;
 	private double target;
 	private double totalError, prevError, error;
-
-	public PID(double P,double I,double D)
-	{
-		this(P,I,D,0,0);
-	}
-	
-	/**
-	 * @param P the Propotional Constant
-	 * @param I the Integral Constant
-	 * @param D the Derivitive Constant
-	 * @param minIn OPTIONAL the minimum input, or 0 to ignore. Use with maxIn to "wrap" the values, 
-	 * eg. so the error between 5 degrees and 355 degrees is 10 degrees
-	 * @param maxIn OPTIONAL the maximum input, or 0 to ignore
-	 */
-	public PID(double P,double I,double D,double minIn,double maxIn)
-	{
-		this(P,I,D,minIn,maxIn,0,0);
-	}
 	/**
 	 * 
 	 * @param P the Propotional Constant
@@ -47,30 +31,37 @@ public class PID implements Updatable{
 	 * @param minOut OPTIONAL the minimum output to constrain to, or 0 to ignore
 	 * @param maxOut OPTIONAL the maximum output to constrain to, or 0 to ignore
 	 */
-	public PID(double P,double I,double D, double minIn, double maxIn, double minOut, double maxOut)
+	public PID()
 	{
-		this.P=P;
-		this.I=I;
-		this.D=D;
-		this.minOut=minOut;
-		this.maxOut=maxOut;
-		this.minIn=minIn;
-		this.maxIn=maxIn;
+		this.input=null;
+		this.P=0.0;
+		this.I=0.0;
+		this.D=0.0;
+		this.minOut=0.0;
+		this.maxOut=0.0;
+		this.minIn=0.0;
+		this.maxIn=0.0;
 		setTarget();
 		Updater.add(this, UpdateClass.ControlTranslator);
 	}
-
-	public void setPID(double P, double I, double D){
+	public PID setInput(Input i)
+	{
+		this.input=i;
+		return this;
+	}
+	public PID setPID(double P, double I, double D){
 		this.P=P;
 		this.I=I;
 		this.D=D;
+		return this;
 	}
-	public void setMinMaxInOut(double minIn, double maxIn, double minOut, double maxOut)
+	public PID setMinMax(double minIn, double maxIn, double minOut, double maxOut)
 	{
 		this.minOut=minOut;
 		this.maxOut=maxOut;
 		this.minIn=minIn;
 		this.maxIn=maxIn;
+		return this;
 	}
 	/**
 	 * Copy constructor so you can copy PID controllers
@@ -78,23 +69,23 @@ public class PID implements Updatable{
 	 */
 	public PID copy()
 	{
-		return new PID(P,I,D,minIn,maxIn,minOut,maxOut);
+		return new PID().setInput(input).setPID(P,I,D).setMinMax(minIn,maxIn,minOut,maxOut);
 	}
 	
-	public void setTarget()
+	public PID setTarget()
 	{
-		setTarget(0.0,true);
+		return setTarget(0.0,false);
 	}
-	public void setTarget(double t)
+	public PID setTarget(double t)
 	{
-		setTarget(t,true);
+		return setTarget(t,false);
 	}
 	/**
 	 * Sets the setpoint
 	 * @param t the target/setpoint
 	 * @param reset true if the PID should reset, false otherwise
 	 */
-	public void setTarget(double t,boolean reset)
+	public PID setTarget(double t,boolean reset)
 	{
 		target=t;
 		if(reset)
@@ -103,24 +94,24 @@ public class PID implements Updatable{
 			prevError=0.0;
 			totalError=0.0;
 		}
-	}
-	
-	/**
-	 * Set the input value (do this once per loop)
-	 * @param val the input value
-	 */
-	public void in(double val)
-	{
-		in=val;
+		return this;
 	}
 
 	/**
 	 * Get the output value
 	 * @return the output
 	 */
-	public double out()
+	public double get()
 	{
+		runCalculate();
 		return out;
+	}
+	
+	private void runCalculate()
+	{
+		if(calculated||input==null)return;
+		out=calculate(input.getInput());
+		calculated=true;
 	}
 	
 	private double calculate(double val)
@@ -158,21 +149,23 @@ public class PID implements Updatable{
 		}
 		return out;
 	}
+	
+	public void setOut(double out)
+	{
+		this.out=out;
+	}
+	
+	public double getInput()
+	{
+		return input.getInput();
+	}
 	public double getError(){
 		return error;
 	}
 
 	public void update()
 	{
-		out=calculate(in);
-	}
-	
-	public double getIn()
-	{
-		return in;
-	}
-	public void setOut(double val)
-	{
-		out=val;
+		runCalculate();
+		calculated=false;
 	}
 }

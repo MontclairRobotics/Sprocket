@@ -2,6 +2,7 @@ package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Degree;
+import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Polar;
 import org.montclairrobotics.sprocket.utils.Updatable;
@@ -26,22 +27,19 @@ import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 public class Motor implements Updatable{
 	
 	public static enum M_TYPE{TALONSRX,VICTORSP,TALON};
+
+	private static final double DEGREES_PER_SECOND_MAX_SPEED = 180;
 	
-	private Vector goal,actualVector;
+	private double goal;
 	private SpeedController motor;
 	private Encoder encoder;
 	private PID pid;
 	private static boolean shutdown=false;
-	
-	public Motor(SpeedController motor){this(motor,null,null);}
-	public Motor(SpeedController motor,Encoder encoder){this(motor,encoder,null);}
 	/**
 	 * Creates a motor with an encoder and pid controller
 	 * @param motor The SpeedController to use
-	 * @param encoder The Encoder to use
-	 * @param encPID The PID values to use (will be copied, can use one PID instance with multiple motors)
 	 */
-	public Motor(SpeedController motor,Encoder encoder,PID encPID)
+	public Motor(SpeedController motor)
 	{
 		this.motor=motor;
 		if(motor instanceof CANTalon)
@@ -52,45 +50,47 @@ public class Motor implements Updatable{
 			talon.enable();
 			talon.enableControl();
 		}
-		this.encoder=encoder;
-		this.pid=encPID.copy();
-		this.pid.setMinMaxInOut(0, 0, -1, 1);
 		Updater.add(this, UpdateClass.MotorController);
 	}
+
+	public Motor setEncoder(Encoder e)
+	{
+		this.encoder=e;
+		if(pid!=null)pid.setInput(new EncoderRate(encoder));
+		return this;
+	}
+	
+	public Motor setPID(PID a)
+	{
+		this.pid=a.copy().setInput(new EncoderRate(encoder)).setMinMax(0, 0, -1, 1);
+		return this;
+	}
+	
+	public static class EncoderRate implements Input
+	{
+		private Encoder enc;
+		public EncoderRate(Encoder enc)
+		{
+			this.enc=enc;
+		}
+		public double getInput()
+		{
+			if(enc==null)return 0.0;
+			return enc.getRate();
+		}
+	}
+	
 	/**
-	 * Sets the speed (not directly)
+	 * Sets the speed
 	 * @param spd The speed to spin at
 	 */
 	public void setSpeed(double spd)
 	{
-		setVelocity(new XY(spd,0));
+		goal=spd;
 	}
-	/**
-	 * Sets the velocity vector of this wheel with no rotation
-	 * @param v The velocity Vector of the robot
-	 */
-	public void setVelocity(Vector v)
-	{
-		goal=v;
-	}
-	/**
-	 * Calculates the speed of this wheel
-	 * Overload this method for more complicated driveTrains
-	 * @param goal The goal velocity vector for this wheel
-	 * @return the speed as a double of this wheel
-	 */
-	public double calcSpeed(Vector goal)
-	{
-		actualVector=new XY(0,goal.getY());
-		return actualVector.getY();
-	}
-	public Vector getGoal()
+	public double calcSpeed()
 	{
 		return goal;
-	}
-	public Vector getActual()
-	{
-		return actualVector;
 	}
 	/**
 	 * The automatically called function to update the speed of this wheel
@@ -98,7 +98,7 @@ public class Motor implements Updatable{
 	 */
 	public void update()
 	{
-		double tgtSpeed=calcSpeed(goal);
+		double tgtSpeed=calcSpeed();
 		double speed=0;
 		if(shutdown)
 		{
@@ -113,9 +113,8 @@ public class Motor implements Updatable{
 		}
 		else
 		{
-			pid.setTarget(tgtSpeed,false);
-			pid.in(encoder.getRate());
-			speed=pid.out();//tgtSpeed*(1+pid.out());
+			pid.setTarget(tgtSpeed*DEGREES_PER_SECOND_MAX_SPEED);
+			speed=pid.get();//tgtSpeed*(1+pid.out());
 		}
 		motor.set(speed);
 	}
@@ -160,10 +159,6 @@ public class Motor implements Updatable{
 		if(encoder==null)return;
 		encoder.reset();
 	}
-	public void setActual(Vector actualVector) {
-		this.actualVector = actualVector;
-	}
-	
 	/**
 	 * Helper method to create a SpeedController of a given type
 	 * @param port The motor port

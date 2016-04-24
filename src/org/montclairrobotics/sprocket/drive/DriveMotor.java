@@ -9,6 +9,7 @@ import org.montclairrobotics.sprocket.utils.Updatable;
 import org.montclairrobotics.sprocket.utils.UpdateClass;
 import org.montclairrobotics.sprocket.utils.Updater;
 import org.montclairrobotics.sprocket.utils.Vector;
+import org.montclairrobotics.sprocket.utils.XY;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
@@ -33,6 +34,8 @@ public class DriveMotor extends Motor{
 	private Vector totDistance;
 	private double lastLoops=Timer.getFPGATimestamp();	
 	
+	private Vector goal;
+	
 	/**
 	 * Creates a DriveMotor
 	 * Any optional field can be left as null
@@ -44,14 +47,22 @@ public class DriveMotor extends Motor{
 	 * @param forceAngle OPTIONAL The Angle describing the force when this wheel turns
 	 * Use this as + or - 45 for Mecanum Wheels or the angle for Kiwi wheels
 	 */
-	public DriveMotor(SpeedController motor,Vector offset,Encoder encoder,PID encPID,Angle forceAngle)
+	public DriveMotor(SpeedController motor,Vector offset,Angle forceAngle)
 	{
-		super(motor, encoder, encPID);
+		super(motor);
 		this.offset=offset;
 		this.forceAngle=forceAngle;
 		if(forceAngle==null)
 			this.forceAngle=new Degree(0);
 		Updater.add(this, UpdateClass.MotorController);
+	}
+	public DriveMotor setEncoder(Encoder e)
+	{
+		return (DriveMotor)super.setEncoder(e);
+	}
+	public DriveMotor setPID(PID a)
+	{
+		return (DriveMotor)super.setPID(a);
 	}
 	/**
 	 * Sets the velocity Vector of the robot with a rotation value
@@ -61,9 +72,26 @@ public class DriveMotor extends Motor{
 	 */
 	public void setVelocity(Vector direction,double rotation)
 	{
-		setVelocity(direction.add(offset.getRotationVector(rotation)).rotate(forceAngle.negative()));
+		setVelocity(direction.add(offset.getRotationVector(rotation)).rotate(getForceAngle().negative()));
 	}
-	
+	/**
+	 * Sets the velocity vector of this wheel with no rotation
+	 * @param v The velocity Vector of the robot
+	 */
+	public void setVelocity(Vector v)
+	{
+		goal=v;
+	}
+	/**
+	 * Calculates the speed of this wheel
+	 * Overload this method for more complicated driveTrains
+	 * @param goal The goal velocity vector for this wheel
+	 * @return the speed as a double of this wheel
+	 */
+	public double calcSpeed(Vector goal)
+	{
+		return goal.getY();
+	}
 	public void update()
 	{
 		super.update();
@@ -71,11 +99,18 @@ public class DriveMotor extends Motor{
 		double diff=loops-lastLoops;
 		lastLoops=loops;
 		
-		Vector actual=super.getActual();
-		totDistance.add(new Polar(super.getRate()*diff*WHEEL_CIRCUMFRANCE/360,actual.getAngle()));
+		totDistance.add(new Polar(super.getRate()*diff,forceAngle));
 	}
 	public Vector getDirectionDistance() {
 		// TODO Auto-generated method stub
 		return totDistance;
+	}
+	public Angle getForceAngle()
+	{
+		return forceAngle;
+	}
+	public Vector getGoal()
+	{
+		return goal;
 	}
 }

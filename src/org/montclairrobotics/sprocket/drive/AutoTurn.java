@@ -17,10 +17,12 @@ import org.montclairrobotics.sprocket.utils.Updater;
 public class AutoTurn implements Updatable {
 	
 	public static final double MAX_ERROR=3;//degrees
+
+	private static final int REQUIRED_LOOPS_CORRECT = 30;
 	
 	private DriveTrain driveTrain;
-	private Lock lock;
-	private double degreesTgt;
+	private Angle target;
+	private int loopsCorrect=0;
 	private boolean done;
 	/**
 	 * Create an instance of this object each time you want to autoturn
@@ -28,13 +30,19 @@ public class AutoTurn implements Updatable {
 	 * @param dt the DriveTrain to drive with
 	 * @param l the Lock to steer with
 	 */
-	public AutoTurn(double degrees,DriveTrain dt,Lock l)
+	public AutoTurn(Angle rotation,DriveTrain dt,boolean relativeToRobot)
 	{
 		driveTrain=dt;
-		lock=l;
-		degreesTgt=lock.rotateTo(degrees);
-		done=false;
-		Updater.add(this, UpdateClass.Autonomous);
+		target=driveTrain.rotateTo(rotation,relativeToRobot);
+		if(target==null)
+		{
+			done=true;
+		}
+		else
+		{
+			done=false;
+			Updater.add(this, UpdateClass.Autonomous);
+		}
 	}
 	
 	public boolean isDone()
@@ -45,8 +53,15 @@ public class AutoTurn implements Updatable {
 	public void update() {
 		if(done)return;
 		driveTrain.driveSpeedRotation(0,0);
-		lock.setLock(true);
-		done=Math.abs((((lock.getCurVal()-degreesTgt)+180)%360+360)%360)<MAX_ERROR;
+		if(Math.abs((driveTrain.getHeading().subtract(target)).toDegrees())<MAX_ERROR)
+		{
+			loopsCorrect++;
+			done=loopsCorrect>REQUIRED_LOOPS_CORRECT;
+		}
+		else
+		{
+			loopsCorrect=0;
+		}
 		if(done)
 		{
 			driveTrain.drive(new Polar(0,new Degree(0)),0);

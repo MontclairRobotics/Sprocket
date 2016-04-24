@@ -3,6 +3,9 @@ package org.montclairrobotics.sprocket.utils;
 public class XY extends Vector{
 
 	private double x,y;
+	private double mag;
+	private Angle angle;
+	private boolean calcMag,calcAngle;
 	
 	public XY(double x,double y)
 	{
@@ -11,11 +14,21 @@ public class XY extends Vector{
 	}
 	
 	public double getMag() {
-		return Math.sqrt(x*x+y*y);
+		if(!calcMag)
+		{
+			calcMag=true;
+			mag=Math.sqrt(x*x+y*y);
+		}
+		return mag;
 	}
 
 	public Angle getAngle() {
-		return new Radian(Math.atan2(x,y));
+		if(!calcAngle)
+		{
+			calcAngle=true;
+			angle= new Radian(Math.atan2(x,y));
+		}
+		return angle;
 	}
 
 	public double getX() {

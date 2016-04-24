@@ -4,6 +4,8 @@ public class Polar extends Vector{
 
 	private double mag;
 	private Angle angle;
+	private double x,y;
+	private boolean calcX,calcY;
 	
 	public Polar(double mag,Angle angle)
 	{
@@ -21,10 +23,20 @@ public class Polar extends Vector{
 		return angle;
 	}
 	public double getX() {
-		return mag*Math.sin(angle.toRadians());
+		if(!calcX)
+		{
+			calcX=true;
+			x=mag*Math.sin(angle.toRadians());
+		}
+		return x;
 	}
 	public double getY() {
-		return mag*Math.cos(angle.toRadians());
+		if(!calcY)
+		{
+			calcY=true;
+			y=mag*Math.cos(angle.toRadians());
+		}
+		return y;
 	}
 	
 }

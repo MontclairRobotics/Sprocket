@@ -1,6 +1,9 @@
 package org.montclairrobotics.sprocket.utils;
 
 /**
+ * CLOCKWISE IS POSITIVE
+ * 
+ * 
  * An abstract class to hold an angle
  * Extended by Degree and Radian
  * @author Hymowitz
