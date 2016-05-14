@@ -18,6 +18,10 @@ public abstract class Vector {
 	{
 		return new XY(this.getX()+a.getX(),this.getY()+a.getY());
 	}
+	public Vector subtract(Vector a)
+	{
+		return new XY(this.getX()-a.getX(),this.getY()-a.getY());
+	}
 	public Vector opposite()
 	{
 		return new XY(-this.getX(),-this.getY());

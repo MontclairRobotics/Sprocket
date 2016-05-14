@@ -26,7 +26,10 @@ public abstract class StateMachine implements Updatable {
 		state=start;
 		state.onStart();
 	}
-	
+	public boolean isDone()
+	{
+		return state==null;
+	}
 	public void update()
 	{
 		if(state==null)return;
