@@ -10,9 +10,15 @@ package org.montclairrobotics.sprocket.utils;
 public class Priority {
 	public static final Priority HIGHEST = new Priority(Integer.MAX_VALUE);
 	public static final Priority HIGH = new Priority(100);
-	public static final Priority NORMAL = new Priority(10);
-	public static final Priority LOW = new Priority(0);
+	public static final Priority NORMAL = new Priority(0);
+	public static final Priority LOW = new Priority(-100);
 	public static final Priority LOWEST = new Priority(Integer.MIN_VALUE);
+	
+	public static final Priority INPUT=HIGHEST;
+	public static final Priority INPUTPID=HIGH;
+	public static final Priority CALC=NORMAL;
+	public static final Priority DRIVECALC=LOW;
+	public static final Priority OUTPUT=LOWEST;
 	
 	int p;
 	

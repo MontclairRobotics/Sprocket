@@ -3,6 +3,7 @@ package org.montclairrobotics.sprocket.drive;
 import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.Distance;
 import org.montclairrobotics.sprocket.utils.Polar;
+import org.montclairrobotics.sprocket.utils.Priority;
 import org.montclairrobotics.sprocket.utils.Updatable;
 import org.montclairrobotics.sprocket.utils.UpdateClass;
 import org.montclairrobotics.sprocket.utils.Updater;
@@ -43,7 +44,7 @@ public class AutoDrive implements Updatable {
 		
 		start=driveTrain.getAvgDirectionDistance();
 		driveTrain.drive(velocity);
-		Updater.add(this, UpdateClass.Autonomous);
+		Updater.add(this, Priority.CALC);
 	}
 	/**
 	 * Used to determine if you are done driving

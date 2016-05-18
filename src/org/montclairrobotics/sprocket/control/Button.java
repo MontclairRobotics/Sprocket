@@ -7,6 +7,7 @@ package org.montclairrobotics.sprocket.control;
  * It is recommended to create these as sub-classes in in a larger class
  * @see org.montclairrobotics.sprocket.examples.Buttons
  */
+import org.montclairrobotics.sprocket.utils.Priority;
 import org.montclairrobotics.sprocket.utils.Updatable;
 import org.montclairrobotics.sprocket.utils.UpdateClass;
 import org.montclairrobotics.sprocket.utils.Updater;
@@ -28,7 +29,7 @@ public abstract class Button implements Updatable{
 	 */
 	public Button(Joystick stick,int id)
 	{
-		Updater.add(this, UpdateClass.Control);
+		Updater.add(this, Priority.INPUT);
 		this.stick=stick;
 		this.id=id;
 	}

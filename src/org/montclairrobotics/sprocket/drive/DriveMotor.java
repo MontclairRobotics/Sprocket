@@ -54,7 +54,6 @@ public class DriveMotor extends Motor{
 		this.forceAngle=forceAngle;
 		if(forceAngle==null)
 			this.forceAngle=new Degree(0);
-		Updater.add(this, UpdateClass.MotorController);
 	}
 	public DriveMotor setEncoder(Encoder e)
 	{
