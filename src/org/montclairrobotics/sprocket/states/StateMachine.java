@@ -44,4 +44,8 @@ public abstract class StateMachine implements Updatable {
 			update();
 		}
 	}
+	public void stop()
+	{
+		state=null;
+	}
 }
