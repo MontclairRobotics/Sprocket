@@ -25,9 +25,9 @@ public class SwivelMotor extends Motor{
 	private PID pid;
 	private Encoder encoder;
 	
-	public SwivelMotor(SpeedController motor,Encoder encoder,PID encPID)
+	public SwivelMotor(SpeedController motor,String name,Encoder encoder,PID encPID)
 	{
-		super(motor);
+		super(motor,name);
 		this.encoder=encoder;
 		this.pid.setInput(new EncoderDistance(encoder)).setMinMax(-180, 180, -1, 1);
 		tgtAngle=new Degree(0);

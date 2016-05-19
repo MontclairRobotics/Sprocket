@@ -31,7 +31,7 @@ public class DriveMotor extends Motor{
 	//constants
 	private Vector offset;
 	private Angle forceAngle;
-	private Vector totDistance;
+	private Vector totDistance=new XY(0,0);
 	private double lastLoops=Timer.getFPGATimestamp();	
 	
 	private Vector goal;
@@ -47,9 +47,9 @@ public class DriveMotor extends Motor{
 	 * @param forceAngle OPTIONAL The Angle describing the force when this wheel turns
 	 * Use this as + or - 45 for Mecanum Wheels or the angle for Kiwi wheels
 	 */
-	public DriveMotor(SpeedController motor,Vector offset,Angle forceAngle)
+	public DriveMotor(SpeedController motor,String name,Vector offset,Angle forceAngle)
 	{
-		super(motor);
+		super(motor,name);
 		this.offset=offset;
 		this.forceAngle=forceAngle;
 		if(forceAngle==null)
@@ -71,7 +71,9 @@ public class DriveMotor extends Motor{
 	 */
 	public void setVelocity(Vector direction,double rotation)
 	{
-		setVelocity(direction.add(offset.getRotationVector(rotation)).rotate(getForceAngle().negative()));
+		Vector v=direction.add(offset.getRotationVector(rotation)).rotate(getForceAngle().negative());
+		setVelocity(v);
+		Dashboard.putString("V", v.getX()+","+v.getY());
 	}
 	/**
 	 * Sets the velocity vector of this wheel with no rotation
@@ -87,7 +89,7 @@ public class DriveMotor extends Motor{
 	 * @param goal The goal velocity vector for this wheel
 	 * @return the speed as a double of this wheel
 	 */
-	public double calcSpeed(Vector goal)
+	public double calcSpeed()
 	{
 		return goal.getY();
 	}
@@ -98,7 +100,7 @@ public class DriveMotor extends Motor{
 		double diff=loops-lastLoops;
 		lastLoops=loops;
 		
-		totDistance.add(new Polar(super.getRate()*diff,forceAngle));
+		totDistance=totDistance.add(new Polar(super.getRate()*diff,forceAngle));
 	}
 	public Vector getDirectionDistance() {
 		// TODO Auto-generated method stub

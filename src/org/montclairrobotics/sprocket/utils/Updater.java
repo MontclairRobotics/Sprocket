@@ -3,20 +3,23 @@ package org.montclairrobotics.sprocket.utils;
 import java.util.Comparator;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.ArrayList;
 
 /**
  * @author Jack Hymowitz, Rafi Baum
  * Runs all the modules which need to be updated in each tick
  * 
  */
+
+
 public class Updater {
 	
 	/*
 	 * TreeMaps are sorted by default, and they are used here in order to execute Updatables
 	 * in the correct order without any weird sorting while in runtime
 	 */
-	private static TreeMap<Priority, Updatable> objects = 
-			new TreeMap<Priority, Updatable>(new Comparator<Priority>() {
+	private static TreeMap<Priority, ArrayList<Updatable>> objects = 
+			new TreeMap<Priority, ArrayList<Updatable>>(new Comparator<Priority>() {
 		@Override
 		public int compare(Priority o1, Priority o2) {
 			return o2.getPriority()-o1.getPriority();
@@ -32,7 +35,8 @@ public class Updater {
 	 * @see UpdateClass
 	 */
 	public static void add(Updatable obj, Priority priority) {
-		if(!objects.containsKey(priority)) objects.put(priority, obj);
+		if(!objects.containsKey(priority)) objects.put(priority,new ArrayList<Updatable>());
+		objects.get(priority).add(obj);
 	}
 	
 	/**
@@ -40,8 +44,11 @@ public class Updater {
 	 */
 	public static void update()
 	{
-		for(Updatable obj : objects.values()) {
-			obj.update();
+		for(ArrayList<Updatable> list : objects.values()) {
+			for(Updatable obj:list)
+			{
+				obj.update();
+			}
 		}
 	}
 	
@@ -50,7 +57,7 @@ public class Updater {
 	 * @param obj The object to be deleted
 	 * @return True if deleted, false if the object cannot be found
 	 */
-	public static boolean remove(Updatable obj) {
+	/*public static boolean remove(Updatable obj) {
 		for(Entry<Priority, Updatable> set : objects.entrySet()) {
 			if(set.getValue() == obj) {
 				objects.remove(set.getKey());
@@ -58,6 +65,6 @@ public class Updater {
 			}
 		}
 		return false;
-	}
+	}*/
 	
 }

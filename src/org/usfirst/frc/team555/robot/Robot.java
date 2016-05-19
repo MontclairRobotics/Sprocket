@@ -20,15 +20,18 @@ public class Robot extends IterativeRobot {
 	
 	public static final int CAMERA_WIDTH=240,CAMERA_HEIGHT=320;//TODO
 	
-	public static int[] leftWheels={1,3},rightWheels={0,2};
+	public static int[] leftWheels={1,3},rightWheels={2,4};
 	public static M_TYPE motorType=M_TYPE.TALON;
 	
     public static DriveTrain driveTrain;
     public static Grip grip;
     public static Align auto;
+    public static Valves valves;
     
     public void robotInit() {
     	driveTrain=DriveTrain.makeStandard(leftWheels, rightWheels, motorType);
+    	valves=new Valves();
+    	grip=new Grip("GRIP/mynewreport");
     }
     
     public void autonomousInit() {
@@ -51,7 +54,7 @@ public class Robot extends IterativeRobot {
     }
     
     public void teleopPeriodic() {
-    	driveTrain.driveSpeedRotation(Control.getX(Control.DRIVE_STICK),Control.getY(Control.DRIVE_STICK));
+    	driveTrain.driveSpeedRotation(Control.getX(Control.DRIVE_STICK)*0.5,Control.getY(Control.DRIVE_STICK));
         Updater.update();
     }
     
