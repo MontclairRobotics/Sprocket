@@ -24,7 +24,9 @@ public class Robot extends IterativeRobot {
 	
     public static DriveTrain driveTrain;
     public static Grip grip;
-    public static Align2 auto;
+    public static Auto auto;
+    
+    public static Valves.AlignOn alignButton;
     public static Valves valves;
 	public static boolean align;
     
@@ -35,7 +37,7 @@ public class Robot extends IterativeRobot {
     }
     
     public void autonomousInit() {
-    	auto=new Align2(driveTrain,valves,grip,new XY(200,200));
+    	auto=new Auto.DriveArmDown();
     }
     
     public void autonomousPeriodic() {

@@ -66,11 +66,11 @@ public class Valves {
 		new Shoot(1);
 		new ShootMotorOn(3);
 		new ShootMotorIntake(2);
-		new AlignOn(11,new XY(160,50));
+		Robot.alignButton=new AlignOn(11,new XY(160,50));
 	}
 	public class AlignOn extends Button
 	{
-		
+		private int loopsAtTarget=0;
 		private static final double 
 			BUFFER_X_SMALL=30,
 			BUFFER_X_BIG=60,
@@ -92,6 +92,7 @@ public class Valves {
 			x=x*(1-BLEND)+(Robot.grip.getX()-target.getX())*BLEND;
 			y=y*(1-BLEND)+(Robot.grip.getY()-target.getY())*BLEND;
 			double spd,rot;
+			boolean atTarget=false;
 			if(x==0)
 				rot=0;
 			else if(x>BUFFER_X_BIG)
@@ -103,7 +104,10 @@ public class Valves {
 			else if(x<-BUFFER_X_SMALL)
 				rot=-TURN_SMALL;
 			else
+			{
 				rot=0;
+				atTarget=true;
+			}
 			if(y==0)
 				spd=0;
 			else if(y>BUFFER_Y_BIG)
@@ -115,13 +119,23 @@ public class Valves {
 			else if(y<-BUFFER_Y_SMALL)
 				spd=MOVE_SMALL;
 			else
+			{
 				spd=0;
+				if(atTarget)
+				{
+					loopsAtTarget++;
+				}
+			}
 			Robot.driveTrain.driveSpeedRotation(rot,spd);
 			Robot.align=true;
 		}
 		public void up()
 		{
 			Robot.align=false;
+		}
+		public int getLoopsAtTarget()
+		{
+			return loopsAtTarget;
 		}
 	}
 	public class ShootMotorOn extends Button
