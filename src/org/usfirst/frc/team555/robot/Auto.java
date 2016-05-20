@@ -5,11 +5,6 @@ import org.montclairrobotics.sprocket.states.StateMachine;
 
 public class Auto extends StateMachine
 {
-	public static final AutoState
-		driveArmDown=new LowerArm(new Drive(10,null)),
-		driveArmHalf=new HalfArm(new Drive(10,null)),
-		driveArmDownShoot=new LowerArm(new Drive(10,new ArmUp(new Shoot(null)))),
-		driveArmHalfShoot=new HalfArm(new Drive(10,new ArmUp(new Shoot(null))));
 	
 	public Auto(State start) {
 		super(start);
@@ -51,7 +46,7 @@ public class Auto extends StateMachine
 			loops++;
 		}
 		public boolean isDone() {
-			return loops>10;
+			return loops>2*30;
 		}
 	}
 	public static class HalfArm extends AutoState
@@ -64,14 +59,14 @@ public class Auto extends StateMachine
 		public void onStart()
 		{
 			Robot.valves.lower();
-			Robot.valves.halfOn();
+			Robot.valves.halfOff();
 		}
 		public void update()
 		{
 			loops++;
 		}
 		public boolean isDone() {
-			return loops>10;
+			return loops>2*30;
 		}
 	}
 	public static class ArmUp extends AutoState
@@ -104,7 +99,7 @@ public class Auto extends StateMachine
 		private int loops=0;
 		public void onStart()
 		{
-			Robot.driveTrain.driveSpeedRotation(0.5, 0);
+			Robot.driveTrain.driveSpeedRotation(0, -0.5);
 		}
 		public void update()
 		{

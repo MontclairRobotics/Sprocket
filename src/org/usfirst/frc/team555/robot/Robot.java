@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team555.robot;
 //THERE SHOULD BE LICENSE STUFF HERE!!!!
+
 import org.montclairrobotics.sprocket.control.ArcadeTranslator;
 import org.montclairrobotics.sprocket.control.Control;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
@@ -10,6 +11,11 @@ import org.montclairrobotics.sprocket.utils.Grip;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Updater;
 import org.montclairrobotics.sprocket.utils.XY;
+import org.usfirst.frc.team555.robot.Auto.ArmUp;
+import org.usfirst.frc.team555.robot.Auto.Drive;
+import org.usfirst.frc.team555.robot.Auto.HalfArm;
+import org.usfirst.frc.team555.robot.Auto.LowerArm;
+import org.usfirst.frc.team555.robot.Auto.Shoot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -29,15 +35,34 @@ public class Robot extends IterativeRobot {
     public static Valves.AlignOn alignButton;
     public static Valves valves;
 	public static boolean align;
+	
+	public static SendableChooser chooser;
     
     public void robotInit() {
     	driveTrain=DriveTrain.makeStandard(leftWheels, rightWheels, motorType);
     	valves=new Valves();
     	grip=new Grip("GRIP/mynewreport");
+    	
+    	chooser = new SendableChooser();
+    	chooser.addDefault("Arm half", "armhalf");
+    	chooser.addObject("Arm down", "armdown");
+    	chooser.addObject("Arm half shoot", "armhalfshoot");
+    	chooser.addObject("Arm down shoot", "armdownshoot");
+    	
+    	SmartDashboard.putData("auto chooser", chooser);
     }
     
     public void autonomousInit() {
-    	auto=new Auto(Auto.driveArmHalf);//TODO auto select
+    	String mode = (String) chooser.getSelected();
+    	if(mode.equals("armhalf")) {
+    		auto = new Auto(new LowerArm(new Drive(10, null)));
+    	} else if(mode.equals("armdown")) {
+    		auto = new Auto(new HalfArm(new Drive(10, null)));
+    	} else if(mode.equals("armhalfshoot")) {
+    		auto = new Auto(new HalfArm(new Drive(10, new ArmUp(new Shoot(null)))));
+    	} else if(mode.equals("armdownshoot")) {
+    		auto = new Auto(new LowerArm(new Drive(10, new ArmUp(new Shoot(null)))));
+    	}
     }
     
     public void autonomousPeriodic() {
