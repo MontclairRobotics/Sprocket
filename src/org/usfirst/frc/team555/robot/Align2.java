@@ -3,6 +3,7 @@ package org.usfirst.frc.team555.robot;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.states.State;
 import org.montclairrobotics.sprocket.states.StateMachine;
+import org.montclairrobotics.sprocket.utils.Dashboard;
 import org.montclairrobotics.sprocket.utils.Grip;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
@@ -24,7 +25,7 @@ public class Align2 extends StateMachine{
 				MAX_ERROR=20,
 				CHG_FACTOR=0.1,
 				PIX_AT_MAX_POWER=100,
-				MAX_POWER=0.5,
+				MAX_POWER=0.3,
 				MIN_POWER=0.1;
 		private Grip grip;
 		private XY target;
@@ -40,12 +41,13 @@ public class Align2 extends StateMachine{
 			loopsAtTarget=0;			
 			this.v=v;
 			adjX=grip.getX()-target.getX();
+			Dashboard.putString("AUTO_MODE", "ROTATION");
 		}
 		public void update()
 		{
 			double x=grip.getX()-target.getX();
 			adjX= adjX*(1-CHG_FACTOR)+x*CHG_FACTOR;
-			if(Math.abs(x)<MAX_ERROR)
+			if(Math.abs(adjX)<MAX_ERROR)
 			{
 				loopsAtTarget++;
 				dt.driveSpeedRotation(0,0);
@@ -85,12 +87,13 @@ public class Align2 extends StateMachine{
 			this.dt=dt;
 			loopsAtTarget=0;			
 			adjY=grip.getY()-target.getY();
+			Dashboard.putString("AUTO_MODE", "ROTATION");
 		}
 		public void update()
 		{
 			double y=grip.getY()-target.getY();
 			adjY= adjY*(1-CHG_FACTOR)+y*CHG_FACTOR;
-			if(Math.abs(y)<MAX_ERROR)
+			if(Math.abs(adjY)<MAX_ERROR)
 			{
 				loopsAtTarget++;
 				dt.driveSpeedRotation(0,0);
@@ -111,6 +114,11 @@ public class Align2 extends StateMachine{
 	}
 	public static class CorrectX2 extends CorrectX1
 	{
+		public CorrectX2(DriveTrain dt, Valves v, Grip grip, XY target) {
+			super(dt, v, grip, target);
+			// TODO Auto-generated constructor stub
+		}
+
 		public State getNextState()
 		{
 			return new Shoot(dt,v);

@@ -18,15 +18,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	
-	public static final int CAMERA_WIDTH=240,CAMERA_HEIGHT=320;//TODO
 	
 	public static int[] leftWheels={1,3},rightWheels={2,4};
 	public static M_TYPE motorType=M_TYPE.TALON;
 	
     public static DriveTrain driveTrain;
     public static Grip grip;
-    public static Align auto;
+    public static Align2 auto;
     public static Valves valves;
+	public static boolean align;
     
     public void robotInit() {
     	driveTrain=DriveTrain.makeStandard(leftWheels, rightWheels, motorType);
@@ -35,7 +35,7 @@ public class Robot extends IterativeRobot {
     }
     
     public void autonomousInit() {
-    	auto=new Align(grip,new XY(CAMERA_WIDTH/2,CAMERA_HEIGHT/2),driveTrain);
+    	auto=new Align2(driveTrain,valves,grip,new XY(200,200));
     }
     
     public void autonomousPeriodic() {
@@ -54,7 +54,8 @@ public class Robot extends IterativeRobot {
     }
     
     public void teleopPeriodic() {
-    	driveTrain.driveSpeedRotation(Control.getX(Control.DRIVE_STICK)*0.5,Control.getY(Control.DRIVE_STICK));
+    	if(!align)
+    		driveTrain.driveSpeedRotation(Control.getX(Control.DRIVE_STICK)*0.5,Control.getY(Control.DRIVE_STICK));
         Updater.update();
     }
     
