@@ -37,7 +37,7 @@ public class Robot extends IterativeRobot {
     }
     
     public void autonomousInit() {
-    	auto=new Auto.DriveArmDown();
+    	auto=new Auto(Auto.driveArmHalf);//TODO auto select
     }
     
     public void autonomousPeriodic() {

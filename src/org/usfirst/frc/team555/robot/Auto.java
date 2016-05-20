@@ -3,7 +3,14 @@ package org.usfirst.frc.team555.robot;
 import org.montclairrobotics.sprocket.states.State;
 import org.montclairrobotics.sprocket.states.StateMachine;
 
-public abstract class Auto extends StateMachine{
+public class Auto extends StateMachine
+{
+	public static final AutoState
+		driveArmDown=new LowerArm(new Drive(10,null)),
+		driveArmHalf=new HalfArm(new Drive(10,null)),
+		driveArmDownShoot=new LowerArm(new Drive(10,new ArmUp(new Shoot(null)))),
+		driveArmHalfShoot=new HalfArm(new Drive(10,new ArmUp(new Shoot(null))));
+	
 	public Auto(State start) {
 		super(start);
 	}
@@ -12,8 +19,28 @@ public abstract class Auto extends StateMachine{
 		Robot.driveTrain.driveSpeedRotation(0,0);
 		super.stop();
 	}
-	public abstract static class LowerArm extends State
+	public abstract static class AutoState extends State
 	{
+		private State next;
+		public AutoState(State next)
+		{
+			this.next=next;
+		}
+		public State getNextState()
+		{
+			return next;
+		}
+		public void onStop()
+		{
+			Robot.driveTrain.driveSpeedRotation(0,0);
+		}
+	}
+	public static class LowerArm extends AutoState
+	{
+		public LowerArm(State next) {
+			super(next);
+			// TODO Auto-generated constructor stub
+		}
 		private int loops=0;
 		public void onStart()
 		{
@@ -27,8 +54,12 @@ public abstract class Auto extends StateMachine{
 			return loops>10;
 		}
 	}
-	public abstract static class HalfArm extends State
+	public static class HalfArm extends AutoState
 	{
+		public HalfArm(State next) {
+			super(next);
+			// TODO Auto-generated constructor stub
+		}
 		private int loops=0;
 		public void onStart()
 		{
@@ -43,9 +74,33 @@ public abstract class Auto extends StateMachine{
 			return loops>10;
 		}
 	}
-	public abstract static class Drive extends State
+	public static class ArmUp extends AutoState
 	{
-		private static final int time=10;
+		public ArmUp(State next) {
+			super(next);
+			// TODO Auto-generated constructor stub
+		}
+		private int loops=0;
+		public void onStart()
+		{
+			Robot.valves.raiseArm();
+		}
+		public void update()
+		{
+			loops++;
+		}
+		public boolean isDone() {
+			return loops>10;
+		}
+	}
+	public static class Drive extends AutoState
+	{
+		public Drive(int time,State next) {
+			super(next);
+			this.time=time;
+			// TODO Auto-generated constructor stub
+		}
+		private int time=10;
 		private int loops=0;
 		public void onStart()
 		{
@@ -60,8 +115,12 @@ public abstract class Auto extends StateMachine{
 			return loops>time*30;
 		}
 	}
-	public abstract static class Shoot extends State
+	public static class Align extends AutoState
 	{
+		public Align(State next) {
+			super(next);
+			// TODO Auto-generated constructor stub
+		}
 		public void update()
 		{
 			Robot.alignButton.down();
@@ -71,95 +130,35 @@ public abstract class Auto extends StateMachine{
 			return Robot.alignButton.getLoopsAtTarget()>30;
 		}
 	}
-	/**========================**/
-	public static class DriveArmDown extends Auto
+	public static class Shoot extends AutoState
 	{
-		public DriveArmDown() {
-			super(new State1());
+		private int loops=0;
+		public Shoot(State next) {
+			super(next);
+			// TODO Auto-generated constructor stub
 		}
-		public static class State1 extends LowerArm
+		public void update()
 		{
-			public State getNextState() {
-				return new State2();
-			}
-		}
-		public static class State2 extends Drive
-		{
-			public State getNextState()
+			Robot.valves.setShoot(Valves.SHOOT_SPEED);
+			loops++;
+			if(loops<2*30)
 			{
-				return null;
+				Robot.valves.setShoot(Valves.SHOOT_SPEED);
 			}
-		}
-	}
-	public static class DriveArmHalf extends Auto
-	{
-		public DriveArmHalf() {
-			super(new State1());
-		}
-		public static class State1 extends HalfArm
-		{
-			public State getNextState() {
-				return new State2();
-			}
-		}
-		public static class State2 extends Drive
-		{
-			public State getNextState()
+			else if(loops>2*30&&loops<3*30)
 			{
-				return null;
+				Robot.valves.setShoot(Valves.SHOOT_SPEED);
+				Robot.valves.shootOut();
 			}
-		}
-	}
-	public static class DriveArmDownShoot extends Auto
-	{
-		public DriveArmDownShoot() {
-			super(new State1());
-		}
-		public static class State1 extends LowerArm
-		{
-			public State getNextState() {
-				return new State2();
-			}
-		}
-		public static class State2 extends Drive
-		{
-			public State getNextState()
+			else if(loops>3*30)
 			{
-				return new State3();
+				Robot.valves.shootIn();
+				Robot.valves.setShoot(0);
 			}
 		}
-		public static class State3 extends Shoot
+		public boolean isDone()
 		{
-			public State getNextState()
-			{
-				return null;
-			}
-		}
-	}
-	public static class DriveArmHalfShoot extends Auto
-	{
-		public DriveArmHalfShoot() {
-			super(new State1());
-		}
-		public static class State1 extends HalfArm
-		{
-			public State getNextState() {
-				return new State2();
-			}
-		}
-		public static class State2 extends Drive
-		{
-			public State getNextState()
-			{
-				return new State3();
-			}
-		}
-		public static class State3 extends Shoot
-		{
-			public State getNextState()
-			{
-				return null;
-			}
+			return loops>3.5*30;
 		}
 	}
 }
