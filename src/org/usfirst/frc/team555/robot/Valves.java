@@ -13,7 +13,7 @@ public class Valves {
 	public static final double SHOOT_SPEED=0.8,INTAKE_SPEED=-0.555;
 	public static final boolean
 		LIFT_ON=false,
-		HALF_ON=false;
+		HALF_ON=true;
 	private Solenoid[] LiftValves;
 	private Solenoid[] ShooterValves;
 	private Solenoid[] HalfValves;
