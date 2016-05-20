@@ -11,7 +11,9 @@ import edu.wpi.first.wpilibj.Solenoid;
 
 public class Valves {
 	public static final double SHOOT_SPEED=0.8,INTAKE_SPEED=-0.555;
-	
+	public static final boolean
+		LIFT_ON=false,
+		HALF_ON=false;
 	private Solenoid[] LiftValves;
 	private Solenoid[] ShooterValves;
 	private Solenoid[] HalfValves;
@@ -227,20 +229,12 @@ public class Valves {
 			shootIn();
 		}
 	}
-	
+	/**===============**/
 	public void raise()
 	{
 		resetShooterPush();
 		for(Solenoid s : LiftValves) {
-			s.set(true);
-		}
-		halfOn();
-	}
-	
-	public void raiseArm() {
-		resetShooterPush();
-		for(Solenoid s : LiftValves) {
-			s.set(true);
+			s.set(LIFT_ON);
 		}
 	}
 	
@@ -248,7 +242,7 @@ public class Valves {
 	{
 		resetShooterPush();
 		for(Solenoid s : LiftValves) {
-			s.set(false);
+			s.set(!LIFT_ON);
 		}
 		halfOn();
 	}
@@ -259,7 +253,7 @@ public class Valves {
 		resetShooterPush();
 		for(Solenoid s:HalfValves)
 		{
-			s.set(false);
+			s.set(HALF_ON);
 		}
 	}
 	public void halfOff()
@@ -267,7 +261,7 @@ public class Valves {
 		resetShooterPush();
 		for(Solenoid s:HalfValves)
 		{
-			s.set(true);
+			s.set(!HALF_ON);
 		}
 	}
 	
@@ -292,12 +286,6 @@ public class Valves {
         {
         	s.set(false);
         }
-	}
-	
-	public void lowerArm() {
-		for(Solenoid s : LiftValves) {
-			s.set(true);
-		}
 	}
 	
 	public void setShoot(double spd)

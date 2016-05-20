@@ -44,7 +44,7 @@ public class Auto extends StateMachine
 		private int loops=0;
 		public void onStart()
 		{
-			Robot.valves.lowerArm();
+			Robot.valves.lower();
 		}
 		public void update()
 		{
@@ -63,7 +63,7 @@ public class Auto extends StateMachine
 		private int loops=0;
 		public void onStart()
 		{
-			Robot.valves.lowerArm();
+			Robot.valves.lower();
 			Robot.valves.halfOn();
 		}
 		public void update()
@@ -83,7 +83,7 @@ public class Auto extends StateMachine
 		private int loops=0;
 		public void onStart()
 		{
-			Robot.valves.raiseArm();
+			Robot.valves.raise();
 		}
 		public void update()
 		{
@@ -104,8 +104,7 @@ public class Auto extends StateMachine
 		private int loops=0;
 		public void onStart()
 		{
-			Robot.valves.lowerArm();
-			Robot.valves.halfOn();
+			Robot.driveTrain.driveSpeedRotation(0.5, 0);
 		}
 		public void update()
 		{
