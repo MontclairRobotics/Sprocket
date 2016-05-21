@@ -12,7 +12,7 @@ public enum DistanceUnit implements Unit {
 		case mi: return 1609.3;
 		case mm: return 0.001;
 		case cm: return 0.01;
-		case m:  return 1;
+		case m:  return 1; // Default unit
 		case km: return 1000;
 		default: return 0;
 		}

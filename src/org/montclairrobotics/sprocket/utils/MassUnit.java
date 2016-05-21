@@ -6,7 +6,7 @@ public enum MassUnit implements Unit {
 	public double getConversionFactor() {
 		switch (this) {
 		case mg: return 0.001;
-		case g:  return 1;
+		case g:  return 1; // Default unit
 		case kg: return 1000;
 		default: return 0;
 		}

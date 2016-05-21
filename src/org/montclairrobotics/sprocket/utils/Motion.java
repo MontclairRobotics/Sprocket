@@ -3,7 +3,7 @@ package org.montclairrobotics.sprocket.utils;
 public abstract class Motion {
   
   public static enum Type {
-    LINEAR, QUADRATIC, CUBIC;
+    CONSTANT, LINEAR, QUADRATIC, CUBIC;
   }
   
   public DistanceUnit distanceUnit;
@@ -11,19 +11,19 @@ public abstract class Motion {
   
   public Type typeOfMotion;
   
-  public double time0;
-  public double timeF;
+  public double initTime;
+  public double finalTime;
   
   public abstract double positionAtTime(double t);
-  public abstract double positionAtInitialTime();
-  public abstract double positionAtFinalTime();
+  public abstract double initialPosition();
+  public abstract double finalPosition();
   
   public abstract double velocityAtTime(double t);
-  public abstract double velocityAtInitialTime();
-  public abstract double velocityAtFinalTime();
+  public abstract double initialVelocity();
+  public abstract double finalVelocity();
   
   public abstract double accelerationAtTime(double t);
-  public abstract double accelerationAtInitialTime();
-  public abstract double positionAtFinalTime1();
+  public abstract double initialAcceleration();
+  public abstract double finalAcceleration();
   
 }
