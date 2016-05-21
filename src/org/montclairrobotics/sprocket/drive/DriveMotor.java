@@ -6,7 +6,6 @@ import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Polar;
 import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.UpdateClass;
 import org.montclairrobotics.sprocket.utils.Updater;
 import org.montclairrobotics.sprocket.utils.Vector;
 import org.montclairrobotics.sprocket.utils.XY;
@@ -89,7 +88,7 @@ public class DriveMotor extends Motor{
 	 * @param goal The goal velocity vector for this wheel
 	 * @return the speed as a double of this wheel
 	 */
-	public double calcSpeed()
+	public double calcSpeed(Vector goal)
 	{
 		return goal.getY();
 	}
@@ -99,7 +98,6 @@ public class DriveMotor extends Motor{
 		double loops=Timer.getFPGATimestamp();
 		double diff=loops-lastLoops;
 		lastLoops=loops;
-		
 		totDistance=totDistance.add(new Polar(super.getRate()*diff,forceAngle));
 	}
 	public Vector getDirectionDistance() {
