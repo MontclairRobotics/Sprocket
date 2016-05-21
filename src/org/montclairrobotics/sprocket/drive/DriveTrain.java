@@ -6,17 +6,11 @@ import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Polar;
+import org.montclairrobotics.sprocket.utils.Priority;
 import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.UpdateClass;
 import org.montclairrobotics.sprocket.utils.Updater;
 import org.montclairrobotics.sprocket.utils.Vector;
 import org.montclairrobotics.sprocket.utils.XY;
-
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.VictorSP;
 
 /**
  * The main drivetrain class which holds a set of wheels
@@ -47,7 +41,8 @@ public class DriveTrain implements Updatable{
 	 */
 	public DriveTrain(DriveMotor[] wheels){
 		this.wheels=wheels;
-		Updater.add(this, UpdateClass.DriveTrain);
+		Updater.add(this, Priority.DRIVE_CALC);
+		driveVector=new XY(0,0);
 	}
 	public DriveTrain setLockPID(PID pid)
 	{
@@ -193,12 +188,16 @@ public class DriveTrain implements Updatable{
 		int i=0;
 		for(int j=0;j<leftPorts.length;j++)
 		{
-			r[i]=new DriveMotor(Motor.makeMotor(leftPorts[j],type),leftOffset,new Degree(0)).setEncoder(Motor.makeEncoder(leftEncoders,j)).setPID(encPID);
+			r[i]=new DriveMotor(Motor.makeMotor(leftPorts[j],type),"LEFT "+j+":"+leftPorts[j],leftOffset,new Degree(0));
+			if(leftEncoders!=null)
+				r[i].setEncoder(Motor.makeEncoder(leftEncoders,j)).setPID(encPID);
 			i++;
 		}
 		for(int j=0;j<rightPorts.length;j++)
 		{
-			r[i]=new DriveMotor(Motor.makeMotor(rightPorts[j],type),rightOffset,new Degree(180)).setEncoder(Motor.makeEncoder(rightEncoders,j)).setPID(encPID);
+			r[i]=new DriveMotor(Motor.makeMotor(rightPorts[j],type),"RIGHT "+j+":"+leftPorts[j],rightOffset,new Degree(0));
+			if(rightEncoders!=null)
+				r[i].setEncoder(Motor.makeEncoder(rightEncoders,j)).setPID(encPID);
 			i++;
 		}
 		return new DriveTrain(r);
@@ -227,10 +226,10 @@ public class DriveTrain implements Updatable{
 			int[] flEncoder,int[] frEncoder,int[] blEncoder,int[] brEncoder,PID encPID)
 	{
 		DriveMotor[] r= new DriveMotor[4];
-		r[0]=new DriveMotor(Motor.makeMotor(flPort,type),new XY(-1, 1),new Degree(  45)).setEncoder(Motor.makeEncoder(flEncoder)).setPID(encPID);
-		r[1]=new DriveMotor(Motor.makeMotor(frPort,type),new XY( 1, 1),new Degree( 135)).setEncoder(Motor.makeEncoder(frEncoder)).setPID(encPID);
-		r[2]=new DriveMotor(Motor.makeMotor(blPort,type),new XY(-1,-1),new Degree( -45)).setEncoder(Motor.makeEncoder(blEncoder)).setPID(encPID);
-		r[3]=new DriveMotor(Motor.makeMotor(brPort,type),new XY( 1,-1),new Degree(-135)).setEncoder(Motor.makeEncoder(brEncoder)).setPID(encPID);
+		r[0]=new DriveMotor(Motor.makeMotor(flPort,type),"FL",new XY(-1, 1),new Degree(  45)).setEncoder(Motor.makeEncoder(flEncoder)).setPID(encPID);
+		r[1]=new DriveMotor(Motor.makeMotor(frPort,type),"FR",new XY( 1, 1),new Degree( 135)).setEncoder(Motor.makeEncoder(frEncoder)).setPID(encPID);
+		r[2]=new DriveMotor(Motor.makeMotor(blPort,type),"BL",new XY(-1,-1),new Degree( -45)).setEncoder(Motor.makeEncoder(blEncoder)).setPID(encPID);
+		r[3]=new DriveMotor(Motor.makeMotor(brPort,type),"BR",new XY( 1,-1),new Degree(-135)).setEncoder(Motor.makeEncoder(brEncoder)).setPID(encPID);
 		return new DriveTrain(r);
 	}
 }

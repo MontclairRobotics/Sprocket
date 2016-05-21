@@ -2,8 +2,8 @@ package org.montclairrobotics.sprocket.control;
 
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.utils.Polar;
+import org.montclairrobotics.sprocket.utils.Priority;
 import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.UpdateClass;
 import org.montclairrobotics.sprocket.utils.Updater;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -27,7 +27,7 @@ public class ArcadeTranslator implements Updatable {
 	public ArcadeTranslator(DriveTrain driveTrain, Joystick stick) {
 		this.driveTrain = driveTrain;
 		this.stick = stick;
-		Updater.add(this, UpdateClass.ControlTranslator);
+		Updater.add(this, Priority.INPUT);
 	}
 	
 	@Override
