@@ -2,6 +2,7 @@ package org.usfirst.frc.team555.robot;
 
 import org.montclairrobotics.sprocket.states.State;
 import org.montclairrobotics.sprocket.states.StateMachine;
+import org.montclairrobotics.sprocket.states.StateObj;
 
 public class Auto extends StateMachine
 {
@@ -14,7 +15,7 @@ public class Auto extends StateMachine
 		Robot.driveTrain.driveSpeedRotation(0,0);
 		super.stop();
 	}
-	public abstract static class AutoState extends State
+	public abstract static class AutoState extends StateObj
 	{
 		private State next;
 		public AutoState(State next)

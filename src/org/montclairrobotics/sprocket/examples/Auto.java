@@ -4,6 +4,7 @@ import org.montclairrobotics.sprocket.drive.AutoDrive;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.states.State;
 import org.montclairrobotics.sprocket.states.StateMachine;
+import org.montclairrobotics.sprocket.states.StateObj;
 import org.montclairrobotics.sprocket.utils.Distance;
 import org.montclairrobotics.sprocket.utils.Polar;
 
@@ -15,7 +16,7 @@ public class Auto extends StateMachine{
 		driveTrain=dt;
 	}
 	
-	public static class Start extends State
+	public static class Start extends StateObj
 	{
 		public boolean isDone(){
 			return true;
@@ -24,7 +25,7 @@ public class Auto extends StateMachine{
 			return new LowerShooter();
 		}
 	}
-	public static class LowerShooter extends State
+	public static class LowerShooter extends StateObj
 	{
 		private int loops=0;
 		public void update()
@@ -40,7 +41,7 @@ public class Auto extends StateMachine{
 			return new Drive1();
 		}
 	}
-	public static class Drive1 extends State
+	public static class Drive1 extends StateObj
 	{
 		private AutoDrive d;
 		public void onStart()
@@ -55,7 +56,7 @@ public class Auto extends StateMachine{
 			return new Done();
 		}
 	}
-	public static class Done extends State
+	public static class Done extends StateObj
 	{
 		public boolean isDone() {
 			return false;
