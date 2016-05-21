@@ -34,7 +34,7 @@ public class Volume {
   
   // s: side
   public static double cube(double s) {
-    return Math.pow(r, 3.0);
+    return Math.pow(s, 3.0);
   }
   
   // l: length, w: width, h: height
