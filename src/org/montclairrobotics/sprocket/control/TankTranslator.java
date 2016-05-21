@@ -1,6 +1,7 @@
 package org.montclairrobotics.sprocket.control;
 
 import org.montclairrobotics.sprocket.drive.DriveTrain;
+import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updatable;
 import org.montclairrobotics.sprocket.updater.Updater;
 import org.montclairrobotics.sprocket.utils.*;

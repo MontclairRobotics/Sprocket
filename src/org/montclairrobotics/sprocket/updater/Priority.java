@@ -1,4 +1,4 @@
-package org.montclairrobotics.sprocket.utils;
+package org.montclairrobotics.sprocket.updater;
 
 /**
  * In practise, some Updatable objects will need to run before others in order to make sure that control

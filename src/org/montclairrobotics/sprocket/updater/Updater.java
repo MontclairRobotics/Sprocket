@@ -5,8 +5,6 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.ArrayList;
 
-import org.montclairrobotics.sprocket.utils.Priority;
-
 /**
  * @author Jack Hymowitz, Rafi Baum
  * Runs all the modules which need to be updated in each tick

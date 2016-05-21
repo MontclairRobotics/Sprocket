@@ -1,11 +1,11 @@
 package org.montclairrobotics.sprocket.drive;
 
+import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updatable;
 import org.montclairrobotics.sprocket.updater.Updater;
 import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.Polar;
-import org.montclairrobotics.sprocket.utils.Priority;
 
 /**
  * This class should be instantiated each time 
