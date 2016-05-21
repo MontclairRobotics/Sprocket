@@ -1,8 +1,8 @@
 package org.montclairrobotics.sprocket.states;
 
+import org.montclairrobotics.sprocket.updater.Updatable;
+import org.montclairrobotics.sprocket.updater.Updater;
 import org.montclairrobotics.sprocket.utils.Priority;
-import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.Updater;
 
 /**
  * Extend this class to make a simple state machine;

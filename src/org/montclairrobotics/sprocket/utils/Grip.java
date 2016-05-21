@@ -1,5 +1,8 @@
 package org.montclairrobotics.sprocket.utils;
 
+import org.montclairrobotics.sprocket.updater.Updatable;
+import org.montclairrobotics.sprocket.updater.Updater;
+
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class Grip implements Updatable{

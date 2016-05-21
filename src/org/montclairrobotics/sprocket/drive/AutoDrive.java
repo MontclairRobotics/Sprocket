@@ -1,11 +1,11 @@
 package org.montclairrobotics.sprocket.drive;
 
+import org.montclairrobotics.sprocket.updater.Updatable;
+import org.montclairrobotics.sprocket.updater.Updater;
 import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.Distance;
 import org.montclairrobotics.sprocket.utils.Polar;
 import org.montclairrobotics.sprocket.utils.Priority;
-import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.Updater;
 import org.montclairrobotics.sprocket.utils.Vector;
 
 /**

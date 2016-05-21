@@ -1,9 +1,11 @@
-package org.montclairrobotics.sprocket.utils;
+package org.montclairrobotics.sprocket.updater;
 
 import java.util.Comparator;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.ArrayList;
+
+import org.montclairrobotics.sprocket.utils.Priority;
 
 /**
  * @author Jack Hymowitz, Rafi Baum

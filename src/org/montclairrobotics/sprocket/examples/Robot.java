@@ -4,9 +4,9 @@ package org.montclairrobotics.sprocket.examples;
 import org.montclairrobotics.sprocket.control.ArcadeTranslator;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.drive.Motor.M_TYPE;
+import org.montclairrobotics.sprocket.updater.Updater;
 import org.montclairrobotics.sprocket.utils.CameraServers;
 import org.montclairrobotics.sprocket.utils.PID;
-import org.montclairrobotics.sprocket.utils.Updater;
 import org.montclairrobotics.sprocket.utils.XY;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
