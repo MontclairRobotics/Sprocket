@@ -14,12 +14,12 @@ public class Area {
   
   // r: radius, theta: angle
   public static double sector(double r, Angle theta) {
-    return 1.0/2.0 Math.pow(r, 2.0) * theta.toRadians();
+    return 1.0/2.0 * Math.pow(r, 2.0) * theta.toRadians();
   }
   
   // n: number of sides, s: side length
   public static double regularPolygon(double n, double s) {
-    1.0/4.0 * n * Math.pow(s, 2.0) / Math.tan(Math.PI / n);
+    return 1.0/4.0 * n * Math.pow(s, 2.0) / Math.tan(Math.PI / n);
   }
   
   // b: base, h: hight
