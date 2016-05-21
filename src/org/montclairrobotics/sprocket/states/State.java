@@ -19,11 +19,5 @@ public interface State {
 	 * @return true if you want to start the next state, false otherwise.
 	 * @see getNextState
 	 */
-	public abstract boolean isDone();
-	/**
-	 * Once this state is done, this method will be called to get 
-	 * an instance of another state.
-	 * @return An instance of the next state, or null if this is the last state.
-	 */
-	public abstract State getNextState();
+	public boolean isDone();
 }

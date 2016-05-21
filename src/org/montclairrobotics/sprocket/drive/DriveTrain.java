@@ -9,6 +9,7 @@ import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Polar;
+import org.montclairrobotics.sprocket.utils.Utils;
 import org.montclairrobotics.sprocket.utils.Vector;
 import org.montclairrobotics.sprocket.utils.XY;
 
@@ -24,6 +25,7 @@ public class DriveTrain implements Updatable{
 	public static final double MIN_SPEED=0.1;
 	public static final double MAX_STRAIGHT_ROTATION=0.1;
 	public static final double ROT_FACTOR=0.75;
+	private static final double DEAD_ZONE = 0.15;
 	
 	//constants
 	private DriveMotor[] wheels;
@@ -119,7 +121,7 @@ public class DriveTrain implements Updatable{
 	 */
 	public void driveSpeedRotation(double speed,double rotation)
 	{
-		drive(new XY(0,speed),rotation);
+		drive(new XY(0,Utils.deadZone(speed,DEAD_ZONE)),Utils.deadZone(rotation,DEAD_ZONE));
 	}
 	
 	/**OTHER METHODS**/
@@ -195,7 +197,7 @@ public class DriveTrain implements Updatable{
 		}
 		for(int j=0;j<rightPorts.length;j++)
 		{
-			r[i]=new DriveMotor(Motor.makeMotor(rightPorts[j],type),"RIGHT "+j+":"+leftPorts[j],rightOffset,new Degree(0));
+			r[i]=new DriveMotor(Motor.makeMotor(rightPorts[j],type),"RIGHT "+j+":"+rightPorts[j],rightOffset,new Degree(180));
 			if(rightEncoders!=null)
 				r[i].setEncoder(Motor.makeEncoder(rightEncoders,j)).setPID(encPID);
 			i++;

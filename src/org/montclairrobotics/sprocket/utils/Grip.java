@@ -19,15 +19,15 @@ public class Grip implements Updatable{
 	{
 		report=new GripContourReport(table);
 	}
-	public double getX()
+	public int getX()
 	{
-		if(report==null)return 0.0;
+		if(report==null)return -1;
 		Dashboard.putNumber("grip_x",report.maxCenterX);
 		return report.maxCenterX;
 	}
-	public double getY()
+	public int getY()
 	{
-		if(report==null)return 0.0;
+		if(report==null)return -1;
 		Dashboard.putNumber("grip_y",report.maxCenterY);
 		return report.maxCenterY;
 	}
