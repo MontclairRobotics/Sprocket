@@ -3,21 +3,13 @@ package org.montclairrobotics.sprocket.drive;
 import org.montclairrobotics.sprocket.drive.Motor.M_TYPE;
 import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Degree;
-import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Polar;
 import org.montclairrobotics.sprocket.utils.Priority;
 import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.UpdateClass;
 import org.montclairrobotics.sprocket.utils.Updater;
 import org.montclairrobotics.sprocket.utils.Vector;
 import org.montclairrobotics.sprocket.utils.XY;
-
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.VictorSP;
 
 /**
  * The main drivetrain class which holds a set of wheels
