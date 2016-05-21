@@ -42,6 +42,6 @@ public class Volume {
     return l * w * h;
   }
   
-  // WE NEED PYRAMID
+  // WE NEED PYRAMIDS
   
 }
