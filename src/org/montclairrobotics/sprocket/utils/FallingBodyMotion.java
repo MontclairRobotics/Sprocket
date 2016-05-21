@@ -61,50 +61,41 @@ public class FallingBodyMotion extends Motion {
 	public static double smallG(DistanceUnit s, TimeUnit t) {
 		final double smallGInMpS2 = 9.806;
 		
-		return Unit.convertQuantity(smallGInMpS2, DistanceUnit.m, s) / Math.pow(Unit.convertQuantity(1, TimeUnit.s, t), 2);
+		return DistanceUnit.m.convertQuantity(smallGInMpS2, s) / Math.pow(DistanceUnit.m.convertQuantity(1, t), 2);
 	}
-	
-	@Override
+
 	public double positionAtTime(double t) {
 		return -0.5*FallingBodyMotion.smallG(distanceUnit, timeUnit)*Math.pow(t, 2) + initVelocity*t + initHeight;
 	}
 
-	@Override
 	public double initialPosition() {
 		return initHeight;
 	}
 
-	@Override
 	public double finalPosition() {
 		return positionAtTime(finalTime);
 	}
 
-	@Override
 	public double velocityAtTime(double t) {
 		return -FallingBodyMotion.smallG(distanceUnit, timeUnit)*t + initVelocity;
 	}
 
-	@Override
 	public double initialVelocity() {
 		return initVelocity;
 	}
 
-	@Override
 	public double finalVelocity() {
 		return velocityAtTime(finalTime);
 	}
 
-	@Override
 	public double accelerationAtTime(double t) {
 		return -FallingBodyMotion.smallG(distanceUnit, timeUnit);
 	}
 
-	@Override
 	public double initialAcceleration() {
 		return accelerationAtTime(initTime);
 	}
 
-	@Override
 	public double finalAcceleration() {
 		return accelerationAtTime(finalTime);
 	}

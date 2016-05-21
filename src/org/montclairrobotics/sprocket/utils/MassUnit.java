@@ -11,4 +11,12 @@ public enum MassUnit implements Unit {
 		default: return 0;
 		}
 	}
+	
+	public double convertQuantity(double q, Unit newUnit) {
+		if (newUnit.getClass() == MassUnit.class) {
+			return q * this.getConversionFactor() / newUnit.getConversionFactor();
+		} else {
+			return (Double) null;
+		}
+	}
 }

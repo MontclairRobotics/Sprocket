@@ -12,4 +12,12 @@ public enum TimeUnit implements Unit {
 		default:  return 0;
 		}
 	}
+	
+	public double convertQuantity(double q, Unit newUnit) {
+		if (newUnit.getClass() == TimeUnit.class) {
+			return q * this.getConversionFactor() / newUnit.getConversionFactor();
+		} else {
+			return (Double) null;
+		}
+	}
 }
