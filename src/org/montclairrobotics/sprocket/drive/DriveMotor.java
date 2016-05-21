@@ -89,7 +89,7 @@ public class DriveMotor extends Motor{
 	 * @param goal The goal velocity vector for this wheel
 	 * @return the speed as a double of this wheel
 	 */
-	public double calcSpeed()
+	public double calcSpeed(Vector goal)
 	{
 		return goal.getY();
 	}
@@ -99,7 +99,6 @@ public class DriveMotor extends Motor{
 		double loops=Timer.getFPGATimestamp();
 		double diff=loops-lastLoops;
 		lastLoops=loops;
-		
 		totDistance=totDistance.add(new Polar(super.getRate()*diff,forceAngle));
 	}
 	public Vector getDirectionDistance() {

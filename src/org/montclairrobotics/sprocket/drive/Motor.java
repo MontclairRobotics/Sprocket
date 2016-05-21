@@ -32,6 +32,7 @@ public class Motor implements Updatable{
 
 	private static final double DEGREES_PER_SECOND_MAX_SPEED = 180;
 	private String name;
+	
 	private double goal;
 	private SpeedController motor;
 	private Encoder encoder;
