@@ -22,19 +22,29 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.Headers;
 
-public abstract class Http {
-
-    public String r="DEFAULT";
+public class Http implements Runnable{
     
+	private Thread myThread; 
+	
     private HttpServer server;
     private boolean on=false;
+    private int port;
+    private String subDir;
     
-    public Http(int port, String name)
+    public Http(int port, String subDir)
     {
-    	start(port,name);
+    	this.port=port;
+    	this.subDir=subDir;
+    	myThread=new Thread(this);
+    	myThread.start();
     }
     
-    public void start(int port,String name){
+    public void run()
+    {
+    	startServer();
+    }
+    public void startServer()
+    {
         try {
 			server = HttpServer.create(new InetSocketAddress(port), 0);
 		} catch (IOException e) {
@@ -42,13 +52,13 @@ public abstract class Http {
 			e.printStackTrace();
 			return;
 		}
-        server.createContext("/"+name, new MyHandler());
+        server.createContext("/"+subDir, new MyHandler());
         server.setExecutor(null); // creates a default executor
         server.start();
         on=true;
     }
     
-    public void stop()
+    public void stopServer()
     {
     	if(server!=null && on)
     	{
@@ -64,9 +74,9 @@ public abstract class Http {
         }
     }
     public void request(HttpExchange t) {
-        Headers h=t.getResponseHeaders();
-        byte[]response=getResponse(h,t);
-        try {
+        try{
+	    	Headers h=t.getResponseHeaders();
+	        byte[]response=getResponse(h,t);
 			t.sendResponseHeaders(200, response.length);
 			OutputStream os = t.getResponseBody();
 	        os.write(response);

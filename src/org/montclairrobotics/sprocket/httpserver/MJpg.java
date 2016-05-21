@@ -1,5 +1,7 @@
 package org.montclairrobotics.sprocket.httpserver;
 
+
+
 /**
  * Copyright (c) 2013 Joshua Dickson
  * 
@@ -54,9 +56,9 @@ import com.sun.net.httpserver.HttpExchange;
  * @version December 10, 2013
  */
 public class MJpg extends Http {
-	
-	private final List<byte[]> imageByteList;
-	private int currentIndex;
+    
+    private final List<byte[]> imageByteList;
+    private int currentIndex;
         
     
     public MJpg(int port,String fileName){
@@ -70,54 +72,56 @@ public class MJpg extends Http {
         imageByteList = new ArrayList<byte[]>(0);
         
         for(String name : names) {
-        	try {
-        		File image = new File(System.getProperty("user.home") + File.separator 
-        				+ name + ".jpg");
-        		BufferedImage originalImage = ImageIO.read(image);
-            	ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            	ImageIO.write( originalImage, "jpg", baos );
-            	baos.flush();
-            	imageByteList.add(baos.toByteArray());
-            	baos.close();
-        	} catch (Exception ex) {
-            	System.err.println("There was a problem loading the images.");
+            try {
+                File image = new File(name + ".jpg");
+                BufferedImage originalImage = ImageIO.read(image);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write( originalImage, "jpg", baos );
+                baos.flush();
+                imageByteList.add(baos.toByteArray());
+                baos.close();
+            } catch (Exception ex) {
+                System.err.println("There was a problem loading the images.");
             }
         }
 
     }
     public void request(HttpExchange t) {
-        Headers h=t.getResponseHeaders();
-        h.add("Content-type","multipart/x-mixed-replace; boundary=--BoundaryString");
-		try {
-			t.sendResponseHeaders(200, 0);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			return;
-		}
-        while(true)
-    	{
-	        byte[]response=getResponse(h,t);
-	        try {
-				OutputStream os = t.getResponseBody();
-		        os.write(
-		        	("--BoundaryString\r\n" +
-					"Content-type: image/jpeg\r\n" +
-					"Content-Length: "+response.length).getBytes());
-		        os.write(response);
-		        os.write("\r\n\r\n".getBytes());
-		        os.flush();
-			} catch (IOException e) {
-				e.printStackTrace();
-				return;
-			}
-	        //TODO TODO TODO
-	        Thread.sleep(20);
-    	}
+        try{
+            Headers h=t.getResponseHeaders();
+            byte[] data = getResponse();
+            t.sendResponseHeaders(200,0);
+            OutputStream outputStream = t.getResponseBody();
+            outputStream.write((
+                "HTTP/1.0 200 OK\r\n" +
+                "Connection: close\r\n" +
+                "Max-Age: 0\r\n" +
+                "Expires: 0\r\n" +
+                "Access-Control-Allow-Origin: *" +
+                "Cache-Control: no-cache, private\r\n" + 
+                "Pragma: no-cache\r\n" + 
+                "Content-Type: multipart/x-mixed-replace; " +
+                "boundary=--BoundaryString\r\n\r\n").getBytes());
+            while (true) {
+                data = getResponse();
+                outputStream.write((
+                "--BoundaryString\r\n" +
+                "Content-type: image/jpg\r\n" +
+                "Content-Length: " +
+                data.length +
+                "\r\n\r\n").getBytes());
+                outputStream.write(data);
+                outputStream.write("\r\n\r\n".getBytes());
+                outputStream.flush();
+            }
+        }
+        catch(Exception e)
+        {
+        }
     }
-    public byte[] getResponse(Headers h, HttpExchange exchange) {
-		currentIndex=(currentIndex+1)%4;
-		return imageByteList.get(currentIndex);	
-	}
+    public byte[] getResponse() {
+        currentIndex=(currentIndex+1)%4;
+        return imageByteList.get(currentIndex); 
+    }
 
 }
