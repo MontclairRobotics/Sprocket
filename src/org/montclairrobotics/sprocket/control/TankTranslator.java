@@ -25,7 +25,7 @@ public class TankTranslator implements Updatable {
 		joysticks = new Joystick[2];
 		joysticks[0] = leftStick;
 		joysticks[1] = rightStick;
-		Updater.add(this, UpdateClass.ControlTranslator);
+		Updater.add(this, Priority.INPUT);
 	}
 	
 	@Override

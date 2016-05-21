@@ -14,11 +14,12 @@ public class Priority {
 	public static final Priority LOW = new Priority(-100);
 	public static final Priority LOWEST = new Priority(Integer.MIN_VALUE);
 	
-	public static final Priority INPUT=HIGHEST;
-	public static final Priority INPUTPID=HIGH;
-	public static final Priority CALC=NORMAL;
-	public static final Priority DRIVECALC=LOW;
-	public static final Priority OUTPUT=LOWEST;
+	public static final Priority INPUT = HIGHEST;
+	public static final Priority INPUT_PID = HIGH;
+	public static final Priority CALC = NORMAL;
+	public static final Priority DRIVE_CALC=LOW;
+	public static final Priority AUTO = LOW;
+	public static final Priority OUTPUT = LOWEST;
 	
 	int p;
 	

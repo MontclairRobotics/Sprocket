@@ -41,7 +41,7 @@ public class DriveTrain implements Updatable{
 	 */
 	public DriveTrain(DriveMotor[] wheels){
 		this.wheels=wheels;
-		Updater.add(this, Priority.DRIVECALC);
+		Updater.add(this, Priority.DRIVE_CALC);
 		driveVector=new XY(0,0);
 	}
 	public DriveTrain setLockPID(PID pid)
