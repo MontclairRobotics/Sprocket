@@ -29,13 +29,19 @@ public abstract class Http {
     private HttpServer server;
     private boolean on=false;
     
-    public Http(int port, String name) throws Exception
+    public Http(int port, String name)
     {
     	start(port,name);
     }
     
-    public void start(int port,String name) throws Exception {
-        server = HttpServer.create(new InetSocketAddress(port), 0);
+    public void start(int port,String name){
+        try {
+			server = HttpServer.create(new InetSocketAddress(port), 0);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
         server.createContext("/"+name, new MyHandler());
         server.setExecutor(null); // creates a default executor
         server.start();
@@ -54,14 +60,28 @@ public abstract class Http {
     class MyHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange t) throws IOException {
-            String response = r;
-            Headers h=t.getResponseHeaders();
-            h.add("Access-Control-Allow-Origin","*");
-            t.sendResponseHeaders(200, response.length());
-            OutputStream os = t.getResponseBody();
-            os.write(response.getBytes());
-            os.close();
+            request(t);
         }
     }
-    public abstract void request(Headers h,OutputStream out,HttpExchange exchange);
+    public void request(HttpExchange t) {
+        Headers h=t.getResponseHeaders();
+        byte[]response=getResponse(h,t);
+        try {
+			t.sendResponseHeaders(200, response.length);
+			OutputStream os = t.getResponseBody();
+	        os.write(response);
+	        os.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    /**
+     * Processes an http request,
+     * filling out header and returning the response
+     * @param h the Headers, add() each header
+     * @param exchange the HttpExchange (don't have to use)
+     * @return the byte[] that you want to send
+     */
+    public byte[] getResponse(Headers h,HttpExchange exchange){return null;}
 }
