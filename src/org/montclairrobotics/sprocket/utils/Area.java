@@ -29,7 +29,7 @@ public class Area {
   
   // s: side
   public static double equilateralTriangle(double s) {
-    return Math.sqrt(3.0)/4 * Math.pow(s, 2.0);
+    return Math.sqrt(3.0)/4.0 * Math.pow(s, 2.0);
   }
   
   // s: side
