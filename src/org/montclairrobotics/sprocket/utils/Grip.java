@@ -1,0 +1,34 @@
+package org.montclairrobotics.sprocket.utils;
+
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+
+public class Grip implements Updatable{
+	NetworkTable table;
+	GripContourReport report;
+	
+	public Grip(String key)
+	{
+		table=NetworkTable.getTable(key);
+		Updater.add(this, Priority.INPUT);
+	}
+	public void update()
+	{
+		report=new GripContourReport(table);
+	}
+	public double getX()
+	{
+		if(report==null)return 0.0;
+		Dashboard.putNumber("grip_x",report.maxCenterX);
+		return report.maxCenterX;
+	}
+	public double getY()
+	{
+		if(report==null)return 0.0;
+		Dashboard.putNumber("grip_y",report.maxCenterY);
+		return report.maxCenterY;
+	}
+	public GripContourReport getReport()
+	{
+		return report;
+	}
+}

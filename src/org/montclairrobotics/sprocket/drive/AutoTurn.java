@@ -3,8 +3,8 @@ package org.montclairrobotics.sprocket.drive;
 import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.Polar;
+import org.montclairrobotics.sprocket.utils.Priority;
 import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.UpdateClass;
 import org.montclairrobotics.sprocket.utils.Updater;
 
 /**
@@ -41,7 +41,7 @@ public class AutoTurn implements Updatable {
 		else
 		{
 			done=false;
-			Updater.add(this, UpdateClass.Autonomous);
+			Updater.add(this, Priority.CALC);
 		}
 	}
 	

@@ -1,12 +1,13 @@
 package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.utils.Angle;
+import org.montclairrobotics.sprocket.utils.Dashboard;
 import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Polar;
+import org.montclairrobotics.sprocket.utils.Priority;
 import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.UpdateClass;
 import org.montclairrobotics.sprocket.utils.Updater;
 import org.montclairrobotics.sprocket.utils.Vector;
 import org.montclairrobotics.sprocket.utils.XY;
@@ -29,6 +30,7 @@ public class Motor implements Updatable{
 	public static enum M_TYPE{TALONSRX,VICTORSP,TALON};
 
 	private static final double DEGREES_PER_SECOND_MAX_SPEED = 180;
+	private String name;
 	
 	private double goal;
 	private SpeedController motor;
@@ -39,9 +41,10 @@ public class Motor implements Updatable{
 	 * Creates a motor with an encoder and pid controller
 	 * @param motor The SpeedController to use
 	 */
-	public Motor(SpeedController motor)
+	public Motor(SpeedController motor,String name)
 	{
 		this.motor=motor;
+		this.name=name;
 		if(motor instanceof CANTalon)
 		{
 			CANTalon talon = (CANTalon)motor;
@@ -50,7 +53,7 @@ public class Motor implements Updatable{
 			talon.enable();
 			talon.enableControl();
 		}
-		Updater.add(this, UpdateClass.MotorController);
+		Updater.add(this, Priority.OUTPUT);
 	}
 
 	public Motor setEncoder(Encoder e)
@@ -62,6 +65,7 @@ public class Motor implements Updatable{
 	
 	public Motor setPID(PID a)
 	{
+		if(a==null)return this;
 		this.pid=a.copy().setInput(new EncoderRate(encoder)).setMinMax(0, 0, -1, 1);
 		return this;
 	}
@@ -117,6 +121,7 @@ public class Motor implements Updatable{
 			speed=pid.get();//tgtSpeed*(1+pid.out());
 		}
 		motor.set(speed);
+		Dashboard.putNumber("Motor "+name, speed);
 	}
 	
 	public boolean isInverted() {
@@ -162,10 +167,11 @@ public class Motor implements Updatable{
 	/**
 	 * Helper method to create a SpeedController of a given type
 	 * @param port The motor port
+	 * @param name 
 	 * @param type The motor type
 	 * @return The SpeedController
 	 */
-	public static SpeedController makeMotor(int port,M_TYPE type)
+	public static SpeedController makeMotor(int port, M_TYPE type)
 	{
 		switch(type)
 		{

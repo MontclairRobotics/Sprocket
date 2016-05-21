@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.states;
 
+import org.montclairrobotics.sprocket.utils.Priority;
 import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.UpdateClass;
 import org.montclairrobotics.sprocket.utils.Updater;
 
 /**
@@ -22,11 +22,14 @@ public abstract class StateMachine implements Updatable {
 	 */
 	public StateMachine(State start)
 	{
-		Updater.add(this, UpdateClass.Autonomous);
+		Updater.add(this, Priority.CALC);
 		state=start;
 		state.onStart();
 	}
-	
+	public boolean isDone()
+	{
+		return state==null;
+	}
 	public void update()
 	{
 		if(state==null)return;
@@ -39,5 +42,9 @@ public abstract class StateMachine implements Updatable {
 			state.onStart();
 			update();
 		}
+	}
+	public void stop()
+	{
+		state=null;
 	}
 }
