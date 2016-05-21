@@ -5,14 +5,12 @@ public class FallingBodyMotion extends Motion {
 	public double initVelocity; // Initial vertical velocity
 	public double initHeight; // Initial height
 	
-	public FallingBodyMotion(double initV, double initS) {
+	public FallingBodyMotion(double initV, double initY) {
 		this.initVelocity = initV;
-		this.initHeight = initS;
+		this.initHeight = initY;
 		
 		this.distanceUnit = DistanceUnit.m;
 		this.timeUnit = TimeUnit.s;
-		
-		this.typeOfMotion = Type.QUADRATIC;
 		
 		this.initTime = 0;
 		this.finalTime = Double.MAX_VALUE;
@@ -25,8 +23,6 @@ public class FallingBodyMotion extends Motion {
 		this.distanceUnit = DistanceUnit.m;
 		this.timeUnit = TimeUnit.s;
 		
-		this.typeOfMotion = Type.QUADRATIC;
-		
 		this.initTime = t0;
 		this.finalTime = tf;
 	}
@@ -38,8 +34,6 @@ public class FallingBodyMotion extends Motion {
 		this.distanceUnit = s;
 		this.timeUnit = t;
 		
-		this.typeOfMotion = Type.QUADRATIC;
-		
 		this.initTime = 0;
 		this.finalTime = Double.MAX_VALUE;
 	}
@@ -50,8 +44,6 @@ public class FallingBodyMotion extends Motion {
 		
 		this.distanceUnit = s;
 		this.timeUnit = t;
-		
-		this.typeOfMotion = Type.QUADRATIC;
 		
 		this.initTime = t0;
 		this.finalTime = tf;
