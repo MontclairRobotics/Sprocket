@@ -2,8 +2,8 @@ package org.montclairrobotics.sprocket.utils;
 
 public class FallingBodyMotion extends Motion {
 	
-	public double initVelocity; // Initial vertical velocity
-	public double initHeight; // Initial height
+	private double initVelocity; // Initial vertical velocity
+	private double initHeight; // Initial height
 	
 	public FallingBodyMotion(double initV, double initY) {
 		this.initVelocity = initV;
@@ -55,6 +55,20 @@ public class FallingBodyMotion extends Motion {
 		
 		return DistanceUnit.m.convertQuantity(smallGInMpS2, s) / Math.pow(DistanceUnit.m.convertQuantity(1, t), 2);
 	}
+	
+	public String positionFunctionAsString() {
+		String sOfT = "s(t) = ";
+		
+		sOfT += -0.5 * FallingBodyMotion.smallG(distanceUnit, timeUnit) + "t^2";
+		
+		if (initVelocity > 0) sOfT += " + " + initVelocity + "t";
+		else if (initVelocity < 0) sOfT += " - " + Math.abs(initVelocity) + "t";
+		
+		if (initHeight > 0) sOfT += " + " + initHeight;
+		else if (initHeight < 0) sOfT += " - " + Math.abs(initHeight);
+		
+		return sOfT;
+	}
 
 	public double positionAtTime(double t) {
 		return -0.5*FallingBodyMotion.smallG(distanceUnit, timeUnit)*Math.pow(t, 2) + initVelocity*t + initHeight;
@@ -95,7 +109,7 @@ public class FallingBodyMotion extends Motion {
 	public double timeAtMaximumHeight() {
 		return initVelocity / FallingBodyMotion.smallG(distanceUnit, timeUnit);
 	}
-	
+
 	public double maximumHeight() {
 		return positionAtTime(timeAtMaximumHeight());
 	}

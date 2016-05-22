@@ -5,7 +5,7 @@ public class LinearMotion extends Motion {
 	public static enum Type {
 		CONSTANT, LINEAR, QUADRATIC, CUBIC;
 		
-		public double numberOfTerms() {
+		public int numberOfTerms() {
 			switch (this) {
 			case CONSTANT:  return 1;
 			case LINEAR:    return 2;
@@ -67,18 +67,6 @@ public class LinearMotion extends Motion {
 		this.finalTime = tf;
 	}
 	
-	public double positionAtTime(double t) {
-		double xOfT = 0;
-		double nthPower = typeOfMotion.numberOfTerms() - 1;
-		
-		for (double coef : coefficients) {
-			xOfT += coef * Math.pow(t, nthPower);
-			nthPower--;
-		}
-		
-		return xOfT;
-	}
-
 	public double initialPosition() {
 		return positionAtTime(initTime);
 	}
@@ -109,6 +97,37 @@ public class LinearMotion extends Motion {
 
 	public double finalAcceleration() {
 		return accelerationAtTime(finalTime);
+	}
+	
+	public String positionFunctionAsString() {
+		String sOfT = "s(t) = ";
+		int nthPower = typeOfMotion.numberOfTerms() - 1;
+		
+		for (double coef : coefficients) {
+			String sign = (coef >= 0) ? "+" : "-";
+			
+			if (coef != 0) {
+				if (nthPower == 0) sOfT += sign + Math.abs(coef);
+				else if (nthPower == 1) sOfT += sign + Math.abs(coef) + "t";
+				else sOfT += sign + Math.abs(coef) + "t^" + nthPower;
+			}
+			
+			nthPower--;
+		}
+		
+		return sOfT;
+	}
+	
+	public double positionAtTime(double t) {
+		double sOfT = 0;
+		double nthPower = typeOfMotion.numberOfTerms() - 1;
+		
+		for (double coef : coefficients) {
+			sOfT += coef * Math.pow(t, nthPower);
+			nthPower--;
+		}
+		
+		return sOfT;
 	}
 
 }
