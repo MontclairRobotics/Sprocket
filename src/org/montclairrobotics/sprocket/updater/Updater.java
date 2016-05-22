@@ -1,4 +1,4 @@
-package org.montclairrobotics.sprocket.utils;
+package org.montclairrobotics.sprocket.updater;
 
 import java.util.Comparator;
 import java.util.Map.Entry;
@@ -57,14 +57,18 @@ public class Updater {
 	 * @param obj The object to be deleted
 	 * @return True if deleted, false if the object cannot be found
 	 */
-	/*public static boolean remove(Updatable obj) {
-		for(Entry<Priority, Updatable> set : objects.entrySet()) {
-			if(set.getValue() == obj) {
-				objects.remove(set.getKey());
-				return true;
+	public static boolean remove(Updatable obj) {
+		for(Entry<Priority, ArrayList<Updatable>> set : objects.entrySet()) {
+			for(int i=0;i<set.getValue().size();i++)
+			{
+				if(set.getValue().get(i)==obj)//YES, I used ==. I think it is right in this case
+				{
+					set.getValue().remove(i);
+					return true;
+				}
 			}
 		}
 		return false;
-	}*/
+	}
 	
 }

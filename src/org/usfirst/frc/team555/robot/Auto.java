@@ -1,44 +1,15 @@
 package org.usfirst.frc.team555.robot;
 
-import org.montclairrobotics.sprocket.states.State;
-import org.montclairrobotics.sprocket.states.StateMachine;
+import org.montclairrobotics.sprocket.states.StateObj;
 
-public class Auto extends StateMachine
+public class Auto
 {
-	
-	public Auto(State start) {
-		super(start);
-	}
-	public void stop()
+	public static class LowerArm extends StateObj
 	{
-		Robot.driveTrain.driveSpeedRotation(0,0);
-		super.stop();
-	}
-	public abstract static class AutoState extends State
-	{
-		private State next;
-		public AutoState(State next)
-		{
-			this.next=next;
-		}
-		public State getNextState()
-		{
-			return next;
-		}
-		public void onStop()
-		{
-			Robot.driveTrain.driveSpeedRotation(0,0);
-		}
-	}
-	public static class LowerArm extends AutoState
-	{
-		public LowerArm(State next) {
-			super(next);
-			// TODO Auto-generated constructor stub
-		}
-		private int loops=0;
+		private int loops;
 		public void onStart()
 		{
+			loops=0;
 			Robot.valves.lower();
 		}
 		public void update()
@@ -49,15 +20,12 @@ public class Auto extends StateMachine
 			return loops>2*30;
 		}
 	}
-	public static class HalfArm extends AutoState
+	public static class HalfArm extends StateObj
 	{
-		public HalfArm(State next) {
-			super(next);
-			// TODO Auto-generated constructor stub
-		}
-		private int loops=0;
+		private int loops;
 		public void onStart()
 		{
+			loops=0;
 			Robot.valves.lower();
 			Robot.valves.halfOff();
 		}
@@ -69,15 +37,12 @@ public class Auto extends StateMachine
 			return loops>2*30;
 		}
 	}
-	public static class ArmUp extends AutoState
+	public static class ArmUp extends StateObj
 	{
-		public ArmUp(State next) {
-			super(next);
-			// TODO Auto-generated constructor stub
-		}
-		private int loops=0;
+		private int loops;
 		public void onStart()
 		{
+			loops=0;
 			Robot.valves.raise();
 		}
 		public void update()
@@ -88,48 +53,12 @@ public class Auto extends StateMachine
 			return loops>10;
 		}
 	}
-	public static class Drive extends AutoState
+	public static class Shoot extends StateObj
 	{
-		public Drive(int time,State next) {
-			super(next);
-			this.time=time;
-			// TODO Auto-generated constructor stub
-		}
-		private int time=10;
-		private int loops=0;
+		private int loops;
 		public void onStart()
 		{
-			Robot.driveTrain.driveSpeedRotation(0, -0.5);
-		}
-		public void update()
-		{
-			loops++;
-		}
-		public boolean isDone() {
-			return loops>time*30;
-		}
-	}
-	public static class Align extends AutoState
-	{
-		public Align(State next) {
-			super(next);
-			// TODO Auto-generated constructor stub
-		}
-		public void update()
-		{
-			Robot.alignButton.down();
-		}
-		public boolean isDone()
-		{
-			return Robot.alignButton.getLoopsAtTarget()>30;
-		}
-	}
-	public static class Shoot extends AutoState
-	{
-		private int loops=0;
-		public Shoot(State next) {
-			super(next);
-			// TODO Auto-generated constructor stub
+			loops=0;
 		}
 		public void update()
 		{

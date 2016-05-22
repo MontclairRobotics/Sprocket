@@ -68,7 +68,7 @@ public class Valves {
 		new Shoot(1);
 		new ShootMotorOn(3);
 		new ShootMotorIntake(2);
-		Robot.alignButton=new AlignOn(11,new XY(160,200));
+		new AlignOn(11,new XY(160,200));
 		
 		raise();
 		halfOff();
@@ -132,11 +132,9 @@ public class Valves {
 				}
 			}
 			Robot.driveTrain.driveSpeedRotation(rot,spd);
-			Robot.align=true;
 		}
 		public void up()
 		{
-			Robot.align=false;
 		}
 		public int getLoopsAtTarget()
 		{

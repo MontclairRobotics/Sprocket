@@ -8,7 +8,7 @@ public class Degree extends Angle{
 	
 	public Degree(double d)
 	{
-		degrees=mod(d,-180,180);
+		degrees=Utils.mod(d,-180,180);
 	}
 	
 	public double toRadians() {

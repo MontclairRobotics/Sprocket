@@ -7,9 +7,9 @@ package org.montclairrobotics.sprocket.control;
  * It is recommended to create these as sub-classes in in a larger class
  * @see org.montclairrobotics.sprocket.examples.Buttons
  */
-import org.montclairrobotics.sprocket.utils.Priority;
-import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.Updater;
+import org.montclairrobotics.sprocket.updater.Priority;
+import org.montclairrobotics.sprocket.updater.Updatable;
+import org.montclairrobotics.sprocket.updater.Updater;
 
 import edu.wpi.first.wpilibj.Joystick;
 

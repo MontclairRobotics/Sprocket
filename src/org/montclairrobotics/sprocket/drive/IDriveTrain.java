@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.drive;
 
-import org.montclairrobotics.sprocket.utils.Updatable;
+import org.montclairrobotics.sprocket.updater.Updatable;
 
 public interface IDriveTrain extends Updatable {
 	

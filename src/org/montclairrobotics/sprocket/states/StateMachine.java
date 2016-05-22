@@ -1,8 +1,8 @@
 package org.montclairrobotics.sprocket.states;
 
-import org.montclairrobotics.sprocket.utils.Priority;
-import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.Updater;
+import org.montclairrobotics.sprocket.updater.Priority;
+import org.montclairrobotics.sprocket.updater.Updatable;
+import org.montclairrobotics.sprocket.updater.Updater;
 
 /**
  * Extend this class to make a simple state machine;
@@ -14,37 +14,57 @@ import org.montclairrobotics.sprocket.utils.Updater;
  *
  */
 
-public abstract class StateMachine implements Updatable {
-	private State state;
+public class StateMachine implements Updatable,State{
+	private State[] states;
+	private int i;
 	/** 
 	 * Start the state machine with the start state
 	 * @param start An instance of the start state
 	 */
-	public StateMachine(State start)
+	public StateMachine(State[] states)
 	{
 		Updater.add(this, Priority.CALC);
-		state=start;
-		state.onStart();
+		this.states=states;
+		for(State state:states)
+		{
+			if(state instanceof StateMachine)
+			{
+				((StateMachine)state).noAutoUpdate();
+			}
+		}
+		i=-1;
 	}
-	public boolean isDone()
+	public void onStart()
 	{
-		return state==null;
+		onStop();
+		i=0;
+		this.states[i].onStart();
 	}
 	public void update()
 	{
-		if(state==null)return;
-		state.update();
-		if(state.isDone())
+		if(isDone())return;
+		states[i].update();
+		if(states[i].isDone())
 		{
-			state.onStop();
-			state=state.getNextState();
-			if(state==null)return;
-			state.onStart();
+			states[i].onStop();
+			i++;
+			if(isDone())return;
+			states[i].onStart();
 			update();
 		}
 	}
-	public void stop()
+	public void onStop()
 	{
-		state=null;
+		if(isDone())return;
+		states[i].onStop();
+		i=-1;
+	}
+	public boolean isDone()
+	{
+		return i<0||i>=states.length||states[i]==null;
+	}
+	public void noAutoUpdate()
+	{
+		Updater.remove(this);
 	}
 }
