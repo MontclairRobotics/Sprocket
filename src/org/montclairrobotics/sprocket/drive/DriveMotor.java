@@ -54,9 +54,9 @@ public class DriveMotor extends Motor{
 		if(forceAngle==null)
 			this.forceAngle=new Degree(0);
 	}
-	public DriveMotor setEncoder(Encoder e)
+	public DriveMotor setEncoder(Encoder e,double rateAtMaxPower)
 	{
-		return (DriveMotor)super.setEncoder(e);
+		return (DriveMotor)super.setEncoder(e,rateAtMaxPower);
 	}
 	public DriveMotor setPID(PID a)
 	{

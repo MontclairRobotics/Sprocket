@@ -35,6 +35,7 @@ public class Motor implements Updatable{
 	private double goal;
 	private SpeedController motor;
 	private Encoder encoder;
+	private EncoderRate encRate;
 	private PID pid;
 	private static boolean shutdown=false;
 	/**
@@ -56,31 +57,40 @@ public class Motor implements Updatable{
 		Updater.add(this, Priority.OUTPUT);
 	}
 
-	public Motor setEncoder(Encoder e)
+	public Motor setEncoder(Encoder e,double rateAtMaxPower)
 	{
+		if(e==null)return this;
 		this.encoder=e;
-		if(pid!=null)pid.setInput(new EncoderRate(encoder));
+		this.encRate=new EncoderRate(e,rateAtMaxPower);;
+		return setPID();
+	}
+	
+	public Motor setPID()
+	{
+		if(pid!=null && encRate!=null)
+			pid.setInput(encRate).setMinMax(0,0,-1,1);
 		return this;
 	}
 	
 	public Motor setPID(PID a)
 	{
-		if(a==null)return this;
-		this.pid=a.copy().setInput(new EncoderRate(encoder)).setMinMax(0, 0, -1, 1);
-		return this;
+		this.pid=a.copy();
+		return setPID();
 	}
 	
 	public static class EncoderRate implements Input
 	{
 		private Encoder enc;
-		public EncoderRate(Encoder enc)
+		private double rateAtMaxPower;
+		public EncoderRate(Encoder enc,double rateAtMaxPower)
 		{
 			this.enc=enc;
+			this.rateAtMaxPower=rateAtMaxPower;
 		}
 		public double getInput()
 		{
 			if(enc==null)return 0.0;
-			return enc.getRate();
+			return enc.getRate()/rateAtMaxPower;
 		}
 	}
 	
