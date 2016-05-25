@@ -27,11 +27,13 @@ public class DriveTrain implements Updatable{
 	//constants
 	private DriveMotor[] wheels;
 	private PID rotationPID;
+	private Gyro gyro;
 	
 	//variables
 	private static boolean shutdown = false;
 	private Vector driveVector;
 	private double driveRotation;
+	private boolean fieldCentric;
 	/**
 	 * Creates a DriveTrain with a list of wheels.
 	 * Each wheel knows where it is on the robot.
@@ -42,10 +44,17 @@ public class DriveTrain implements Updatable{
 		this.wheels=wheels;
 		Updater.add(this, Priority.DRIVE_CALC);
 		driveVector=new XY(0,0);
+		fieldCentric=false;
+	}
+	public DriveTrain setFieldCentric(boolean fieldCentric)
+	{
+		this.fieldCentric=fieldCentric;
+		return this;
 	}
 	public DriveTrain setRotationPID(PID pid,Gyro gyro,double maxGyroRate)
 	{
 		this.rotationPID=pid.copy().setInput(new GyroRateInput(gyro,maxGyroRate));
+		this.gyro=gyro;
 		return this;
 	}
 	
@@ -108,7 +117,14 @@ public class DriveTrain implements Updatable{
 	 */
 	public void drive(Vector direction,double rotation)
 	{
-		this.driveVector=direction;
+		drive(direction,rotation,fieldCentric);
+	}
+	public void drive(Vector direction,double rotation,boolean fieldCentric)
+	{
+		if(fieldCentric&&gyro!=null)
+			this.driveVector=direction.rotate(gyro.getHeading().negative());
+		else
+			this.driveVector=direction;
 		this.driveRotation=rotation;
 	}
 
