@@ -3,8 +3,6 @@ package org.usfirst.frc.team555.robot;
 //THERE SHOULD BE LICENSE STUFF HERE!!!!
 
 import org.montclairrobotics.sprocket.auto.AutoChooser;
-import org.montclairrobotics.sprocket.auto.AutoStates;
-import org.montclairrobotics.sprocket.control.ArcadeTranslator;
 import org.montclairrobotics.sprocket.control.Control;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.drive.Motor.M_TYPE;
@@ -14,7 +12,6 @@ import org.montclairrobotics.sprocket.updater.Updater;
 import org.montclairrobotics.sprocket.utils.Grip;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Timer;
 
 public class Robot extends IterativeRobot {
 	

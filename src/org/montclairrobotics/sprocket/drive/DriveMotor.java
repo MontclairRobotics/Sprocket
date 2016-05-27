@@ -1,22 +1,13 @@
 package org.montclairrobotics.sprocket.drive;
 
-import org.montclairrobotics.sprocket.updater.Updatable;
-import org.montclairrobotics.sprocket.updater.Updater;
 import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Dashboard;
 import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.PID;
-import org.montclairrobotics.sprocket.utils.Polar;
 import org.montclairrobotics.sprocket.utils.Vector;
-import org.montclairrobotics.sprocket.utils.XY;
 
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.VictorSP;
 
 /**
  * An all purpose DriveMotor class supporting everything from Mecanum to Kiwi
@@ -26,12 +17,10 @@ import edu.wpi.first.wpilibj.VictorSP;
 
 public class DriveMotor extends Motor{
 	
-	private static final double WHEEL_CIRCUMFRANCE = 8;//TODO
 	//constants
 	private Vector offset;
 	private Angle forceAngle;
-	private Vector totDistance=new XY(0,0);
-	private double lastLoops=Timer.getFPGATimestamp();	
+	//private double lastLoops=Timer.getFPGATimestamp();	
 	
 	private Vector goal;
 	
@@ -54,13 +43,38 @@ public class DriveMotor extends Motor{
 		if(forceAngle==null)
 			this.forceAngle=new Degree(0);
 	}
+	/**
+	 * Sets the speed this motor should be imputed so that it turns at max speed
+	 * If the robot has a maximum speed of 3 ft/s, this should be 3 
+	 * and the input should be in ft/s
+	 * @param maxSpeed the maximum speed
+	 * @return this
+	 */
+	public Motor setMaxSpeed(double maxSpeed)
+	{
+		super.setMaxSpeed(maxSpeed);
+		return this;
+	}
+	/**
+	 * Sets the encoder to use with the PID settings
+	 * @param e the Encoder
+	 * @param rateAtMaxPower the encoder rate at max power
+	 * @return this
+	 */	
 	public DriveMotor setEncoder(Encoder e,double rateAtMaxPower)
 	{
-		return (DriveMotor)super.setEncoder(e,rateAtMaxPower);
+		super.setEncoder(e,rateAtMaxPower);
+		return this;
 	}
+	/**
+	 * Sets the PID values for this motor
+	 * @param a the PID values
+	 * @return this
+	 */
 	public DriveMotor setPID(PID a)
 	{
-		return (DriveMotor)super.setPID(a);
+		super.setPID(a);
+		return this;
 	}
 	/**
 	 * Sets the velocity Vector of the robot with a rotation value
@@ -92,9 +106,11 @@ public class DriveMotor extends Motor{
 	{
 		return goal.getY();
 	}
+	/*
 	public void update()
 	{
 		super.update();
+		
 		double loops=Timer.getFPGATimestamp();
 		double diff=loops-lastLoops;
 		lastLoops=loops;
@@ -103,7 +119,7 @@ public class DriveMotor extends Motor{
 	public Vector getDirectionDistance() {
 		// TODO Auto-generated method stub
 		return totDistance;
-	}
+	}*/
 	public Angle getForceAngle()
 	{
 		return forceAngle;
