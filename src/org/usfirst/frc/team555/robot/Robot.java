@@ -3,6 +3,7 @@ package org.usfirst.frc.team555.robot;
 //THERE SHOULD BE LICENSE STUFF HERE!!!!
 
 import org.montclairrobotics.sprocket.auto.AutoChooser;
+import org.montclairrobotics.sprocket.auto.AutoStates;
 import org.montclairrobotics.sprocket.control.Control;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.drive.Motor.M_TYPE;
@@ -18,9 +19,7 @@ public class Robot extends IterativeRobot {
 	
 	public static int[] leftWheels={1,3},rightWheels={2,4};
 	public static M_TYPE motorType=M_TYPE.TALON;
-	public static String[] autoNames={};
-	public static State[][] autoStates={};
-	
+
 	
     public static DriveTrain driveTrain;
     public static Grip grip;
@@ -34,7 +33,9 @@ public class Robot extends IterativeRobot {
     	driveTrain=DriveTrain.makeStandard(leftWheels, rightWheels, motorType);
     	valves=new Valves();
     	grip=new Grip("GRIP/mynewreport");
-    	
+
+    	 String[] autoNames={"Auto 1"};
+    	 State[][] autoStates={{new AutoStates.DriveTime(driveTrain, .5, 5)}};
     	chooser=new AutoChooser(autoNames,autoStates);
     }
     
@@ -59,8 +60,8 @@ public class Robot extends IterativeRobot {
     
     public void teleopPeriodic() 
     {
-    	driveTrain.driveSpeedRotation(Control.getY(Control.DRIVE_STICK),
-    			Control.getX(Control.DRIVE_STICK)*0.5);
+    	driveTrain.driveArcade(Control.getX(Control.DRIVE_STICK),
+    			Control.getY(Control.DRIVE_STICK)*0.5);
         Updater.update();
     }
     

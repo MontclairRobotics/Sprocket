@@ -102,7 +102,7 @@ public class DriveMotor extends Motor{
 	 * @param goal The goal velocity vector for this wheel
 	 * @return the speed as a double of this wheel
 	 */
-	public double calcSpeed(Vector goal)
+	public double calcSpeed()
 	{
 		return goal.getY();
 	}
