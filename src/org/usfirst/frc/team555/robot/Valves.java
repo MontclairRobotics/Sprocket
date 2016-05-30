@@ -68,7 +68,7 @@ public class Valves {
 		new Shoot(1);
 		new ShootMotorOn(3);
 		new ShootMotorIntake(2);
-		Robot.alignButton=new AlignOn(11,new XY(160,200));
+		Robot.alignButton=new AlignOn(11,new XY(168,144));
 		
 		raise();
 		halfOff();
@@ -77,11 +77,11 @@ public class Valves {
 	{
 		private int loopsAtTarget=0;
 		private static final double 
-			BUFFER_X_SMALL=30,
-			BUFFER_X_BIG=60,
+			BUFFER_X_SMALL=13,
+			BUFFER_X_BIG=50,
 			BUFFER_Y_SMALL=14,
 			BUFFER_Y_BIG=60,
-			TURN_SMALL=0.25,
+			TURN_SMALL=0.21,
 			TURN_BIG=0.27,
 			MOVE_SMALL=0.25,
 			MOVE_BIG=0.3,
