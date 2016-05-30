@@ -1,32 +1,38 @@
 package org.montclairrobotics.sprocket.examples;
 
-import org.montclairrobotics.sprocket.drive.AutoDrive;
+import org.montclairrobotics.sprocket.auto.AutoStates;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.states.State;
 import org.montclairrobotics.sprocket.states.StateMachine;
-import org.montclairrobotics.sprocket.utils.Distance;
-import org.montclairrobotics.sprocket.utils.Polar;
+import org.montclairrobotics.sprocket.states.StateObj;
 
 public class Auto extends StateMachine{
 
 	private static DriveTrain driveTrain;
 	public Auto(DriveTrain dt) {
-		super(new Start());
+		super(new State[]{
+				new Start(),
+				new LowerShooter(),
+				new Drive1(),
+				new Shoot(),
+				});
 		driveTrain=dt;
 	}
 	
-	public static class Start extends State
+	public static class Start extends StateObj
 	{
 		public boolean isDone(){
 			return true;
 		}
-		public State getNextState(){
-			return new LowerShooter();
-		}
 	}
-	public static class LowerShooter extends State
+	public static class LowerShooter extends StateObj
 	{
 		private int loops=0;
+		public void onStart()
+		{
+			loops=0;
+			//Lower Shooter
+		}
 		public void update()
 		{
 			loops++;
@@ -35,34 +41,33 @@ public class Auto extends StateMachine{
 		{
 			return loops>100;
 		}
-		public State getNextState()
-		{
-			return new Drive1();
-		}
 	}
-	public static class Drive1 extends State
+	public static class Drive1 extends StateObj
 	{
-		private AutoDrive d;
+		private AutoStates.DriveTime d;
 		public void onStart()
 		{
-			d=new AutoDrive(new Distance(10,Distance.FEET),new Polar(0.5,0),driveTrain);
+			d=new AutoStates.DriveTime(driveTrain,0.5,5);
 		}
 		public boolean isDone(){
 			return d.isDone();
 		}
-		public State getNextState()
-		{
-			return new Done();
-		}
 	}
-	public static class Done extends State
+	public static class Shoot extends StateObj
 	{
-		public boolean isDone() {
-			return false;
+		private int loops=0;
+		public void onStart()
+		{
+			loops=0;
+			//SHOOT
 		}
-		public State getNextState() {
-			return null;
+		public void update()
+		{
+			loops++;
 		}
-		
+		public boolean isDone()
+		{
+			return loops>30;
+		}
 	}
 }

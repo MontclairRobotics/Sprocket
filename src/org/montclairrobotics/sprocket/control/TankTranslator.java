@@ -1,7 +1,11 @@
 package org.montclairrobotics.sprocket.control;
 
 import org.montclairrobotics.sprocket.drive.DriveTrain;
-import org.montclairrobotics.sprocket.utils.*;
+import org.montclairrobotics.sprocket.updater.Priority;
+import org.montclairrobotics.sprocket.updater.Updatable;
+import org.montclairrobotics.sprocket.updater.Updater;
+import org.montclairrobotics.sprocket.utils.Vector;
+import org.montclairrobotics.sprocket.utils.XY;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -25,7 +29,7 @@ public class TankTranslator implements Updatable {
 		joysticks = new Joystick[2];
 		joysticks[0] = leftStick;
 		joysticks[1] = rightStick;
-		Updater.add(this, UpdateClass.ControlTranslator);
+		Updater.add(this, Priority.INPUT);
 	}
 	
 	@Override

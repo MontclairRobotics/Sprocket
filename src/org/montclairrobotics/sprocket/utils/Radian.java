@@ -9,7 +9,7 @@ public class Radian extends Angle{
 	
 	public Radian(double r)
 	{
-		radians=mod(r,-RAD_IN_180,RAD_IN_180);
+		radians=Utils.mod(r,-RAD_IN_180,RAD_IN_180);
 	}
 	
 	public double toRadians() {
