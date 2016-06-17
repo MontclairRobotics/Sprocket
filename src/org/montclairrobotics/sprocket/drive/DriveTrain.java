@@ -21,7 +21,7 @@ import org.montclairrobotics.sprocket.utils.XY;
 
 public class DriveTrain implements Updatable{
 	
-	private static final double DEAD_ZONE = 0.15;
+	private static final double DEAD_ZONE = 0.0; //0.15
 	
 	//constants
 	private DriveMotor[] wheels;
