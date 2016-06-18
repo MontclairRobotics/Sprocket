@@ -45,7 +45,6 @@ public class CameraServers {
   private static final int kSize320x240 = 1;
   private static final int kSize160x120 = 2;
   private static final int kHardwareCompression = -1;
-  private static final String kDefaultCameraName = "cam1";
   private static final int kMaxImageSize = 200000;
 
   private Thread serverThread;
@@ -318,9 +317,10 @@ private synchronized void startBroadcast(USBCamera camera) {
    * @throws IOException if the Socket connection fails
    * @throws InterruptedException if the sleep is interrupted
    */
-  protected void serve() throws IOException, InterruptedException {
+protected void serve() throws IOException, InterruptedException {
 
-    ServerSocket socket = new ServerSocket();
+    @SuppressWarnings("resource")
+	ServerSocket socket = new ServerSocket();
     socket.setReuseAddress(true);
     InetSocketAddress address = new InetSocketAddress(kPort);
     socket.bind(address);

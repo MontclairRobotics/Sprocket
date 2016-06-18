@@ -1,18 +1,17 @@
 package org.montclairrobotics.sprocket.utils;
 
-//import java.util.concurrent.ConcurrentHashMap;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Dashboard {
 	
-	private static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard dashboard;
 	public static final boolean DEBUG_OUTPUTS=true;
 	
 	public static Sendable getData(String key)
 	{
 		return getData(key,false);
 	}
+	
 	public static Sendable getData(String key,boolean debug) {
 		if(DEBUG_OUTPUTS || !debug)
 			return SmartDashboard.getData(key);

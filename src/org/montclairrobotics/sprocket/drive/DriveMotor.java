@@ -1,7 +1,5 @@
 package org.montclairrobotics.sprocket.drive;
 
-import org.montclairrobotics.sprocket.updater.Updatable;
-import org.montclairrobotics.sprocket.updater.Updater;
 import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Dashboard;
 import org.montclairrobotics.sprocket.utils.Degree;
@@ -119,7 +117,6 @@ public class DriveMotor extends Motor{
 		totDistance=totDistance.add(new Polar(super.getRate()*diff,forceAngle));
 	}
 	public Vector getDirectionDistance() {
-		// TODO Auto-generated method stub
 		return totDistance;
 	}*/
 	public Angle getForceAngle()

@@ -27,14 +27,12 @@ package org.montclairrobotics.sprocket.httpserver;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 
 /**
@@ -88,7 +86,6 @@ public class MJpg extends Http {
     }
     public void request(HttpExchange t) {
         try{
-            Headers h=t.getResponseHeaders();
             byte[] data = getResponse();
             t.sendResponseHeaders(200,0);
             OutputStream outputStream = t.getResponseBody();

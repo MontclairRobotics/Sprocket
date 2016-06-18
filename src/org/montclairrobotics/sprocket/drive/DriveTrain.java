@@ -32,7 +32,6 @@ public class DriveTrain implements Updatable{
 	private double maxSpeed=1.0;
 	
 	//variables
-	private static boolean shutdown = false;
 	private Vector driveVector;
 	private double driveRotation;
 
