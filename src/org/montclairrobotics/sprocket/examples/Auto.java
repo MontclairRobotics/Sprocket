@@ -5,8 +5,6 @@ import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.states.State;
 import org.montclairrobotics.sprocket.states.StateMachine;
 import org.montclairrobotics.sprocket.states.StateObj;
-import org.montclairrobotics.sprocket.utils.Distance;
-import org.montclairrobotics.sprocket.utils.Polar;
 
 public class Auto extends StateMachine{
 

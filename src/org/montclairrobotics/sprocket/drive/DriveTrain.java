@@ -4,7 +4,6 @@ import org.montclairrobotics.sprocket.drive.Motor.M_TYPE;
 import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updatable;
 import org.montclairrobotics.sprocket.updater.Updater;
-import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.Gyro;
 import org.montclairrobotics.sprocket.utils.Input;
@@ -22,16 +21,22 @@ import org.montclairrobotics.sprocket.utils.XY;
 
 public class DriveTrain implements Updatable{
 	
-	private static final double DEAD_ZONE = 0.15;
+
+	private static final double DEAD_ZONE = 0.0; //0.15
 	
 	//constants
 	private DriveMotor[] wheels;
 	private PID rotationPID;
 	
+	private Gyro gyro;
+	private double maxSpeed=1.0;
+	
 	//variables
 	private static boolean shutdown = false;
 	private Vector driveVector;
 	private double driveRotation;
+
+	private boolean fieldCentric;
 	/**
 	 * Creates a DriveTrain with a list of wheels.
 	 * Each wheel knows where it is on the robot.
@@ -43,9 +48,23 @@ public class DriveTrain implements Updatable{
 		Updater.add(this, Priority.DRIVE_CALC);
 		driveVector=new XY(0,0);
 	}
-	public DriveTrain setRotationPID(PID pid,Gyro gyro,double maxGyroRate)
+	
+	/**
+	 * Set up the gyroscope for locking the rotation, 
+	 * or making a field centric drivetrain
+	 * @param pid The PID for locking rotation
+	 * @param gyro The Gyroscope
+	 * @param lock true if the rotation should be locked
+	 * @param fieldCentric true if the drivetrain is field centric
+	 * @param maxGyroRate the rotation rate at full rotation
+	 * @return
+	 */
+	public DriveTrain setGyro(PID pid,Gyro gyro,boolean lock,boolean fieldCentric,double maxGyroRate)
 	{
-		this.rotationPID=pid.copy().setInput(new GyroRateInput(gyro,maxGyroRate));
+		if(lock)
+			this.rotationPID=pid.copy().setInput(new GyroRateInput(gyro,maxGyroRate));
+		this.gyro=gyro;
+		this.fieldCentric=fieldCentric;
 		return this;
 	}
 	
@@ -59,17 +78,39 @@ public class DriveTrain implements Updatable{
 			this.maxGyroRate=maxGyroRate;
 		}
 		public double getInput() {
-			return gyro.getRate()/maxGyroRate;
+			return gyro.getRateRotation()/maxGyroRate;
 		}
 	}
 
 	/**DRIVE HELPER METHODS**/
-
+	
+	/**
+	 * Set the max speed for scaling the speed.
+	 * At maxSpeed, the motors will run at full power.
+	 * Otherwise, they will run at a percentage of max speed
+	 * @param maxSpeed the input speed for maximum power
+	 * @return this
+	 */
+	public DriveTrain setMaxSpeed(double maxSpeed)
+	{
+		for(DriveMotor wheel:wheels)
+			wheel.setMaxSpeed(maxSpeed);
+		return this;
+	}
+	/**
+	 * Drive in Arcade mode with a joystick
+	 * @param joyX the rotation
+	 * @param joyY the speed
+	 */
+	public void driveArcade(double joyX,double joyY)
+	{
+		driveSpeedRotation(joyY*maxSpeed,joyX*maxSpeed);
+	}
+	
 	/**
 	 * Drive with a Speed And Rotation
-	 * May input the joystick y and x values respectively
-	 * @param speed Joystick Y
-	 * @param rotation Joystick X
+	 * @param speed the speed [-maxSpeed,maxSpeed]
+	 * @param rotation the rotation [-1,1]
 	 */
 	public void driveSpeedRotation(double speed,double rotation)
 	{
@@ -108,7 +149,10 @@ public class DriveTrain implements Updatable{
 	 */
 	public void drive(Vector direction,double rotation)
 	{
-		this.driveVector=direction;
+		if(fieldCentric&&gyro!=null)
+			this.driveVector=direction.rotate(gyro.getHeading().negative());
+		else
+			this.driveVector=direction;
 		this.driveRotation=rotation;
 	}
 

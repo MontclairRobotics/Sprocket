@@ -12,6 +12,7 @@ package org.montclairrobotics.sprocket.utils;
  */
 
 public abstract class Angle {
+	public static Angle zero=new Degree(0);
 	abstract public double toRadians();
 	abstract public double toDegrees();
 	public abstract Angle add(Angle a);

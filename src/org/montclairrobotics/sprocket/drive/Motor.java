@@ -3,21 +3,16 @@ package org.montclairrobotics.sprocket.drive;
 import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updatable;
 import org.montclairrobotics.sprocket.updater.Updater;
-import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Dashboard;
-import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
-import org.montclairrobotics.sprocket.utils.Polar;
-import org.montclairrobotics.sprocket.utils.Vector;
-import org.montclairrobotics.sprocket.utils.XY;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 
 /**
  * A standard Motor wrapper
@@ -29,8 +24,9 @@ public class Motor implements Updatable{
 	
 	public static enum M_TYPE{TALONSRX,VICTORSP,TALON};
 
-	private static final double DEGREES_PER_SECOND_MAX_SPEED = 180;
 	private String name;
+	private double maxSpeed=1.0;
+	private double rateAtMaxPower=360;
 	
 	private double goal;
 	private SpeedController motor;
@@ -42,6 +38,10 @@ public class Motor implements Updatable{
 	 * Creates a motor with an encoder and pid controller
 	 * @param motor The SpeedController to use
 	 */
+	public Motor(int port,M_TYPE type)
+	{
+		this(makeMotor(port,type),"Motor: "+port);
+	}
 	public Motor(SpeedController motor,String name)
 	{
 		this.motor=motor;
@@ -56,22 +56,49 @@ public class Motor implements Updatable{
 		}
 		Updater.add(this, Priority.OUTPUT);
 	}
-
+	/**
+	 * Sets the speed this motor should be imputed so that it turns at max speed
+	 * If the robot has a maximum speed of 3 ft/s, this should be 3 
+	 * and the input should be in ft/s
+	 * @param maxSpeed the maximum speed
+	 * @return this
+	 */
+	public Motor setMaxSpeed(double maxSpeed)
+	{
+		this.maxSpeed=maxSpeed;
+		return this;
+	}
+	
+	/**
+	 * Sets the encoder to use with the PID settings
+	 * @param e the Encoder
+	 * @param rateAtMaxPower the encoder rate at max power
+	 * @return this
+	 */	
 	public Motor setEncoder(Encoder e,double rateAtMaxPower)
 	{
 		if(e==null)return this;
 		this.encoder=e;
-		this.encRate=new EncoderRate(e,rateAtMaxPower);;
+		this.rateAtMaxPower=rateAtMaxPower;
+		this.encRate=new EncoderRate(e,rateAtMaxPower);
 		return setPID();
 	}
 	
+	/**
+	 * Updates the PID controller
+	 * @return this
+	 */
 	public Motor setPID()
 	{
 		if(pid!=null && encRate!=null)
 			pid.setInput(encRate).setMinMax(0,0,-1,1);
 		return this;
 	}
-	
+	/**
+	 * Sets the PID values for this motor
+	 * @param a the PID values
+	 * @return this
+	 */
 	public Motor setPID(PID a)
 	{
 		this.pid=a.copy();
@@ -102,6 +129,12 @@ public class Motor implements Updatable{
 	{
 		goal=spd;
 	}
+	/**
+	 * Returns the speed to drive at
+	 * Overwrite this method to use your own calculations
+	 * Will be converted to a percentage of maxSpeed; 1 if not set
+	 * @return Speed to drive at
+	 */
 	public double calcSpeed()
 	{
 		return goal;
@@ -123,12 +156,12 @@ public class Motor implements Updatable{
 		}
 		if(encoder==null||pid==null)
 		{
-			speed=tgtSpeed;
+			speed=tgtSpeed/maxSpeed;
 		}
 		else
 		{
-			pid.setTarget(tgtSpeed*DEGREES_PER_SECOND_MAX_SPEED);
-			speed=pid.get();//tgtSpeed*(1+pid.out());
+			pid.setTarget(tgtSpeed/maxSpeed*rateAtMaxPower);
+			speed=pid.get();
 		}
 		motor.set(speed);
 		Dashboard.putNumber("Motor "+name, speed);

@@ -9,6 +9,7 @@ package org.montclairrobotics.sprocket.utils;
  */
 
 public abstract class Vector {
+	public static final Vector zero=new XY(0,0);
 	public abstract double getMag();
 	public abstract Angle getAngle();
 	public abstract double getX();
@@ -29,7 +30,7 @@ public abstract class Vector {
 	
 	public Vector getRotationVector(double rotation)
 	{
-		return new Polar(this.getMag()*rotation,this.getAngle().add(new Degree(90)));
+		return new Polar(this.getMag()*rotation,this.getAngle().add(new Degree(-90)));
 	}
 	public Vector rotate(Angle a)
 	{

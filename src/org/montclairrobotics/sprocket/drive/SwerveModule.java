@@ -1,10 +1,8 @@
 package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.utils.Angle;
-import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Vector;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 
 /**
