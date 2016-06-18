@@ -4,7 +4,8 @@ import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updatable;
 import org.montclairrobotics.sprocket.updater.Updater;
-import org.montclairrobotics.sprocket.utils.*;
+import org.montclairrobotics.sprocket.utils.Vector;
+import org.montclairrobotics.sprocket.utils.XY;
 
 import edu.wpi.first.wpilibj.Joystick;
 

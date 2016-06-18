@@ -26,6 +26,9 @@ public class PID implements Updatable{
 	private double totalError, prevError, error;
 	/**
 	 * 
+	 * @param g 
+	 * @param f 
+	 * @param e 
 	 * @param P the Propotional Constant
 	 * @param I the Integral Constant
 	 * @param D the Derivitive Constant
@@ -47,6 +50,11 @@ public class PID implements Updatable{
 		this.maxIn=0.0;
 		setTarget();
 		Updater.add(this, Priority.INPUT_PID);
+	}
+	public PID(double P,double I,double D)
+	{
+		super();
+		setPID(P,I,D);
 	}
 	public PID setInput(Input i)
 	{

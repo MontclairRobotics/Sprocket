@@ -1,9 +1,9 @@
 package org.montclairrobotics.sprocket.updater;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import java.util.ArrayList;
 
 /**
  * @author Jack Hymowitz, Rafi Baum

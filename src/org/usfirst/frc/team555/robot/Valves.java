@@ -6,7 +6,6 @@ import org.montclairrobotics.sprocket.drive.Motor;
 import org.montclairrobotics.sprocket.drive.Motor.M_TYPE;
 import org.montclairrobotics.sprocket.utils.XY;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Solenoid;
 
 public class Valves {
