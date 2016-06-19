@@ -31,7 +31,7 @@ public class Button implements Updatable{
 	 */
 	public Button(Joystick stick,int id)
 	{
-		Updater.add(this, Priority.INPUT);
+		Updater.add(this, Priority.CONTROL);
 		this.stick=stick;
 		this.id=id;
 		
