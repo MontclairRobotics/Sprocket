@@ -1,6 +1,7 @@
 package org.montclairrobotics.sprocket.auto;
 
 import org.montclairrobotics.sprocket.control.Button;
+import org.montclairrobotics.sprocket.control.ButtonAction;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.utils.Grip;
 import org.montclairrobotics.sprocket.utils.XY;
@@ -17,10 +18,13 @@ public class AutoButtons {
 			align=new AutoAlign(grip,dt)
 				.setTarget(target)
 				.setZones(zones);
-		}
-		public void down()
-		{
-			align.align();
+			
+			this.setWhileDownAction(new ButtonAction() {
+				@Override
+				public void onAction() {
+					align.align();
+				}
+			});
 		}
 	}
 }

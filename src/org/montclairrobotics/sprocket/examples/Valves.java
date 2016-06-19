@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.examples;
 
-import org.montclairrobotics.sprocket.control.Button;
-import org.montclairrobotics.sprocket.control.Control;
+import org.montclairrobotics.sprocket.control.Buttonb;
+import org.usfirst.frc.team555.robot.Control;
 
 import edu.wpi.first.wpilibj.Solenoid;
 
@@ -47,7 +47,7 @@ public class Valves {
 		new Shoot(1);
 	}
 	
-	public class HalfDown extends Button
+	public class HalfDown extends Buttonb
 	{
 		public HalfDown(int id)
 		{
@@ -58,7 +58,7 @@ public class Valves {
 			lowerOne();
 		}
 	}
-	public class HalfUp extends Button
+	public class HalfUp extends Buttonb
 	{
 		public HalfUp(int id)
 		{
@@ -69,7 +69,7 @@ public class Valves {
 			raiseOne();
 		}
 	}
-	public class ShootDown extends Button
+	public class ShootDown extends Buttonb
 	{
 		public ShootDown(int id)
 		{
@@ -80,7 +80,7 @@ public class Valves {
 			lower();
 		}
 	}
-	public class ShootUp extends Button
+	public class ShootUp extends Buttonb
 	{
 		public ShootUp(int id)
 		{
@@ -91,7 +91,7 @@ public class Valves {
 			raise();
 		}
 	}
-	public class Shoot extends Button
+	public class Shoot extends Buttonb
 	{
 		public Shoot(int id)
 		{

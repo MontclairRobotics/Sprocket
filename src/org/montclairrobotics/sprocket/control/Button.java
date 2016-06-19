@@ -14,11 +14,14 @@ import org.montclairrobotics.sprocket.updater.Updater;
 import edu.wpi.first.wpilibj.Joystick;
 
 
-public abstract class Button implements Updatable{
+public class Button implements Updatable{
 	
 	private boolean state = false;
 	private Joystick stick;
 	private int id;
+	
+	private ButtonAction onUp, whileUp;
+	private ButtonAction onDown, whileDown;
 	
 	/**
 	 * Creates a Button on a given joystick and button id
@@ -31,6 +34,11 @@ public abstract class Button implements Updatable{
 		Updater.add(this, Priority.INPUT);
 		this.stick=stick;
 		this.id=id;
+		
+		onUp = null;
+		whileUp = null;
+		onDown = null;
+		whileDown = null;
 	}
 	
 	/**
@@ -45,38 +53,35 @@ public abstract class Button implements Updatable{
 			if(!state)
 			{
 				state=true;
-				onDown();
+				if(onDown != null) onDown.onAction();
 			}
-			down();
+			if(whileDown != null) whileDown.onAction();
 		}
 		else
 		{
 			if(state)
 			{
 				state=false;
-				onUp();
+				if(onUp != null) onUp.onAction();
 			}
-			up();
+			if(whileUp != null) whileUp.onAction();
 		}
 	}
 	
-	/**
-	 * Fires when the button is depressed
-	 */
-	public void onDown() {}
+	public void setUpAction(ButtonAction upAction) {
+		onUp = upAction;
+	}
 	
-	/**
-	 * Fires every tick the button is depressed
-	 */
-	public void down() {}
+	public void setWhileUpAction(ButtonAction whileUp) {
+		this.whileUp = whileUp;
+	}
 	
-	/**
-	 * Fires when the button is released/not pressed
-	 */
-	public void onUp() {}
+	public void setDownAction(ButtonAction down) {
+		onDown = down;
+	}
 	
-	/**
-	 * Fires for each tick the button is released/not pressed
-	 */
-	public void up() {}
+	public void setWhileDownAction(ButtonAction whileDown) {
+		this.whileDown = whileDown;
+	}
+	
 }
