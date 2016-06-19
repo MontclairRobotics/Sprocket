@@ -58,12 +58,11 @@ public class DriveMotor extends Motor{
 	/**
 	 * Sets the encoder to use with the PID settings
 	 * @param e the Encoder
-	 * @param rateAtMaxPower the encoder rate at max power
 	 * @return this
 	 */	
-	public DriveMotor setEncoder(Encoder e,double rateAtMaxPower)
+	public DriveMotor setEncoder(Encoder e)
 	{
-		super.setEncoder(e,rateAtMaxPower);
+		super.setEncoder(e);
 		return this;
 	}
 	/**

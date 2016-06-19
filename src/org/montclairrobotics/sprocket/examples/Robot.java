@@ -59,10 +59,10 @@ public class Robot extends IterativeRobot {
     	
     	
     	driveTrain = new DriveTrain(new DriveMotor[]{
-    			new DriveMotor(new Talon(leftWheels[0]), "L0", new XY(-1,0), new Degree(180)).setEncoder(leftEncoder,49).setPID(encPid),
-    			new DriveMotor(new Talon(leftWheels[1]), "L1", new XY(-1,0), new Degree(180)).setEncoder(leftEncoder,49).setPID(encPid),
-    			new DriveMotor(new Talon(rightWheels[0]), "R0", new XY(1,0), Angle.zero).setEncoder(rightEncoder,49).setPID(encPid),
-    			new DriveMotor(new Talon(rightWheels[1]), "R1", new XY(1,0), Angle.zero).setEncoder(rightEncoder,49).setPID(encPid)
+    			new DriveMotor(new Talon(leftWheels[0]), "L0", new XY(-1,0), new Degree(180)).setEncoder(leftEncoder).setPID(encPid),
+    			new DriveMotor(new Talon(leftWheels[1]), "L1", new XY(-1,0), new Degree(180)).setEncoder(leftEncoder).setPID(encPid),
+    			new DriveMotor(new Talon(rightWheels[0]), "R0", new XY(1,0), Angle.zero).setEncoder(rightEncoder).setPID(encPid),
+    			new DriveMotor(new Talon(rightWheels[1]), "R1", new XY(1,0), Angle.zero).setEncoder(rightEncoder).setPID(encPid)
     	});
     	
     	 String[] autoNames={"Auto 1"};

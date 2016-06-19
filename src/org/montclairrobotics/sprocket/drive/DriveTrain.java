@@ -180,7 +180,7 @@ public class DriveTrain implements Updatable{
 	
 	public static DriveTrain makeStandard(int[] leftPorts,int[] rightPorts,M_TYPE type)
 	{
-		return makeStandard(leftPorts,rightPorts,type,null,null,0.0,null);
+		return makeStandard(leftPorts,rightPorts,type,null,null,null);
 	}
 	
 	/**
@@ -194,7 +194,7 @@ public class DriveTrain implements Updatable{
 	 * @return a new DriveTrain with these settings
 	 */
 	public static DriveTrain makeStandard(int[] leftPorts,int[] rightPorts,M_TYPE type,
-			int[][]leftEncoders,int[][]rightEncoders,double rateAtMaxPower,PID encPID)
+			int[][]leftEncoders,int[][]rightEncoders,PID encPID)
 	{
 		Vector leftOffset=new XY(-1,0),rightOffset=new XY(1,0);
 		
@@ -204,14 +204,14 @@ public class DriveTrain implements Updatable{
 		{
 			r[i]=new DriveMotor(Motor.makeMotor(leftPorts[j],type),"LEFT "+j+":"+leftPorts[j],leftOffset,new Degree(0));
 			if(leftEncoders!=null)
-				r[i].setEncoder(Motor.makeEncoder(leftEncoders,j),rateAtMaxPower).setPID(encPID);
+				r[i].setEncoder(Motor.makeEncoder(leftEncoders,j)).setPID(encPID);
 			i++;
 		}
 		for(int j=0;j<rightPorts.length;j++)
 		{
 			r[i]=new DriveMotor(Motor.makeMotor(rightPorts[j],type),"RIGHT "+j+":"+rightPorts[j],rightOffset,new Degree(180));
 			if(rightEncoders!=null)
-				r[i].setEncoder(Motor.makeEncoder(rightEncoders,j),rateAtMaxPower).setPID(encPID);
+				r[i].setEncoder(Motor.makeEncoder(rightEncoders,j)).setPID(encPID);
 			i++;
 		}
 		return new DriveTrain(r);
@@ -219,7 +219,7 @@ public class DriveTrain implements Updatable{
 	
 	public static DriveTrain makeMecanum(int flPort,int frPort,int blPort,int brPort,M_TYPE type)
 	{
-		return makeMecanum(flPort,frPort,blPort,brPort,type,null,null,null,null,0.0,null);
+		return makeMecanum(flPort,frPort,blPort,brPort,type,null,null,null,null,null);
 	}
 	
 	/**
@@ -237,13 +237,13 @@ public class DriveTrain implements Updatable{
 	 * @return a new DriveTrain with these settings.
 	 */
 	public static DriveTrain makeMecanum(int flPort,int frPort,int blPort,int brPort,M_TYPE type,
-			int[] flEncoder,int[] frEncoder,int[] blEncoder,int[] brEncoder,double rateAtMaxPower,PID encPID)
+			int[] flEncoder,int[] frEncoder,int[] blEncoder,int[] brEncoder,PID encPID)
 	{
 		DriveMotor[] r= new DriveMotor[4];
-		r[0]=new DriveMotor(Motor.makeMotor(flPort,type),"FL",new XY(-1, 1),new Degree(  45)).setEncoder(Motor.makeEncoder(flEncoder),rateAtMaxPower).setPID(encPID);
-		r[1]=new DriveMotor(Motor.makeMotor(frPort,type),"FR",new XY( 1, 1),new Degree( 135)).setEncoder(Motor.makeEncoder(frEncoder),rateAtMaxPower).setPID(encPID);
-		r[2]=new DriveMotor(Motor.makeMotor(blPort,type),"BL",new XY(-1,-1),new Degree( -45)).setEncoder(Motor.makeEncoder(blEncoder),rateAtMaxPower).setPID(encPID);
-		r[3]=new DriveMotor(Motor.makeMotor(brPort,type),"BR",new XY( 1,-1),new Degree(-135)).setEncoder(Motor.makeEncoder(brEncoder),rateAtMaxPower).setPID(encPID);
+		r[0]=new DriveMotor(Motor.makeMotor(flPort,type),"FL",new XY(-1, 1),new Degree(  45)).setEncoder(Motor.makeEncoder(flEncoder)).setPID(encPID);
+		r[1]=new DriveMotor(Motor.makeMotor(frPort,type),"FR",new XY( 1, 1),new Degree( 135)).setEncoder(Motor.makeEncoder(frEncoder)).setPID(encPID);
+		r[2]=new DriveMotor(Motor.makeMotor(blPort,type),"BL",new XY(-1,-1),new Degree( -45)).setEncoder(Motor.makeEncoder(blEncoder)).setPID(encPID);
+		r[3]=new DriveMotor(Motor.makeMotor(brPort,type),"BR",new XY( 1,-1),new Degree(-135)).setEncoder(Motor.makeEncoder(brEncoder)).setPID(encPID);
 		return new DriveTrain(r);
 	}
 }

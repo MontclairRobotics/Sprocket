@@ -26,9 +26,10 @@ public class Motor implements Updatable{
 
 	private String name;
 	private double maxSpeed=1.0;
-	private double rateAtMaxPower=360;
 	
 	private double goal;
+	private double power = 0.0;
+	
 	private SpeedController motor;
 	private Encoder encoder;
 	private EncoderRate encRate;
@@ -75,12 +76,11 @@ public class Motor implements Updatable{
 	 * @param rateAtMaxPower the encoder rate at max power
 	 * @return this
 	 */	
-	public Motor setEncoder(Encoder e,double rateAtMaxPower)
+	public Motor setEncoder(Encoder e)
 	{
 		if(e==null)return this;
 		this.encoder=e;
-		this.rateAtMaxPower=rateAtMaxPower;
-		this.encRate=new EncoderRate(e,rateAtMaxPower);
+		this.encRate=new EncoderRate(e);
 		return setPID();
 	}
 	
@@ -108,16 +108,14 @@ public class Motor implements Updatable{
 	public static class EncoderRate implements Input
 	{
 		private Encoder enc;
-		private double rateAtMaxPower;
-		public EncoderRate(Encoder enc,double rateAtMaxPower)
+		public EncoderRate(Encoder enc)
 		{
 			this.enc=enc;
-			this.rateAtMaxPower=rateAtMaxPower;
 		}
 		public double getInput()
 		{
 			if(enc==null)return 0.0;
-			return enc.getRate()/rateAtMaxPower;
+			return enc.getRate();
 		}
 	}
 	
@@ -146,25 +144,24 @@ public class Motor implements Updatable{
 	public void update()
 	{
 		double tgtSpeed=calcSpeed();
-		double speed=0;
 		if(shutdown)
 		{
-			speed = 0;
+			power = 0;
 			motor.set(0);
 			if(motor instanceof CANTalon) ((CANTalon)motor).disableControl();
 			return;
 		}
 		if(encoder==null||pid==null)
 		{
-			speed=tgtSpeed/maxSpeed;
+			power=tgtSpeed/maxSpeed;
 		}
 		else
 		{
-			pid.setTarget(tgtSpeed/maxSpeed*rateAtMaxPower);
-			speed=pid.get();
+			pid.setTarget(tgtSpeed);
+			power += pid.get();
 		}
-		motor.set(speed);
-		Dashboard.putNumber("Motor "+name, speed);
+		motor.set(power);
+		Dashboard.putNumber("Motor "+name, power);
 	}
 	
 	public boolean isInverted() {
