@@ -1,6 +1,5 @@
-
 package org.usfirst.frc.team555.robot;
-//THERE SHOULD BE LICENSE STUFF HERE!!!!
+
 
 import org.montclairrobotics.sprocket.auto.AutoChooser;
 import org.montclairrobotics.sprocket.auto.AutoStates;
