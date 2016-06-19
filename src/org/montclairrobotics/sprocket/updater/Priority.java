@@ -16,6 +16,7 @@ public class Priority {
 	
 	public static final Priority INPUT = HIGHEST;
 	public static final Priority INPUT_PID = HIGH;
+	public static final Priority CONTROL = new Priority(50);
 	public static final Priority CALC = NORMAL;
 	public static final Priority DRIVE_CALC=LOW;
 	public static final Priority AUTO = LOW;
