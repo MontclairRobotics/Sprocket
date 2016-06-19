@@ -19,12 +19,7 @@ public class AutoButtons {
 				.setTarget(target)
 				.setZones(zones);
 			
-			this.setWhileDownAction(new ButtonAction() {
-				@Override
-				public void onAction() {
-					align.align();
-				}
-			});
+			this.setWhileDownAction(() -> align.align());
 		}
 	}
 }

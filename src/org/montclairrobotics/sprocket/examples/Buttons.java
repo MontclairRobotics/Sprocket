@@ -1,4 +1,4 @@
-package org.usfirst.frc.team555.robot;
+package org.montclairrobotics.sprocket.examples;
 
 import org.montclairrobotics.sprocket.control.Button;
 import org.montclairrobotics.sprocket.utils.XY;

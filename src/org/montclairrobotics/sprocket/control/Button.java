@@ -68,7 +68,7 @@ public class Button implements Updatable{
 		}
 	}
 	
-	public void setUpAction(ButtonAction upAction) {
+	public void setOnUpAction(ButtonAction upAction) {
 		onUp = upAction;
 	}
 	
@@ -76,7 +76,7 @@ public class Button implements Updatable{
 		this.whileUp = whileUp;
 	}
 	
-	public void setDownAction(ButtonAction down) {
+	public void setOnDownAction(ButtonAction down) {
 		onDown = down;
 	}
 	
