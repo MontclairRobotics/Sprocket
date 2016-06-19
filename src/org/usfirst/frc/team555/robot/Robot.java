@@ -4,7 +4,6 @@ package org.usfirst.frc.team555.robot;
 
 import org.montclairrobotics.sprocket.auto.AutoChooser;
 import org.montclairrobotics.sprocket.auto.AutoStates;
-import org.montclairrobotics.sprocket.control.Control;
 import org.montclairrobotics.sprocket.drive.DriveMotor;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.drive.Motor.M_TYPE;
