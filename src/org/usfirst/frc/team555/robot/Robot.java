@@ -48,12 +48,12 @@ public class Robot extends IterativeRobot {
     	leftEncoder = new Encoder(0, 1);
     	leftEncoder.setDistancePerPulse(47.0*4/4226);
     	leftEncoder.setSamplesToAverage(20);
-    	leftEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+    	leftEncoder.setPIDSourceType(PIDSourceType.kRate);
     	
     	rightEncoder = new Encoder(3, 4);
     	rightEncoder.setDistancePerPulse(47.0*4/4226);
     	rightEncoder.setSamplesToAverage(20);
-    	rightEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+    	rightEncoder.setPIDSourceType(PIDSourceType.kRate);
     	
     	
     	
