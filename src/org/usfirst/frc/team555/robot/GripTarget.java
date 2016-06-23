@@ -3,7 +3,6 @@ package org.usfirst.frc.team555.robot;
 import org.montclairrobotics.sprocket.utils.Dashboard;
 import org.montclairrobotics.sprocket.utils.Grip;
 import org.montclairrobotics.sprocket.utils.Input;
-import org.montclairrobotics.sprocket.utils.XY;
 
 public class GripTarget implements Input {
 	private Grip grip;
@@ -14,7 +13,7 @@ public class GripTarget implements Input {
 		this.grip=g;
 		this.yAxis=y;
 	}
-	public double getInput() {
+	public double get() {
 		if(!yAxis)
 		{
 			Dashboard.putNumber("input x", grip.getX());

@@ -1,11 +1,11 @@
 package org.usfirst.frc.team555.robot;
 
 import org.montclairrobotics.sprocket.control.Button;
-import org.montclairrobotics.sprocket.control.Control;
 import org.montclairrobotics.sprocket.drive.Motor;
 import org.montclairrobotics.sprocket.drive.Motor.M_TYPE;
+import org.montclairrobotics.sprocket.pid.PID;
+import org.montclairrobotics.sprocket.pid.ParallelPID;
 import org.montclairrobotics.sprocket.utils.Dashboard;
-import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Utils;
 import org.montclairrobotics.sprocket.utils.XY;
 
@@ -70,7 +70,7 @@ public class Valves {
 		new Shoot(1);
 		new ShootMotorOn(3);
 		new ShootMotorIntake(2);
-		new AlignOn(11,new XY(160,200),new PID(0,0,0),new PID(-0.008,0,-.03));
+		new AlignOn(11,new XY(160,200),new ParallelPID(0,0,0),new ParallelPID(-0.008,0,-.03));
 		
 		raise();
 		halfOff();
