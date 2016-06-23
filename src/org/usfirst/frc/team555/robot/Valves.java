@@ -1,7 +1,13 @@
 package org.usfirst.frc.team555.robot;
 
+import org.montclairrobotics.sprocket.control.Button;
+import org.montclairrobotics.sprocket.control.Control;
 import org.montclairrobotics.sprocket.drive.Motor;
 import org.montclairrobotics.sprocket.drive.Motor.M_TYPE;
+import org.montclairrobotics.sprocket.utils.Dashboard;
+import org.montclairrobotics.sprocket.utils.PID;
+import org.montclairrobotics.sprocket.utils.Utils;
+import org.montclairrobotics.sprocket.utils.XY;
 
 import edu.wpi.first.wpilibj.Solenoid;
 
@@ -57,11 +63,141 @@ public class Valves {
         	shootMotors[i] = new Motor(Motor.makeMotor(SHOOTER_MOTOR_PORTS[i],SHOOTER_MOTOR_TYPE),"SHOOTER :"+SHOOTER_MOTOR_PORTS[i]);
         }
         shootMotors[1].setInverted(true);
+        new HalfDown(10);
+		new HalfUp(11);
+		new ShootDown(7);
+		new ShootUp(6);
+		new Shoot(1);
+		new ShootMotorOn(3);
+		new ShootMotorIntake(2);
+		new AlignOn(11,new XY(160,200),new PID(0,0,0),new PID(-0.008,0,-.03));
 		
 		raise();
 		halfOff();
 	}
-	
+	public class AlignOn extends Button
+	{
+		private int i=0;
+		private PID spdPID,rotPID;
+		private static final double 
+			BUFFER_X_SMALL=30,
+			BUFFER_X_BIG=60,
+			BUFFER_Y_SMALL=14,
+			BUFFER_Y_BIG=60,
+			TURN_SMALL=0.25,
+			TURN_BIG=0.27,
+			MOVE_SMALL=0.25,
+			MOVE_BIG=0.3,
+			BLEND=1;
+		private double x,y;
+		private XY target;
+		public AlignOn(int id,XY target,PID spdPID,PID rotPID) {
+			super(Control.sticks[Control.DRIVE_STICK], id);
+			this.target=target;
+			this.spdPID=spdPID.setInput(new GripTarget(Robot.grip,true)).setTarget(target.getY());
+			this.rotPID=rotPID.setInput(new GripTarget(Robot.grip,false)).setTarget(target.getX());
+		}
+		public void down()
+		{
+			Dashboard.putString("Grip Chg", spdPID.get()+","+rotPID.get()+","+i);
+			Dashboard.putString("Grip",Robot.grip.getX()+","+Robot.grip.getY());
+			Robot.driveTrain.driveSpeedRotation(Utils.constrain(spdPID.get(),-.35,.35),Utils.constrain(rotPID.get(),-.35,.35));
+			i++;
+		}
+		public void up()
+		{
+		}
+	}
+	public class ShootMotorOn extends Button
+	{
+
+		public ShootMotorOn(int id) {
+			super(Control.sticks[1],id);
+		}
+		public void onDown()
+		{
+			setShoot(SHOOT_SPEED);
+		}
+		public void onUp()
+		{
+			setShoot(0);
+		}
+		
+	}
+	public class ShootMotorIntake extends Button
+	{
+		public ShootMotorIntake(int id) {
+			super(Control.sticks[1],id);
+		}
+		public void onDown()
+		{
+			setShoot(INTAKE_SPEED);
+		}
+		public void onUp()
+		{
+			setShoot(0);
+		}
+	}
+	public class HalfDown extends Button
+	{
+		public HalfDown(int id)
+		{
+			super(Control.sticks[1],id);
+		}
+		public void onDown()
+		{
+			halfOff();
+		}
+	}
+	public class HalfUp extends Button
+	{
+		public HalfUp(int id)
+		{
+			super(Control.sticks[1],id);
+		}
+		public void onDown()
+		{
+			halfOn();
+		}
+	}
+	public class ShootDown extends Button
+	{
+		public ShootDown(int id)
+		{
+			super(Control.sticks[1],id);
+		}
+		public void onDown()
+		{
+			lower();
+		}
+	}
+	public class ShootUp extends Button
+	{
+		public ShootUp(int id)
+		{
+			super(Control.sticks[1],id);
+		}
+		public void onDown()
+		{
+			raise();
+		}
+	}
+	public class Shoot extends Button
+	{
+		public Shoot(int id)
+		{
+			super(Control.sticks[1],id);
+		}
+		public void onDown()
+		{
+			shootOut();
+		}
+		public void onUp()
+		{
+			shootIn();
+		}
+	}
+	/**===============**/
 	public void raise()
 	{
 		resetShooterPush();

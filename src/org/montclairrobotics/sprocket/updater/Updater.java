@@ -22,7 +22,7 @@ public class Updater {
 			new TreeMap<Priority, ArrayList<Updatable>>(new Comparator<Priority>() {
 		@Override
 		public int compare(Priority o1, Priority o2) {
-			return o2.getPriority()-o1.getPriority();
+			return o1.getPriority()-o2.getPriority();
 		}
 	});
 	
