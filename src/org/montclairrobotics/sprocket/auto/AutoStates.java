@@ -1,12 +1,12 @@
 package org.montclairrobotics.sprocket.auto;
 
 import org.montclairrobotics.sprocket.drive.DriveTrain;
+import org.montclairrobotics.sprocket.pid.PID;
 import org.montclairrobotics.sprocket.states.StateObj;
 import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Grip;
 import org.montclairrobotics.sprocket.utils.Gyro;
 import org.montclairrobotics.sprocket.utils.Input;
-import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.XY;
 
 public class AutoStates {
@@ -72,7 +72,7 @@ public class AutoStates {
 			{
 				this.g=g;
 			}
-			public double getInput()
+			public double get()
 			{
 				return g.getHeading().toDegrees();
 			}
@@ -84,7 +84,7 @@ public class AutoStates {
 		public void update()
 		{
 			dt.driveSpeedRotation(0.0,pid.get());
-			if(Math.abs(pid.getError())<MAX_ERROR)
+			if(Math.abs(pid.get())<MAX_ERROR)
 				loopsAtTarget++;
 			else
 				loopsAtTarget=0;

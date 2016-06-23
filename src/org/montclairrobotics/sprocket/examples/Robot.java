@@ -7,6 +7,8 @@ import org.montclairrobotics.sprocket.auto.AutoStates;
 import org.montclairrobotics.sprocket.drive.DriveMotor;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.drive.Motor.M_TYPE;
+import org.montclairrobotics.sprocket.pid.PID;
+import org.montclairrobotics.sprocket.pid.ParallelPID;
 import org.montclairrobotics.sprocket.states.State;
 import org.montclairrobotics.sprocket.states.StateMachine;
 import org.montclairrobotics.sprocket.updater.Updater;
@@ -14,7 +16,6 @@ import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.Distance;
 import org.montclairrobotics.sprocket.utils.Grip;
-import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.XY;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -41,7 +42,7 @@ public class Robot extends IterativeRobot {
 	public Encoder leftEncoder;
 	public Encoder rightEncoder;
 	
-	public PID encPid = new PID().setPID(0.03, 0.0, 0.0);
+	public PID encPid = new ParallelPID().setPID(0.03, 0.0, 0.0);
     
     public void robotInit() {
     	//driveTrain=DriveTrain.makeStandard(leftWheels, rightWheels, motorType);

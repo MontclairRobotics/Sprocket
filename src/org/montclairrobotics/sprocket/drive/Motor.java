@@ -1,12 +1,12 @@
 package org.montclairrobotics.sprocket.drive;
 
+import org.montclairrobotics.sprocket.pid.PID;
 import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updatable;
 import org.montclairrobotics.sprocket.updater.Updater;
 import org.montclairrobotics.sprocket.utils.Dashboard;
 import org.montclairrobotics.sprocket.utils.Distance;
 import org.montclairrobotics.sprocket.utils.Input;
-import org.montclairrobotics.sprocket.utils.PID;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
@@ -92,7 +92,7 @@ public class Motor implements Updatable{
 	public Motor setPID()
 	{
 		if(pid!=null && encRate!=null)
-			pid.setInput(encRate).setMinMax(0,0,-1,1);
+			pid.setInput(encRate).setMinMaxOut(-1,1);
 		return this;
 	}
 	/**
@@ -113,10 +113,10 @@ public class Motor implements Updatable{
 		{
 			this.enc=enc;
 		}
-		public double getInput()
+		public double get()
 		{
 			if(enc==null)return 0.0;
-			return enc.getRate();
+			return enc.get();
 		}
 	}
 	
