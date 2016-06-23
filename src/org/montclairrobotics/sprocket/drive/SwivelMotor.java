@@ -2,6 +2,7 @@ package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Degree;
+import org.montclairrobotics.sprocket.utils.Distance;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 
@@ -35,10 +36,10 @@ public class SwivelMotor extends Motor{
 	{
 		return new Degree(encoder.getDistance());
 	}
-	public double calcSpeed()
+	public Distance calcSpeed()
 	{
 		pid.setTarget(tgtAngle.toDegrees(),false);
-		return pid.get();
+		return new Distance(pid.get(),maxSpeed());
 	}
 	public static class EncoderDistance implements Input
 	{

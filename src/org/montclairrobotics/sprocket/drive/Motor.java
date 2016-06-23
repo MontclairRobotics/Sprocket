@@ -4,6 +4,7 @@ import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updatable;
 import org.montclairrobotics.sprocket.updater.Updater;
 import org.montclairrobotics.sprocket.utils.Dashboard;
+import org.montclairrobotics.sprocket.utils.Distance;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 
@@ -25,10 +26,9 @@ public class Motor implements Updatable{
 	public static enum M_TYPE{TALONSRX,VICTORSP,TALON};
 
 	private String name;
-	private double maxSpeed=1.0;
+	private Distance maxSpeed=null,encScale=null;
 	
-	private double goal;
-	private double power = 0.0;
+	private Distance goal;
 	
 	private SpeedController motor;
 	private Encoder encoder;
@@ -64,7 +64,7 @@ public class Motor implements Updatable{
 	 * @param maxSpeed the maximum speed
 	 * @return this
 	 */
-	public Motor setMaxSpeed(double maxSpeed)
+	public Motor setMaxSpeed(Distance maxSpeed)
 	{
 		this.maxSpeed=maxSpeed;
 		return this;
@@ -76,11 +76,12 @@ public class Motor implements Updatable{
 	 * @param rateAtMaxPower the encoder rate at max power
 	 * @return this
 	 */	
-	public Motor setEncoder(Encoder e)
+	public Motor setEncoder(Encoder e,Distance scale)
 	{
 		if(e==null)return this;
 		this.encoder=e;
 		this.encRate=new EncoderRate(e);
+		this.encScale=scale;
 		return setPID();
 	}
 	
@@ -125,6 +126,10 @@ public class Motor implements Updatable{
 	 */
 	public void setSpeed(double spd)
 	{
+		setSpeed(new Distance(spd,maxSpeed));
+	}
+	public void setSpeed(Distance spd)
+	{
 		goal=spd;
 	}
 	/**
@@ -133,7 +138,7 @@ public class Motor implements Updatable{
 	 * Will be converted to a percentage of maxSpeed; 1 if not set
 	 * @return Speed to drive at
 	 */
-	public double calcSpeed()
+	public Distance calcSpeed()
 	{
 		return goal;
 	}
@@ -143,7 +148,8 @@ public class Motor implements Updatable{
 	 */
 	public void update()
 	{
-		double tgtSpeed=calcSpeed();
+		Distance tgtSpeed=calcSpeed();
+		double power=0;
 		if(shutdown)
 		{
 			power = 0;
@@ -153,15 +159,20 @@ public class Motor implements Updatable{
 		}
 		if(encoder==null||pid==null)
 		{
-			power=tgtSpeed/maxSpeed;
+			power=tgtSpeed.to(maxSpeed);
 		}
 		else
 		{
-			pid.setTarget(tgtSpeed);
-			power += pid.get();
+			pid.setTarget(tgtSpeed.to(encScale));
+			power = pid.get();
 		}
 		motor.set(power);
 		Dashboard.putNumber("Motor "+name, power);
+	}
+	
+	public Distance maxSpeed()
+	{
+		return maxSpeed();
 	}
 	
 	public boolean isInverted() {

@@ -12,6 +12,7 @@ import org.montclairrobotics.sprocket.states.StateMachine;
 import org.montclairrobotics.sprocket.updater.Updater;
 import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Degree;
+import org.montclairrobotics.sprocket.utils.Distance;
 import org.montclairrobotics.sprocket.utils.Grip;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.XY;
@@ -57,12 +58,13 @@ public class Robot extends IterativeRobot {
     	rightEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
     	
     	
+    	Distance encDist=Distance.INCHES;
     	
     	driveTrain = new DriveTrain(new DriveMotor[]{
-    			new DriveMotor(new Talon(leftWheels[0]), "L0", new XY(-1,0), new Degree(180)).setEncoder(leftEncoder).setPID(encPid),
-    			new DriveMotor(new Talon(leftWheels[1]), "L1", new XY(-1,0), new Degree(180)).setEncoder(leftEncoder).setPID(encPid),
-    			new DriveMotor(new Talon(rightWheels[0]), "R0", new XY(1,0), Angle.zero).setEncoder(rightEncoder).setPID(encPid),
-    			new DriveMotor(new Talon(rightWheels[1]), "R1", new XY(1,0), Angle.zero).setEncoder(rightEncoder).setPID(encPid)
+    			new DriveMotor(new Talon(leftWheels[0]), "L0", new XY(-1,0), new Degree(180)).setEncoder(leftEncoder,encDist).setPID(encPid),
+    			new DriveMotor(new Talon(leftWheels[1]), "L1", new XY(-1,0), new Degree(180)).setEncoder(leftEncoder,encDist).setPID(encPid),
+    			new DriveMotor(new Talon(rightWheels[0]), "R0", new XY(1,0), Angle.zero).setEncoder(rightEncoder,encDist).setPID(encPid),
+    			new DriveMotor(new Talon(rightWheels[1]), "R1", new XY(1,0), Angle.zero).setEncoder(rightEncoder,encDist).setPID(encPid)
     	});
     	
     	 String[] autoNames={"Auto 1"};

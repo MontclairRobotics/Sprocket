@@ -3,7 +3,9 @@ package org.montclairrobotics.sprocket.drive;
 import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Dashboard;
 import org.montclairrobotics.sprocket.utils.Degree;
+import org.montclairrobotics.sprocket.utils.Distance;
 import org.montclairrobotics.sprocket.utils.PID;
+import org.montclairrobotics.sprocket.utils.Polar;
 import org.montclairrobotics.sprocket.utils.Vector;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -44,25 +46,13 @@ public class DriveMotor extends Motor{
 			this.forceAngle=new Degree(0);
 	}
 	/**
-	 * Sets the speed this motor should be imputed so that it turns at max speed
-	 * If the robot has a maximum speed of 3 ft/s, this should be 3 
-	 * and the input should be in ft/s
-	 * @param maxSpeed the maximum speed
-	 * @return this
-	 */
-	public Motor setMaxSpeed(double maxSpeed)
-	{
-		super.setMaxSpeed(maxSpeed);
-		return this;
-	}
-	/**
 	 * Sets the encoder to use with the PID settings
 	 * @param e the Encoder
 	 * @return this
 	 */	
-	public DriveMotor setEncoder(Encoder e)
+	public DriveMotor setEncoder(Encoder e,Distance encoderScale)
 	{
-		super.setEncoder(e);
+		super.setEncoder(e,encoderScale);
 		return this;
 	}
 	/**
@@ -75,25 +65,34 @@ public class DriveMotor extends Motor{
 		super.setPID(a);
 		return this;
 	}
+	public void setVelocity(Vector direction,double rotation)
+	{
+		setVelocity(direction,rotation,maxSpeed());
+	}
 	/**
 	 * Sets the velocity Vector of the robot with a rotation value
 	 * Calculates the goal Vector for this one wheel and saves it to goal.
 	 * @param direction The velocity Vector of the robot
 	 * @param rotation The rotation value from [-1,1]
 	 */
-	public void setVelocity(Vector direction,double rotation)
+	public void setVelocity(Vector direction,double rotation,Distance d)
 	{
 		Vector v=direction.add(offset.getRotationVector(rotation)).rotate(getForceAngle());
-		setVelocity(v);
+		setVelocity(v,d);
 		Dashboard.putString("V", v.getX()+","+v.getY());
+	}
+	public void setVelocity(Vector v)
+	{
+		setVelocity(v,maxSpeed());
 	}
 	/**
 	 * Sets the velocity vector of this wheel with no rotation
 	 * @param v The velocity Vector of the robot
 	 */
-	public void setVelocity(Vector v)
+	public void setVelocity(Vector v,Distance d)
 	{
-		goal=v;
+		if(d==null)d=maxSpeed();
+		goal=new Polar(new Distance(v.getMag(),d).to(Distance.METERS),v.getAngle());
 	}
 	/**
 	 * Calculates the speed of this wheel
@@ -101,9 +100,9 @@ public class DriveMotor extends Motor{
 	 * @param goal The goal velocity vector for this wheel
 	 * @return the speed as a double of this wheel
 	 */
-	public double calcSpeed()
+	public Distance calcSpeed()
 	{
-		return goal.getY();
+		return new Distance(goal.getY(),Distance.METERS);
 	}
 	/*
 	public void update()

@@ -5,6 +5,7 @@ import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updatable;
 import org.montclairrobotics.sprocket.updater.Updater;
 import org.montclairrobotics.sprocket.utils.Degree;
+import org.montclairrobotics.sprocket.utils.Distance;
 import org.montclairrobotics.sprocket.utils.Gyro;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
@@ -29,13 +30,14 @@ public class DriveTrain implements Updatable{
 	private PID rotationPID;
 	
 	private Gyro gyro;
-	private double maxSpeed=1.0;
 	
 	//variables
 	private Vector driveVector;
 	private double driveRotation;
 
 	private boolean fieldCentric;
+
+	private Distance scale;
 	/**
 	 * Creates a DriveTrain with a list of wheels.
 	 * Each wheel knows where it is on the robot.
@@ -84,36 +86,26 @@ public class DriveTrain implements Updatable{
 	/**DRIVE HELPER METHODS**/
 	
 	/**
-	 * Set the max speed for scaling the speed.
-	 * At maxSpeed, the motors will run at full power.
-	 * Otherwise, they will run at a percentage of max speed
-	 * @param maxSpeed the input speed for maximum power
-	 * @return this
-	 */
-	public DriveTrain setMaxSpeed(double maxSpeed)
-	{
-		for(DriveMotor wheel:wheels)
-			wheel.setMaxSpeed(maxSpeed);
-		return this;
-	}
-	/**
 	 * Drive in Arcade mode with a joystick
 	 * @param joyX the rotation
 	 * @param joyY the speed
 	 */
 	public void driveArcade(double joyX,double joyY)
 	{
-		driveSpeedRotation(joyY*maxSpeed,joyX*maxSpeed);
+		driveSpeedRotation(Utils.deadZone(joyY,DEAD_ZONE),Utils.deadZone(joyX,DEAD_ZONE));
 	}
-	
+	public void driveSpeedRotation(double speed,double rotation)
+	{
+		drive(new XY(0,speed),rotation,null);
+	}
 	/**
 	 * Drive with a Speed And Rotation
 	 * @param speed the speed [-maxSpeed,maxSpeed]
 	 * @param rotation the rotation [-1,1]
 	 */
-	public void driveSpeedRotation(double speed,double rotation)
+	public void driveSpeedRotation(Distance speed,double rotation)
 	{
-		drive(new XY(0,Utils.deadZone(speed,DEAD_ZONE)),Utils.deadZone(rotation,DEAD_ZONE));
+		drive(new XY(0,speed.toMeters()),rotation,Distance.METERS);
 	}
 	
 	/**
@@ -130,15 +122,22 @@ public class DriveTrain implements Updatable{
 	
 	
 	/**DRIVE METHODS**/
-	
+	public void drive(Vector direction)
+	{
+		drive(direction,null);
+	}
 	/**
 	 * Drive in a specific vector without any rotation
 	 * Robot-centric
 	 * @param direction The direction to translate along
 	 */
-	public void drive(Vector direction)
+	public void drive(Vector direction,Distance speed)
 	{
-		drive(direction,0.0);
+		drive(direction,0.0,speed);
+	}
+	public void drive(Vector direction,double rotation)
+	{
+		drive(direction,rotation,null);
 	}
 	/**
 	 * Drive in a specific vector with rotation
@@ -146,13 +145,14 @@ public class DriveTrain implements Updatable{
 	 * @param direction The direction to translate along
 	 * @param rotation A value from [-1,1] to rotate
 	 */
-	public void drive(Vector direction,double rotation)
+	public void drive(Vector direction,double rotation,Distance scale)
 	{
 		if(fieldCentric&&gyro!=null)
 			this.driveVector=direction.rotate(gyro.getHeading().negative());
 		else
 			this.driveVector=direction;
 		this.driveRotation=rotation;
+		this.scale=scale;
 	}
 
 	/**UPDATE METHODS**/
@@ -172,12 +172,12 @@ public class DriveTrain implements Updatable{
 		correct();
 		for(DriveMotor wheel:wheels)
 		{
-			wheel.setVelocity(driveVector,driveRotation);
+			wheel.setVelocity(driveVector,driveRotation,scale);
 		}
 	}
 	
 	/**========================STATIC METHODS==============================**/
-	
+	/*
 	public static DriveTrain makeStandard(int[] leftPorts,int[] rightPorts,M_TYPE type)
 	{
 		return makeStandard(leftPorts,rightPorts,type,null,null,null);
@@ -193,7 +193,7 @@ public class DriveTrain implements Updatable{
 	 * @param encPID OPTIONAL The PID controller for the encoders to correct each DriveMotor
 	 * @return a new DriveTrain with these settings
 	 */
-	public static DriveTrain makeStandard(int[] leftPorts,int[] rightPorts,M_TYPE type,
+	/*public static DriveTrain makeStandard(int[] leftPorts,int[] rightPorts,M_TYPE type,
 			int[][]leftEncoders,int[][]rightEncoders,PID encPID)
 	{
 		Vector leftOffset=new XY(-1,0),rightOffset=new XY(1,0);
@@ -236,6 +236,7 @@ public class DriveTrain implements Updatable{
 	 * @param encPID Encoder PID values
 	 * @return a new DriveTrain with these settings.
 	 */
+	/*
 	public static DriveTrain makeMecanum(int flPort,int frPort,int blPort,int brPort,M_TYPE type,
 			int[] flEncoder,int[] frEncoder,int[] blEncoder,int[] brEncoder,PID encPID)
 	{
@@ -245,5 +246,5 @@ public class DriveTrain implements Updatable{
 		r[2]=new DriveMotor(Motor.makeMotor(blPort,type),"BL",new XY(-1,-1),new Degree( -45)).setEncoder(Motor.makeEncoder(blEncoder)).setPID(encPID);
 		r[3]=new DriveMotor(Motor.makeMotor(brPort,type),"BR",new XY( 1,-1),new Degree(-135)).setEncoder(Motor.makeEncoder(brEncoder)).setPID(encPID);
 		return new DriveTrain(r);
-	}
+	}*/
 }
