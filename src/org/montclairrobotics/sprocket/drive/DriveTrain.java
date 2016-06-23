@@ -1,13 +1,13 @@
 package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.drive.Motor.M_TYPE;
+import org.montclairrobotics.sprocket.pid.PID;
 import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updatable;
 import org.montclairrobotics.sprocket.updater.Updater;
 import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.Gyro;
 import org.montclairrobotics.sprocket.utils.Input;
-import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Polar;
 import org.montclairrobotics.sprocket.utils.Utils;
 import org.montclairrobotics.sprocket.utils.Vector;
@@ -74,7 +74,7 @@ public class DriveTrain implements Updatable{
 			this.gyro=gyro;
 			this.maxGyroRate=maxGyroRate;
 		}
-		public double getInput() {
+		public double get() {
 			return gyro.getRateRotation()/maxGyroRate;
 		}
 	}

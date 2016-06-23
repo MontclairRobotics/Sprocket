@@ -1,5 +1,11 @@
 package org.montclairrobotics.sprocket.utils;
-
-public interface Input {
-	public abstract double getInput();
+/**
+ * Write a description of interface Input here.
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
+ */
+public interface Input
+{
+    public double get();
 }

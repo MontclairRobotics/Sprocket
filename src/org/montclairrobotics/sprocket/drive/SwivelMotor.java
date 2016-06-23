@@ -1,9 +1,9 @@
 package org.montclairrobotics.sprocket.drive;
 
+import org.montclairrobotics.sprocket.pid.PID;
 import org.montclairrobotics.sprocket.utils.Angle;
 import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.Input;
-import org.montclairrobotics.sprocket.utils.PID;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -24,7 +24,8 @@ public class SwivelMotor extends Motor{
 	{
 		super(motor,name);
 		this.encoder=encoder;
-		this.pid.setInput(new EncoderDistance(encoder)).setMinMax(-180, 180, -1, 1);
+		this.pid.setInput(new EncoderDistance(encoder))
+		.setMinMaxIn(-180, 180,true).setMinMaxOut( -1, 1);
 		tgtAngle=new Degree(0);
 	}
 	public void setAngle(Angle a)
@@ -47,7 +48,7 @@ public class SwivelMotor extends Motor{
 		{
 			this.enc=enc;
 		}
-		public double getInput()
+		public double get()
 		{
 			if(enc==null)return 0.0;
 			return enc.getDistance();

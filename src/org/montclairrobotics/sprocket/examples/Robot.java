@@ -4,9 +4,10 @@ package org.montclairrobotics.sprocket.examples;
 import org.montclairrobotics.sprocket.control.ArcadeTranslator;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.drive.Motor.M_TYPE;
+import org.montclairrobotics.sprocket.pid.PID;
+import org.montclairrobotics.sprocket.pid.ParallelPID;
 import org.montclairrobotics.sprocket.updater.Updater;
 import org.montclairrobotics.sprocket.utils.CameraServers;
-import org.montclairrobotics.sprocket.utils.PID;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 
@@ -17,7 +18,7 @@ public class Robot extends IterativeRobot {
 	public static M_TYPE motorType=M_TYPE.TALON;
 	public static int[][] leftEncoders={{0,1},{2,3}},rightEncoders={{4,5},{6,7}};
 	public static double maxEncRate=360;
-	public static PID drivePID=new PID().setPID(0.03,0.0,0.3), motorPID=new PID().setPID(0.01,0.0,0.1);
+	public static PID drivePID=new ParallelPID().setPID(0.03,0.0,0.3), motorPID=new ParallelPID().setPID(0.01,0.0,0.1);
 	public static String[] cams={"cam1","cam2"};
 	
     public static DriveTrain driveTrain;
