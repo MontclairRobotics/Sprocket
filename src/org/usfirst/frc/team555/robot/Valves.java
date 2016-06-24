@@ -99,9 +99,9 @@ public class Valves {
 		}
 		public void down()
 		{
-			Dashboard.putString("Grip Chg", spdPID.get()+","+rotPID.get()+","+i);
-			Dashboard.putString("Grip",Robot.grip.getX()+","+Robot.grip.getY());
-			Robot.driveTrain.driveSpeedRotation(Utils.constrain(spdPID.get(),-.35,.35),Utils.constrain(rotPID.get(),-.35,.35));
+			//Dashboard.putString("Grip Chg", spdPID.get()+","+rotPID.get()+","+i);
+			//Dashboard.putString("Grip",Robot.grip.getX()+","+Robot.grip.getY());
+			//Robot.driveTrain.driveSpeedRotation(Utils.constrain(spdPID.get(),-.35,.35),Utils.constrain(rotPID.get(),-.35,.35));
 			i++;
 		}
 		public void up()

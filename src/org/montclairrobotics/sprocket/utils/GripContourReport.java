@@ -27,7 +27,11 @@ public class GripContourReport {
 			height = new double[0];
 			centerX = new double[0];
 			centerY = new double[0];
-			Dashboard.putString("GRIP", "NOT FOUND");
+			maxCenterX=0;
+			maxCenterY=0;
+			max=0;
+			Dashboard.putString("GRIP", "NOT FOUND Y");
+			return;
 		}
 		double maxArea = -1.0;
 		int max = -1;
