@@ -1,5 +1,8 @@
 package org.montclairrobotics.sprocket.pid;
 
+import org.montclairrobotics.sprocket.updater.Priority;
+import org.montclairrobotics.sprocket.updater.Updatable;
+import org.montclairrobotics.sprocket.updater.Updater;
 import org.montclairrobotics.sprocket.utils.Input;
 
 
@@ -13,7 +16,7 @@ import org.montclairrobotics.sprocket.utils.Input;
  * 
  */
 
-public abstract class PID{
+public abstract class PID implements Updatable{
 
     private Input input;
     private double minIn,maxIn,minOut,maxOut;
@@ -44,7 +47,7 @@ public abstract class PID{
         this.maxIn=0.0;
         lastUpdate=System.currentTimeMillis();
         setTarget();
-        //Updater.add(this, Priority.INPUT_PID);
+        Updater.add(this, Priority.INPUT_PID);
     }
     public PID setInput(Input i)
     {
@@ -144,24 +147,26 @@ public abstract class PID{
      */
     public double get()
     {
-        return get(true);
+        return out;
     }
+    /*
     public double get(boolean calculate)
     {
         if(calculate)
             runCalculate();
         return out;
-    }
+    }*/
     public void resetTotOut()
     {
         out=0;
+        lastUpdate=System.currentTimeMillis();
     }
     public abstract double calculate(double val,double timeChg);
     
     public void runCalculate()
     {
         if(input==null)return;
-        double timeChg=(double)(System.currentTimeMillis()-lastUpdate)/1000;
+        double timeChg=(double)(System.currentTimeMillis()-lastUpdate)/1000.0;
         lastUpdate=System.currentTimeMillis();
         if(timeChg<0.001)timeChg=0.001;
         double stepOut=calculate(input.get(),timeChg);

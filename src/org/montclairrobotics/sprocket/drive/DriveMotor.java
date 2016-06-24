@@ -24,7 +24,8 @@ public class DriveMotor extends Motor{
 	private Angle forceAngle;
 	//private double lastLoops=Timer.getFPGATimestamp();	
 	
-	private Vector goal=Vector.zero; 
+	private Vector goal=Vector.zero;
+	private Distance scale; 
 	
 	/**
 	 * Creates a DriveMotor
@@ -92,7 +93,8 @@ public class DriveMotor extends Motor{
 	public void setVelocity(Vector v,Distance d)
 	{
 		if(d==null)d=maxSpeed();
-		goal=new Polar(new Distance(v.getMag(),d).to(Distance.METERS),v.getAngle());
+		goal=v;
+		this.scale=d;
 	}
 	/**
 	 * Calculates the speed of this wheel
@@ -102,7 +104,8 @@ public class DriveMotor extends Motor{
 	 */
 	public Distance calcSpeed()
 	{
-		return new Distance(goal.getY(),Distance.METERS);
+		
+		return new Distance(goal.getY(),scale);
 	}
 	/*
 	public void update()

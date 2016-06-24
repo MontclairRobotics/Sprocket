@@ -1,5 +1,6 @@
 package org.montclairrobotics.sprocket.pid;
 
+import org.montclairrobotics.sprocket.utils.Dashboard;
 import org.montclairrobotics.sprocket.utils.Line;
 import org.montclairrobotics.sprocket.utils.Point;
 
@@ -28,6 +29,10 @@ public class PZLevelTuner extends SlopeTest
         super(kc,ti,td);
         setup();
     }
+    public PZLevelTuner copy()
+    {
+    	return (PZLevelTuner)copy(new PZLevelTuner(getName()+" 2"));
+    }
     private void setup()
     {
         kc=new OrderedSet();
@@ -53,7 +58,7 @@ public class PZLevelTuner extends SlopeTest
         double ti=2*SM*tdead;
         double td=tdead/2;
        
-        System.out.println(kc+","+ti+","+td);
+        //System.out.println(kc+","+ti+","+td);
         this.kc.add(kc);
         this.ti.add(ti);
         this.td.add(td);
@@ -65,6 +70,6 @@ public class PZLevelTuner extends SlopeTest
         double td=this.td.getNonOutlier().getAvg();
         super.setPID(kc,ti,td);
         super.resetTotOut();
-        System.out.println(kc+"\n"+ti+"\n"+td);
+        Dashboard.putString("PID",kc+"\n"+ti+"\n"+td);
     }
 }

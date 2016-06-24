@@ -21,13 +21,13 @@ public class Grip implements Updatable{
 	}
 	public int getX()
 	{
-		if(report==null)return -1;
+		if(report==null)return 0;
 		Dashboard.putNumber("grip_x",report.maxCenterX);
 		return report.maxCenterX;
 	}
 	public int getY()
 	{
-		if(report==null)return -1;
+		if(report==null)return 0;
 		Dashboard.putNumber("grip_y",report.maxCenterY);
 		return report.maxCenterY;
 	}

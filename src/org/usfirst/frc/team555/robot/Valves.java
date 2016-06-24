@@ -70,7 +70,7 @@ public class Valves {
 		new Shoot(1);
 		new ShootMotorOn(3);
 		new ShootMotorIntake(2);
-		new AlignOn(11,new XY(160,200),new ParallelPID(0,0,0),new ParallelPID(-0.008,0,-.03));
+		new AlignOn(11,new XY(160,200),new ParallelPID(0,0,0),new ParallelPID(-0.008,0,0));
 		
 		raise();
 		halfOff();
@@ -94,8 +94,8 @@ public class Valves {
 		public AlignOn(int id,XY target,PID spdPID,PID rotPID) {
 			super(Control.sticks[Control.DRIVE_STICK], id);
 			this.target=target;
-			this.spdPID=spdPID.setInput(new GripTarget(Robot.grip,true)).setTarget(target.getY());
-			this.rotPID=rotPID.setInput(new GripTarget(Robot.grip,false)).setTarget(target.getX());
+			this.spdPID=spdPID.setInput(new GripTarget(Robot.grip,true)).setTarget(target.getY()).setMinMaxOut(-.35, 35);
+			this.rotPID=rotPID.setInput(new GripTarget(Robot.grip,false)).setTarget(target.getX()).setMinMaxOut(-.35, 35);
 		}
 		public void down()
 		{

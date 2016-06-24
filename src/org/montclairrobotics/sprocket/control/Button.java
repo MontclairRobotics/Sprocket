@@ -53,18 +53,27 @@ public class Button implements Updatable{
 			if(!state)
 			{
 				state=true;
-				if(onDown != null) onDown.onAction();
+				if(onDown != null) {
+					onDown.onAction();}
+				onDown();
 			}
-			if(whileDown != null) whileDown.onAction();
+			if(whileDown != null) {whileDown.onAction();}
+			down();
+			
+			
 		}
 		else
 		{
 			if(state)
 			{
 				state=false;
-				if(onUp != null) onUp.onAction();
+				if(onUp != null) {onUp.onAction();}
+				onUp();
+				
 			}
-			if(whileUp != null) whileUp.onAction();
+			if(whileUp != null) {whileUp.onAction();}
+			up();
+			
 		}
 	}
 	
@@ -83,5 +92,11 @@ public class Button implements Updatable{
 	public void setWhileDownAction(ButtonAction whileDown) {
 		this.whileDown = whileDown;
 	}
+	
+	public void onDown(){}
+	public void down(){}
+	public void onUp(){}
+	public void up(){}
+	
 	
 }

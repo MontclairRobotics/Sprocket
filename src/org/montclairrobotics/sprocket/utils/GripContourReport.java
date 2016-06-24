@@ -41,10 +41,10 @@ public class GripContourReport {
 		if(max>-1&&max<centerX.length)
 			maxCenterX=(int)(centerX[max]+0.5);
 		else
-			maxCenterX=-1;
+			maxCenterX=0;
 		if(max>-1&&max<centerY.length)
 			maxCenterY=(int)(centerY[max]+0.5);
 		else
-			maxCenterY=-1;
+			maxCenterY=0;
 	}
 }

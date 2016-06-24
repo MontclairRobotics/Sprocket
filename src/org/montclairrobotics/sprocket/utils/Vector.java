@@ -30,7 +30,7 @@ public abstract class Vector {
 	
 	public Vector getRotationVector(double rotation)
 	{
-		return new Polar(this.getMag()*rotation,this.getAngle().add(new Degree(-90)));
+		return new Polar(this.getMag()*rotation,this.getAngle().add(new Degree(90)));
 	}
 	public Vector rotate(Angle a)
 	{

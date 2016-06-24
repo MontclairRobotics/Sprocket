@@ -4,6 +4,7 @@ import org.montclairrobotics.sprocket.pid.PID;
 import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updatable;
 import org.montclairrobotics.sprocket.updater.Updater;
+import org.montclairrobotics.sprocket.utils.Dashboard;
 import org.montclairrobotics.sprocket.utils.Distance;
 import org.montclairrobotics.sprocket.utils.Gyro;
 import org.montclairrobotics.sprocket.utils.Input;
@@ -21,7 +22,7 @@ import org.montclairrobotics.sprocket.utils.XY;
 public class DriveTrain implements Updatable{
 	
 
-	private static final double DEAD_ZONE = 0.0; //0.15
+	private static final double DEAD_ZONE = 0.15; //0.15
 	
 	//constants
 	private DriveMotor[] wheels;
@@ -168,6 +169,8 @@ public class DriveTrain implements Updatable{
 	public void update()
 	{
 		correct();
+		Dashboard.putString("drive",driveVector.getX()+","+driveVector.getY()+" R="+driveRotation+(scale==null));
+		
 		for(DriveMotor wheel:wheels)
 		{
 			wheel.setVelocity(driveVector,driveRotation,scale);

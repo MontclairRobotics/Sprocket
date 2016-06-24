@@ -1,4 +1,7 @@
 package org.montclairrobotics.sprocket.pid;
+
+import org.montclairrobotics.sprocket.utils.Dashboard;
+
 /**
  * Write a description of class CCTuner here.
  * 
@@ -56,6 +59,7 @@ public abstract class PIDTest extends ISAPID
     {
         startI=pv.getI();
         startMillis=System.currentTimeMillis();  
+        Dashboard.getString("Test","Started");
     }
     public void stopTest()
     {
@@ -110,6 +114,10 @@ public abstract class PIDTest extends ISAPID
     public Signal getCO()
     {
         return co;
+    }
+    public String getName()
+    {
+    	return name;
     }
     
 }

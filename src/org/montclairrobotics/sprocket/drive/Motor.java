@@ -26,9 +26,9 @@ public class Motor implements Updatable{
 	public static enum M_TYPE{TALONSRX,VICTORSP,TALON};
 
 	private String name;
-	private Distance maxSpeed=null,encScale=null;
+	private Distance maxSpeed=new Distance(49*2,Distance.INCHES),encScale=Distance.INCHES;
 	
-	private Distance goal;
+	private Distance goal=new Distance(0,Distance.METERS);
 	
 	private SpeedController motor;
 	private Encoder encoder;
@@ -82,14 +82,14 @@ public class Motor implements Updatable{
 		this.encoder=e;
 		this.encRate=new EncoderRate(e);
 		this.encScale=scale;
-		return setPID();
+		return updatePID();
 	}
 	
 	/**
 	 * Updates the PID controller
 	 * @return this
 	 */
-	public Motor setPID()
+	public Motor updatePID()
 	{
 		if(pid!=null && encRate!=null)
 			pid.setInput(encRate).setMinMaxOut(-1,1);
@@ -102,8 +102,8 @@ public class Motor implements Updatable{
 	 */
 	public Motor setPID(PID a)
 	{
-		this.pid=a.copy();
-		return setPID();
+		this.pid=a.setTotOutMode(true);
+		return updatePID();
 	}
 	
 	public static class EncoderRate implements Input
@@ -116,7 +116,7 @@ public class Motor implements Updatable{
 		public double get()
 		{
 			if(enc==null)return 0.0;
-			return enc.get();
+			return enc.getRate();
 		}
 	}
 	
@@ -149,6 +149,8 @@ public class Motor implements Updatable{
 	public void update()
 	{
 		Distance tgtSpeed=calcSpeed();
+
+		Dashboard.putString("V MAG OUT",tgtSpeed.to(Distance.INCHES)+"");
 		double power=0;
 		if(shutdown)
 		{
@@ -163,8 +165,11 @@ public class Motor implements Updatable{
 		}
 		else
 		{
+			Dashboard.putString(name+" target pid=",tgtSpeed.to(encScale)+"");
+			Dashboard.putString(name+" pid input", pid.getInput().get()+"");
 			pid.setTarget(tgtSpeed.to(encScale));
 			power = pid.get();
+			Dashboard.putString(name+" pid output", power+"");
 		}
 		motor.set(power);
 		Dashboard.putNumber("Motor "+name, power);
@@ -172,7 +177,7 @@ public class Motor implements Updatable{
 	
 	public Distance maxSpeed()
 	{
-		return maxSpeed();
+		return maxSpeed;
 	}
 	
 	public boolean isInverted() {
