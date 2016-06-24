@@ -22,6 +22,11 @@ public class Valves {
 	private Motor[] shootMotors;
 	private M_TYPE SHOOTER_MOTOR_TYPE=M_TYPE.TALON;
 	
+	
+	public boolean shooting;
+	public long lastShootStart;
+	private Button[] buttons;
+	
 	public static final int[] LIFT_PORTS={
 		0
 	};
@@ -63,14 +68,16 @@ public class Valves {
         	shootMotors[i] = new Motor(Motor.makeMotor(SHOOTER_MOTOR_PORTS[i],SHOOTER_MOTOR_TYPE),"SHOOTER :"+SHOOTER_MOTOR_PORTS[i]);
         }
         shootMotors[1].setInverted(true);
-        new HalfDown(10);
-		new HalfUp(11);
-		new ShootDown(7);
-		new ShootUp(6);
-		new Shoot(1);
-		new ShootMotorOn(3);
-		new ShootMotorIntake(2);
-		new AlignOn(11,new XY(160,200));//,new ParallelPID(0,0,0),new ParallelPID(-0.008,0,0));
+        buttons=new Button[]{
+        new HalfDown(10),
+		new HalfUp(11),
+		new ShootDown(7),
+		new ShootUp(6),
+		new Shoot(1),
+		new ShootMotorOn(3),
+		new ShootMotorIntake(2),
+		new AlignOn(11,new XY(160,200))
+        };//,new ParallelPID(0,0,0),new ParallelPID(-0.008,0,0));
 		
 		raise();
 		halfOff();
@@ -185,15 +192,18 @@ public class Valves {
 		public ShootMotorOn(int id) {
 			super(Control.sticks[1],id);
 		}
-		public void onDown()
+		public void down()
 		{
-			setShoot(SHOOT_SPEED);
+			startShoot();
 		}
 		public void onUp()
 		{
-			setShoot(0);
+			stopShoot();
 		}
-		
+		public void reset()
+		{
+			stopShoot();
+		}
 	}
 	public class ShootMotorIntake extends Button
 	{
@@ -207,6 +217,10 @@ public class Valves {
 		public void onUp()
 		{
 			setShoot(0);
+		}
+		public void reset()
+		{
+			onUp();
 		}
 	}
 	public class HalfDown extends Button
@@ -261,11 +275,22 @@ public class Valves {
 		}
 		public void onDown()
 		{
-			shootOut();
+			startShoot();
+		}
+		public void down()
+		{
+			if(shooting&&System.currentTimeMillis()-lastShootStart>500)
+				shootOut();
 		}
 		public void onUp()
 		{
+			stopShoot();
 			shootIn();
+		}
+		public void reset()
+		{
+			stopShoot();
+			onUp();
 		}
 	}
 	/**===============**/
@@ -339,4 +364,25 @@ public class Valves {
 		return !HalfValves[0].get();
 	}
 	
+	public void startShoot()
+	{
+		if(shooting)return;
+		setShoot(SHOOT_SPEED);
+		shooting=true;
+		lastShootStart=System.currentTimeMillis();
+	}
+	public void stopShoot()
+	{
+		shooting=false;
+		setShoot(0);
+	}
+	
+	public void reset()
+	{
+		resetShooterPush();
+		for(Button b:buttons)
+		{
+			b.reset();
+		}
+	}
 }

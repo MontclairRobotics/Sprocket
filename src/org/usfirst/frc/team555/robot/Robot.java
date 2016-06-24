@@ -146,5 +146,6 @@ public class Robot extends IterativeRobot {
     {
     	lPID.resetTotOut();
     	rPID.resetTotOut();
+    	valves.reset();
     }
 }

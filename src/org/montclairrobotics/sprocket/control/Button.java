@@ -97,6 +97,6 @@ public class Button implements Updatable{
 	public void down(){}
 	public void onUp(){}
 	public void up(){}
-	
+	public void reset(){}
 	
 }
