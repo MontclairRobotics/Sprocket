@@ -21,7 +21,9 @@ public class AutoChooser {
 	}
 	public StateMachine startStateMachine()
 	{
-		return new StateMachine(getRaw());
+		StateMachine stateMachine= new StateMachine(getRaw());
+		stateMachine.start();
+		return stateMachine;
 	}
 	public State[] getRaw()
 	{

@@ -1,8 +1,8 @@
 package org.montclairrobotics.sprocket.pid;
 
+import org.montclairrobotics.sprocket.dataconstructs.Line;
+import org.montclairrobotics.sprocket.dataconstructs.Point;
 import org.montclairrobotics.sprocket.utils.Dashboard;
-import org.montclairrobotics.sprocket.utils.Line;
-import org.montclairrobotics.sprocket.utils.Point;
 
 /**
  * Write a description of class PZLevelTuner here.

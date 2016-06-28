@@ -8,7 +8,7 @@ package org.montclairrobotics.sprocket.states;
  * <p>
  * All methods are called at least once.
  * @see org.montclairrobotics.sprocket.examples.Auto
- * @author Hymowitz
+ * 
  *
  */
 

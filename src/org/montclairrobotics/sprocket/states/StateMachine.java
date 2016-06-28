@@ -16,40 +16,60 @@ import org.montclairrobotics.sprocket.updater.Updater;
 
 public class StateMachine implements Updatable,State{
 	private State[] states;
+	private State state;
 	private int i;
+	private boolean cascadeMode;
 	/** 
 	 * Start the state machine with the start state
 	 * @param start An instance of the start state
 	 */
 	public StateMachine(State[] states)
 	{
-		Updater.add(this, Priority.CALC);
 		this.states=states;
-		for(State state:states)
-		{
-			if(state instanceof StateMachine)
-			{
-				((StateMachine)state).noAutoUpdate();
-			}
-		}
 		i=-1;
+		cascadeMode=false;
+	}
+	public StateMachine(Cascadable start)
+	{
+		this.state=start;
+		cascadeMode=true;
+	}
+	public void start()
+	{
+		onStart();
+		Updater.add(this, Priority.CONTROL);
 	}
 	public void onStart()
 	{
 		onStop();
-		i=0;
-		this.states[i].onStart();
+		if(cascadeMode)
+		{
+		}
+		else
+		{
+			i=0;
+			state=states[i];
+		}
+		state.onStart();
 	}
 	public void update()
 	{
 		if(isDone())return;
-		states[i].update();
-		if(states[i].isDone())
+		state.update();
+		if(state.isDone())
 		{
-			states[i].onStop();
-			i++;
+			state.onStop();
+			if(cascadeMode)
+			{
+				i++;
+				state=states[i];
+			}
+			else
+			{
+				state=((Cascadable)state).getNextState();
+			}
 			if(isDone())return;
-			states[i].onStart();
+			state.onStart();
 			update();
 		}
 	}
@@ -61,10 +81,8 @@ public class StateMachine implements Updatable,State{
 	}
 	public boolean isDone()
 	{
-		return i<0||i>=states.length||states[i]==null;
-	}
-	public void noAutoUpdate()
-	{
-		Updater.remove(this);
+		return (cascadeMode)?
+				(state==null):
+				(i<0||i>=states.length||states[i]==null);
 	}
 }

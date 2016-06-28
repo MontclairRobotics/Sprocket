@@ -1,10 +1,9 @@
 package org.montclairrobotics.sprocket.drive;
 
+import org.montclairrobotics.sprocket.dataconstructs.Angle;
+import org.montclairrobotics.sprocket.dataconstructs.Distance;
+import org.montclairrobotics.sprocket.input.Input;
 import org.montclairrobotics.sprocket.pid.PID;
-import org.montclairrobotics.sprocket.utils.Angle;
-import org.montclairrobotics.sprocket.utils.Degree;
-import org.montclairrobotics.sprocket.utils.Distance;
-import org.montclairrobotics.sprocket.utils.Input;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -20,13 +19,26 @@ public class SwivelMotor extends Motor{
 	private Angle tgtAngle;
 	private PID pid;
 	private Encoder encoder;
+	private Angle initialAngle;
 	
 	public SwivelMotor(SpeedController motor,String name,Encoder encoder,PID encPID)
 	{
 		super(motor,name);
 		this.encoder=encoder;
-		this.pid.setInput(new EncoderDistance(encoder)).setMinMaxIn(-180, 180,true).setMinMaxOut(-1, 1);
-		tgtAngle=new Degree(0);
+		this.pid.setInput(new Input(){
+
+			@Override
+			public double getInput() {
+				return encoder.getDistance();
+			}})
+			.setMinMaxIn(-180, 180,true)
+			.setMinMaxOut(-1, 1)
+			.setTotOutMode(false);
+		tgtAngle=Angle.zero;
+	}
+	public void setInitialAngle(Angle a)
+	{
+		initialAngle=a;
 	}
 	public void setAngle(Angle a)
 	{
@@ -34,24 +46,11 @@ public class SwivelMotor extends Motor{
 	}
 	public Angle getAngle()
 	{
-		return new Degree(encoder.getDistance());
+		return initialAngle.add(new Angle(encoder.getDistance(),Angle.Unit.DEGREES));
 	}
 	public Distance calcSpeed()
 	{
-		pid.setTarget(tgtAngle.toDegrees(),false);
-		return new Distance(pid.get(),maxSpeed());
-	}
-	public static class EncoderDistance implements Input
-	{
-		private Encoder enc;
-		public EncoderDistance(Encoder enc)
-		{
-			this.enc=enc;
-		}
-		public double get()
-		{
-			if(enc==null)return 0.0;
-			return enc.getDistance();
-		}
+		pid.setTarget(initialAngle.toDegrees()+tgtAngle.toDegrees(),false);
+		return new Distance(pid.get());
 	}
 }

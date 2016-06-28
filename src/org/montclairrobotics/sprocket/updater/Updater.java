@@ -5,6 +5,8 @@ import java.util.Comparator;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import org.montclairrobotics.sprocket.resetter.Resettable;
+
 /**
  * @author Jack Hymowitz, Rafi Baum
  * Runs all the modules which need to be updated in each tick
@@ -12,12 +14,15 @@ import java.util.TreeMap;
  */
 
 
-public class Updater {
+public class Updater implements Resettable{
 	
 	/*
 	 * TreeMaps are sorted by default, and they are used here in order to execute Updatables
 	 * in the correct order without any weird sorting while in runtime
 	 */
+	private static int loops;
+	private static long startTime=System.currentTimeMillis();
+	
 	private static TreeMap<Priority, ArrayList<Updatable>> objects = 
 			new TreeMap<Priority, ArrayList<Updatable>>(new Comparator<Priority>() {
 		@Override
@@ -69,6 +74,29 @@ public class Updater {
 			}
 		}
 		return false;
+	}
+
+	public static double loopsPerSec() {
+		if(loops<50||System.currentTimeMillis()-startTime<1000)
+			return 50.0;
+		return loops/System.currentTimeMillis();
+	}
+
+	@Override
+	public void onStop() {
+		loops=0;
+	}
+
+	@Override
+	public void startAuto() {
+		loops=0;
+		startTime=System.currentTimeMillis();
+	}
+
+	@Override
+	public void startTeleop() {
+		loops=0;
+		startTime=System.currentTimeMillis();
 	}
 	
 }

@@ -1,8 +1,10 @@
 package org.montclairrobotics.sprocket.drive;
 
-import org.montclairrobotics.sprocket.utils.Angle;
-import org.montclairrobotics.sprocket.utils.Vector;
+import org.montclairrobotics.sprocket.dataconstructs.Angle;
+import org.montclairrobotics.sprocket.dataconstructs.Vector;
+import org.montclairrobotics.sprocket.pid.PID;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 
 /**
@@ -17,6 +19,10 @@ public class SwerveModule extends DriveMotor{
 
 	private SwivelMotor swivelMotor;
 	
+	public SwerveModule(SpeedController motor,String name,SpeedController swivelMotor,Encoder rotEnc,PID rotPID,Vector offset,Angle initialAngle)
+	{
+		this(motor,name,new SwivelMotor(swivelMotor,name+" SWIVEL",rotEnc,rotPID),offset,initialAngle);
+	}
 	/**
 	 * Creates a SwerveMotor like the DriveMotor, except it contains a SwivelMotor
 	 * @param motor the SpeedController
@@ -29,9 +35,10 @@ public class SwerveModule extends DriveMotor{
 	 * Use this as + or - 45 for Mecanum Wheels or the angle for Kiwi wheels
 	 * @see DriveMotor
 	 */
-	public SwerveModule(SpeedController motor, String name,SwivelMotor swivelMotor,Vector offset, Angle forceAngle) {
-		super(motor, name,offset, forceAngle);
+	public SwerveModule(SpeedController motor, String name,SwivelMotor swivelMotor,Vector offset,Angle initialAngle) {
+		super(motor, name,offset, Angle.zero);
 		this.swivelMotor=swivelMotor;
+		swivelMotor.setInitialAngle(initialAngle);
 	}
 	/**
 	 * The method to set the speed to the swivel motor and the DriveMotor

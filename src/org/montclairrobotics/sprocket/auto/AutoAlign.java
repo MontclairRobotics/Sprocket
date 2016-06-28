@@ -1,58 +1,56 @@
 package org.montclairrobotics.sprocket.auto;
 
+import org.montclairrobotics.sprocket.dataconstructs.Point;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
-import org.montclairrobotics.sprocket.utils.Grip;
-import org.montclairrobotics.sprocket.utils.XY;
+import org.montclairrobotics.sprocket.input.Grip;
+import org.montclairrobotics.sprocket.input.Input;
+import org.montclairrobotics.sprocket.pid.PID;
 
 
 //TODO: Use PID controller with auto-align
 public class AutoAlign {
 	
+	public static int REQUIRED_LOOPS_AT_TARGET=20;
+	
 	private int loopsAtTarget = 0;
-	private XY target;
-	private Grip grip;
 	private DriveTrain dt;
-	private Zones zones;
+	private Grip grip;
+	private PID xPID,yPID;
 	
-	public AutoAlign(Grip grip, DriveTrain dt)
+	public AutoAlign(DriveTrain dt,Grip grip,Point target,PID xPID,PID yPID)
 	{
-		this.grip = grip;
-		this.dt = dt;
-		zones = new Zones();
+		this.dt=dt;
+		this.grip=grip;
+		this.xPID=xPID.copy()
+				.setInput(new Input(){
+					public double getInput() {
+						return grip.getX();
+					}
+				})
+				.setTotOutMode(false);
+		this.yPID=yPID.copy()
+				.setInput(new Input(){
+					public double getInput(){
+						return grip.getY();
+					}
+				})
+				.setTotOutMode(false);
 	}
 	
-	public AutoAlign setTarget(XY target)
+	public AutoAlign setTarget(Point target)
 	{
-		this.target = target;
-		return this;
-	}
-	
-	public AutoAlign setZones(Zones zones)
-	{
-		this.zones = zones;
-		return this;
-	}
-	
-	public AutoAlign addZoneX(int pixels, double speed)
-	{
-		zones.addX(pixels, speed);
-		return this;
-	}
-	
-	public AutoAlign addZoneY(int pixels, double speed)
-	{
-		zones.addY(pixels, speed);
+		xPID.setTarget(target.x);
+		yPID.setTarget(target.y);
 		return this;
 	}
 	
 	public void align()
 	{
-		if(grip == null || target == null) return;			//Fail if grip or target do not exist
-		int x = grip.getX();								//Find target coordinates
-		int y = grip.getY();
-		double rot = zones.getRot((int)target.getX()-x);
-		double spd = zones.getSpd((int)target.getY()-y);
-		if(rot==0&&spd==0)
+		if(grip == null || xPID == null || yPID == null) return;			//Fail if grip or target do not exist
+
+		double x = xPID.get();
+		double y = yPID.get();
+		if(Math.abs(x)<dt.getDeadZone()||Math.abs(y)<dt.getDeadZone())
 		{
 			loopsAtTarget++;
 		}
@@ -60,11 +58,10 @@ public class AutoAlign {
 		{
 			loopsAtTarget=0;
 		}
-		dt.driveSpeedRotation(spd,rot);
+		dt.driveArcade(x,y);
 	}
-	
-	public boolean isAtTarget()
+	public boolean atTarget()
 	{
-		return loopsAtTarget>10;
+		return loopsAtTarget>REQUIRED_LOOPS_AT_TARGET;
 	}
 }

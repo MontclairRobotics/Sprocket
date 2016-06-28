@@ -1,9 +1,9 @@
 package org.montclairrobotics.sprocket.pid;
 
+import org.montclairrobotics.sprocket.input.Input;
 import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updatable;
 import org.montclairrobotics.sprocket.updater.Updater;
-import org.montclairrobotics.sprocket.utils.Input;
 
 
 /**
@@ -47,7 +47,7 @@ public abstract class PID implements Updatable{
         this.maxIn=0.0;
         lastUpdate=System.currentTimeMillis();
         setTarget();
-        Updater.add(this, Priority.INPUT_PID);
+        Updater.add(this, Priority.PID);
     }
     public PID setInput(Input i)
     {

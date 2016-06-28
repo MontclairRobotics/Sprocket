@@ -1,30 +1,32 @@
 package org.montclairrobotics.sprocket.auto;
 
+import org.montclairrobotics.sprocket.dataconstructs.Angle;
+import org.montclairrobotics.sprocket.dataconstructs.Point;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
+import org.montclairrobotics.sprocket.drive.DriveTrainGyro;
+import org.montclairrobotics.sprocket.input.Grip;
 import org.montclairrobotics.sprocket.pid.PID;
 import org.montclairrobotics.sprocket.states.StateObj;
-import org.montclairrobotics.sprocket.utils.Angle;
-import org.montclairrobotics.sprocket.utils.Grip;
-import org.montclairrobotics.sprocket.utils.Gyro;
-import org.montclairrobotics.sprocket.utils.Input;
-import org.montclairrobotics.sprocket.utils.XY;
+import org.montclairrobotics.sprocket.updater.Updater;
 
 public class AutoStates {
 	public static class AutoAlignState extends StateObj
 	{
 		private AutoAlign align;
-		public AutoAlignState(Grip grip,DriveTrain dt,XY target,Zones zones)
+		public AutoAlignState(DriveTrain dt,Grip grip,Point target,PID xPID,PID yPID)
 		{
-			align=new AutoAlign(grip,dt)
-				.setTarget(target)
-				.setZones(zones);
+			this(new AutoAlign(dt,grip,target,xPID,yPID));
+		}
+		public AutoAlignState(AutoAlign align)
+		{
+			this.align=align;
 		}
 		public void update()
 		{
 			align.align();
 		}
 		public boolean isDone() {
-			return align.isAtTarget();
+			return align.atTarget();
 		}
 	}
 	public static class DriveTime extends StateObj
@@ -34,7 +36,7 @@ public class AutoStates {
 		private DriveTrain dt;
 		private double spd;
 		public DriveTime(DriveTrain dt,double spd,int time) {
-			this.loops=time*30;
+			this.loops=(int)(time*Updater.loopsPerSec()+0.5);
 			this.dt=dt;
 			this.spd=spd;
 		}
@@ -56,26 +58,13 @@ public class AutoStates {
 	}
 	public static class Turn extends StateObj
 	{
-		public static final double MAX_ERROR=0.1;
-		private DriveTrain dt;
-		private PID pid;
+		public static final double MAX_ERROR=10;
+		private DriveTrainGyro dt;
 		private int loopsAtTarget;
-		public Turn(DriveTrain dt,Gyro g,Angle target,PID pid)
+		public Turn(DriveTrainGyro dt,Angle target,boolean fieldCentric)
 		{
 			this.dt=dt;
-			this.pid=pid.setInput(new GyroHeadingInput(g)).setTarget(target.toDegrees());
-		}
-		public static class GyroHeadingInput implements Input
-		{
-			private Gyro g;
-			public GyroHeadingInput(Gyro g)
-			{
-				this.g=g;
-			}
-			public double get()
-			{
-				return g.getHeading().toDegrees();
-			}
+			dt.setTarget(target,fieldCentric);
 		}
 		public void onStart()
 		{
@@ -83,8 +72,7 @@ public class AutoStates {
 		}
 		public void update()
 		{
-			dt.driveSpeedRotation(0.0,pid.get());
-			if(Math.abs(pid.get())<MAX_ERROR)
+			if(Math.abs(dt.getDriveTrain().getDriveRotation().toDegrees())<MAX_ERROR)
 				loopsAtTarget++;
 			else
 				loopsAtTarget=0;

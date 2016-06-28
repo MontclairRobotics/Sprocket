@@ -1,28 +1,20 @@
 package org.montclairrobotics.sprocket.drive;
 
-import org.montclairrobotics.sprocket.pid.PID;
-import org.montclairrobotics.sprocket.utils.Angle;
-import org.montclairrobotics.sprocket.utils.Dashboard;
-import org.montclairrobotics.sprocket.utils.Degree;
-import org.montclairrobotics.sprocket.utils.Distance;
-import org.montclairrobotics.sprocket.utils.Polar;
-import org.montclairrobotics.sprocket.utils.Vector;
+import org.montclairrobotics.sprocket.dataconstructs.Angle;
+import org.montclairrobotics.sprocket.dataconstructs.Distance;
+import org.montclairrobotics.sprocket.dataconstructs.Vector;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 
 /**
  * An all purpose DriveMotor class supporting everything from Mecanum to Kiwi
- * @author Jack Hymowitz
  *
  */
 
 public class DriveMotor extends Motor{
 	
-	//constants
 	private Vector offset;
-	private Angle forceAngle;
-	//private double lastLoops=Timer.getFPGATimestamp();	
+	private Angle forceAngle;	
 	
 	private Vector goal=Vector.zero;
 	private Distance scale; 
@@ -43,32 +35,6 @@ public class DriveMotor extends Motor{
 		super(motor,name);
 		this.offset=offset;
 		this.forceAngle=forceAngle;
-		if(forceAngle==null)
-			this.forceAngle=new Degree(0);
-	}
-	/**
-	 * Sets the encoder to use with the PID settings
-	 * @param e the Encoder
-	 * @return this
-	 */	
-	public DriveMotor setEncoder(Encoder e,Distance encoderScale)
-	{
-		super.setEncoder(e,encoderScale);
-		return this;
-	}
-	/**
-	 * Sets the PID values for this motor
-	 * @param a the PID values
-	 * @return this
-	 */
-	public DriveMotor setPID(PID a)
-	{
-		super.setPID(a);
-		return this;
-	}
-	public void setVelocity(Vector direction,double rotation)
-	{
-		setVelocity(direction,rotation,maxSpeed());
 	}
 	/**
 	 * Sets the velocity Vector of the robot with a rotation value
@@ -76,25 +42,18 @@ public class DriveMotor extends Motor{
 	 * @param direction The velocity Vector of the robot
 	 * @param rotation The rotation value from [-1,1]
 	 */
-	public void setVelocity(Vector direction,double rotation,Distance d)
+	public void setVelocity(Vector direction,Angle rotation)
 	{
 		Vector v=direction.add(offset.getRotationVector(rotation)).rotate(getForceAngle());
-		setVelocity(v,d);
-		Dashboard.putString("V", v.getX()+","+v.getY());
-	}
-	public void setVelocity(Vector v)
-	{
-		setVelocity(v,maxSpeed());
-	}
+		setVelocity(v);
+	} 
 	/**
 	 * Sets the velocity vector of this wheel with no rotation
 	 * @param v The velocity Vector of the robot
 	 */
-	public void setVelocity(Vector v,Distance d)
+	public void setVelocity(Vector v)
 	{
-		if(d==null)d=maxSpeed();
 		goal=v;
-		this.scale=d;
 	}
 	/**
 	 * Calculates the speed of this wheel
@@ -105,21 +64,8 @@ public class DriveMotor extends Motor{
 	public Distance calcSpeed()
 	{
 		
-		return new Distance(goal.getY(),scale);
+		return goal.getY();
 	}
-	/*
-	public void update()
-	{
-		super.update();
-		
-		double loops=Timer.getFPGATimestamp();
-		double diff=loops-lastLoops;
-		lastLoops=loops;
-		totDistance=totDistance.add(new Polar(super.getRate()*diff,forceAngle));
-	}
-	public Vector getDirectionDistance() {
-		return totDistance;
-	}*/
 	public Angle getForceAngle()
 	{
 		return forceAngle;
@@ -127,5 +73,8 @@ public class DriveMotor extends Motor{
 	public Vector getGoal()
 	{
 		return goal;
+	}
+	public Vector getOffset() {
+		return offset;
 	}
 }
