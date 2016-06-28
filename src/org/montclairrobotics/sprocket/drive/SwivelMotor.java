@@ -25,10 +25,10 @@ public class SwivelMotor extends Motor{
 	{
 		super(motor,name);
 		this.encoder=encoder;
-		this.pid.setInput(new Input(){
+		this.pid.setInput(new Input<Double>(){
 
 			@Override
-			public double getInput() {
+			public Double getInput() {
 				return encoder.getDistance();
 			}})
 			.setMinMaxIn(-180, 180,true)

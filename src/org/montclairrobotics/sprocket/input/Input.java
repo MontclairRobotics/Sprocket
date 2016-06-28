@@ -10,13 +10,13 @@ import org.montclairrobotics.sprocket.updater.Updater;
  * This is similar to Cyborg's implementation of input mappers, 
  * but it sacrifices structure and efficiency for 
  * ease of use and simplicity.
- * Each input may be read more than once, but all inputs are read
- * before the rest of the calculations at the same time.
+ * Each input might be read more than once, but all inputs should be
+ * are read at the same time.
  * @author MontclairRobotics
  *
  */
-public abstract class Input extends SprocketObj implements Updatable{
-	private double value;
+public abstract class Input<T> extends SprocketObj implements Updatable{
+	private T value;
 	public Input()
 	{
 		Updater.add(this, Priority.INPUT);
@@ -25,7 +25,7 @@ public abstract class Input extends SprocketObj implements Updatable{
 	 * The function to get the current value of the input;
 	 * @return the value of the input as a double
 	 */
-	public final double get()
+	public final T get()
 	{
 		return value;
 	}
@@ -43,5 +43,5 @@ public abstract class Input extends SprocketObj implements Updatable{
 	 * is called.
 	 * @return the input
 	 */
-	public abstract double getInput();
+	public abstract T getInput();
 }

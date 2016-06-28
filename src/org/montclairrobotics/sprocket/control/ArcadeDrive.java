@@ -11,19 +11,18 @@ import edu.wpi.first.wpilibj.Joystick.AxisType;
 
 public class ArcadeDrive implements Updatable{
 	private DriveTrain dt;
-	private JoystickInput x,y;
+	private JoystickInput stick;
 	public ArcadeDrive(DriveTrain dt,Joystick stick)
 	{
 		Updater.add(this, Priority.CONTROL);
 		this.dt=dt;
-		this.x=new JoystickInput(stick,AxisType.kX);
-		this.y=new JoystickInput(stick,AxisType.kY);
+		this.stick=new JoystickInput(stick);
 	}
 	public void update()
 	{
 		if(Resetter.getMode()==Resetter.Mode.TELEOP)
 		{
-			dt.driveArcade(x.get(),y.get());
+			dt.driveArcade(stick.get().getRawX(),stick.get().getRawY());
 		}
 	}
 }

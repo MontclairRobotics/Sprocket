@@ -22,16 +22,16 @@ public class AutoAlign {
 		this.dt=dt;
 		this.grip=grip;
 		this.xPID=xPID.copy()
-				.setInput(new Input(){
-					public double getInput() {
-						return grip.getX();
+				.setInput(new Input<Double>(){
+					public Double getInput() {
+						return grip.getX()+0.0;
 					}
 				})
 				.setTotOutMode(false);
 		this.yPID=yPID.copy()
-				.setInput(new Input(){
-					public double getInput(){
-						return grip.getY();
+				.setInput(new Input<Double>(){
+					public Double getInput(){
+						return grip.getY()+0.0;
 					}
 				})
 				.setTotOutMode(false);

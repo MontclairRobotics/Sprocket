@@ -18,7 +18,7 @@ import org.montclairrobotics.sprocket.updater.Updater;
 
 public abstract class PID implements Updatable{
 
-    private Input input;
+    private Input<Double> input;
     private double minIn,maxIn,minOut,maxOut;
     private boolean wrapIn=false;
     private long lastUpdate;
@@ -49,7 +49,7 @@ public abstract class PID implements Updatable{
         setTarget();
         Updater.add(this, Priority.PID);
     }
-    public PID setInput(Input i)
+    public PID setInput(Input<Double> i)
     {
         this.input=i;
         return this;
@@ -181,7 +181,7 @@ public abstract class PID implements Updatable{
     }
     
     
-    public Input getInput()
+    public Input<Double> getInput()
     {
         return input;
     }

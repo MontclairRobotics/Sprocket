@@ -1,26 +1,23 @@
 package org.montclairrobotics.sprocket.input;
 
+import org.montclairrobotics.sprocket.dataconstructs.Vector;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 
-public class JoystickInput extends Input{
-
-	public enum Axis{X,Y}
-	
+public class JoystickInput extends Input<Vector>{
 	private Joystick stick;
-	private AxisType axis;
 	
-	public JoystickInput(int stick,AxisType axis)
+	public JoystickInput(int stick)
 	{
-		this(new Joystick(stick),axis);
+		this(new Joystick(stick));
 	}
-	public JoystickInput(Joystick stick,AxisType axis)
+	public JoystickInput(Joystick stick)
 	{
 		this.stick=stick;
-		this.axis=axis;
 	}
-	public double getInput() {
-		return stick.getAxis(axis);
+	public Vector getInput() {
+		return new Vector(stick.getX(),stick.getY());
 	}
 
 }

@@ -58,7 +58,7 @@ public class ButtonListener implements Updatable,Resettable{
 	 */
 	public void update()
 	{
-		if(input.get()>0)
+		if(input.get())
 		{
 			if(!state)
 			{

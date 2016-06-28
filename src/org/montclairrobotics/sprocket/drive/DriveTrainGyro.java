@@ -12,36 +12,54 @@ public class DriveTrainGyro implements Updatable{
 /**UPDATE METHODS**/
 	
 	private DriveTrain dt;
-	private Input heading;
-	private PID pid;
+	private Input<Angle> heading,rate;
+	private PID ratePID,headingPID;
 	private boolean lock,lastLock,fieldCentric;
 	private Angle headingConstant=Angle.zero;
 	
-	private Angle target=Angle.zero;
+	private Angle targetHeading=Angle.zero;
 	
 	public DriveTrainGyro(DriveTrain dt)
 	{
 		Updater.add(this, Priority.before(Priority.DRIVE_CALC));
 		this.dt=dt;
 	}
-	public DriveTrainGyro(DriveTrain dt,Input heading,PID pid)
-	{
-		this(dt);
-		setInputHeading(heading);
-		setPID(pid);
-	}
-	public DriveTrainGyro setInputHeading(Input heading)
+	public DriveTrainGyro setInputHeading(Input<Angle> heading)
 	{
 		this.heading=heading;
-		pid.setInput(heading);
+		if(headingPID!=null)
+			headingPID.setInput(new Input<Double>(){
+				public Double getInput() {
+					return heading.get().toDegrees();
+				}
+			});
 		return this;
 	}
-	public DriveTrainGyro setPID(PID pid)
+	public DriveTrainGyro setInputRate(Input<Angle> rate)
 	{
-		this.pid=pid.copy()
-				.setInput(heading)
+		this.rate=rate;
+		if(ratePID!=null)
+			ratePID.setInput(new Input<Double>(){
+				public Double getInput()
+				{
+					return rate.get().toDegrees();
+				}
+			});
+		return this;
+	}
+	public DriveTrainGyro setHeadingPID(PID pid)
+	{
+		this.headingPID=pid.copy()
 				.setMinMaxIn(-180, 180, true)
+				.setTotOutMode(true);
+		setInputHeading(heading);
+		return this;
+	}
+	public DriveTrainGyro setRatePID(PID pid)
+	{
+		this.ratePID=pid.copy()
 				.setTotOutMode(false);
+		setInputRate(rate);
 		return this;
 	}
 	public DriveTrainGyro setLock(boolean lock)
@@ -56,34 +74,42 @@ public class DriveTrainGyro implements Updatable{
 	}
 	public DriveTrainGyro setCurrentHeading(Angle heading)
 	{
-		this.headingConstant=heading;
+		this.headingConstant=this.heading.get().subtract(heading);
 		return this;
 	}
 	public DriveTrainGyro resetHeading()
 	{
-		return setCurrentHeading(new Angle(heading.get(),Angle.Unit.DEGREES));
+		return setCurrentHeading(Angle.zero);
 	}
 	
 	public void update()
 	{
-		if(pid==null) return;
-		if(!lock)
+		if(ratePID==null) return;
+		if(lock&&headingPID!=null)
 		{
-			target=dt.getDriveRotation();
+			if(!lastLock)
+			{
+				headingPID.setTarget(heading.get().toDegrees());
+			}
+			dt.setDriveRotation(new Angle(headingPID.get(),Angle.Unit.DEGREES));
+		}
+		else
+		{
+			Angle raw=dt.getDriveRotation().add(headingConstant);
 			if(!fieldCentric&&heading!=null)
 			{
-				target=target
-						.add(new Angle(heading.get(),Angle.Unit.DEGREES))
-						.add(headingConstant);
+				raw=raw.add(heading.get());
 			}
+			dt.setDriveRotation(new Angle(ratePID.setTarget(raw.toDegrees()).get(),Angle.Unit.DEGREES));
 		}
-		dt.setDriveRotation(new Angle(pid.setTarget(target.toDegrees()).get(),Angle.Unit.DEGREES));
+		lastLock=lock;
 	}
 	public void setTarget(Angle target, boolean fieldCentric) {
 		if(!fieldCentric)
-			target=target.add(new Angle(heading.get(),Angle.Unit.DEGREES));
-		this.target=target;
+			target=target.add(heading.get());
+		headingPID.setTarget(target.toDegrees());
 		this.lock=true;
+		this.lastLock=true;
 	}
 	public DriveTrain getDriveTrain() {
 		return dt;

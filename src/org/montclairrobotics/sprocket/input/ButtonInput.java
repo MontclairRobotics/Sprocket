@@ -2,7 +2,7 @@ package org.montclairrobotics.sprocket.input;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class ButtonInput extends Input
+public class ButtonInput extends Input<Boolean>
 {
 	private Joystick stick;
 	private int button;
@@ -17,7 +17,7 @@ public class ButtonInput extends Input
 		this.button=button;
 	}
 	@Override
-	public double getInput() {
-		return stick.getRawButton(button)?1:-1;
+	public Boolean getInput() {
+		return stick.getRawButton(button);
 	}
 }

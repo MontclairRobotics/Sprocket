@@ -78,10 +78,10 @@ public class Motor implements Updatable{
 		this.pid=encPID.copy()
 				.setTotOutMode(true)
 				.setMinMaxOut(-1, 1)
-				.setInput(new Input(){
+				.setInput(new Input<Double>(){
 
 					@Override
-					public double getInput() {
+					public Double getInput() {
 						return e.getRate();
 					}});
 		return this;
