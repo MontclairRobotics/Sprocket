@@ -7,6 +7,7 @@ import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updatable;
 import org.montclairrobotics.sprocket.updater.Updater;
 import org.montclairrobotics.sprocket.utils.Dashboard;
+import org.montclairrobotics.sprocket.utils.Utils;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
@@ -15,7 +16,6 @@ import edu.wpi.first.wpilibj.SpeedController;
 
 /**
  * A standard Motor wrapper
- * @author Hymowitz
  *
  */
 
@@ -23,12 +23,14 @@ public class Motor implements Updatable{
 
 	private String name;
 	private Distance maxSpeed=new Distance(49*2,Distance.INCHES),encScale=Distance.INCHES;
+	private double maxPowerChange=1;
 	
 	private Distance goal=new Distance(0,Distance.METERS);
 	
 	private SpeedController motor;
 	private Encoder encoder;
 	private PID pid;
+	private double lastPower;
 	private static boolean shutdown=false;
 	/**
 	 * Creates a motor with an encoder and pid controller
@@ -84,6 +86,11 @@ public class Motor implements Updatable{
 					}});
 		return this;
 	}
+	public Motor setMaxPowerChange(double maxPowerChange)
+	{
+		this.maxPowerChange=maxPowerChange;
+		return this;
+	}
 	
 	/**
 	 * Sets the speed
@@ -130,7 +137,9 @@ public class Motor implements Updatable{
 			pid.setTarget(tgtSpeed.to(encScale));
 			power = pid.get();
 		}
+		power=Utils.constrain(power, lastPower-maxPowerChange, lastPower+maxPowerChange);
 		motor.set(power);
+		lastPower=power;
 		Dashboard.putDebugNumber("Motor "+name+" power", power);
 	}
 	
