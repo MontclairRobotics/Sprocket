@@ -55,6 +55,7 @@ public class Updater implements Resettable{
 				obj.update();
 			}
 		}
+		loops++;
 	}
 	
 	/**
@@ -79,7 +80,7 @@ public class Updater implements Resettable{
 	public static double loopsPerSec() {
 		if(loops<50||System.currentTimeMillis()-startTime<1000)
 			return 50.0;
-		return loops/System.currentTimeMillis();
+		return loops/(double)(System.currentTimeMillis()-startTime)/1000;
 	}
 
 	@Override

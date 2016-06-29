@@ -137,7 +137,7 @@ public class Motor implements Updatable{
 			pid.setTarget(tgtSpeed.to(encScale));
 			power = pid.get();
 		}
-		power=Utils.constrain(power, lastPower-maxPowerChange, lastPower+maxPowerChange);
+		power=Utils.constrain(power, lastPower-maxPowerChange/Updater.loopsPerSec(), lastPower+maxPowerChange/Updater.loopsPerSec());
 		motor.set(power);
 		lastPower=power;
 		Dashboard.putDebugNumber("Motor "+name+" power", power);
