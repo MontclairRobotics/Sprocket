@@ -18,39 +18,19 @@ public class Vector {
 	
 	public Vector(double x,double y,boolean realScale)
 	{
-		this(x,y);
-		this.realScale=realScale;
-	}
-	public Vector(Distance x,Distance y)
-	{
-		this(x.toMeters(),y.toMeters());
-		realScale=x.isReal()&&y.isReal();
-	}
-	public Vector(double x,double y)
-	{
 		this.x=x;
 		this.y=y;
 		this.angle=new Angle(Math.atan2(x,y),Angle.Unit.RADIANS);
 		this.mag=Math.sqrt(x*x+y*y);
-		realScale=false;
-	}
-	public Vector(Angle angle,double mag,boolean realScale)
-	{
-		this(angle,mag);
 		this.realScale=realScale;
 	}
-	public Vector(Angle angle,Distance mag)
+	public Vector(Distance x,Distance y)
 	{
-		this(angle,mag.toMeters());
-		realScale=mag.isReal();
+		this(x.toMeters(),y.toMeters(),x.isReal()&&y.isReal());
 	}
-	public Vector(Angle angle,double mag)
+	public Vector(double x,double y)
 	{
-		this.x=mag*Math.sin(angle.toRadians());
-		this.y=mag*Math.cos(angle.toRadians());
-		this.angle=((mag>0)?angle:angle.opposite());
-		this.mag=Math.abs(mag);
-		realScale=false;
+		this(x,y,false);
 	}
 	
 	//Distance getters
@@ -100,11 +80,11 @@ public class Vector {
 	
 	public Vector getRotationVector(Angle angle)
 	{
-		return new Vector(this.getAngle().add(Angle.quarter),this.getRawMag()*angle.toRadians(false),realScale);
+		return Polar(this.getAngle().add(Angle.quarter),this.getRawMag()*angle.toRadians(false),realScale);
 	}
 	public Vector rotate(Angle a)
 	{
-		return new Vector(this.getAngle().add(a),this.getRawMag(),realScale);
+		return Polar(this.getAngle().add(a),this.getMag());
 	}
 	public static Vector getAvg(Vector... list)
 	{
@@ -120,15 +100,27 @@ public class Vector {
 	}
 	public Vector makeFractionOfSquare()
 	{
-		double rad=getAngle().toRadians();
-		double cos=Math.cos(rad),sin=Math.sin(rad);
+		double cos=getAngle().cos(),sin=getAngle().sin();
 		if(Math.abs(cos)>Math.abs(sin))
 		{
-			return new Vector(getAngle(),getRawMag()/cos,realScale);
+			return Polar(getAngle(),getRawMag()/cos,realScale);
 		}
 		else
 		{
-			return new Vector(getAngle(),getRawMag()/sin,realScale);
+			return Polar(getAngle(),getRawMag()/sin,realScale);
 		}
+	}
+	
+	public static Vector Polar(Angle angle,double mag,boolean realScale)
+	{
+		return new Vector(mag*angle.sin(),mag*angle.cos(),realScale);
+	}
+	public static Vector Polar(Angle angle,Distance mag)
+	{
+		return Polar(angle,mag.toMeters(),mag.isReal());
+	}
+	public static Vector Polar(Angle angle,double mag)
+	{
+		return Polar(angle,mag,false);
 	}
 }

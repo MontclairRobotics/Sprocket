@@ -86,6 +86,18 @@ public class Angle {
 	{
 		return radians/d.toRadians();
 	}
+	public double sin()
+	{
+		return Math.sin(toRadians());
+	}
+	public double cos()
+	{
+		return Math.cos(toRadians());
+	}
+	public double tan()
+	{
+		return Math.tan(toRadians());
+	}
 	public static Angle atan(Distance y,Distance x)
 	{
 		return new Angle(Math.atan2(y.toMeters(),x.toMeters()));
