@@ -1,4 +1,4 @@
-package org.montclairrobotics.sprocket.utils;
+package org.montclairrobotics.sprocket.geometry;
 
 /**
  * Holds a two-dimensional vector in Polar or Cartesian form.
@@ -10,6 +10,8 @@ package org.montclairrobotics.sprocket.utils;
 
 public abstract class Vector {
 	public static final Vector zero=new XY(0,0);
+	
+	
 	public abstract double getMag();
 	public abstract Angle getAngle();
 	public abstract double getX();
@@ -23,14 +25,14 @@ public abstract class Vector {
 	{
 		return new XY(this.getX()-a.getX(),this.getY()-a.getY());
 	}
-	public Vector opposite()
+	public Vector opposing()
 	{
 		return new XY(-this.getX(),-this.getY());
 	}
 	
-	public Vector getRotationVector(double rotation)
+	public Vector getRotationVector(Angle rotation)
 	{
-		return new Polar(this.getMag()*rotation,this.getAngle().add(new Degree(-90)));
+		return new Polar(this.getMag()*rotation.toRadians(),this.getAngle().add(Angle.QUARTER_TURN));
 	}
 	public Vector rotate(Angle a)
 	{
@@ -48,5 +50,9 @@ public abstract class Vector {
 		{
 			return new Polar(getMag()/sin,getAngle());
 		}
+	}
+	public static double dotProduct(Vector a,Vector b)
+	{
+		return a.getX()*b.getX()+a.getY()*b.getY();
 	}
 }

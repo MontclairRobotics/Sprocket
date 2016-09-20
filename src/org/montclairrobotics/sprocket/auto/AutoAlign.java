@@ -1,8 +1,8 @@
 package org.montclairrobotics.sprocket.auto;
 
 import org.montclairrobotics.sprocket.drive.DriveTrain;
+import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.utils.Grip;
-import org.montclairrobotics.sprocket.utils.XY;
 
 
 //TODO: Use PID controller with auto-align

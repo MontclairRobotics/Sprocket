@@ -1,4 +1,6 @@
-package org.montclairrobotics.sprocket.utils;
+package org.montclairrobotics.sprocket.geometry;
+
+import org.montclairrobotics.sprocket.utils.Utils;
 
 public class Radian extends Angle{
 
@@ -33,13 +35,13 @@ public class Radian extends Angle{
 	{
 		return new Radian(this.toRadians()-a.toRadians());
 	}
-	public Angle opposite()
+	public Angle opposing()
 	{
 		return new Radian(this.toRadians()+Math.PI);
 	}
 
 	public Angle negative() {
-		return new Radian(this.toRadians());
+		return new Radian(-this.toRadians());
 	}
 
 }

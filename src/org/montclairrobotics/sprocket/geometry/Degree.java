@@ -1,4 +1,6 @@
-package org.montclairrobotics.sprocket.utils;
+package org.montclairrobotics.sprocket.geometry;
+
+import org.montclairrobotics.sprocket.utils.Utils;
 
 public class Degree extends Angle{
 
@@ -31,7 +33,7 @@ public class Degree extends Angle{
 	{
 		return new Degree(this.toDegrees()-a.toDegrees());
 	}
-	public Angle opposite()
+	public Angle opposing()
 	{
 		return new Degree(this.toDegrees()+180);
 	}

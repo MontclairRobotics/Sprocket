@@ -3,8 +3,8 @@ package org.montclairrobotics.sprocket.auto;
 import org.montclairrobotics.sprocket.control.Button;
 import org.montclairrobotics.sprocket.control.ButtonAction;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
+import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.utils.Grip;
-import org.montclairrobotics.sprocket.utils.XY;
 
 import edu.wpi.first.wpilibj.Joystick;
 

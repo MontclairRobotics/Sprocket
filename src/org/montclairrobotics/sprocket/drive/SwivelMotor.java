@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.drive;
 
-import org.montclairrobotics.sprocket.utils.Angle;
-import org.montclairrobotics.sprocket.utils.Degree;
+import org.montclairrobotics.sprocket.geometry.Angle;
+import org.montclairrobotics.sprocket.geometry.Degree;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 

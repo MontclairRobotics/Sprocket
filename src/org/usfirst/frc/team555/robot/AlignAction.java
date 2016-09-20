@@ -1,7 +1,7 @@
 package org.usfirst.frc.team555.robot;
 
 import org.montclairrobotics.sprocket.control.ButtonAction;
-import org.montclairrobotics.sprocket.utils.XY;
+import org.montclairrobotics.sprocket.geometry.XY;
 
 public class AlignAction implements ButtonAction {
 	

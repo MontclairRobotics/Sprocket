@@ -1,4 +1,4 @@
-package org.montclairrobotics.sprocket.utils;
+package org.montclairrobotics.sprocket.geometry;
 
 public class Polar extends Vector{
 
@@ -10,7 +10,7 @@ public class Polar extends Vector{
 	public Polar(double mag,Angle angle)
 	{
 		this.mag=Math.abs(mag);
-		this.angle=((mag>0)?angle:angle.opposite());
+		this.angle=((mag>0)?angle:angle.opposing());
 	}
 	public Polar(double mag,double degrees)
 	{
