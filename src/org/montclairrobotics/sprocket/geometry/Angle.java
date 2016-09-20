@@ -14,10 +14,10 @@ package org.montclairrobotics.sprocket.geometry;
 public abstract class Angle {
 	public static final Angle ZERO=new Degree(0),
 			QUARTER_TURN = new Degree(90),
-			HALF_TURN=new Degree(180);
-	
-	abstract public double toRadians();
-	abstract public double toDegrees();
+			HALF_TURN= new Degree(180);
+
+	public abstract double toRadians();
+	public abstract double toDegrees();
 	public abstract Angle add(Angle a);
 	public abstract Angle subtract(Angle a);
 	public abstract Angle opposing();
