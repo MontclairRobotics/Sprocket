@@ -2,40 +2,27 @@ package org.montclairrobotics.sprocket.geometry;
 
 public class XY extends Vector{
 
-	private double x,y;
-	private double mag;
-	private Angle angle;
-	private boolean calcMag,calcAngle;
+	private Distance x,y;
 	
-	public XY(double x,double y)
+	public XY(Distance x,Distance y)
 	{
 		this.x=x;
 		this.y=y;
 	}
 	
-	public double getMag() {
-		if(!calcMag)
-		{
-			calcMag=true;
-			mag=Math.sqrt(x*x+y*y);
-		}
-		return mag;
+	public Distance getMag() {
+		return new Distance(Math.sqrt(x.times(x).getMeters()+y.times(y).getMeters()),Distance.M);
 	}
 
 	public Angle getAngle() {
-		if(!calcAngle)
-		{
-			calcAngle=true;
-			angle= new Radian(Math.atan2(x,y));
-		}
-		return angle;
+		return new Radian(Math.atan2(x.getMeters(),y.getMeters()));
 	}
 
-	public double getX() {
+	public Distance getX() {
 		return x;
 	}
 
-	public double getY() {
+	public Distance getY() {
 		return y;
 	}
 

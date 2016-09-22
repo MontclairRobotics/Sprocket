@@ -2,41 +2,29 @@ package org.montclairrobotics.sprocket.geometry;
 
 public class Polar extends Vector{
 
-	private double mag;
+	private Distance mag;
 	private Angle angle;
-	private double x,y;
-	private boolean calcX,calcY;
 	
-	public Polar(double mag,Angle angle)
+	public Polar(Distance mag,Angle angle)
 	{
-		this.mag=Math.abs(mag);
-		this.angle=((mag>0)?angle:angle.opposing());
+		this.mag=new Distance(Math.abs(mag.getMeters()),Distance.M);
+		this.angle=((mag.getMeters()>0)?angle:angle.opposing());
 	}
-	public Polar(double mag,double degrees)
+	public Polar(Distance mag,double degrees)
 	{
 		this(mag,new Degree(degrees));
 	}
-	public double getMag() {
+	public Distance getMag() {
 		return mag;
 	}
 	public Angle getAngle() {
 		return angle;
 	}
-	public double getX() {
-		if(!calcX)
-		{
-			calcX=true;
-			x=mag*Math.sin(angle.toRadians());
-		}
-		return x;
+	public Distance getX() {
+		return mag.times(Math.sin(angle.toRadians()));
 	}
-	public double getY() {
-		if(!calcY)
-		{
-			calcY=true;
-			y=mag*Math.cos(angle.toRadians());
-		}
-		return y;
+	public Distance getY() {
+		return mag.times(Math.cos(angle.toRadians()));
 	}
 	
 }
