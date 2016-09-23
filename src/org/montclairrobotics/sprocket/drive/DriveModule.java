@@ -44,7 +44,7 @@ public class DriveModule implements Updatable{
 		{
 			this.pid=pid.copy().setInput(new Input<Double>(){
 
-				public Double getInput() {
+				public Double getRaw() {
 					return encoder.getRate()*encoderTick.getMeters();
 				}
 				

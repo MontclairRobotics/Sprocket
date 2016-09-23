@@ -125,7 +125,7 @@ public class PID implements Updatable{
 	private void runCalculate()
 	{
 		if(calculated||input==null)return;
-		out=calculate(input.getInput());
+		out=calculate(input.get());
 		calculated=true;
 	}
 	
@@ -172,7 +172,7 @@ public class PID implements Updatable{
 	
 	public double getInput()
 	{
-		return input.getInput();
+		return input.get();
 	}
 	public double getError(){
 		return error;

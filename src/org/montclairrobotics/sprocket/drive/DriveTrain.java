@@ -8,6 +8,7 @@ import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updatable;
 import org.montclairrobotics.sprocket.updater.Updater;
+import org.montclairrobotics.sprocket.utils.Input;
 
 /**
  * The main drivetrain class which holds a set of wheels
@@ -21,10 +22,14 @@ public class DriveTrain implements Updatable{
 	//constants
 	private DriveModule[] wheels;
 	private Distance maxSpeed=Distance.METER;
+	private Input<Vector> inputDir;
+	private Input<Angle> inputRot;
+	private Input<Angle> gyro;//TODO to implement later
 	
 	//variables
 	private Vector driveVector=Vector.ZERO;
 	private Angle driveRotation=Angle.ZERO;
+	private boolean updated=false;
 
 	/**
 	 * Creates a DriveTrain with a list of wheels.
@@ -35,6 +40,14 @@ public class DriveTrain implements Updatable{
 	public DriveTrain(DriveModule... wheels){
 		this.wheels=wheels;
 		Updater.add(this, Priority.DRIVE_CALC);
+		updateMaxSpeed();
+	}
+	//Currying
+	public DriveTrain setInput(Input<Vector> direction,Input<Angle> rotation)
+	{
+		this.inputDir=direction;
+		this.inputRot=rotation;
+		return this;
 	}
 
 	/**DRIVE HELPER METHODS**/
@@ -101,6 +114,7 @@ public class DriveTrain implements Updatable{
 	{
 		this.driveVector=direction;
 		this.driveRotation=rotation;
+		updated=true;
 	}
 
 	/**UPDATE METHODS**/
@@ -111,9 +125,12 @@ public class DriveTrain implements Updatable{
 	 */
 	public void update()
 	{
+		if(!updated)
+			drive(inputDir.get(),inputRot.get());
 		for(DriveModule wheel:wheels)
 		{
 			wheel.set(driveVector,driveRotation);
 		}
+		updated=false;
 	}
 }

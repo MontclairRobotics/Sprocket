@@ -30,7 +30,7 @@ public class SwivelMotor implements Updatable{
 		this.encoder=encoder;
 		this.pid=encPID.copy().setInput(new Input<Double>(){
 
-			public Double getInput() {
+			public Double getRaw() {
 				return encoder.getDistance();
 			}
 			}).setMinMax(-180, 180, -1, 1);
