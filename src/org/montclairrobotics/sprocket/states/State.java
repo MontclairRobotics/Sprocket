@@ -12,7 +12,7 @@ public interface State {
 	/**
 	 * This is called every loop until the state is stopped.
 	 */
-	public void update();
+	public void updateState();
 	/**
 	 * This is a required method called once per loop.
 	 * If it returns true, this state will stop and the next one will start.
