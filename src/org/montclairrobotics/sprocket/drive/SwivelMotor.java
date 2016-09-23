@@ -2,6 +2,9 @@ package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degree;
+import org.montclairrobotics.sprocket.updater.Priority;
+import org.montclairrobotics.sprocket.updater.Updatable;
+import org.montclairrobotics.sprocket.updater.Updater;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 
@@ -14,18 +17,24 @@ import edu.wpi.first.wpilibj.SpeedController;
  *
  */
 
-public class SwivelMotor extends Motor{
+public class SwivelMotor implements Updatable{
 
-	private Angle tgtAngle;
-	private PID pid;
+	private Angle tgtAngle=Angle.ZERO;
+	private SprocketMotor motor;
 	private Encoder encoder;
+	private PID pid;
 	
-	public SwivelMotor(SpeedController motor,String name,Encoder encoder,PID encPID)
+	public SwivelMotor(SprocketMotor motor,Encoder encoder,PID encPID)
 	{
-		super(motor,name);
+		this.motor=motor;
 		this.encoder=encoder;
-		this.pid.setInput(new EncoderDistance(encoder)).setMinMax(-180, 180, -1, 1);
-		tgtAngle=new Degree(0);
+		this.pid=encPID.copy().setInput(new Input<Double>(){
+
+			public Double getInput() {
+				return encoder.getDistance();
+			}
+			}).setMinMax(-180, 180, -1, 1);
+		Updater.add(this, Priority.OUTPUT);
 	}
 	public void setAngle(Angle a)
 	{
@@ -40,17 +49,9 @@ public class SwivelMotor extends Motor{
 		pid.setTarget(tgtAngle.toDegrees(),false);
 		return pid.get();
 	}
-	public static class EncoderDistance implements Input
+	public void update()
 	{
-		private Encoder enc;
-		public EncoderDistance(Encoder enc)
-		{
-			this.enc=enc;
-		}
-		public double getInput()
-		{
-			if(enc==null)return 0.0;
-			return enc.getDistance();
-		}
+		pid.setTarget(tgtAngle.toDegrees());
+		motor.set(pid.get());
 	}
 }

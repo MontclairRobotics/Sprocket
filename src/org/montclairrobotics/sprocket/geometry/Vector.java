@@ -9,8 +9,7 @@ package org.montclairrobotics.sprocket.geometry;
  */
 
 public abstract class Vector {
-	public static final Vector zero=new XY(Distance.ZERO,Distance.ZERO);
-	
+	public static final Vector ZERO=new XY(Distance.ZERO,Distance.ZERO);
 	
 	public abstract Distance getMag();
 	public abstract Angle getAngle();
