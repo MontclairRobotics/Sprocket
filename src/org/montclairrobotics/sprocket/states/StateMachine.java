@@ -50,7 +50,11 @@ public class StateMachine implements Updatable,State{
 		{
 			states[i].onStop();
 			i++;
-			if(isDone())return;
+			if(isDone())
+			{
+				onStop();
+				return;
+			}
 			states[i].onStart();
 			updateState();//Recursion!
 		}
