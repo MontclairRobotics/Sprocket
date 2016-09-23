@@ -1,5 +1,6 @@
 package org.montclairrobotics.sprocket.drive;
 
+import org.montclairrobotics.sprocket.Sprocket;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.Radian;
@@ -37,10 +38,15 @@ public class DriveTrain implements Updatable{
 	 * @param wheels a list of DriveMotors
 	 * @see makeStandard
 	 */
-	public DriveTrain(DriveModule... wheels){
+	public DriveTrain(DriveModule... wheels) {
 		this.wheels=wheels;
 		Updater.add(this, Priority.DRIVE_CALC);
 		updateMaxSpeed();
+		try {
+			Sprocket.registerDriveTrain(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	//Currying
 	public DriveTrain setInput(Input<Vector> direction,Input<Angle> rotation)
