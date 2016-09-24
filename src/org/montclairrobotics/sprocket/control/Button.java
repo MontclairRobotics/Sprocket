@@ -10,15 +10,15 @@ package org.montclairrobotics.sprocket.control;
 import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updatable;
 import org.montclairrobotics.sprocket.updater.Updater;
+import org.montclairrobotics.sprocket.utils.Input;
 
 import edu.wpi.first.wpilibj.Joystick;
 
 
-public class Button implements Updatable{
+public abstract class Button implements Updatable{
 	
-	private boolean state = false;
-	private Joystick stick;
-	private int id;
+	private boolean lastState=false;
+	private Input<Boolean> state;
 	
 	private ButtonAction onUp, whileUp;
 	private ButtonAction onDown, whileDown;
@@ -29,11 +29,10 @@ public class Button implements Updatable{
 	 * @param stick The joystick object
 	 * @param id The button id
 	 */
-	public Button(Joystick stick,int id)
+	public Button(Input<Boolean> button)
 	{
 		Updater.add(this, Priority.CONTROL);
-		this.stick=stick;
-		this.id=id;
+		this.state=button;
 		
 		onUp = null;
 		whileUp = null;
@@ -48,20 +47,20 @@ public class Button implements Updatable{
 	 */
 	public void update()
 	{
-		if(stick.getRawButton(id))
+		if(state.get())
 		{
-			if(!state)
+			if(!lastState)
 			{
-				state=true;
+				lastState=true;
 				if(onDown != null) onDown.onAction();
 			}
 			if(whileDown != null) whileDown.onAction();
 		}
 		else
 		{
-			if(state)
+			if(lastState)
 			{
-				state=false;
+				lastState=false;
 				if(onUp != null) onUp.onAction();
 			}
 			if(whileUp != null) whileUp.onAction();

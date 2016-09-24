@@ -1,5 +1,7 @@
 package org.montclairrobotics.sprocket.utils;
 
+import org.montclairrobotics.sprocket.geometry.Distance;
+
 public class Utils {
 	public static double constrain(double val,double min,double max)
 	{
@@ -19,5 +21,10 @@ public class Utils {
 	{
 		double diff=max-min;
 		return((a-min)%diff+diff)%diff+min;
+	}
+	
+	public static Distance min(Distance a,Distance b)
+	{
+		return new Distance(Math.min(a.getMeters(), b.getMeters()),Distance.M);
 	}
 }

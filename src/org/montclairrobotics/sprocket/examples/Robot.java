@@ -5,7 +5,7 @@ package org.montclairrobotics.sprocket.examples;
 import org.montclairrobotics.sprocket.auto.AutoChooser;
 import org.montclairrobotics.sprocket.auto.AutoStates;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
-import org.montclairrobotics.sprocket.drive.FRCMotor.M_TYPE;
+import org.montclairrobotics.sprocket.frc.FRCMotor.M_TYPE;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degree;
 import org.montclairrobotics.sprocket.geometry.XY;

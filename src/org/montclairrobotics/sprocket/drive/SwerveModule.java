@@ -1,5 +1,6 @@
 package org.montclairrobotics.sprocket.drive;
 
+import org.montclairrobotics.sprocket.core.SprocketMotor;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Polar;
 import org.montclairrobotics.sprocket.geometry.Vector;

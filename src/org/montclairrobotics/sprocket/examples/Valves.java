@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.examples;
 
-import org.montclairrobotics.sprocket.drive.FRCMotor.M_TYPE;
+import org.montclairrobotics.sprocket.frc.FRCMotor.M_TYPE;
 
 import edu.wpi.first.wpilibj.Solenoid;
 

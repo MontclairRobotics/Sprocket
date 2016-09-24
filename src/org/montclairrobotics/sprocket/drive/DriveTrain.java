@@ -3,6 +3,7 @@ package org.montclairrobotics.sprocket.drive;
 import org.montclairrobotics.sprocket.Sprocket;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
+import org.montclairrobotics.sprocket.geometry.Polar;
 import org.montclairrobotics.sprocket.geometry.Radian;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
@@ -10,6 +11,7 @@ import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updatable;
 import org.montclairrobotics.sprocket.updater.Updater;
 import org.montclairrobotics.sprocket.utils.Input;
+import org.montclairrobotics.sprocket.utils.Utils;
 
 /**
  * The main drivetrain class which holds a set of wheels
@@ -23,6 +25,7 @@ public class DriveTrain implements Updatable{
 	//constants
 	private DriveModule[] wheels;
 	private Distance maxSpeed=Distance.METER;
+	private Distance maxAccel=new Distance(0.5,Distance.METER);
 	private Input<Vector> inputDir;
 	private Input<Angle> inputRot;
 	private Input<Angle> gyro;//TODO to implement later
@@ -118,7 +121,9 @@ public class DriveTrain implements Updatable{
 	 */
 	public void drive(Vector direction,Angle rotation)
 	{
-		this.driveVector=direction;
+		Vector diff=direction.subtract(driveVector);
+		Vector constrain=new Polar(Utils.min(diff.getMag(),maxAccel),diff.getAngle());
+		this.driveVector=constrain.add(driveVector);
 		this.driveRotation=rotation;
 		updated=true;
 	}
