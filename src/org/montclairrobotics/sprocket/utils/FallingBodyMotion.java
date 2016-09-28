@@ -81,6 +81,13 @@ public class FallingBodyMotion extends Motion {
 	public double finalPosition() {
 		return positionAtTime(finalTime);
 	}
+	
+	public double[] timesWithPosition(double s) {
+		double a = -0.5*FallingBodyMotion.smallG(distanceUnit, timeUnit);
+		double b = initVelocity;
+		double c = initHeight - s;
+		return Calc.quadraticFormula(a, b, c);
+	}
 
 	public double velocityAtTime(double t) {
 		return -FallingBodyMotion.smallG(distanceUnit, timeUnit)*t + initVelocity;
@@ -93,6 +100,12 @@ public class FallingBodyMotion extends Motion {
 	public double finalVelocity() {
 		return velocityAtTime(finalTime);
 	}
+	
+	public double[] timesWithVelocity(double v) {
+		return new double[] {
+				-(v - initVelocity)/FallingBodyMotion.smallG(distanceUnit, timeUnit)
+			};
+	}
 
 	public double accelerationAtTime(double t) {
 		return -FallingBodyMotion.smallG(distanceUnit, timeUnit);
@@ -104,6 +117,12 @@ public class FallingBodyMotion extends Motion {
 
 	public double finalAcceleration() {
 		return accelerationAtTime(finalTime);
+	}
+	
+	public double[] timesWithAcceleration(double a) {
+		if (Math.round(a * 10) / 10 == Math.round(-FallingBodyMotion.smallG(distanceUnit, timeUnit) * 10) / 10) {
+			return
+		}
 	}
 	
 	public double timeAtMaximumHeight() {

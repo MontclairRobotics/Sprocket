@@ -11,6 +11,8 @@ public abstract class Motion {
 	// DESCRIPTION
 	
 	public abstract String positionFunctionAsString();
+//	public abstract String velocityFunctionAsString();
+//	public abstract String accelerationFunctionAsString();
 	
 	// POSITION
 	
@@ -23,6 +25,8 @@ public abstract class Motion {
 	public double finalPosition() {
 		return positionAtTime(finalTime);
 	}
+	
+	public abstract double[] timesWithPosition(double s);
 	  
 	// VELOCITY
 	
@@ -39,6 +43,8 @@ public abstract class Motion {
 		return velocityAtTime(finalTime);
 	}
 	
+	public abstract double[] timesWithVelocity(double v);
+	
 	// ACCELERATION
 	
 	public double accelerationAtTime(double t) {
@@ -53,5 +59,7 @@ public abstract class Motion {
 	public double finalAcceleration() {
 		return accelerationAtTime(finalTime);
 	}
+	
+	public abstract double[] timesWithAcceleration(double a);
 	
 }
