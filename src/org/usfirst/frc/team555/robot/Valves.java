@@ -1,7 +1,6 @@
 package org.usfirst.frc.team555.robot;
 
-import org.montclairrobotics.sprocket.drive.Motor;
-import org.montclairrobotics.sprocket.drive.Motor.M_TYPE;
+import org.montclairrobotics.sprocket.drive.FRCMotor.M_TYPE;
 
 import edu.wpi.first.wpilibj.Solenoid;
 

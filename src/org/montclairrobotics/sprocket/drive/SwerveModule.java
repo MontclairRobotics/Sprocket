@@ -1,7 +1,8 @@
 package org.montclairrobotics.sprocket.drive;
 
-import org.montclairrobotics.sprocket.utils.Angle;
-import org.montclairrobotics.sprocket.utils.Vector;
+import org.montclairrobotics.sprocket.geometry.Angle;
+import org.montclairrobotics.sprocket.geometry.Polar;
+import org.montclairrobotics.sprocket.geometry.Vector;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
@@ -13,7 +14,7 @@ import edu.wpi.first.wpilibj.SpeedController;
  *
  */
 
-public class SwerveModule extends DriveMotor{
+public class SwerveModule extends DriveModule{
 
 	private SwivelMotor swivelMotor;
 	
@@ -29,20 +30,19 @@ public class SwerveModule extends DriveMotor{
 	 * Use this as + or - 45 for Mecanum Wheels or the angle for Kiwi wheels
 	 * @see DriveMotor
 	 */
-	public SwerveModule(SpeedController motor, String name,SwivelMotor swivelMotor,Vector offset, Angle forceAngle) {
-		super(motor, name,offset, forceAngle);
-		this.swivelMotor=swivelMotor;
+	public SwerveModule(Vector pos,Vector force,SwivelMotor swivel,SprocketMotor... motors)
+	{
+		super(pos,force,motors);
+		this.swivelMotor=swivel;
 	}
 	/**
 	 * The method to set the speed to the swivel motor and the DriveMotor
 	 */
-	public void setVelocity(Vector v)
+	public Vector set(Vector velocity,Angle rotation)
 	{
-		super.setVelocity(v);
-		swivelMotor.setAngle(v.getAngle().add(getForceAngle()));
-	}
-	public Angle getForceAngle()
-	{
-		return swivelMotor.getAngle();
+		super.setForce(new Polar(super.getForce().getMag(),swivelMotor.getAngle()));
+		Vector tgt=super.set(velocity,rotation);
+		swivelMotor.setAngle(tgt.getAngle());
+		return tgt;
 	}
 }

@@ -1,5 +1,7 @@
 package org.montclairrobotics.sprocket.utils;
 
+import org.montclairrobotics.sprocket.geometry.Angle;
+
 public interface Gyro {
 	public Angle getHeading();
 	public double getRateRotation();

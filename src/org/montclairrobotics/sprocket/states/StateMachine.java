@@ -16,23 +16,25 @@ import org.montclairrobotics.sprocket.updater.Updater;
 
 public class StateMachine implements Updatable,State{
 	private State[] states;
-	private int i;
+	private int i=-1;
+	private boolean master=false;
 	/** 
 	 * Start the state machine with the start state
 	 * @param start An instance of the start state
 	 */
-	public StateMachine(State[] states)
+	public StateMachine(State... states)
 	{
-		Updater.add(this, Priority.CALC);
 		this.states=states;
-		for(State state:states)
-		{
-			if(state instanceof StateMachine)
-			{
-				((StateMachine)state).noAutoUpdate();
-			}
-		}
-		i=-1;
+		Updater.add(this, Priority.CALC);
+	}
+	public void start()
+	{
+		onStart();
+		master=true;
+	}
+	public void stop()
+	{
+		onStop();
 	}
 	public void onStart()
 	{
@@ -40,17 +42,21 @@ public class StateMachine implements Updatable,State{
 		i=0;
 		this.states[i].onStart();
 	}
-	public void update()
+	public void updateState()
 	{
 		if(isDone())return;
-		states[i].update();
+		states[i].updateState();
 		if(states[i].isDone())
 		{
 			states[i].onStop();
 			i++;
-			if(isDone())return;
+			if(isDone())
+			{
+				onStop();
+				return;
+			}
 			states[i].onStart();
-			update();
+			updateState();//Recursion!
 		}
 	}
 	public void onStop()
@@ -58,13 +64,15 @@ public class StateMachine implements Updatable,State{
 		if(isDone())return;
 		states[i].onStop();
 		i=-1;
+		master=false;
 	}
 	public boolean isDone()
 	{
 		return i<0||i>=states.length||states[i]==null;
 	}
-	public void noAutoUpdate()
+	public void update()
 	{
-		Updater.remove(this);
+		if(master)
+			updateState();
 	}
 }

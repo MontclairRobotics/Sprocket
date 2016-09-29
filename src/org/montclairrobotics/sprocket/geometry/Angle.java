@@ -1,4 +1,4 @@
-package org.montclairrobotics.sprocket.utils;
+package org.montclairrobotics.sprocket.geometry;
 
 /**
  * CLOCKWISE IS POSITIVE
@@ -12,11 +12,14 @@ package org.montclairrobotics.sprocket.utils;
  */
 
 public abstract class Angle {
-	public static Angle zero=new Degree(0);
-	abstract public double toRadians();
-	abstract public double toDegrees();
+	public static final Angle ZERO=new Degree(0),
+			QUARTER_TURN = new Degree(90),
+			HALF_TURN= new Degree(180);
+
+	public abstract double toRadians();
+	public abstract double toDegrees();
 	public abstract Angle add(Angle a);
 	public abstract Angle subtract(Angle a);
-	public abstract Angle opposite();
+	public abstract Angle opposing();
 	public abstract Angle negative();
 }

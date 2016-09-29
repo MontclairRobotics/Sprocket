@@ -1,4 +1,4 @@
-package org.montclairrobotics.sprocket.utils;
+package org.montclairrobotics.sprocket.geometry;
 
 public class Area {
   

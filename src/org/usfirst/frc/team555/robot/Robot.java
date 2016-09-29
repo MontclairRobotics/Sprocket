@@ -5,15 +5,15 @@ import org.montclairrobotics.sprocket.auto.AutoChooser;
 import org.montclairrobotics.sprocket.auto.AutoStates;
 import org.montclairrobotics.sprocket.drive.DriveMotor;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
-import org.montclairrobotics.sprocket.drive.Motor.M_TYPE;
+import org.montclairrobotics.sprocket.drive.FRCMotor.M_TYPE;
+import org.montclairrobotics.sprocket.geometry.Angle;
+import org.montclairrobotics.sprocket.geometry.Degree;
+import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.states.State;
 import org.montclairrobotics.sprocket.states.StateMachine;
 import org.montclairrobotics.sprocket.updater.Updater;
-import org.montclairrobotics.sprocket.utils.Angle;
-import org.montclairrobotics.sprocket.utils.Degree;
 import org.montclairrobotics.sprocket.utils.Grip;
 import org.montclairrobotics.sprocket.utils.PID;
-import org.montclairrobotics.sprocket.utils.XY;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -56,12 +56,12 @@ public class Robot extends IterativeRobot {
     	rightEncoder.setPIDSourceType(PIDSourceType.kRate);
     	
     	
-    	
+    	//TODO: FIX
     	driveTrain = new DriveTrain(new DriveMotor[]{
-    			new DriveMotor(new Talon(leftWheels[0]), "L0", new XY(-1,0), new Degree(180)).setEncoder(leftEncoder).setPID(encPid),
-    			new DriveMotor(new Talon(leftWheels[1]), "L1", new XY(-1,0), new Degree(180)).setEncoder(leftEncoder).setPID(encPid),
-    			new DriveMotor(new Talon(rightWheels[0]), "R0", new XY(1,0), Angle.zero).setEncoder(rightEncoder).setPID(encPid),
-    			new DriveMotor(new Talon(rightWheels[1]), "R1", new XY(1,0), Angle.zero).setEncoder(rightEncoder).setPID(encPid)
+    			new DriveMotor(new Talon(leftWheels[0]), "L0", new XY(-1,0), new Degree(180)).setEncoder(leftEncoder,49).setPID(encPid),
+    			new DriveMotor(new Talon(leftWheels[1]), "L1", new XY(-1,0), new Degree(180)).setEncoder(leftEncoder,49).setPID(encPid),
+    			new DriveMotor(new Talon(rightWheels[0]), "R0", new XY(1,0), Angle.ZERO).setEncoder(rightEncoder,49).setPID(encPid),
+    			new DriveMotor(new Talon(rightWheels[1]), "R1", new XY(1,0), Angle.ZERO).setEncoder(rightEncoder,49).setPID(encPid)
     	});
     	
     	 String[] autoNames={"Auto 1"};
