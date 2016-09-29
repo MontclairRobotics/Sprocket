@@ -2,27 +2,27 @@ package org.montclairrobotics.sprocket.geometry;
 
 public class XY extends Vector{
 
-	private Distance x,y;
+	private Speed x,y;
 	
-	public XY(Distance x,Distance y)
+	public XY(Speed x,Speed y)
 	{
 		this.x=x;
 		this.y=y;
 	}
 	
-	public Distance getMag() {
-		return new Distance(Math.sqrt(x.times(x).getMeters()+y.times(y).getMeters()),Distance.M);
+	public Speed getMag() {
+		return new Speed(Math.sqrt(x.times(x).get() + y.times(y).get()), Speed.MS);
 	}
 
 	public Angle getAngle() {
-		return new Radian(Math.atan2(x.getMeters(),y.getMeters()));
+		return new Radian(Math.atan2(x.get(),y.get()));
 	}
 
-	public Distance getX() {
+	public Speed getX() {
 		return x;
 	}
 
-	public Distance getY() {
+	public Speed getY() {
 		return y;
 	}
 

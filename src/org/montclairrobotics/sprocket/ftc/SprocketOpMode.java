@@ -4,10 +4,10 @@ import org.montclairrobotics.sprocket.frc.SprocketGlobalVars;
 
 public abstract class SprocketOpMode extends OpMode{
 	
-	SprocketFTCRobot robot;
+	FTCRobot robot;
 	String mode;
 	
-	public SprocketOpMode(SprocketFTCRobot robot,String mode)
+	public SprocketOpMode(FTCRobot robot, String mode)
 	{
 		this.robot=robot;
 		this.mode=mode;

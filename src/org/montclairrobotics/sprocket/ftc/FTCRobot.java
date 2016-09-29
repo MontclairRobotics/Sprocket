@@ -1,11 +1,11 @@
 package org.montclairrobotics.sprocket.ftc;
 
-import org.montclairrobotics.sprocket.core.SprocketRobot;
+import org.montclairrobotics.sprocket.IRobot;
 import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Resetter;
 import org.montclairrobotics.sprocket.updater.Updater;
 
-public abstract class SprocketFTCRobot implements SprocketRobot{
+public abstract class FTCRobot implements IRobot {
 	
 	private String mode="";
 	

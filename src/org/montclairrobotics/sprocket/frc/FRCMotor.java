@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.frc;
 
-import org.montclairrobotics.sprocket.core.SprocketMotor;
+import org.montclairrobotics.sprocket.drive.IMotor;
 import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updater;
 
@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.VictorSP;
 
-public class FRCMotor implements SprocketMotor{
+public class FRCMotor implements IMotor {
 	
 	public static enum M_TYPE{TALONSRX,VICTORSP,TALON};
 	

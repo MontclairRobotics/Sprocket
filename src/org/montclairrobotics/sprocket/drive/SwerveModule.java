@@ -1,11 +1,8 @@
 package org.montclairrobotics.sprocket.drive;
 
-import org.montclairrobotics.sprocket.core.SprocketMotor;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Polar;
 import org.montclairrobotics.sprocket.geometry.Vector;
-
-import edu.wpi.first.wpilibj.SpeedController;
 
 /**
  * A module for the SwerveDrive
@@ -31,7 +28,7 @@ public class SwerveModule extends DriveModule{
 	 * Use this as + or - 45 for Mecanum Wheels or the angle for Kiwi wheels
 	 * @see DriveMotor
 	 */
-	public SwerveModule(Vector pos,Vector force,SwivelMotor swivel,SprocketMotor... motors)
+	public SwerveModule(Vector pos,Vector force,SwivelMotor swivel,IMotor... motors)
 	{
 		super(pos,force,motors);
 		this.swivelMotor=swivel;

@@ -1,6 +1,5 @@
 package org.montclairrobotics.sprocket.drive;
 
-import org.montclairrobotics.sprocket.core.SprocketMotor;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degree;
 import org.montclairrobotics.sprocket.updater.Priority;
@@ -19,11 +18,11 @@ import edu.wpi.first.wpilibj.Encoder;
 public class SwivelMotor implements Updatable{
 
 	private Angle tgtAngle=Angle.ZERO;
-	private SprocketMotor motor;
+	private IMotor motor;
 	private Encoder encoder;
 	private PID pid;
 	
-	public SwivelMotor(SprocketMotor motor,Encoder encoder,PID encPID)
+	public SwivelMotor(IMotor motor, Encoder encoder, PID encPID)
 	{
 		this.motor=motor;
 		this.encoder=encoder;

@@ -1,10 +1,10 @@
 package org.montclairrobotics.sprocket.ftc;
 
-import org.montclairrobotics.sprocket.core.SprocketMotor;
+import org.montclairrobotics.sprocket.drive.IMotor;
 import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updater;
 
-public class FTCMotor implements SprocketMotor{
+public class FTCMotor implements IMotor {
 	
 	private DCMotor motor;
 	private double power;

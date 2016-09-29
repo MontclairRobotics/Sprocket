@@ -32,7 +32,6 @@ public class Updater {
 	 * @param obj Object which will be updated each tick
 	 * @param priority The priority (order) of the object and how it will be updated
 	 * @see Priority
-	 * @see UpdateClass
 	 */
 	public static void add(Updatable obj, Priority priority) {
 		if(!objects.containsKey(priority)) objects.put(priority,new ArrayList<Updatable>());

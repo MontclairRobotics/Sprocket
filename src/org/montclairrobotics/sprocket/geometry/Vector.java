@@ -9,12 +9,12 @@ package org.montclairrobotics.sprocket.geometry;
  */
 
 public abstract class Vector {
-	public static final Vector ZERO=new XY(Distance.ZERO,Distance.ZERO);
+	public static final Vector ZERO=new XY(Speed.ZERO,Speed.ZERO);
 	
-	public abstract Distance getMag();
+	public abstract Speed getMag();
 	public abstract Angle getAngle();
-	public abstract Distance getX();
-	public abstract Distance getY();
+	public abstract Speed getX();
+	public abstract Speed getY();
 	
 	public Vector add(Vector a)
 	{
@@ -37,7 +37,7 @@ public abstract class Vector {
 	{
 		return new Polar(this.getMag(),this.getAngle().add(a));
 	}
-	public static Distance dotProduct(Vector a,Vector b)
+	public static Speed dotProduct(Vector a,Vector b)
 	{
 		return a.getX().times(b.getX()).add(a.getY().times(b.getY()));
 	}

@@ -1,9 +1,9 @@
-package org.montclairrobotics.sprocket.core;
+package org.montclairrobotics.sprocket;
 
 import org.montclairrobotics.sprocket.updater.Resettable;
 import org.montclairrobotics.sprocket.updater.Updatable;
 
-public interface SprocketRobot extends Updatable,Resettable{
+public interface IRobot extends Updatable,Resettable{
 	
 	void init();
 	void start();

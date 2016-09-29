@@ -1,8 +1,6 @@
 package org.montclairrobotics.sprocket.frc;
 
-import org.montclairrobotics.sprocket.core.SprocketRobot;
-import org.montclairrobotics.sprocket.states.State;
-import org.montclairrobotics.sprocket.states.StateMachine;
+import org.montclairrobotics.sprocket.IRobot;
 import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Resetter;
 import org.montclairrobotics.sprocket.updater.Updater;
@@ -11,11 +9,11 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public abstract class SprocketFRCRobot extends IterativeRobot implements SprocketRobot{
+public abstract class FRCRobot extends IterativeRobot implements IRobot {
 
 	private SendableChooser chooser;
 	
-	public SprocketFRCRobot(String[]names)
+	public FRCRobot(String[]names)
 	{
 		if(names.length<1)return;
 		chooser=new SendableChooser();

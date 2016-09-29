@@ -5,7 +5,6 @@ package org.montclairrobotics.sprocket.updater;
  * system inputs aren't delayed and to make sure that all assisting systems run in the correct order. To facilitate
  * that, Sprocket has a priority system to make sure that objects update in the correct order. Objects will
  * be updated in descending priority order (i.e. highest numerical priority first)
- * @see UpdateClass
  */
 public class Priority {
 	public static final Priority HIGHEST = new Priority(Integer.MAX_VALUE);

@@ -1,6 +1,5 @@
 package org.montclairrobotics.sprocket.drive;
 
-import org.montclairrobotics.sprocket.core.SprocketMotor;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.Vector;
@@ -15,14 +14,14 @@ import edu.wpi.first.wpilibj.Encoder;
 public class DriveModule implements Updatable{
 	
 	private Vector position,force;//the relative position of this wheel, and the velocity at max power
-	private SprocketMotor[] motors;//all motors part of this module
+	private IMotor[] motors;//all motors part of this module
 	private Encoder encoder;//this module's encoder
 	private PID pid=null;//the pid controller
 	private Distance encoderTick;//the distance per encoder tick
 	
 	private Distance speed;//our target speed
 	
-	public DriveModule(Vector pos,Vector force,SprocketMotor... motors)
+	public DriveModule(Vector pos,Vector force,IMotor... motors)
 	{
 		this.position=pos;
 		this.force=force;
@@ -84,7 +83,7 @@ public class DriveModule implements Updatable{
 		{
 			power=pid.setTarget(speed.getMeters()).get();
 		}
-		for(SprocketMotor motor:motors)
+		for(IMotor motor:motors)
 		{
 			motor.set(power);
 		}
