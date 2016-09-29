@@ -1,5 +1,6 @@
-package org.montclairrobotics.sprocket.drive;
+package org.montclairrobotics.sprocket.frc;
 
+import org.montclairrobotics.sprocket.core.SprocketMotor;
 import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updater;
 

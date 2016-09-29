@@ -1,9 +1,15 @@
 package org.montclairrobotics.sprocket.control;
 
-public class Joystick extends edu.wpi.first.wpilibj.Joystick {
+import org.montclairrobotics.sprocket.frc.FRCJoystick;
+import org.montclairrobotics.sprocket.geometry.Angle;
+import org.montclairrobotics.sprocket.geometry.Vector;
+import org.montclairrobotics.sprocket.utils.Input;
 
-	public Joystick(int port) {
-		super(port);
-	}
-
+public interface Joystick {
+	double getX();
+	double getY();
+	double getMag();
+	Angle getAngle();
+	Vector getVector();
+	Input<Vector> getInput();
 }

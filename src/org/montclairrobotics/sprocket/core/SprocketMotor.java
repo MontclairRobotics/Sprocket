@@ -1,4 +1,4 @@
-package org.montclairrobotics.sprocket.drive;
+package org.montclairrobotics.sprocket.core;
 
 import org.montclairrobotics.sprocket.updater.Updatable;
 
