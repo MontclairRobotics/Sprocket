@@ -5,11 +5,9 @@ import org.montclairrobotics.sprocket.geometry.Degree;
 import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updatable;
 import org.montclairrobotics.sprocket.updater.Updater;
-import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.SpeedController;
 
 /**
  * A motor that rotates to a given angle

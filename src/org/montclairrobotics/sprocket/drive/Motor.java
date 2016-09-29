@@ -4,7 +4,6 @@ import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updatable;
 import org.montclairrobotics.sprocket.updater.Updater;
 import org.montclairrobotics.sprocket.utils.Dashboard;
-import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 
 import edu.wpi.first.wpilibj.CANTalon;

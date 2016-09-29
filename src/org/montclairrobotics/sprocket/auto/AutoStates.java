@@ -6,7 +6,6 @@ import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.states.StateObj;
 import org.montclairrobotics.sprocket.utils.Grip;
 import org.montclairrobotics.sprocket.utils.Gyro;
-import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 
 public class AutoStates {

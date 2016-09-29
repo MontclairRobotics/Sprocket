@@ -2,12 +2,10 @@ package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
-import org.montclairrobotics.sprocket.geometry.Polar;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updatable;
 import org.montclairrobotics.sprocket.updater.Updater;
-import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 
 import edu.wpi.first.wpilibj.Encoder;
