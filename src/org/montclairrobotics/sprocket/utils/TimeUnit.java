@@ -13,11 +13,11 @@ public enum TimeUnit implements Unit {
 		}
 	}
 	
-	public double convertQuantity(double q, Unit newUnit) {
-		if (newUnit.getClass() == TimeUnit.class) {
-			return q * this.getConversionFactor() / newUnit.getConversionFactor();
-		} else {
-			return (Double) null;
-		}
-	}
+// 	public double convertQuantity(double q, Unit newUnit) {
+// 		if (newUnit.getClass() == TimeUnit.class) {
+// 			return q * this.getConversionFactor() / newUnit.getConversionFactor();
+// 		} else {
+// 			return (Double) null;
+// 		}
+// 	}
 }
