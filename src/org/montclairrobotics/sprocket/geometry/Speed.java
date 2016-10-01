@@ -17,8 +17,8 @@ public class Speed {
         this.speed = speed * unit.getMetersPerSecond();
     }
 
-    public Speed(double speed, Distance distanceUnit, Time timeUnit) {
-        this.speed = speed * (distanceUnit.getMeters()/timeUnit.getSeconds());
+    public Speed(Distance distanceUnit, Time timeUnit) {
+        this.speed = distanceUnit.getMeters()/timeUnit.getSeconds();
     }
 
     public double getMetersPerSecond() {

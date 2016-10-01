@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.geometry;
 
-public class Time {
+public class Time extends Unit {
 
     public static Time SECOND = new Time();
 
@@ -9,23 +9,21 @@ public class Time {
     public static Time HOUR = new Time(60, MINUTE);
     public static Time DAY = new Time(24, HOUR);
     public static Time WEEK = new Time(7, DAY);
-
-    private double raw;
-
+    
     private Time() {
-        raw = 1;
+    	super();
     }
-
+    
     public Time(double time, Time unit) {
-        raw = time * unit.getSeconds();
+        super(time, unit);
     }
 
     public double getSeconds() {
-        return raw;
+        return get();
     }
 
     public double getTime(Time unit) {
-        return raw * unit.getSeconds();
+        return get(unit);
     }
 
 

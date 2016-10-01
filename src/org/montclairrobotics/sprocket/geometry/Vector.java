@@ -8,13 +8,13 @@ package org.montclairrobotics.sprocket.geometry;
  *
  */
 
-public abstract class Vector {
+public abstract class Vector<T extends Unit> {
 	public static final Vector ZERO=new XY(Speed.ZERO,Speed.ZERO);
 	
-	public abstract Speed getMag();
+	public abstract T getMag();
 	public abstract Angle getAngle();
-	public abstract Speed getX();
-	public abstract Speed getY();
+	public abstract T getX();
+	public abstract T getY();
 	
 	public Vector add(Vector a)
 	{
