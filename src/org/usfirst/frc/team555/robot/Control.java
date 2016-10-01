@@ -1,4 +1,4 @@
-package org.montclairrobotics.sprocket.control;
+package org.usfirst.frc.team555.robot;
 
 import org.montclairrobotics.sprocket.utils.Dashboard;
 
@@ -18,17 +18,16 @@ public class Control {
 	
 	
 	public static double getX(int joystick) {
-		Dashboard.putNumber("X:" + joystick, sticks[joystick].getX(),true);
+		Dashboard.putDebugNumber("X:" + joystick, sticks[joystick].getX());
 		return sticks[joystick].getX();
 	}
 	
 	public static double getY(int joystick) {
-		Dashboard.putNumber("Y:" + joystick, sticks[joystick].getY(),true);
+		Dashboard.putDebugNumber("Y:" + joystick, sticks[joystick].getY());
 		return sticks[joystick].getY();
 	}
 	
 	public static double getZ(int joystick) {
-		//Robot.dashboard.putNumber("Z:" + joystick, sticks[joystick].getYaw());
 		return sticks[joystick].getZ();
 	}
 	

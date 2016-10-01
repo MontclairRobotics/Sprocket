@@ -1,5 +1,9 @@
 package org.montclairrobotics.sprocket.utils;
 
+import org.montclairrobotics.sprocket.updater.Priority;
+import org.montclairrobotics.sprocket.updater.Updatable;
+import org.montclairrobotics.sprocket.updater.Updater;
+
 
 /**
  * A PID controller
@@ -20,16 +24,9 @@ public class PID implements Updatable{
 	private double out;
 	private double target;
 	private double totalError, prevError, error;
+	
 	/**
-	 * 
-	 * @param P the Propotional Constant
-	 * @param I the Integral Constant
-	 * @param D the Derivitive Constant
-	 * @param minIn OPTIONAL the minimum input, or 0 to ignore. Use with maxIn to "wrap" the values, 
-	 * eg. so the error between 5 degrees and 355 degrees is 10 degrees
-	 * @param maxIn OPTIONAL the maximum input, or 0 to ignore
-	 * @param minOut OPTIONAL the minimum output to constrain to, or 0 to ignore
-	 * @param maxOut OPTIONAL the maximum output to constrain to, or 0 to ignore
+	 * PID constructor with default values
 	 */
 	public PID()
 	{
@@ -44,11 +41,29 @@ public class PID implements Updatable{
 		setTarget();
 		Updater.add(this, Priority.INPUT_PID);
 	}
+	
+	/**
+	 * @param P the Propotional Constant
+	 * @param I the Integral Constant
+	 * @param D the Derivitive Constant
+	 * @param minIn OPTIONAL the minimum input, or 0 to ignore. Use with maxIn to "wrap" the values, 
+	 * eg. so the error between 5 degrees and 355 degrees is 10 degrees
+	 * @param maxIn OPTIONAL the maximum input, or 0 to ignore
+	 * @param minOut OPTIONAL the minimum output to constrain to, or 0 to ignore
+	 * @param maxOut OPTIONAL the maximum output to constrain to, or 0 to ignore
+	 */
+	public PID(double P,double I,double D)
+	{
+		super();
+		setPID(P,I,D);
+	}
+	
 	public PID setInput(Input i)
 	{
 		this.input=i;
 		return this;
 	}
+	
 	public PID setPID(double P, double I, double D){
 		this.P=P;
 		this.I=I;

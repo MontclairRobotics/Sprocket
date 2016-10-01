@@ -19,18 +19,12 @@ package org.montclairrobotics.sprocket.utils;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
@@ -51,7 +45,6 @@ public class CameraServers {
   private static final int kSize320x240 = 1;
   private static final int kSize160x120 = 2;
   private static final int kHardwareCompression = -1;
-  private static final String kDefaultCameraName = "cam1";
   private static final int kMaxImageSize = 200000;
 
   private Thread serverThread;
@@ -324,9 +317,10 @@ private synchronized void startBroadcast(USBCamera camera) {
    * @throws IOException if the Socket connection fails
    * @throws InterruptedException if the sleep is interrupted
    */
-  protected void serve() throws IOException, InterruptedException {
+protected void serve() throws IOException, InterruptedException {
 
-    ServerSocket socket = new ServerSocket();
+    @SuppressWarnings("resource")
+	ServerSocket socket = new ServerSocket();
     socket.setReuseAddress(true);
     InetSocketAddress address = new InetSocketAddress(kPort);
     socket.bind(address);

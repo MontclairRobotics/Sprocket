@@ -1,7 +1,7 @@
-package org.montclairrobotics.sprocket.utils;
+package org.montclairrobotics.sprocket.updater;
 
 /**
- * In practise, some Updatable objects will need to run before others in order to make sure that control
+ * In practice, some Updatable objects will need to run before others in order to make sure that control
  * system inputs aren't delayed and to make sure that all assisting systems run in the correct order. To facilitate
  * that, Sprocket has a priority system to make sure that objects update in the correct order. Objects will
  * be updated in descending priority order (i.e. highest numerical priority first)
@@ -16,6 +16,7 @@ public class Priority {
 	
 	public static final Priority INPUT = HIGHEST;
 	public static final Priority INPUT_PID = HIGH;
+	public static final Priority CONTROL = new Priority(50);
 	public static final Priority CALC = NORMAL;
 	public static final Priority DRIVE_CALC=LOW;
 	public static final Priority AUTO = LOW;

@@ -19,10 +19,9 @@ public enum DistanceUnit implements Unit {
 	}
 	
 	public double convertQuantity(double q, Unit newUnit) {
-		if (newUnit.getClass() == DistanceUnit.class) {
+		if(newUnit instanceof DistanceUnit) {
 			return q * this.getConversionFactor() / newUnit.getConversionFactor();
-		} else {
-			return (Double) null;
 		}
+		return (Double) null;
 	}
 }

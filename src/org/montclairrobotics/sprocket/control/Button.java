@@ -7,18 +7,21 @@ package org.montclairrobotics.sprocket.control;
  * It is recommended to create these as sub-classes in in a larger class
  * @see org.montclairrobotics.sprocket.examples.Buttons
  */
-import org.montclairrobotics.sprocket.utils.Priority;
-import org.montclairrobotics.sprocket.utils.Updatable;
-import org.montclairrobotics.sprocket.utils.Updater;
+import org.montclairrobotics.sprocket.updater.Priority;
+import org.montclairrobotics.sprocket.updater.Updatable;
+import org.montclairrobotics.sprocket.updater.Updater;
 
 import edu.wpi.first.wpilibj.Joystick;
 
 
-public abstract class Button implements Updatable{
+public class Button implements Updatable{
 	
 	private boolean state = false;
 	private Joystick stick;
 	private int id;
+	
+	private ButtonAction onUp, whileUp;
+	private ButtonAction onDown, whileDown;
 	
 	/**
 	 * Creates a Button on a given joystick and button id
@@ -28,9 +31,14 @@ public abstract class Button implements Updatable{
 	 */
 	public Button(Joystick stick,int id)
 	{
-		Updater.add(this, Priority.INPUT);
+		Updater.add(this, Priority.CONTROL);
 		this.stick=stick;
 		this.id=id;
+		
+		onUp = null;
+		whileUp = null;
+		onDown = null;
+		whileDown = null;
 	}
 	
 	/**
@@ -45,38 +53,35 @@ public abstract class Button implements Updatable{
 			if(!state)
 			{
 				state=true;
-				onDown();
+				if(onDown != null) onDown.onAction();
 			}
-			down();
+			if(whileDown != null) whileDown.onAction();
 		}
 		else
 		{
 			if(state)
 			{
 				state=false;
-				onUp();
+				if(onUp != null) onUp.onAction();
 			}
-			up();
+			if(whileUp != null) whileUp.onAction();
 		}
 	}
 	
-	/**
-	 * Fires when the button is depressed
-	 */
-	public void onDown() {}
+	public void setOnUpAction(ButtonAction upAction) {
+		onUp = upAction;
+	}
 	
-	/**
-	 * Fires every tick the button is depressed
-	 */
-	public void down() {}
+	public void setWhileUpAction(ButtonAction whileUp) {
+		this.whileUp = whileUp;
+	}
 	
-	/**
-	 * Fires when the button is released/not pressed
-	 */
-	public void onUp() {}
+	public void setOnDownAction(ButtonAction down) {
+		onDown = down;
+	}
 	
-	/**
-	 * Fires for each tick the button is released/not pressed
-	 */
-	public void up() {}
+	public void setWhileDownAction(ButtonAction whileDown) {
+		this.whileDown = whileDown;
+	}
+	
 }

@@ -1,68 +1,87 @@
 package org.montclairrobotics.sprocket.examples;
 
-import org.montclairrobotics.sprocket.drive.AutoDrive;
-import org.montclairrobotics.sprocket.drive.DriveTrain;
-import org.montclairrobotics.sprocket.states.State;
-import org.montclairrobotics.sprocket.states.StateMachine;
-import org.montclairrobotics.sprocket.utils.Distance;
-import org.montclairrobotics.sprocket.utils.Polar;
+import org.montclairrobotics.sprocket.states.StateObj;
 
-public class Auto extends StateMachine{
-
-	private static DriveTrain driveTrain;
-	public Auto(DriveTrain dt) {
-		super(new Start());
-		driveTrain=dt;
-	}
-	
-	public static class Start extends State
+public class Auto
+{
+	public static class LowerArm extends StateObj
 	{
-		public boolean isDone(){
-			return true;
+		private int loops;
+		public void onStart()
+		{
+			loops=0;
+			Robot.valves.lower();
 		}
-		public State getNextState(){
-			return new LowerShooter();
-		}
-	}
-	public static class LowerShooter extends State
-	{
-		private int loops=0;
 		public void update()
 		{
 			loops++;
 		}
-		public boolean isDone()
-		{
-			return loops>100;
-		}
-		public State getNextState()
-		{
-			return new Drive1();
+		public boolean isDone() {
+			return loops>2*30;
 		}
 	}
-	public static class Drive1 extends State
+	public static class HalfArm extends StateObj
 	{
-		private AutoDrive d;
+		private int loops;
 		public void onStart()
 		{
-			d=new AutoDrive(new Distance(10,Distance.FEET),new Polar(0.5,0),driveTrain);
+			loops=0;
+			Robot.valves.lower();
+			Robot.valves.halfOff();
 		}
-		public boolean isDone(){
-			return d.isDone();
-		}
-		public State getNextState()
+		public void update()
 		{
-			return new Done();
+			loops++;
+		}
+		public boolean isDone() {
+			return loops>2*30;
 		}
 	}
-	public static class Done extends State
+	public static class ArmUp extends StateObj
 	{
+		private int loops;
+		public void onStart()
+		{
+			loops=0;
+			Robot.valves.raise();
+		}
+		public void update()
+		{
+			loops++;
+		}
 		public boolean isDone() {
-			return false;
+			return loops>10;
 		}
-		public State getNextState() {
-			return null;
+	}
+	public static class Shoot extends StateObj
+	{
+		private int loops;
+		public void onStart()
+		{
+			loops=0;
 		}
-		
+		public void update()
+		{
+			Robot.valves.setShoot(Valves.SHOOT_SPEED);
+			loops++;
+			if(loops<2*30)
+			{
+				Robot.valves.setShoot(Valves.SHOOT_SPEED);
+			}
+			else if(loops>2*30&&loops<3*30)
+			{
+				Robot.valves.setShoot(Valves.SHOOT_SPEED);
+				Robot.valves.shootOut();
+			}
+			else if(loops>3*30)
+			{
+				Robot.valves.shootIn();
+				Robot.valves.setShoot(0);
+			}
+		}
+		public boolean isDone()
+		{
+			return loops>3.5*30;
+		}
 	}
 }

@@ -9,7 +9,7 @@ public class GripContourReport {
 	public final double[] height;
 	public final double[] area;
 	public final int max;
-	public final double maxCenterX,maxCenterY;
+	public final int maxCenterX,maxCenterY;
 	
 	public GripContourReport(NetworkTable table) 
 	{
@@ -39,12 +39,12 @@ public class GripContourReport {
 		}
 		this.max=max;
 		if(max>-1&&max<centerX.length)
-			maxCenterX=centerX[max];
+			maxCenterX=(int)(centerX[max]+0.5);
 		else
-			maxCenterX=0;
+			maxCenterX=-1;
 		if(max>-1&&max<centerY.length)
-			maxCenterY=centerY[max];
+			maxCenterY=(int)(centerY[max]+0.5);
 		else
-			maxCenterY=0;
+			maxCenterY=-1;
 	}
 }

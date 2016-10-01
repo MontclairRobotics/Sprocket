@@ -1,58 +1,102 @@
 
 package org.montclairrobotics.sprocket.examples;
 //THERE SHOULD BE LICENSE STUFF HERE!!!!
-import org.montclairrobotics.sprocket.control.ArcadeTranslator;
+
+import org.montclairrobotics.sprocket.auto.AutoChooser;
+import org.montclairrobotics.sprocket.auto.AutoStates;
+import org.montclairrobotics.sprocket.drive.DriveMotor;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.drive.Motor.M_TYPE;
-import org.montclairrobotics.sprocket.utils.CameraServers;
+import org.montclairrobotics.sprocket.states.State;
+import org.montclairrobotics.sprocket.states.StateMachine;
+import org.montclairrobotics.sprocket.updater.Updater;
+import org.montclairrobotics.sprocket.utils.Angle;
+import org.montclairrobotics.sprocket.utils.Degree;
+import org.montclairrobotics.sprocket.utils.Grip;
 import org.montclairrobotics.sprocket.utils.PID;
-import org.montclairrobotics.sprocket.utils.Updater;
 import org.montclairrobotics.sprocket.utils.XY;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	
 	
-	public static int[] leftWheels={1,3},rightWheels={0,2};
+	public static int[] leftWheels={2,4},rightWheels={1,3};
 	public static M_TYPE motorType=M_TYPE.TALON;
-	public static int[][] leftEncoders={{0,1},{2,3}},rightEncoders={{4,5},{6,7}};
-	public static PID drivePID=new PID().setPID(0.03,0.0,0.3), motorPID=new PID().setPID(0.01,0.0,0.1);
-	public static String[] cams={"cam1","cam2"};
+
 	
     public static DriveTrain driveTrain;
-    public static Auto auto;
-    public static CameraServers cameras;
-    public static Valves valves;
-    public static ArcadeTranslator controller;
+    public static Grip grip;
+    public static StateMachine auto;
     
+    public static Valves valves;
+	
+	public static AutoChooser chooser;
+	
+	public Encoder leftEncoder;
+	public Encoder rightEncoder;
+	
+	public PID encPid = new PID().setPID(0.03, 0.0, 0.0);
     
     public void robotInit() {
-    	driveTrain=DriveTrain.makeStandard(leftWheels, rightWheels, motorType, leftEncoders, rightEncoders, motorPID);
-    	cameras=new CameraServers(cams);
-    	cameras.start();
+    	//driveTrain=DriveTrain.makeStandard(leftWheels, rightWheels, motorType);
     	valves=new Valves();
-    	controller=new ArcadeTranslator(driveTrain, Control.sticks[Control.DRIVE_STICK]);
+    	grip=new Grip("GRIP/mynewreport");
+    	leftEncoder = new Encoder(0, 1);
+    	leftEncoder.setDistancePerPulse(47.0*4/4226);
+    	leftEncoder.setSamplesToAverage(20);
+    	leftEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+    	
+    	rightEncoder = new Encoder(3, 4);
+    	rightEncoder.setDistancePerPulse(47.0*4/4226);
+    	rightEncoder.setSamplesToAverage(20);
+    	rightEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+    	
+    	
+    	
+    	driveTrain = new DriveTrain(new DriveMotor[]{
+    			new DriveMotor(new Talon(leftWheels[0]), "L0", new XY(-1,0), new Degree(180)).setEncoder(leftEncoder,49).setPID(encPid),
+    			new DriveMotor(new Talon(leftWheels[1]), "L1", new XY(-1,0), new Degree(180)).setEncoder(leftEncoder,49).setPID(encPid),
+    			new DriveMotor(new Talon(rightWheels[0]), "R0", new XY(1,0), Angle.zero).setEncoder(rightEncoder,49).setPID(encPid),
+    			new DriveMotor(new Talon(rightWheels[1]), "R1", new XY(1,0), Angle.zero).setEncoder(rightEncoder,49).setPID(encPid)
+    	});
+    	
+    	 String[] autoNames={"Auto 1"};
+    	 State[][] autoStates={{new AutoStates.DriveTime(driveTrain, .5, 5)}};
+    	chooser=new AutoChooser(autoNames,autoStates);
     }
     
     public void autonomousInit() {
-    	auto=new Auto(driveTrain);
-    	//buttons.reset();
+    	auto=chooser.startStateMachine();
     }
     
     public void autonomousPeriodic() {
     	Updater.update();
     }
-    
-    public void teleopInit(){
-    	//buttons.reset();
+    public void disabledInit()
+    {
+    	if(auto!=null)
+    	{
+    		auto.onStop();
+    		auto=null;
+    	}
     }
     
-    public void teleopPeriodic() {
-    	driveTrain.driveSpeedRotation(Control.getX(Control.DRIVE_STICK),Control.getY(Control.DRIVE_STICK));
+    public void teleopInit(){
+    	leftEncoder.reset();
+    	rightEncoder.reset();
+    }
+    
+    public void teleopPeriodic() 
+    {
+    	driveTrain.driveArcade(Control.getX(Control.DRIVE_STICK),
+    			Control.getY(Control.DRIVE_STICK)*0.5);
+    	SmartDashboard.putNumber("left encoder", leftEncoder.getRate());
+    	SmartDashboard.putNumber("right encoder", rightEncoder.getRate());
         Updater.update();
     }
     
