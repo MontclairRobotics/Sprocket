@@ -1,5 +1,3 @@
 package org.montclairrobotics.sprocket;
 
-public class Sprocket {
-	
-}
+public class Sprocket {}

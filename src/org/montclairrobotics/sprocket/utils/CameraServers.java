@@ -8,14 +8,20 @@
 package org.montclairrobotics.sprocket.utils;
 /**
  * The FIRST CameraServer library, modified for multiple USB cameras
- * 
- * USAGE:
- * construct with an array of camera names
- * call start to start broadcast
- * 
- * call switchTo() to cycle through cameras,
- * or call switchTo(id) to jump to one camera
+ *
+ * <p>USAGE: construct with an array of camera names call start to start broadcast
+ *
+ * <p>call switchTo() to cycle through cameras, or call switchTo(id) to jump to one camera
  */
+
+import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.Image;
+import com.ni.vision.NIVision.RawData;
+import com.ni.vision.VisionException;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.vision.USBCamera;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -25,15 +31,6 @@ import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.ArrayDeque;
 import java.util.Deque;
-
-import com.ni.vision.NIVision;
-import com.ni.vision.NIVision.Image;
-import com.ni.vision.NIVision.RawData;
-import com.ni.vision.VisionException;
-
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.vision.USBCamera;
 
 // replicates CameraServer.cpp in java lib
 
@@ -52,27 +49,17 @@ public class CameraServers {
   private boolean m_autoCaptureStarted;
   private boolean m_hwClient = true;
   private USBCamera m_camera;
-  
+
   private USBCamera[] cams;
   private String[] camNames;
-  private int i=0;
-  
+  private int i = 0;
+
   private CameraData m_imageData;
   private Deque<ByteBuffer> m_imageDataPool;
-  
-  private class CameraData {
-    RawData data;
-    int start;
-
-    public CameraData(RawData d, int s) {
-      data = d;
-      start = s;
-    }
-  }
 
   public CameraServers(String[] camNamesInput) {
-	  cams=new USBCamera[camNamesInput.length];
-	  camNames=camNamesInput;
+    cams = new USBCamera[camNamesInput.length];
+    camNames = camNamesInput;
     m_quality = 50;
     m_camera = null;
     m_imageData = null;
@@ -80,17 +67,19 @@ public class CameraServers {
     for (int i = 0; i < 3; i++) {
       m_imageDataPool.addLast(ByteBuffer.allocateDirect(kMaxImageSize));
     }
-    serverThread = new Thread(new Runnable() {
-      public void run() {
-        try {
-          serve();
-        } catch (IOException e) {
-          // do stuff here
-        } catch (InterruptedException e) {
-          // do stuff here
-        }
-      }
-    });
+    serverThread =
+        new Thread(
+            new Runnable() {
+              public void run() {
+                try {
+                  serve();
+                } catch (IOException e) {
+                  // do stuff here
+                } catch (InterruptedException e) {
+                  // do stuff here
+                }
+              }
+            });
     serverThread.setName("CameraServer Send Thread");
     serverThread.start();
   }
@@ -107,12 +96,9 @@ public class CameraServers {
   }
 
   /**
-   * Manually change the image that is served by the MJPEG stream. This can be
-   * called to pass custom annotated images to the dashboard. Note that, for
-   * 640x480 video, this method could take between 40 and 50 milliseconds to
-   * complete.
-   *
-   * 
+   * Manually change the image that is served by the MJPEG stream. This can be called to pass custom
+   * annotated images to the dashboard. Note that, for 640x480 video, this method could take between
+   * 40 and 50 milliseconds to complete.
    *
    * @param image The IMAQ image to show on the dashboard
    */
@@ -122,8 +108,11 @@ public class CameraServers {
     /* Flatten the IMAQ image to a JPEG */
 
     RawData data =
-        NIVision.imaqFlatten(image, NIVision.FlattenType.FLATTEN_IMAGE,
-            NIVision.CompressionType.COMPRESSION_JPEG, 10 * m_quality);
+        NIVision.imaqFlatten(
+            image,
+            NIVision.FlattenType.FLATTEN_IMAGE,
+            NIVision.CompressionType.COMPRESSION_JPEG,
+            10 * m_quality);
     ByteBuffer buffer = data.getBuffer();
     boolean hwClient;
 
@@ -135,43 +124,39 @@ public class CameraServers {
     int index = 0;
     if (hwClient) {
       while (index < buffer.limit() - 1) {
-        if ((buffer.get(index) & 0xff) == 0xFF && (buffer.get(index + 1) & 0xff) == 0xD8)
-          break;
+        if ((buffer.get(index) & 0xff) == 0xFF && (buffer.get(index + 1) & 0xff) == 0xD8) break;
         index++;
       }
     }
 
     if (buffer.limit() - index - 1 <= 2) {
-      throw new VisionException("data size of flattened image is less than 2. Try another camera! ");
+      throw new VisionException(
+          "data size of flattened image is less than 2. Try another camera! ");
     }
 
     setImageData(data, index);
   }
 
   /**
-   * Start automatically capturing images to send to the dashboard. You should
-   * call this method to just see a camera feed on the dashboard without doing
-   * any vision processing on the roboRIO. 
+   * Start automatically capturing images to send to the dashboard. You should call this method to
+   * just see a camera feed on the dashboard without doing any vision processing on the roboRIO.
    */
   /*public void startAutomaticCapture() {
     startAutomaticCapture(USBCamera.kDefaultCameraName);
   }*/
-  
-  public void start()
-  {
-	  for(int i=0;i<camNames.length;i++)
-	  {
-		  cams[i]=startCamera(camNames[i]);
-	  }
-	  startBroadcast(cams[0]);
+
+  public void start() {
+    for (int i = 0; i < camNames.length; i++) {
+      cams[i] = startCamera(camNames[i]);
+    }
+    startBroadcast(cams[0]);
   }
 
   /**
    * Start automatically capturing images to send to the dashboard.
    *
-   * You should call this method to just see a camera feed on the dashboard
-   * without doing any vision processing on the roboRIO. {@link #setImage}
-   * shouldn't be called after this is called.
+   * <p>You should call this method to just see a camera feed on the dashboard without doing any
+   * vision processing on the roboRIO. {@link #setImage} shouldn't be called after this is called.
    *
    * @param cameraName The name of the camera interface (e.g. "cam1")
    */
@@ -188,20 +173,21 @@ public class CameraServers {
     return null;
   }
 
-private synchronized void startBroadcast(USBCamera camera) {
-    if (m_autoCaptureStarted)
-      return;
+  private synchronized void startBroadcast(USBCamera camera) {
+    if (m_autoCaptureStarted) return;
     m_autoCaptureStarted = true;
     m_camera = camera;
 
     m_camera.startCapture();
 
-    Thread captureThread = new Thread(new Runnable() {
-      @Override
-      public void run() {
-        capture();
-      }
-    });
+    Thread captureThread =
+        new Thread(
+            new Runnable() {
+              @Override
+              public void run() {
+                capture();
+              }
+            });
     captureThread.setName("Camera Capture Thread");
     captureThread.start();
   }
@@ -229,8 +215,8 @@ private synchronized void startBroadcast(USBCamera camera) {
           setImage(frame);
         }
       } catch (VisionException ex) {
-        DriverStation.reportError("Error when getting image from the camera: " + ex.getMessage(),
-            true);
+        DriverStation.reportError(
+            "Error when getting image from the camera: " + ex.getMessage(), true);
         if (dataBuffer != null) {
           synchronized (this) {
             m_imageDataPool.addLast(dataBuffer);
@@ -241,42 +227,40 @@ private synchronized void startBroadcast(USBCamera camera) {
     }
   }
 
-  public void switchTo(int id)
-  {
-	  this.i = id;
-	  if(id<0||id>=cams.length||cams[id]==null)return;
-	  //pause
-	  synchronized(this) {
-		  m_camera.stopCapture();
-	  	  m_camera=cams[id];
-	  	  m_camera.startCapture();
-	  }
-	  //resume
+  public void switchTo(int id) {
+    this.i = id;
+    if (id < 0 || id >= cams.length || cams[id] == null) return;
+    //pause
+    synchronized (this) {
+      m_camera.stopCapture();
+      m_camera = cams[id];
+      m_camera.startCapture();
+    }
+    //resume
   }
-  public void switchTo()
-  {
-	  i=(i+1)%cams.length;
-	  switchTo(i);
+
+  public void switchTo() {
+    i = (i + 1) % cams.length;
+    switchTo(i);
   }
 
   /**
    * check if auto capture is started
-   *@return if auto capture is started
+   *
+   * @return if auto capture is started
    */
   public synchronized boolean isAutoCaptureStarted() {
     return m_autoCaptureStarted;
   }
 
   /**
-   * Sets the size of the image to use. Use the public kSize constants to set
-   * the correct mode, or set it directory on a camera and call the appropriate
-   * autoCapture method
-   *$
+   * Sets the size of the image to use. Use the public kSize constants to set the correct mode, or
+   * set it directory on a camera and call the appropriate autoCapture method $
+   *
    * @param size The size to use
    */
   public synchronized void setSize(int size) {
-    if (m_camera == null)
-      return;
+    if (m_camera == null) return;
     switch (size) {
       case kSize640x480:
         m_camera.setSize(640, 480);
@@ -291,15 +275,6 @@ private synchronized void startBroadcast(USBCamera camera) {
   }
 
   /**
-   * Set the quality of the compressed image sent to the dashboard
-   *
-   * @param quality The quality of the JPEG image, from 0 to 100
-   */
-  public synchronized void setQuality(int quality) {
-    m_quality = quality > 100 ? 100 : quality < 0 ? 0 : quality;
-  }
-
-  /**
    * Get the quality of the compressed image sent to the dashboard
    *
    * @return The quality, from 0 to 100
@@ -309,18 +284,27 @@ private synchronized void startBroadcast(USBCamera camera) {
   }
 
   /**
+   * Set the quality of the compressed image sent to the dashboard
+   *
+   * @param quality The quality of the JPEG image, from 0 to 100
+   */
+  public synchronized void setQuality(int quality) {
+    m_quality = quality > 100 ? 100 : quality < 0 ? 0 : quality;
+  }
+
+  /**
    * Run the M-JPEG server.
    *
-   * This function listens for a connection from the dashboard in a background
-   * thread, then sends back the M-JPEG stream.
+   * <p>This function listens for a connection from the dashboard in a background thread, then sends
+   * back the M-JPEG stream.
    *
    * @throws IOException if the Socket connection fails
    * @throws InterruptedException if the sleep is interrupted
    */
-protected void serve() throws IOException, InterruptedException {
+  protected void serve() throws IOException, InterruptedException {
 
     @SuppressWarnings("resource")
-	ServerSocket socket = new ServerSocket();
+    ServerSocket socket = new ServerSocket();
     socket.setReuseAddress(true);
     InetSocketAddress address = new InetSocketAddress(kPort);
     socket.bind(address);
@@ -345,13 +329,10 @@ protected void serve() throws IOException, InterruptedException {
         // Wait for the camera
         synchronized (this) {
           System.out.println("Camera not yet ready, awaiting image");
-          if (m_camera == null)
-            wait();
+          if (m_camera == null) wait();
           m_hwClient = compression == kHardwareCompression;
-          if (!m_hwClient)
-            setQuality(100 - compression);
-          else if (m_camera != null)
-            m_camera.setFPS(fps);
+          if (!m_hwClient) setQuality(100 - compression);
+          else if (m_camera != null) m_camera.setFPS(fps);
           setSize(size);
         }
 
@@ -365,8 +346,7 @@ protected void serve() throws IOException, InterruptedException {
             m_imageData = null;
           }
 
-          if (imageData == null)
-            continue;
+          if (imageData == null) continue;
           // Set the buffer position to the start of the data,
           // and then create a new wrapper for the data at
           // exactly that position
@@ -401,6 +381,16 @@ protected void serve() throws IOException, InterruptedException {
         DriverStation.reportError(ex.getMessage(), true);
         continue;
       }
+    }
+  }
+
+  private class CameraData {
+    RawData data;
+    int start;
+
+    public CameraData(RawData d, int s) {
+      data = d;
+      start = s;
     }
   }
 }
