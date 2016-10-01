@@ -2,7 +2,7 @@ package org.montclairrobotics.sprocket.geometry;
 
 public class Unit {
 	
-	private Unit DEFAULT = new Unit();
+	public static final Unit DEFAULT = new Unit();
 	
 	protected double raw;
 	
@@ -32,6 +32,10 @@ public class Unit {
 	
 	public Unit multiply(Unit u) {
 		return new Unit(raw * u.get(), DEFAULT);
+	}
+
+	public Unit multiply(double d) {
+		return new Unit(raw * d, DEFAULT);
 	}
 	
 	public Unit divide(Unit u) {

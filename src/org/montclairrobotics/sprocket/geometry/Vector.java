@@ -18,27 +18,27 @@ public abstract class Vector<T extends Unit> {
 	
 	public Vector add(Vector a)
 	{
-		return new XY(this.getX().add(a.getX()),this.getY().add(a.getY()));
+		return new XY<Unit>(this.getX().add(a.getX()), this.getY().add(a.getY()));
 	}
 	public Vector subtract(Vector a)
 	{
-		return new XY(this.getX().subtract(a.getX()),this.getY().subtract(a.getY()));
+		return new XY<Unit>(this.getX().subtract(a.getX()),this.getY().subtract(a.getY()));
 	}
 	public Vector opposing()
 	{
-		return new XY(this.getX().times(-1),this.getY().times(-1));
+		return new XY<Unit>(this.getX().multiply(-1),this.getY().multiply(-1));
 	}
 	
 	public Vector getRotationVector(Angle rotation)
 	{
-		return new Polar(this.getMag().times(rotation.toRadians()),this.getAngle().add(Angle.QUARTER_TURN));
+		return new Polar<Unit>(this.getMag().multiply(rotation.toRadians()), this.getAngle().add(Angle.QUARTER_TURN));
 	}
 	public Vector rotate(Angle a)
 	{
-		return new Polar(this.getMag(),this.getAngle().add(a));
+		return new Polar<Unit>(this.getMag(),this.getAngle().add(a));
 	}
-	public static Speed dotProduct(Vector a,Vector b)
+	public static Unit dotProduct(Vector a,Vector b)
 	{
-		return a.getX().times(b.getX()).add(a.getY().times(b.getY()));
+		return a.getX().multiply(b.getX()).add(a.getY().multiply(b.getY()));
 	}
 }

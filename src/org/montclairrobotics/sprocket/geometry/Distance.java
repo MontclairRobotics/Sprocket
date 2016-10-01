@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.geometry;
 
-public class Distance {
+public class Distance extends Unit {
 	
 	public static final Distance METER = new Distance();
 	
@@ -22,51 +22,47 @@ public class Distance {
 			YD = YARD,
 			MI = MILE;
 	
-	public static final Distance ZERO = new Distance(0,M);
-	
-	private double distance;
-	
 	
 	public Distance(double dist, Distance unit) {
-		distance = dist * unit.getMeters();
+		super(dist, unit);
 	}
 	
 	private Distance() {
-		distance = 1.0;
+		super();
 	}
 	
 	public double getMeters() {
-		return distance;
+		return super.get();
 	}
 	
 	public double getDistance(Distance unit) {
-		return distance * unit.getMeters();
+		return super.get(unit);
 	}
 
 	public Distance add(Distance b)
 	{
-		return new Distance(distance+b.getMeters(),M);
+		return new Distance(raw+b.getMeters(),M);
 	}
 	public Distance subtract(Distance b)
 	{
-		return new Distance(distance-b.getMeters(),M);
+		return new Distance(raw-b.getMeters(),M);
 	}
 	
-	public Distance times(double x) 
+	public Distance multiply(double x)
 	{
-		return new Distance(distance*x,M);
+		return new Distance(raw*x,M);
 	}
-	public Distance times(Distance x)
+	public Distance multiply(Distance x)
 	{
-		return new Distance(distance*x.getMeters(),M);
+		return new Distance(raw*x.getMeters(),M);
 	}
 	
 	public Distance divide(double x)
 	{
-		return new Distance(distance/x,M);
+		return new Distance(raw/x,M);
 	}
 	public double divide(Distance x)
 	{
-		return distance/x.getMeters();
+		return raw/x.getMeters();
 	}
 }

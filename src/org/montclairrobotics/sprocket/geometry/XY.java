@@ -1,28 +1,28 @@
 package org.montclairrobotics.sprocket.geometry;
 
-public class XY extends Vector{
+public class XY<T extends Unit> extends Vector{
 
-	private Speed x,y;
+	private T x,y;
 	
-	public XY(Speed x,Speed y)
+	public XY(T x,T y)
 	{
 		this.x=x;
 		this.y=y;
 	}
 	
 	public Speed getMag() {
-		return new Speed(Math.sqrt(x.times(x).get() + y.times(y).get()), Speed.MS);
+		return new Speed(Math.sqrt(x.multiply(x).get() + y.multiply(y).get()), Speed.MS);
 	}
 
 	public Angle getAngle() {
 		return new Radian(Math.atan2(x.get(),y.get()));
 	}
 
-	public Speed getX() {
+	public T getX() {
 		return x;
 	}
 
-	public Speed getY() {
+	public T getY() {
 		return y;
 	}
 

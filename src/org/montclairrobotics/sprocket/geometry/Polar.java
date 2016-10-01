@@ -1,30 +1,30 @@
 package org.montclairrobotics.sprocket.geometry;
 
-public class Polar extends Vector{
+public class Polar<T extends Unit> extends Vector{
 
-	private Speed mag;
+	private Unit mag;
 	private Angle angle;
 	
-	public Polar(Speed mag,Angle angle)
+	public Polar(T mag,Angle angle)
 	{
-		this.mag=new Speed(Math.abs(mag.get()),Speed.MS);
-		this.angle=((mag.get() > 0) ? angle : angle.opposing());
+		this.mag = new Unit(Math.abs(mag.get()), Unit.DEFAULT);
+		this.angle = ((mag.get() > 0) ? angle : angle.opposing());
 	}
-	public Polar(Speed mag,double degrees)
+	public Polar(T mag,double degrees)
 	{
 		this(mag,new Degree(degrees));
 	}
-	public Speed getMag() {
+	public Unit getMag() {
 		return mag;
 	}
 	public Angle getAngle() {
 		return angle;
 	}
-	public Speed getX() {
-		return mag.times(Math.sin(angle.toRadians()));
+	public Unit getX() {
+		return mag.multiply(Math.sin(angle.toRadians()));
 	}
-	public Speed getY() {
-		return mag.times(Math.cos(angle.toRadians()));
+	public Unit getY() {
+		return mag.multiply(Math.cos(angle.toRadians()));
 	}
 	
 }
