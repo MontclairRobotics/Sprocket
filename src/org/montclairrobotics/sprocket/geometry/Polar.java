@@ -1,16 +1,16 @@
 package org.montclairrobotics.sprocket.geometry;
 
-public class Polar<T extends Unit> extends Vector{
+public class Polar extends Vector{
 
 	private Unit mag;
 	private Angle angle;
 	
-	public Polar(T mag,Angle angle)
+	public Polar(Unit mag,Angle angle)
 	{
 		this.mag = new Unit(Math.abs(mag.get()), Unit.DEFAULT);
 		this.angle = ((mag.get() > 0) ? angle : angle.opposing());
 	}
-	public Polar(T mag,double degrees)
+	public Polar(Unit mag,double degrees)
 	{
 		this(mag,new Degree(degrees));
 	}

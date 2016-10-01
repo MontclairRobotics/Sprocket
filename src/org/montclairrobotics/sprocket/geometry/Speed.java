@@ -2,14 +2,14 @@ package org.montclairrobotics.sprocket.geometry;
 
 public class Speed extends Unit {
 
-    public static Speed MS = new Speed();
+    public static final Speed MS = new Speed();
+
+    public static final Speed INS = new Speed(Distance.INCHES);
 
 
-    public static Speed ZERO = new Speed(0, MS);
+    public static final Speed ZERO = new Speed(0);
 
-    private Speed() {
-        super();
-    }
+    private Speed() {}
 
     public Speed(double speed, Speed unit) {
         super(speed, unit);
@@ -19,29 +19,40 @@ public class Speed extends Unit {
         super(distanceUnit.getMeters()/timeUnit.get(), MS);
     }
 
+    public Speed(Distance distanceUnit) {
+        super(distanceUnit.get(), MS);
+    }
+
+    public Speed(double speed) {
+        super(speed, MS);
+    }
+
     public double getMetersPerSecond() {
         return super.get();
     }
 
-    public double getSpeed(Speed unit) {
-        return super.get(unit);
+    public double get(Distance distanceUnit, Time timeUnit) {
+        return raw * (distanceUnit.getMeters()/timeUnit.getSeconds());
     }
 
-    public double getSpeed(Distance distanceUnit, Time timeUnit) {
-        return raw * (distanceUnit.getMeters()/timeUnit.getSeconds());
+    public double get(Distance distanceUnit) {
+        return get(distanceUnit, Time.SECOND);
     }
 
 
     public Speed add(Speed s) {
-        return new Speed(raw + s.getMetersPerSecond(), MS);
+        if(!isSameType(s)) return null;
+        return new Speed(raw + s.getMetersPerSecond());
     }
 
     public Speed subtract(Speed s) {
-        return new Speed(raw - s.getMetersPerSecond(), MS);
+        if(!isSameType(s)) return null;
+        return new Speed(raw - s.getMetersPerSecond());
     }
 
     public Speed multiply(Speed s) {
-        return new Speed(raw * s.getMetersPerSecond(), MS);
+        if(!isSameType(s)) return null;
+        return new Speed(raw * s.getMetersPerSecond());
     }
 
     public Speed multiply(double factor) {
@@ -49,7 +60,8 @@ public class Speed extends Unit {
     }
 
     public Speed divide(Speed s) {
-        return new Speed(raw / s.getMetersPerSecond(), MS);
+        if(!isSameType(s)) return null;
+        return new Speed(raw / s.getMetersPerSecond());
     }
 
 }

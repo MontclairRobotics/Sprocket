@@ -21,48 +21,40 @@ public class Distance extends Unit {
 			FT = FEET,
 			YD = YARD,
 			MI = MILE;
-	
-	
-	public Distance(double dist, Distance unit) {
-		super(dist, unit);
-	}
-	
-	private Distance() {
-		super();
-	}
-	
-	public double getMeters() {
-		return super.get();
-	}
-	
-	public double getDistance(Distance unit) {
-		return super.get(unit);
+
+    private Distance() {}
+
+	public Distance(double d, Distance unit) {
+        super(d, unit);
 	}
 
-	public Distance add(Distance b)
-	{
-		return new Distance(raw+b.getMeters(),M);
-	}
-	public Distance subtract(Distance b)
-	{
-		return new Distance(raw-b.getMeters(),M);
-	}
-	
-	public Distance multiply(double x)
-	{
-		return new Distance(raw*x,M);
-	}
-	public Distance multiply(Distance x)
-	{
-		return new Distance(raw*x.getMeters(),M);
-	}
-	
-	public Distance divide(double x)
-	{
-		return new Distance(raw/x,M);
-	}
-	public double divide(Distance x)
-	{
-		return raw/x.getMeters();
-	}
+	public Distance(double d) {
+        super(d, METER);
+    }
+
+    public double getMeters() {
+        return super.get();
+    }
+
+
+    public Distance add(Unit a) {
+        if(!isSameType(a)) return null;
+        return new Distance(raw + a.get());
+    }
+
+    public Distance subtract(Distance a) {
+        if(!isSameType(a)) return null;
+        return new Distance(raw - a.get());
+    }
+
+    public Distance multiply(Distance a) {
+        if(!isSameType(a)) return null;
+        return new Distance(raw * a.get());
+    }
+
+    public Distance divide(Distance a) {
+        if(!isSameType(a)) return null;
+        return new Distance(raw / a.get());
+    }
+
 }
