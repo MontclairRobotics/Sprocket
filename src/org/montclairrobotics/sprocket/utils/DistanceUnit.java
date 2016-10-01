@@ -18,10 +18,10 @@ public enum DistanceUnit implements Unit {
 		}
 	}
 	
-	public double convertQuantity(double q, Unit newUnit) {
-		if(newUnit instanceof DistanceUnit) {
-			return q * this.getConversionFactor() / newUnit.getConversionFactor();
-		}
-		return (Double) null;
-	}
+// 	public double convertQuantity(double q, Unit newUnit) {
+// 		if(newUnit instanceof DistanceUnit) {
+// 			return q * this.getConversionFactor() / newUnit.getConversionFactor();
+// 		}
+// 		return (Double) null;
+// 	}
 }
