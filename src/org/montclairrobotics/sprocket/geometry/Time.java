@@ -19,7 +19,11 @@ public class Time extends Unit {
     public Time(double time) {
         super(time, SECOND);
     }
-
+    
+    public Time(Unit u) {
+    	super(u);
+    }
+    
     public double getSeconds() {
         return get();
     }

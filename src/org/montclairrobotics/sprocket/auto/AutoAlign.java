@@ -50,8 +50,8 @@ public class AutoAlign {
 		if(grip == null || target == null) return;			//Fail if grip or target do not exist
 		int x = grip.getX();								//Find target coordinates
 		int y = grip.getY();
-		double rot = zones.getRot((int)target.getX()-x);
-		double spd = zones.getSpd((int)target.getY()-y);
+		double rot = zones.getRot((int)target.getX().get()-x);
+		double spd = zones.getSpd((int)target.getY().get()-y);
 		if(rot==0&&spd==0)
 		{
 			loopsAtTarget++;

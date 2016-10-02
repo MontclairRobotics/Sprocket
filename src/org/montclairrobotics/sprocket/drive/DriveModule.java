@@ -2,6 +2,7 @@ package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
+import org.montclairrobotics.sprocket.geometry.Speed;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.updater.Priority;
 import org.montclairrobotics.sprocket.updater.Updatable;
@@ -19,7 +20,7 @@ public class DriveModule implements Updatable{
 	private PID pid=null;//the pid controller
 	private Distance encoderTick;//the distance per encoder tick
 	
-	private Distance speed;//our target speed
+	private Speed speed;//our target speed
 	
 	public DriveModule(Vector pos,Vector force,IMotor... motors)
 	{
@@ -67,7 +68,7 @@ public class DriveModule implements Updatable{
 	public Vector set(Vector velocity,Angle rotation)
 	{
 		Vector tgt=velocity.add(position.getRotationVector(rotation));
-		speed=Vector.dotProduct(tgt,force);
+		speed=new Speed(Vector.dotProduct(tgt,force));
 		return tgt;
 	}
 	
@@ -77,11 +78,11 @@ public class DriveModule implements Updatable{
 		double power;
 		if(pid==null)
 		{
-			power=speed.divide(force.getMag());
+			power=speed.divide(force.getMag()).get();
 		}
 		else
 		{
-			power=pid.setTarget(speed.getMeters()).get();
+			power=pid.setTarget(speed.get()).get();
 		}
 		for(IMotor motor:motors)
 		{

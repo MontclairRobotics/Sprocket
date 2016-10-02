@@ -21,7 +21,12 @@ public class Unit {
         this.raw = u * unit.get();
         this.unit = unit;
     }
-
+    
+    public Unit(Unit u) {
+    	this.raw = u.raw;
+    	this.unit = u.unit;
+    }
+    
     public double get() {
         return raw;
     }

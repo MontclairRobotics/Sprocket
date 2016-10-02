@@ -22,7 +22,7 @@ public class DriveMotor extends Motor{
 	private Angle forceAngle;
 	//private double lastLoops=Timer.getFPGATimestamp();	
 	
-	private Vector goal=Vector.zero; 
+	private Vector goal=Vector.ZERO; 
 	
 	/**
 	 * Creates a DriveMotor
@@ -83,7 +83,7 @@ public class DriveMotor extends Motor{
 	 */
 	public void setVelocity(Vector direction,double rotation)
 	{
-		Vector v=direction.add(offset.getRotationVector(rotation)).rotate(getForceAngle());
+		Vector v=direction.add(offset.getRotationVector(new Degree(((rotation+1)*180)-180))).rotate(getForceAngle());
 		setVelocity(v);
 		Dashboard.putString("V", v.getX()+","+v.getY());
 	}
@@ -103,7 +103,7 @@ public class DriveMotor extends Motor{
 	 */
 	public double calcSpeed()
 	{
-		return goal.getY();
+		return goal.getY().get();
 	}
 	/*
 	public void update()

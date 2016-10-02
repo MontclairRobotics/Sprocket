@@ -27,7 +27,11 @@ public class Speed extends Unit {
         super(speed, MS);
     }
 
-    public double getMetersPerSecond() {
+    public Speed(Unit u) {
+		super(u);
+	}
+
+	public double getMetersPerSecond() {
         return super.get();
     }
 

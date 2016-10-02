@@ -31,7 +31,11 @@ public class Distance extends Unit {
 	public Distance(double d) {
         super(d, METER);
     }
-
+	
+	public Distance(Unit u) {
+		super(u);
+	}
+	
     public double getMeters() {
         return super.get();
     }

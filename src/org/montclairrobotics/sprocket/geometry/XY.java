@@ -16,8 +16,8 @@ public class XY extends Vector{
 		this.y = new Unit(y, u);
 	}
 
-	public Speed getMag() {
-		return new Speed(Math.sqrt(x.multiply(x).get() + y.multiply(y).get()), Speed.MS);
+	public Unit getMag() {
+		return new Unit(Math.sqrt(x.multiply(x).get() + y.multiply(y).get()));
 	}
 
 	public Angle getAngle() {
