@@ -17,7 +17,7 @@ import org.montclairrobotics.sprocket.updater.Updater;
 
 public class PID implements Updatable{
 
-	private Input<Double> input;
+	private Input input;
 	private double P,I,D,minIn,maxIn,minOut,maxOut;
 	
 	private boolean calculated=false;
@@ -46,11 +46,6 @@ public class PID implements Updatable{
 	 * @param P the Propotional Constant
 	 * @param I the Integral Constant
 	 * @param D the Derivitive Constant
-	 * @param minIn OPTIONAL the minimum input, or 0 to ignore. Use with maxIn to "wrap" the values, 
-	 * eg. so the error between 5 degrees and 355 degrees is 10 degrees
-	 * @param maxIn OPTIONAL the maximum input, or 0 to ignore
-	 * @param minOut OPTIONAL the minimum output to constrain to, or 0 to ignore
-	 * @param maxOut OPTIONAL the maximum output to constrain to, or 0 to ignore
 	 */
 	public PID(double P,double I,double D)
 	{
@@ -58,7 +53,7 @@ public class PID implements Updatable{
 		setPID(P,I,D);
 	}
 
-	public PID setInput(Input<Double> i)
+	public PID setInput(Input i)
 	{
 		this.input=i;
 		return this;
@@ -70,6 +65,14 @@ public class PID implements Updatable{
 		this.D=D;
 		return this;
 	}
+
+	/**
+	 * @param minIn the minimum input, or 0 to ignore. Use with maxIn to "wrap" the values,
+	 * eg. so the error between 5 degrees and 355 degrees is 10 degrees
+	 * @param maxIn the maximum input, or 0 to ignore
+	 * @param minOut the minimum output to constrain to, or 0 to ignore
+	 * @param maxOut the maximum output to constrain to, or 0 to ignore
+	 */
 	public PID setMinMax(double minIn, double maxIn, double minOut, double maxOut)
 	{
 		this.minOut=minOut;
