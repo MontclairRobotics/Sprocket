@@ -10,6 +10,9 @@ public class ArcadeDriveInput extends DriveTrainInput {
     private boolean speedControl;
     private double maxSpeed;
 
+    private double power;
+    private double turn;
+
     public ArcadeDriveInput(Joystick stick) {
         super(DriveInputType.PERCENT);
         speedControl = false;
@@ -23,5 +26,23 @@ public class ArcadeDriveInput extends DriveTrainInput {
     }
 
 
+    @Override
+    public void update() {
+        turn = stick.getX();
+        power = stick.getMagnitude();
 
+        if(speedControl) {
+            power *= maxSpeed;
+        }
+    }
+
+    @Override
+    public double getPower() {
+        return power;
+    }
+
+    @Override
+    public double getTurn() {
+        return turn;
+    }
 }

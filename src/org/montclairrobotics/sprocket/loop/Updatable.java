@@ -1,11 +1,7 @@
 package org.montclairrobotics.sprocket.loop;
 
-public abstract class Updatable {
+public interface Updatable {
 
-    public Updatable() {
-
-    }
-
-    public abstract void update();
+    void update();
 
 }

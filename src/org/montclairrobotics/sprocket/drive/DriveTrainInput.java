@@ -1,34 +1,24 @@
 package org.montclairrobotics.sprocket.drive;
 
-public class DriveTrainInput {
+import org.montclairrobotics.sprocket.loop.Priority;
+import org.montclairrobotics.sprocket.loop.Updatable;
+import org.montclairrobotics.sprocket.loop.Updater;
 
-    private double power;
-    private double turn;
+public abstract class DriveTrainInput implements Updatable {
 
     private DriveInputType inputType;
 
     public DriveTrainInput(DriveInputType type) {
         inputType = type;
+        Updater.add(this, Priority.CONTROL);
     }
 
-    public double getPower() {
-        return power;
-    }
+    public abstract double getPower();
 
-    public double getTurn() {
-        return turn;
-    }
+    public abstract double getTurn();
 
     public DriveInputType getInputType() {
         return inputType;
-    }
-
-    public void setPower(double power) {
-        this.power = power;
-    }
-
-    public void setTurn(double turn) {
-        this.turn = turn;
     }
 
     public enum DriveInputType {
