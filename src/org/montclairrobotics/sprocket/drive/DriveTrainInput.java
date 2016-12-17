@@ -21,10 +21,5 @@ public abstract class DriveTrainInput implements Updatable {
     public DriveInputType getInputType() {
         return inputType;
     }
-
-    public enum DriveInputType {
-        PERCENT,
-        SPEED
-    }
 }
 

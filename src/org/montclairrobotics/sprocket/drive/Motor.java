@@ -15,6 +15,8 @@ public class Motor {
     private SpeedController motor;
     private Encoder enc;
     private PID pid;
+    private DriveInputType inputType;
+
     
 
 }
