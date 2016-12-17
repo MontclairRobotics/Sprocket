@@ -2,7 +2,10 @@ package org.montclairrobotics.sprocket.control;
 
 import edu.wpi.first.wpilibj.Joystick;
 import org.montclairrobotics.sprocket.drive.DriveTrainInput;
+import org.montclairrobotics.sprocket.geometry.Degrees;
 import org.montclairrobotics.sprocket.geometry.Inch;
+import org.montclairrobotics.sprocket.geometry.Polar;
+import org.montclairrobotics.sprocket.geometry.Vector;
 
 public class ArcadeDriveInput extends DriveTrainInput {
 
@@ -10,7 +13,7 @@ public class ArcadeDriveInput extends DriveTrainInput {
     private boolean speedControl;
     private double maxSpeed;
 
-    private double power;
+    private Vector dir;
     private double turn;
 
     public ArcadeDriveInput(Joystick stick) {
@@ -30,16 +33,16 @@ public class ArcadeDriveInput extends DriveTrainInput {
     @Override
     public void update() {
         turn = stick.getX();
-        power = stick.getMagnitude();
+        dir = new Polar(stick.getMagnitude(), new Degrees(stick.getDirectionDegrees()));
 
         if(speedControl) {
-            power *= maxSpeed;
+            dir.scale(maxSpeed);
         }
     }
 
     @Override
-    public double getPower() {
-        return power;
+    public Vector getDirection() {
+        return dir;
     }
 
     @Override
