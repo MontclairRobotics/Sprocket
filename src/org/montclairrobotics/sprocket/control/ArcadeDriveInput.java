@@ -23,6 +23,7 @@ public class ArcadeDriveInput extends DriveTrainInput {
         super(DriveInputType.SPEED);
         speedControl = true;
         this.stick = stick;
+        this.maxSpeed = maxSpeed.get();
     }
 
 
