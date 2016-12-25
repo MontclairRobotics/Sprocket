@@ -12,7 +12,7 @@ public class DriveModule {
     private Vector offset;
     private double power;
 
-    private Vector input;
+    private DriveTrainInput input;
 
     public DriveModule(Motor m, Angle forceAngle, Vector offset) {
         this.m = m;
@@ -41,9 +41,7 @@ public class DriveModule {
     }
 
     public void calculatePower() {
-        power =
-                input.getY().divide(new Unit(Math.sin(forceAngle.toRadians()))).add(
-                input.getX().divide(new Unit(Math.cos(forceAngle.toRadians())))).get();
+
     }
 
     public void update() {

@@ -23,4 +23,12 @@ public class DriveTrainInput {
     public double getRotation() {
         return rotation;
     }
+
+    public void setDirection(Vector dir) {
+        direction = dir;
+    }
+
+    public void setRotation(double rot) {
+        rotation = rot;
+    }
 }
