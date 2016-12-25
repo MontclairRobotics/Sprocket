@@ -1,9 +1,9 @@
 package org.montclairrobotics.sprocket.utils;
 
-import org.montclairrobotics.sprocket.updater.Priority;
-import org.montclairrobotics.sprocket.updater.Updatable;
-import org.montclairrobotics.sprocket.updater.Updater;
 
+import org.montclairrobotics.sprocket.loop.Priority;
+import org.montclairrobotics.sprocket.loop.Updatable;
+import org.montclairrobotics.sprocket.loop.Updater;
 
 /**
  * A PID controller
@@ -15,7 +15,7 @@ import org.montclairrobotics.sprocket.updater.Updater;
  * 
  */
 
-public class PID implements Updatable{
+public class PID implements Updatable {
 
 	private Input input;
 	private double P,I,D,minIn,maxIn,minOut,maxOut;
@@ -46,11 +46,6 @@ public class PID implements Updatable{
 	 * @param P the Propotional Constant
 	 * @param I the Integral Constant
 	 * @param D the Derivitive Constant
-	 * @param minIn OPTIONAL the minimum input, or 0 to ignore. Use with maxIn to "wrap" the values, 
-	 * eg. so the error between 5 degrees and 355 degrees is 10 degrees
-	 * @param maxIn OPTIONAL the maximum input, or 0 to ignore
-	 * @param minOut OPTIONAL the minimum output to constrain to, or 0 to ignore
-	 * @param maxOut OPTIONAL the maximum output to constrain to, or 0 to ignore
 	 */
 	public PID(double P,double I,double D)
 	{
@@ -125,7 +120,7 @@ public class PID implements Updatable{
 	private void runCalculate()
 	{
 		if(calculated||input==null)return;
-		out=calculate(input.getInput());
+		out=calculate(input.get());
 		calculated=true;
 	}
 	
@@ -172,7 +167,7 @@ public class PID implements Updatable{
 	
 	public double getInput()
 	{
-		return input.getInput();
+		return input.get();
 	}
 	public double getError(){
 		return error;

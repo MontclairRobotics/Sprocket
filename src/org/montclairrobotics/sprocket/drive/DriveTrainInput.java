@@ -7,9 +7,9 @@ import org.montclairrobotics.sprocket.loop.Updater;
 
 public abstract class DriveTrainInput implements Updatable {
 
-    protected DriveInputType inputType;
+    protected MotorInputType inputType;
 
-    public DriveTrainInput(DriveInputType type) {
+    public DriveTrainInput(MotorInputType type) {
         inputType = type;
         Updater.add(this, Priority.CONTROL);
     }
@@ -18,7 +18,7 @@ public abstract class DriveTrainInput implements Updatable {
 
     public abstract double getTurn();
 
-    public DriveInputType getInputType() {
+    public MotorInputType getInputType() {
         return inputType;
     }
 }

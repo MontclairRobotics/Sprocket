@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.drive;
 
-public enum DriveInputType {
+public enum MotorInputType {
     PERCENT,
     SPEED
 }
