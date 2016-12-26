@@ -21,6 +21,19 @@ public class DrivePipeline {
         this.steps = steps;
     }
 
+    public void addStepFirst(DrivePipelineStep step) {
+        steps.add(0, step);
+    }
+
+    public void addStepLast(DrivePipelineStep step) {
+        steps.add(step);
+    }
+
+    public void addStep(DrivePipelineStep step) {
+        steps.add(step);
+    }
+
+
     public void run(DriveTrainTarget target) {
         for(DrivePipelineStep step : steps) {
             step.run(target);
