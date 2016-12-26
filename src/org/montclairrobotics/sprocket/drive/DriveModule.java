@@ -1,0 +1,47 @@
+package org.montclairrobotics.sprocket.drive;
+
+import edu.wpi.first.wpilibj.SpeedController;
+import org.montclairrobotics.sprocket.geometry.Angle;
+import org.montclairrobotics.sprocket.geometry.Inch;
+import org.montclairrobotics.sprocket.geometry.Vector;
+import org.montclairrobotics.sprocket.utils.PID;
+
+public class DriveModule extends Motor {
+
+    private Angle forceAngle;
+    private Vector offset;
+    private Inch maxSpeed;
+
+    public DriveModule(SpeedController motor, MotorType type,
+                       Angle forceAngle, Vector offset,
+                       SEncoder enc, PID pid, Inch maxSpeed,
+                       boolean invert) {
+        super(motor, type, enc, pid, invert);
+        this.forceAngle = forceAngle;
+        this.offset = offset;
+        this.maxSpeed = maxSpeed;
+    }
+
+    public DriveModule(SpeedController motor, MotorType type,
+                       Angle forceAngle, Vector offset,
+                       SEncoder enc, PID pid, Inch maxSpeed) {
+        this(motor, type, forceAngle, offset, enc, pid, maxSpeed, false);
+    }
+
+    public DriveModule(SpeedController motor, MotorType type,
+                       Angle forceAngle, Vector offset) {
+        this(motor, type, forceAngle, offset, null, null, null, false);
+    }
+
+    public Angle getForceAngle() {
+        return forceAngle;
+    }
+
+    public Inch getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public Vector getOffset() {
+        return offset;
+    }
+}
