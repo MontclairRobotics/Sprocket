@@ -12,25 +12,25 @@ public class DriveModule extends Motor {
     private Vector offset;
     private Inch maxSpeed;
 
-    public DriveModule(SpeedController motor, MotorType type,
+    public DriveModule(SpeedController motor,
                        Angle forceAngle, Vector offset,
                        SEncoder enc, PID pid, Inch maxSpeed,
                        boolean invert) {
-        super(motor, type, enc, pid, invert);
+        super(motor, enc, pid, invert);
         this.forceAngle = forceAngle;
         this.offset = offset;
         this.maxSpeed = maxSpeed;
     }
 
-    public DriveModule(SpeedController motor, MotorType type,
+    public DriveModule(SpeedController motor,
                        Angle forceAngle, Vector offset,
                        SEncoder enc, PID pid, Inch maxSpeed) {
-        this(motor, type, forceAngle, offset, enc, pid, maxSpeed, false);
+        this(motor, forceAngle, offset, enc, pid, maxSpeed, false);
     }
 
-    public DriveModule(SpeedController motor, MotorType type,
+    public DriveModule(SpeedController motor,
                        Angle forceAngle, Vector offset) {
-        this(motor, type, forceAngle, offset, null, null, null, false);
+        this(motor, forceAngle, offset, null, null, null, false);
     }
 
     public Angle getForceAngle() {

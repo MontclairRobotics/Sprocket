@@ -2,13 +2,15 @@ package org.montclairrobotics.sprocket.drive;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Talon;
 import org.montclairrobotics.sprocket.utils.PID;
 
 public class Motor {
 
     public enum MotorType {
         CANTALON,
-        TALON
+        TALON,
+        UNKNOWN
     }
 
     private SpeedController motor;
@@ -17,9 +19,9 @@ public class Motor {
     private PID pid;
     private MotorInputType inputType;
 
-    public Motor(SpeedController motor, MotorType type, SEncoder enc, PID pid, boolean invert) {
-        if(motor == null || type == null) {
-            throw new IllegalArgumentException("SpeedController or MotorType arguments were null when instantiating Motor object");
+    public Motor(SpeedController motor, SEncoder enc, PID pid, boolean invert) {
+        if(motor == null) {
+            throw new IllegalArgumentException("SpeedController argument was null when instantiating Motor object");
         }
 
         if(pid == null || enc == null) {
@@ -29,9 +31,17 @@ public class Motor {
         }
 
         this.motor = motor;
-        this.motorType = type;
+        if(motor instanceof CANTalon) {
+            motorType = MotorType.CANTALON;
+        } else if(motor instanceof Talon) {
+            motorType = MotorType.TALON;
+        } else {
+            motorType = MotorType.UNKNOWN;
+        }
         this.enc = enc;
         this.pid = pid;
+
+
 
         switch(motorType) {
             case CANTALON:
@@ -45,12 +55,12 @@ public class Motor {
         pid.setInput(new EncoderInput(enc));
     }
 
-    public Motor(SpeedController motor, MotorType type, SEncoder enc, PID pid) {
-        this(motor, type, enc, pid, false);
+    public Motor(SpeedController motor, SEncoder enc, PID pid) {
+        this(motor, enc, pid, false);
     }
 
-    public Motor(SpeedController motor, MotorType type) {
-        this(motor, type, null, null, false);
+    public Motor(SpeedController motor) {
+        this(motor, null, null, false);
     }
 
     public void set(double power) {
