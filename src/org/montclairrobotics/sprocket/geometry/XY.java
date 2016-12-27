@@ -41,7 +41,11 @@ public class XY implements Vector {
     }
 
     @Override
-    public Vector scale(double s) {
+    public Vector scale(double s,boolean norm) {
+    	if(norm&&getMagnitude()>0)
+    	{
+    		s/=getMagnitude();
+    	}
         return new XY(x * s, y * s);
     }
 
@@ -49,4 +53,9 @@ public class XY implements Vector {
     public double dotProduct(Vector v) {
         return (x * v.getX()) + (y * v.getY());
     }
+
+	@Override
+	public Vector rotate(Angle a) {
+		return new Polar(getMagnitude(),getAngle().add(a));
+	}
 }

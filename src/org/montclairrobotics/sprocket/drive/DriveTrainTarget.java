@@ -5,7 +5,8 @@ import org.montclairrobotics.sprocket.geometry.Vector;
 
 public class DriveTrainTarget {
 
-    private Vector direction;
+    public static final DriveTrainTarget ZERO = new DriveTrainTarget(Vector.ZERO,Angle.ZERO,MotorInputType.SPEED);
+	private Vector direction;
     private Angle turn;
     private MotorInputType inputType;
 

@@ -2,7 +2,8 @@ package org.montclairrobotics.sprocket.geometry;
 
 public interface Angle {
 
-    /**
+    Angle ZERO=new Degrees(0),QUARTER = new Degrees(90),HALF = new Degrees(180);
+	/**
      * Returns the represented angle in degrees
      * @return the angle in degrees
      */
@@ -32,6 +33,7 @@ public interface Angle {
      * Returns the negative of this angle
      * @return the negative of this angle
      */
+    Angle negative();
     Angle opposite();
 
 
