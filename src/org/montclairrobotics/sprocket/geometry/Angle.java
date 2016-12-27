@@ -36,5 +36,7 @@ public interface Angle {
     Angle negative();
     Angle opposite();
 
+	Angle times(double x);
+
 
 }

@@ -1,12 +1,9 @@
 package org.montclairrobotics.sprocket.drive;
 
-import java.util.ArrayList;
-
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.pipeline.Pipeline;
-import org.montclairrobotics.sprocket.pipeline.Step;
 
 public class Drivetrain implements Updatable{
 	private Pipeline<DriveTrainTarget> input;

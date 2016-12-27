@@ -36,4 +36,9 @@ public class Radians implements Angle{
     public Angle negative() {
         return new Radians(-toRadians());
     }
+
+	@Override
+	public Angle times(double x) {
+		return new Radians(toRadians()*x);
+	}
 }

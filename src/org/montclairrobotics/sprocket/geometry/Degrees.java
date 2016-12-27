@@ -36,4 +36,9 @@ public class Degrees implements Angle {
     {
     	return new Degrees(180+toDegrees());
     }
+
+	@Override
+	public Angle times(double x) {
+		return new Degrees(toDegrees()*x);
+	}
 }

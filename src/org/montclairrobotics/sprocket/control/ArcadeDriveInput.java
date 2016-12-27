@@ -1,53 +1,60 @@
 package org.montclairrobotics.sprocket.control;
 
-import edu.wpi.first.wpilibj.Joystick;
+import org.montclairrobotics.sprocket.drive.DriveTrainTarget;
 import org.montclairrobotics.sprocket.drive.MotorInputType;
-import org.montclairrobotics.sprocket.drive.DriveTrainInput;
+import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degrees;
 import org.montclairrobotics.sprocket.geometry.Inch;
 import org.montclairrobotics.sprocket.geometry.Polar;
 import org.montclairrobotics.sprocket.geometry.Vector;
+import org.montclairrobotics.sprocket.geometry.XY;
+import org.montclairrobotics.sprocket.pipeline.Step;
 
-public class ArcadeDriveInput extends DriveTrainInput {
+import edu.wpi.first.wpilibj.Joystick;
+
+public class ArcadeDriveInput implements Step<DriveTrainTarget> {
 
     private Joystick stick;
-    private boolean speedControl;
-    private double maxSpeed;
+    MotorInputType inputType;
+    
+    //private boolean speedControl;
+    private Inch maxSpeed;
+    private Angle maxTurn;
 
     private Vector dir;
-    private double turn;
+    private Angle turn;
 
     public ArcadeDriveInput(Joystick stick) {
-        super(MotorInputType.PERCENT);
-        speedControl = false;
+    	inputType=MotorInputType.PERCENT;
         this.stick = stick;
+        this.maxSpeed=new Inch(1);
+        this.maxTurn=Angle.QUARTER;
     }
 
-    public ArcadeDriveInput(Joystick stick, Inch maxSpeed) {
-        super(MotorInputType.SPEED);
-        speedControl = true;
+    public ArcadeDriveInput(Joystick stick, Inch maxSpeed, Angle maxTurn) {
+        inputType=MotorInputType.SPEED;
         this.stick = stick;
-        this.maxSpeed = maxSpeed.get();
+        this.maxSpeed = maxSpeed;
+        this.maxTurn=maxTurn;
     }
 
 
-    @Override
     public void update() {
-        turn = stick.getX();
-        dir = new Polar(stick.getMagnitude(), new Degrees(stick.getDirectionDegrees()));
-
-        if(speedControl) {
-            dir.scale(maxSpeed);
-        }
+        maxTurn = maxTurn.times(stick.getX());
+        dir = new XY(0,stick.getY()*maxSpeed.get());
     }
 
-    @Override
     public Vector getDirection() {
         return dir;
     }
 
-    @Override
-    public double getTurn() {
+    public Angle getTurn() {
         return turn;
     }
+
+	@Override
+	public DriveTrainTarget get(DriveTrainTarget in) {
+		// TODO Auto-generated method stub
+		return new DriveTrainTarget(getDirection(),getTurn(),inputType);
+	}
 }

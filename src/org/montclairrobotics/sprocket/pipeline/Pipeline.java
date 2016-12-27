@@ -2,8 +2,6 @@ package org.montclairrobotics.sprocket.pipeline;
 
 import java.util.ArrayList;
 
-import org.montclairrobotics.sprocket.drive.DriveTrainInput;
-
 public class Pipeline <T>{
 
 	private ArrayList<Step<T>> steps;

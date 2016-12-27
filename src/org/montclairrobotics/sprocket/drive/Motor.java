@@ -1,11 +1,11 @@
 package org.montclairrobotics.sprocket.drive;
 
+import org.montclairrobotics.sprocket.utils.PID;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
-import org.montclairrobotics.sprocket.utils.PID;
 
-public class Motor {
+public class Motor{
 
     public enum MotorType {
         CANTALON,
