@@ -41,12 +41,20 @@ public class Polar implements Vector {
     }
 
     @Override
-    public Vector scale(double s) {
-        return new Polar(magnitude * s, angle);
+    public Vector scale(double s,boolean norm) {
+    	if(norm)
+    		return new Polar(s,angle);
+    	else
+    		return new Polar(magnitude * s, angle);
     }
 
     @Override
     public double dotProduct(Vector v) {
         return (getX() * v.getX()) + (getY() * v.getY());
     }
+
+	@Override
+	public Vector rotate(Angle a) {
+		return new Polar(magnitude, angle.add(a));
+	}
 }

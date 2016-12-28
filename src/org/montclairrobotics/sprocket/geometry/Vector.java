@@ -8,7 +8,8 @@ public interface Vector {
     double getY();
     Vector add(Vector v);
     Vector subtract(Vector v);
-    Vector scale(double s);
+    Vector scale(double s,boolean norm);
     double dotProduct(Vector v);
+	Vector rotate(Angle angle);
 
 }
