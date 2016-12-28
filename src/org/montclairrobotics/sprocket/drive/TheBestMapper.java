@@ -25,7 +25,7 @@ public class TheBestMapper implements DriveTrainMapper{
 							force
 								.scale(
 									force.dotProduct(tgtDirection)/force.getMagnitude(), true)
-								.rotate(offset.getAngle())
+								.rotate(offset.getAngle().opposite())
 								.getX()/offset.getMagnitude()));
 		}
 		//This actually sets the power
