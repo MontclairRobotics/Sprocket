@@ -19,7 +19,7 @@ public class TheBestMapper implements DriveTrainMapper{
 		{
 			force=module.getForceVector();
 			offset=module.getOffset();
-			tgtTurn=tgtTurn.add(
+			tgtTurn=tgtTurn.subtract(
 					new Radians(
 							force
 								.scale(
