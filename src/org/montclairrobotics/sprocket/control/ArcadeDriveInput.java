@@ -37,7 +37,7 @@ public class ArcadeDriveInput extends DriveTrainInput {
         dir = new Polar(stick.getMagnitude(), new Degrees(stick.getDirectionDegrees()));
 
         if(speedControl) {
-            dir.scale(maxSpeed);
+            dir.scale(maxSpeed,false);
         }
     }
 
