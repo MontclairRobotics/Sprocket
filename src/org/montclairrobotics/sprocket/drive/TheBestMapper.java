@@ -15,6 +15,7 @@ public class TheBestMapper implements DriveTrainMapper{
 		Angle tgtTurn=driveTarget.getTurn();
 		
 		Vector force,offset;
+		//This loop is to compensate for the torque generated 
 		for(DriveModule module:driveModules)
 		{
 			force=module.getForceVector();
@@ -27,6 +28,7 @@ public class TheBestMapper implements DriveTrainMapper{
 								.rotate(offset.getAngle())
 								.getX()/offset.getMagnitude()));
 		}
+		//This actually sets the power
 		for(DriveModule module:driveModules)
 		{
 			force=module.getForceVector();
