@@ -2,7 +2,8 @@ package org.montclairrobotics.sprocket.geometry;
 
 public interface Vector {
 
-    Distance getMagnitude();
+    Vector ZERO = new XY(0,0);
+	Distance getMagnitude();
     Angle getAngle();
     Distance getX();
     Distance getY();

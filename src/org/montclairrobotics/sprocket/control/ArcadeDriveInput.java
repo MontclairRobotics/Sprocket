@@ -4,21 +4,26 @@ import org.montclairrobotics.sprocket.drive.DriveTrainTarget;
 import org.montclairrobotics.sprocket.drive.MotorInputType;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degrees;
-import org.montclairrobotics.sprocket.geometry.Inch;
+import org.montclairrobotics.sprocket.geometry.Distance;
+import org.montclairrobotics.sprocket.geometry.IN;
 import org.montclairrobotics.sprocket.geometry.Polar;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
+import org.montclairrobotics.sprocket.loop.Priority;
+import org.montclairrobotics.sprocket.loop.Updatable;
+import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.pipeline.Step;
+import org.montclairrobotics.sprocket.utils.Input;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class ArcadeDriveInput implements Step<DriveTrainTarget> {
+public class ArcadeDriveInput implements Input<DriveTrainTarget>,Updatable {
 
     private Joystick stick;
     MotorInputType inputType;
     
     //private boolean speedControl;
-    private Inch maxSpeed;
+    private Distance maxSpeed;
     private Angle maxTurn;
 
     private Vector dir;
@@ -27,15 +32,17 @@ public class ArcadeDriveInput implements Step<DriveTrainTarget> {
     public ArcadeDriveInput(Joystick stick) {
     	inputType=MotorInputType.PERCENT;
         this.stick = stick;
-        this.maxSpeed=new Inch(1);
+        this.maxSpeed=new IN(1);
         this.maxTurn=Angle.QUARTER;
+        Updater.add(this, Priority.INPUT);
     }
 
-    public ArcadeDriveInput(Joystick stick, Inch maxSpeed, Angle maxTurn) {
+    public ArcadeDriveInput(Joystick stick, Distance maxSpeed, Angle maxTurn) {
         inputType=MotorInputType.SPEED;
         this.stick = stick;
         this.maxSpeed = maxSpeed;
         this.maxTurn=maxTurn;
+        Updater.add(this, Priority.INPUT);
     }
 
 
@@ -53,7 +60,7 @@ public class ArcadeDriveInput implements Step<DriveTrainTarget> {
     }
 
 	@Override
-	public DriveTrainTarget get(DriveTrainTarget in) {
+	public DriveTrainTarget get() {
 		// TODO Auto-generated method stub
 		return new DriveTrainTarget(getDirection(),getTurn(),inputType);
 	}

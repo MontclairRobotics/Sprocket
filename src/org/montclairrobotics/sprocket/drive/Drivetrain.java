@@ -26,7 +26,7 @@ public class Drivetrain implements Updatable{
 		DriveTrainTarget target=input.get();
 		Vector tgtDirection=target.getDirection();
 		Angle tgtTurn=target.getTurn();
-		Angle torque;
+		Angle torque=Angle.ZERO;
 		for(DriveModule module:modules)
 			
 		{

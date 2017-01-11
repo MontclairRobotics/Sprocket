@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.drive;
 
-import org.montclairrobotics.sprocket.geometry.Inch;
+import org.montclairrobotics.sprocket.geometry.Distance;
 
 import edu.wpi.first.wpilibj.Encoder;
 
@@ -35,12 +35,12 @@ public class SEncoder {
         return enc.getRate();
     }
 
-    public Inch getInches() {
-        return new Inch(getTicks()/ticksPerInch);
+    public Distance getInches() {
+        return new Distance(getTicks()/ticksPerInch);
     }
 
-    public Inch getSpeed() {
-        return new Inch(getTickRate()/ticksPerInch);
+    public Distance getSpeed() {
+        return new Distance(getTickRate()/ticksPerInch);
     }
 
     public void reset() {
