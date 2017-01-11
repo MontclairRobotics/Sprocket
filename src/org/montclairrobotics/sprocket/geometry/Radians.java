@@ -28,8 +28,17 @@ public class Radians implements Angle{
         return new Radians(toRadians() - a.toRadians());
     }
 
+    public Angle opposite()
+    {
+    	return new Radians(2*Math.PI+toRadians());
+    }
     @Override
-    public Angle opposite() {
+    public Angle negative() {
         return new Radians(-toRadians());
     }
+
+	@Override
+	public Angle times(double x) {
+		return new Radians(toRadians()*x);
+	}
 }
