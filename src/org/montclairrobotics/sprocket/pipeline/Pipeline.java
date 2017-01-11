@@ -2,7 +2,9 @@ package org.montclairrobotics.sprocket.pipeline;
 
 import java.util.ArrayList;
 
-public class Pipeline <T>{
+import org.montclairrobotics.sprocket.utils.Input;
+
+public class Pipeline <T> implements Input<T>{
 
 	private ArrayList<Step<T>> steps;
 	private T init;
