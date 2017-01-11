@@ -1,10 +1,6 @@
 package org.montclairrobotics.sprocket.drive;
 
-import edu.wpi.first.wpilibj.SpeedController;
-
-
 import org.montclairrobotics.sprocket.geometry.Angle;
-import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
