@@ -1,11 +1,12 @@
 package org.montclairrobotics.sprocket.drive;
 
+import com.sun.scenario.effect.Offset;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
 import org.montclairrobotics.sprocket.control.ArcadeDriveInput;
 import org.montclairrobotics.sprocket.geometry.Degrees;
 import org.montclairrobotics.sprocket.geometry.Inch;
-import org.montclairrobotics.sprocket.geometry.Side;
+import org.montclairrobotics.sprocket.geometry.Position;
 import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.utils.PID;
 
@@ -26,9 +27,9 @@ public class DriveTrainBuilder {
         return this;
     }
 
-    public DriveTrainBuilder addWheel(SpeedController motor, Side side, SEncoder enc, PID pid, Inch maxSpeed, boolean invert) {
+    public DriveTrainBuilder addWheel(SpeedController motor, XY pos, SEncoder enc, PID pid, Inch maxSpeed, boolean invert) {
         DriveModule module = new DriveModule(motor, new Degrees(0),
-                side == Side.LEFT ? new XY(-1, 0) : new XY(1, 0),
+                pos,
                 enc, pid, maxSpeed);
         if(invert) {
             module.setInverted(true);
@@ -36,12 +37,12 @@ public class DriveTrainBuilder {
         return this;
     }
 
-    public DriveTrainBuilder addWheel(SpeedController motor, Side side, SEncoder enc, PID pid, Inch maxSpeed) {
-        return addWheel(motor, side, enc, pid, maxSpeed, false);
+    public DriveTrainBuilder addWheel(SpeedController motor, Position position, SEncoder enc, PID pid, Inch maxSpeed) {
+        return addWheel(motor, position, enc, pid, maxSpeed, false);
     }
 
-    public DriveTrainBuilder addWheel(SpeedController motor, Side side) {
-        return addWheel(motor, side, null, null, null);
+    public DriveTrainBuilder addWheel(SpeedController motor, Position position) {
+        return addWheel(motor, position, null, null, null);
     }
 
     public DriveTrainBuilder setInput(DriveTrainInput input) {
