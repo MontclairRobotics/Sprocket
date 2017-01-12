@@ -12,7 +12,7 @@ public class TheBestMapper implements DriveTrainMapper{
 		
 		
 		Vector tgtDirection=driveTarget.getDirection();
-		Angle tgtTurn=driveTarget.getTurn();
+		Angle tgtTurn = new Degrees(driveTarget.getTurn() * 90);
 		
 		Vector force,offset;
 		//This loop is to compensate for the torque generated 

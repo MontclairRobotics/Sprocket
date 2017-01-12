@@ -6,6 +6,13 @@ import org.montclairrobotics.sprocket.loop.Updater;
 
 import edu.wpi.first.wpilibj.Joystick;
 
+/**
+ * @author MHS Robotics
+ * Button is a class which allows for developers to program custom behaviors for
+ * when buttons are pressed/held/unpressed. This class works by hooking into
+ * the Sprocket control loop and calling anonymous functions passed in by
+ * developers. This system makes defining button behaviors incredibly simple.
+ */
 public class Button implements Updatable {
 	
 	private Joystick stick;
@@ -14,7 +21,12 @@ public class Button implements Updatable {
 	
 	private ButtonAction pressAction, releaseAction, heldAction, offAction;
 	
-	
+	/**
+	 * 
+	 * @param stick The WPILIB Joystick that you want to use to control the robot
+	 * @param buttonId The raw button ID of the button you're binding to. On most 
+	 * Joysticks the ID is specified on the buttons themselves.
+	 */
 	public Button(Joystick stick, int buttonId) {
 		this.stick = stick;
 		this.id = buttonId;
@@ -23,18 +35,34 @@ public class Button implements Updatable {
 		Updater.add(this, Priority.CONTROL);
 	}
 	
+	/**
+	 * Sets what should be run when the button is pressed
+	 * @param action
+	 */
 	public void setPressAction(ButtonAction action) {
 		pressAction = action;
 	}
 	
+	/**
+	 * Sets what should be run when the button is released
+	 * @param action
+	 */
 	public void setReleaseAction(ButtonAction action) {
 		releaseAction = action;
 	}
 	
+	/**
+	 * Sets what should be run when the button is pressed and every tick while it is held
+	 * @param action
+	 */
 	public void setHeldAction(ButtonAction action) {
 		heldAction = action;
 	}
 	
+	/**
+	 * Sets what should be run when the button is not pressed and for every tick where that is the case
+	 * @param action
+	 */
 	public void setOffAction(ButtonAction action) {
 		offAction = action;
 	}

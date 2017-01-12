@@ -3,6 +3,12 @@ package org.montclairrobotics.sprocket;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import org.montclairrobotics.sprocket.loop.Updater;
 
+
+/**
+ * @author MHS Robotics
+ * This class is basically just a wrapper around iterative robot which all Sprocket
+ * robots must extend.
+ */
 public class SprocketRobot extends IterativeRobot {
 
     @Override
