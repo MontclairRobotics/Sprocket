@@ -2,58 +2,54 @@ package org.montclairrobotics.sprocket.geometry;
 
 public class XY implements Vector {
 
-    private Distance x;
-    private Distance y;
+    private double x;
+    private double y;
 
-    public XY(double x,double y)
-    {
-    	this(new Distance(x),new Distance(y));
-    }
-    public XY(Distance x, Distance y) {
+    public XY(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
     @Override
-    public Distance getMagnitude() {
-        return new Distance(Math.sqrt(x.get()*x.get() + y.get()*y.get()));
+    public double getMagnitude() {
+        return Math.sqrt(x*x + y*y);
     }
 
     @Override
     public Angle getAngle() {
-        return new Radians(Math.atan(x.get()/y.get()));
+        return new Radians(Math.atan(x/y));
     }
 
     @Override
-    public Distance getX() {
+    public double getX() {
         return x;
     }
 
     @Override
-    public Distance getY() {
+    public double getY() {
         return y;
     }
 
     @Override
     public Vector add(Vector v) {
-        return new XY(v.getX().get() + x.get(), v.getY().get() + y.get());
+        return new XY(v.getX() + x, v.getY() + y);
     }
 
     @Override
     public Vector subtract(Vector v) {
-        return new XY(x.get() - v.getX().get(), y.get() - v.getY().get());
+        return new XY(x - v.getX(), y - v.getY());
     }
 
     @Override
     public Vector scale(double s,boolean norm) {
-    	if(norm&&getMagnitude().get()!=0)
-    		s/=getMagnitude().get();
-        return new XY(x.get() * s, y.get() * s);
+    	if(norm&&getMagnitude()!=0)
+    		s/=getMagnitude();
+        return new XY(x * s, y * s);
     }
 
     @Override
-    public Distance dotProduct(Vector v) {
-        return new Distance((x.get() * v.getX().get()) + (y.get() * v.getY().get()));
+    public double dotProduct(Vector v) {
+        return x * v.getX() + y * v.getY();
     }
 
 	@Override

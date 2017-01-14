@@ -2,20 +2,16 @@ package org.montclairrobotics.sprocket.geometry;
 
 public class Polar implements Vector {
 
-    private Distance magnitude;
+    private double magnitude;
     private Angle angle;
 
-    public Polar(double mag,Angle a)
-    {
-    	this(new Distance(mag),a);
-    }
-    public Polar(Distance mag, Angle a) {
+    public Polar(double mag, Angle a) {
         magnitude = mag;
         angle = a;
     }
 
     @Override
-    public Distance getMagnitude() {
+    public double getMagnitude() {
         return magnitude;
     }
 
@@ -25,23 +21,23 @@ public class Polar implements Vector {
     }
 
     @Override
-    public Distance getX() {
-        return new Distance(magnitude.get() * Math.sin(angle.toRadians()));
+    public double getX() {
+        return magnitude * Math.sin(angle.toRadians());
     }
 
     @Override
-    public Distance getY() {
-        return new Distance(magnitude.get() * Math.cos(angle.toRadians()));
+    public double getY() {
+        return magnitude * Math.cos(angle.toRadians());
     }
 
     @Override
     public Vector add(Vector v) {
-        return new XY(getX().get() + v.getX().get(), getY().get() + v.getY().get());
+        return new XY(getX() + v.getX(), getY() + v.getY());
     }
 
     @Override
     public Vector subtract(Vector v) {
-        return new XY(getX().get() - v.getX().get(), getY().get() - v.getY().get());
+        return new XY(getX() - v.getX(), getY() - v.getY());
     }
 
     @Override
@@ -49,12 +45,12 @@ public class Polar implements Vector {
     	if(norm)
     		return new Polar(s,angle);
     	else
-    		return new Polar(magnitude.get() * s, angle);
+    		return new Polar(magnitude * s, angle);
     }
 
     @Override
-    public Distance dotProduct(Vector v) {
-        return new Distance((getX().get() * v.getX().get()) + (getY().get() * v.getY().get()));
+    public double dotProduct(Vector v) {
+        return getX() * v.getX() + getY() * v.getY();
     }
 
 	@Override
