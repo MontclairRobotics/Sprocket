@@ -9,9 +9,9 @@ import org.montclairrobotics.sprocket.utils.Input;
 
 public class AutoMode {
 	private StateMachine machine;
-	private DriveTrain driveTrain;
-	public static DriveTrainInput driveTrainInput=new DriveTrainInput();
 	private Input<DriveTrainTarget> oldInput;
+	public static DriveTrain driveTrain;
+	public static DriveTrainInput driveTrainInput=new DriveTrainInput();
 	
 	public AutoMode(DriveTrain dt,StateMachine m)
 	{
