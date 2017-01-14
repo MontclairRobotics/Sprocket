@@ -25,6 +25,7 @@ public class Pipeline <T> implements Input<T>{
 		for(Step<T> step:steps)
 		{
 			res=step.get(res);
+
 		}
 		return res;
 	}
