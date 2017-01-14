@@ -1,7 +1,8 @@
 package org.montclairrobotics.sprocket;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
 import org.montclairrobotics.sprocket.loop.Updater;
+
+import edu.wpi.first.wpilibj.IterativeRobot;
 
 
 /**

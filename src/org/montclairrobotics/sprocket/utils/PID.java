@@ -17,7 +17,7 @@ import org.montclairrobotics.sprocket.loop.Updater;
 
 public class PID implements Updatable {
 
-	private Input input;
+	private Input<Double> input;
 	private double P,I,D,minIn,maxIn,minOut,maxOut;
 	
 	private boolean calculated=false;

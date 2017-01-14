@@ -10,7 +10,7 @@ public class MecanumMapper implements DriveTrainMapper {
 
     @Override
     public void map(DriveTrainTarget driveTarget, DriveModule[] driveModules) {
-        double turn = driveTarget.getTurn();
+        double turn = driveTarget.getTurn().toDegrees();
 
         for(DriveModule m : driveModules) {
             double power = getPower(driveTarget.getDirection(), m.getForceAngle());
@@ -43,7 +43,7 @@ public class MecanumMapper implements DriveTrainMapper {
 
     private static double getPower(Vector vec, Angle forceAngle) {
         // Power = tY*csc(angle) + tX*sec(angle)
-        return vec.getY() * (1/Math.sin(forceAngle.toRadians())) + vec.getX() * (1/Math.sin(forceAngle.toRadians()));
+        return vec.getY().get() * (1/Math.sin(forceAngle.toRadians())) + vec.getX().get() * (1/Math.sin(forceAngle.toRadians()));
     }
 
 }
