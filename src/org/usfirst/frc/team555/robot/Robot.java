@@ -4,9 +4,11 @@ import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.control.ArcadeDriveInput;
 import org.montclairrobotics.sprocket.drive.DriveTrainBuilder;
 import org.montclairrobotics.sprocket.drive.InvalidDriveTrainException;
+import org.montclairrobotics.sprocket.geometry.Degrees;
 import org.montclairrobotics.sprocket.geometry.Position;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.Joystick;
 
 public class Robot extends SprocketRobot {
@@ -18,10 +20,10 @@ public class Robot extends SprocketRobot {
 		
 		DriveTrainBuilder builder = new DriveTrainBuilder();
 		builder
-		.addWheel(new CANTalon(0), Position.FL)
-		.addWheel(new CANTalon(1), Position.FR)
-		.addWheel(new CANTalon(2), Position.BL)
-		.addWheel(new CANTalon(3), Position.BR);
+		.addWheel(new CANTalon(0), new Degrees(0), Position.FL)
+		.addWheel(new CANTalon(1), new Degrees(0), Position.FR)
+		.addWheel(new CANTalon(2), new Degrees(0), Position.BL)
+		.addWheel(new CANTalon(3), new Degrees(0), Position.BR);
 		
 		builder.setInput(new ArcadeDriveInput(new Joystick(0)));
 		
