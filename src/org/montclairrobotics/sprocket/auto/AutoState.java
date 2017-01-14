@@ -9,14 +9,18 @@ import org.montclairrobotics.sprocket.states.State;
 
 public abstract class AutoState implements State{
 	private double t;
-	public void start()
+	public final void start()
 	{
 		t=Updater.getTime();
+		userStart();
 	}
-	public void stop()
+	public void userStart(){}
+	public final void stop()
 	{
+		userStop();
 		AutoMode.driveTrainInput.set(new DriveTrainTarget(RVector.ZERO, Angle.ZERO,MotorInputType.SPEED));
 	}
+	public void userStop(){}
 	public double timeInState()
 	{
 		return Updater.getTime()-t;
