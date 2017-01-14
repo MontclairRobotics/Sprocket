@@ -24,12 +24,27 @@ public class DriveTrain implements Updatable {
     	Updater.add(this, Priority.DRIVE_CALC);
     }
 
+public class Drivetrain implements Updatable{
+	private Input<DriveTrainTarget> input;
+	private DriveModule[] modules;
+	
+	public Drivetrain(DriveModule[] modules)
+	{
+		this.input=new Pipeline<DriveTrainTarget>(DriveTrainTarget.ZERO);
+		this.modules=modules;
+	}
+	
+	public void setInput(Input<DriveTrainTarget> input)
+	{
+		this.input=input;
+	}
 
 	@Override
 	public void update() {
 		DriveTrainTarget target = new DriveTrainTarget(input.getDirection(), input.getTurn(), input.getInputType());
 		pipeline.run(target);
 		powerMapper.map(target, driveModules.toArray(new DriveModule[]{}));
+		DriveTrainTarget target=input.get();
 	}
     
     
