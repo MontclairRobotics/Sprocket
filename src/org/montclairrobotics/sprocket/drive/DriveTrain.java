@@ -24,6 +24,10 @@ public class DriveTrain implements Updatable {
     	this.input=input;
     	return this;
     }
+    public Input<DriveTrainTarget> getInput()
+    {
+    	return input;
+    }
     public DriveTrain setMapper(DriveTrainMapper mapper)
     {
     	this.mapper=mapper;
