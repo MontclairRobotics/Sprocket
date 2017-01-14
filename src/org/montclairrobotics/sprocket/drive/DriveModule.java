@@ -3,6 +3,7 @@ package org.montclairrobotics.sprocket.drive;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Inch;
 import org.montclairrobotics.sprocket.geometry.Polar;
+import org.montclairrobotics.sprocket.geometry.RVector;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.utils.PID;
 
@@ -21,10 +22,10 @@ import edu.wpi.first.wpilibj.SpeedController;
 public class DriveModule extends Motor {
 
     private Angle forceAngle;
-    private Vector offset;
+    private RVector offset;
     private Inch maxSpeed;
     
-    private Vector forceVector;
+    private RVector forceVector;
     
     /**
      * Creates a DriveModule with speed control enabled.
@@ -37,7 +38,8 @@ public class DriveModule extends Motor {
      * @param invert Whether the motor should run with inverted speed values
      */
     public DriveModule(SpeedController motor,
-                       Angle forceAngle, Vector offset,
+                       Angle forceAngle, 
+                       RVector offset,
                        SEncoder enc, PID pid, Inch maxSpeed,
                        boolean invert) {
         super(motor, enc, pid, invert);
@@ -45,7 +47,7 @@ public class DriveModule extends Motor {
         this.offset = offset;
         this.maxSpeed = maxSpeed;
         
-        this.forceVector=new Polar(maxSpeed.get(),forceAngle);
+        this.forceVector=new RVector(new Polar(maxSpeed.get(),forceAngle));
     }
     
     /**
@@ -58,7 +60,7 @@ public class DriveModule extends Motor {
      * @param maxSpeed The maximum desired speed of the drive module in Inches/second
      */
     public DriveModule(SpeedController motor,
-                       Angle forceAngle, Vector offset,
+                       Angle forceAngle, RVector offset,
                        SEncoder enc, PID pid, Inch maxSpeed) {
         this(motor, forceAngle, offset, enc, pid, maxSpeed, false);
     }
@@ -70,7 +72,7 @@ public class DriveModule extends Motor {
      * @param offset The position of the wheel relative to the geometrical center of the robot
      */
     public DriveModule(SpeedController motor,
-                       Angle forceAngle, Vector offset) {
+                       Angle forceAngle, RVector offset) {
         this(motor, forceAngle, offset, null, null, null, false);
     }
 
@@ -91,14 +93,14 @@ public class DriveModule extends Motor {
     /**
      * @return Where the wheel is located relative to the center of the robot
      */
-    public Vector getOffset() {
+    public RVector getOffset() {
         return offset;
     }
     
     /**
      * @return The vector on which the wheel applies force
      */
-    public Vector getForceVector()
+    public RVector getForceVector()
     {
     	return forceVector;
     }

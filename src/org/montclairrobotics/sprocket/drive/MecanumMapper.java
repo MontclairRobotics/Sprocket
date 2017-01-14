@@ -3,6 +3,7 @@ package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Position;
+import org.montclairrobotics.sprocket.geometry.RVector;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
 
@@ -16,17 +17,17 @@ public class MecanumMapper implements DriveTrainMapper {
             double power = getPower(driveTarget.getDirection(), m.getForceAngle());
 
             //Get vector for rotating
-            XY turnVector;
+            RVector turnVector;
             if(m.getOffset() == Position.FL) {
-                turnVector = new XY(1, 1);
+                turnVector = new RVector(new XY(1, 1));
             } else if(m.getOffset() == Position.FR) {
-                turnVector = new XY(1, -1);
+                turnVector = new RVector(new XY(1, -1));
             } else if(m.getOffset() == Position.BL) {
-                turnVector = new XY(-1, 1);
+                turnVector = new RVector(new XY(-1, 1));
             } else if(m.getOffset() == Position.BR) {
-                turnVector = new XY(-1, -1);
+                turnVector = new RVector(new XY(-1, -1));
             } else {
-                turnVector = new XY(0, 0);
+                turnVector = new RVector(new XY(0, 0));
             }
 
             //Scale it to the appropriate turn speed
@@ -41,7 +42,7 @@ public class MecanumMapper implements DriveTrainMapper {
     }
 
 
-    private static double getPower(Vector vec, Angle forceAngle) {
+    private static double getPower(RVector vec, Angle forceAngle) {
         // Power = tY*csc(angle) + tX*sec(angle)
         return vec.getY().get() * (1/Math.sin(forceAngle.toRadians())) + vec.getX().get() * (1/Math.sin(forceAngle.toRadians()));
     }

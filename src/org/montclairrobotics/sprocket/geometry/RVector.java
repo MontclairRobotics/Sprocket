@@ -2,6 +2,7 @@ package org.montclairrobotics.sprocket.geometry;
 //A boring old wrapper class
 public class RVector {
 
+	public static final RVector ZERO = new RVector(Vector.ZERO);
 	Vector v;
 	public RVector(Vector v)
 	{
