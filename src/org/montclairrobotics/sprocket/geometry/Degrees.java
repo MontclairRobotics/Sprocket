@@ -29,7 +29,16 @@ public class Degrees implements Angle {
     }
 
     @Override
-    public Angle opposite() {
+    public Angle negative() {
         return new Degrees(-toDegrees());
     }
+    public Angle opposite()
+    {
+    	return new Degrees(180+toDegrees());
+    }
+
+	@Override
+	public Angle times(double x) {
+		return new Degrees(toDegrees()*x);
+	}
 }

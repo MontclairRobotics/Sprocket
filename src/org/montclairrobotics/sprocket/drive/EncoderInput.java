@@ -2,7 +2,7 @@ package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.utils.Input;
 
-public class EncoderInput extends Input {
+public class EncoderInput implements Input<Double> {
 
     private SEncoder enc;
 
@@ -11,10 +11,7 @@ public class EncoderInput extends Input {
     }
 
     @Override
-    public double get() {
+    public Double get() {
         return enc.getSpeed().get();
     }
-
-    @Override
-    public void set(double value) {}
 }

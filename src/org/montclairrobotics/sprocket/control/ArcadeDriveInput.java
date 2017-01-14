@@ -1,82 +1,64 @@
 package org.montclairrobotics.sprocket.control;
 
-import edu.wpi.first.wpilibj.Joystick;
+import org.montclairrobotics.sprocket.drive.DriveTrainTarget;
 import org.montclairrobotics.sprocket.drive.MotorInputType;
-import org.montclairrobotics.sprocket.drive.DriveTrainInput;
-import org.montclairrobotics.sprocket.geometry.Degrees;
-import org.montclairrobotics.sprocket.geometry.Inch;
-import org.montclairrobotics.sprocket.geometry.Polar;
+import org.montclairrobotics.sprocket.geometry.Angle;
+import org.montclairrobotics.sprocket.geometry.Distance;
+import org.montclairrobotics.sprocket.geometry.IN;
 import org.montclairrobotics.sprocket.geometry.Vector;
+import org.montclairrobotics.sprocket.geometry.XY;
+import org.montclairrobotics.sprocket.loop.Priority;
+import org.montclairrobotics.sprocket.loop.Updatable;
+import org.montclairrobotics.sprocket.loop.Updater;
+import org.montclairrobotics.sprocket.utils.Input;
 
-/**
- * 
- * @author MHS Robotics
- * This is an drivetrain input method which takes a singular Joystick and uses
- * the Y axis for speed and the X axis for rotation. This is meant to be used
- * for tank drive robot since there is no way of controlling the X axis on the
- * translation vector.
- */
-public class ArcadeDriveInput extends DriveTrainInput {
+import edu.wpi.first.wpilibj.Joystick;
+
+public class ArcadeDriveInput implements Input<DriveTrainTarget>,Updatable {
 
     private Joystick stick;
-    private boolean speedControl;
-    private double maxSpeed;
+    MotorInputType inputType;
+    
+    //private boolean speedControl;
+    private Distance maxSpeed;
+    private Angle maxTurn;
 
     private Vector dir;
-    private double turn;
-    
-    /**
-     * This creates an ArcadeDriveInput class which uses the read values as pure
-     * power values.
-     * @param stick The Joystick that should be used
-     */
+    private Angle turn;
+
     public ArcadeDriveInput(Joystick stick) {
-        super(MotorInputType.PERCENT);
-        speedControl = false;
+    	inputType=MotorInputType.PERCENT;
         this.stick = stick;
+        this.maxSpeed=new IN(1);
+        this.maxTurn=Angle.QUARTER;
+        Updater.add(this, Priority.INPUT);
     }
-    
-    /**
-     * This creates an ArcadeDriveInput class which uses the Joystick's position
-     * as a reference for how fast a robot should travel as opposed to just using
-     * pure power values. If you use this mode of control, make sure you have
-     * encoders bound to all your drive modules and that your PID values are set
-     * appropriately.
-     * @param stick The Joystick that should be used
-     * @param maxSpeed The maximum total speed that the robot should travel in Inches/second
-     */
-    public ArcadeDriveInput(Joystick stick, Inch maxSpeed) {
-        super(MotorInputType.SPEED);
-        speedControl = true;
+
+    public ArcadeDriveInput(Joystick stick, Distance maxSpeed, Angle maxTurn) {
+        inputType=MotorInputType.SPEED;
         this.stick = stick;
-        this.maxSpeed = maxSpeed.get();
+        this.maxSpeed = maxSpeed;
+        this.maxTurn=maxTurn;
+        Updater.add(this, Priority.INPUT);
     }
 
 
-    @Override
     public void update() {
-        turn = stick.getX();
-        dir = new Polar(stick.getMagnitude(), new Degrees(stick.getDirectionDegrees()));
-
-        if(speedControl) {
-            dir.scale(maxSpeed, false);
-            turn *= maxSpeed;
-        }
+        maxTurn = maxTurn.times(stick.getX());
+        dir = new XY(0,stick.getY()*maxSpeed.get());
     }
-    
-    /**
-     * @return The direction which the robot should head in
-     */
-    @Override
+
     public Vector getDirection() {
         return dir;
     }
-    
-    /**
-     * @return How much the robot should turn by
-     */
-    @Override
-    public double getTurn() {
+
+    public Angle getTurn() {
         return turn;
     }
+
+	@Override
+	public DriveTrainTarget get() {
+		// TODO Auto-generated method stub
+		return new DriveTrainTarget(getDirection(),getTurn(),inputType);
+	}
 }
