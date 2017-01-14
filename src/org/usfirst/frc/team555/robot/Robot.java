@@ -7,8 +7,7 @@ import org.montclairrobotics.sprocket.drive.InvalidDriveTrainException;
 import org.montclairrobotics.sprocket.geometry.Degrees;
 import org.montclairrobotics.sprocket.geometry.Position;
 
-import com.ctre.CANTalon;
-
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class Robot extends SprocketRobot {

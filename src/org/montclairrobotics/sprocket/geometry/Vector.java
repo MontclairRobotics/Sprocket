@@ -2,14 +2,15 @@ package org.montclairrobotics.sprocket.geometry;
 
 public interface Vector {
 
-    double getMagnitude();
+    Vector ZERO = new XY(0,0);
+	Distance getMagnitude();
     Angle getAngle();
-    double getX();
-    double getY();
+    Distance getX();
+    Distance getY();
     Vector add(Vector v);
     Vector subtract(Vector v);
     Vector scale(double s,boolean norm);
-    double dotProduct(Vector v);
+    Distance dotProduct(Vector v);
 	Vector rotate(Angle angle);
 
 }
