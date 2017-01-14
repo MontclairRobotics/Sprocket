@@ -1,8 +1,5 @@
 package org.montclairrobotics.sprocket.drive;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;

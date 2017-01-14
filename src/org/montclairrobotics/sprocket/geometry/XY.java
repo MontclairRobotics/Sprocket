@@ -7,7 +7,7 @@ public class XY implements Vector {
 
     public XY(double x,double y)
     {
-    	this(new IN(x),new IN(y));
+    	this(new Distance(x),new Distance(y));
     }
     public XY(Distance x, Distance y) {
         this.x = x;
@@ -16,7 +16,7 @@ public class XY implements Vector {
 
     @Override
     public Distance getMagnitude() {
-        return new IN(Math.sqrt(x.get()*x.get() + y.get()*y.get()));
+        return new Distance(Math.sqrt(x.get()*x.get() + y.get()*y.get()));
     }
 
     @Override
@@ -53,7 +53,7 @@ public class XY implements Vector {
 
     @Override
     public Distance dotProduct(Vector v) {
-        return new IN((x.get() * v.getX().get()) + (y.get() * v.getY().get()));
+        return new Distance((x.get() * v.getX().get()) + (y.get() * v.getY().get()));
     }
 
 	@Override

@@ -4,7 +4,6 @@ import org.montclairrobotics.sprocket.drive.DriveTrainTarget;
 import org.montclairrobotics.sprocket.drive.MotorInputType;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
-import org.montclairrobotics.sprocket.geometry.IN;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.loop.Priority;
@@ -29,7 +28,7 @@ public class ArcadeDriveInput implements Input<DriveTrainTarget>,Updatable {
     public ArcadeDriveInput(Joystick stick) {
     	inputType=MotorInputType.PERCENT;
         this.stick = stick;
-        this.maxSpeed=new IN(1);
+        this.maxSpeed=new Distance(1);
         this.maxTurn=Angle.QUARTER;
         Updater.add(this, Priority.INPUT);
     }

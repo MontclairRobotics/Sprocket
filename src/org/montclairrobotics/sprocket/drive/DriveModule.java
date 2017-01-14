@@ -1,12 +1,12 @@
 package org.montclairrobotics.sprocket.drive;
 
-import edu.wpi.first.wpilibj.SpeedController;
-
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Inch;
 import org.montclairrobotics.sprocket.geometry.Polar;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.utils.PID;
+
+import edu.wpi.first.wpilibj.SpeedController;
 
 /**
  * DriveModule is a class that extends Motor which provides additional behaviors

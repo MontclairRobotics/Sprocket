@@ -7,7 +7,7 @@ public class Polar implements Vector {
 
     public Polar(double mag,Angle a)
     {
-    	this(new IN(mag),a);
+    	this(new Distance(mag),a);
     }
     public Polar(Distance mag, Angle a) {
         magnitude = mag;
@@ -26,12 +26,12 @@ public class Polar implements Vector {
 
     @Override
     public Distance getX() {
-        return new IN(magnitude.get() * Math.sin(angle.toRadians()));
+        return new Distance(magnitude.get() * Math.sin(angle.toRadians()));
     }
 
     @Override
     public Distance getY() {
-        return new IN(magnitude.get() * Math.cos(angle.toRadians()));
+        return new Distance(magnitude.get() * Math.cos(angle.toRadians()));
     }
 
     @Override
@@ -54,7 +54,7 @@ public class Polar implements Vector {
 
     @Override
     public Distance dotProduct(Vector v) {
-        return new IN((getX().get() * v.getX().get()) + (getY().get() * v.getY().get()));
+        return new Distance((getX().get() * v.getX().get()) + (getY().get() * v.getY().get()));
     }
 
 	@Override

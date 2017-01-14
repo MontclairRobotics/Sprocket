@@ -1,7 +1,8 @@
 package org.montclairrobotics.sprocket.drive;
 
-import edu.wpi.first.wpilibj.Encoder;
 import org.montclairrobotics.sprocket.geometry.Inch;
+
+import edu.wpi.first.wpilibj.Encoder;
 
 public class SEncoder {
 
