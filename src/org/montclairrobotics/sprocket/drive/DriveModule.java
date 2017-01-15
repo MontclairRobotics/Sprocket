@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.geometry.Angle;
-import org.montclairrobotics.sprocket.geometry.Inch;
+import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.Polar;
 import org.montclairrobotics.sprocket.geometry.RPolar;
 import org.montclairrobotics.sprocket.geometry.RVector;
@@ -24,7 +24,7 @@ public class DriveModule extends Motor {
 
     private Angle forceAngle;
     private RVector offset;
-    private Inch maxSpeed;
+    private Distance maxSpeed;
     
     private RVector forceVector;
     
@@ -41,7 +41,7 @@ public class DriveModule extends Motor {
     public DriveModule(SpeedController motor,
                        Angle forceAngle, 
                        RVector offset,
-                       SEncoder enc, PID pid, Inch maxSpeed,
+                       SEncoder enc, PID pid, Distance maxSpeed,
                        boolean invert) {
         super(motor, enc, pid, invert);
         this.forceAngle = forceAngle;
@@ -62,7 +62,7 @@ public class DriveModule extends Motor {
      */
     public DriveModule(SpeedController motor,
                        Angle forceAngle, RVector offset,
-                       SEncoder enc, PID pid, Inch maxSpeed) {
+                       SEncoder enc, PID pid, Distance maxSpeed) {
         this(motor, forceAngle, offset, enc, pid, maxSpeed, false);
     }
     
@@ -87,7 +87,7 @@ public class DriveModule extends Motor {
     /**
      * @return The maximum speed at the motor should run with speed control enabled. Returns null if not set
      */
-    public Inch getMaxSpeed() {
+    public Distance getMaxSpeed() {
         return maxSpeed;
     }
     
