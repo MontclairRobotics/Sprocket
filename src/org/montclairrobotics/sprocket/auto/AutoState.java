@@ -1,7 +1,6 @@
 package org.montclairrobotics.sprocket.auto;
 
-import org.montclairrobotics.sprocket.drive.DriveTrainTarget;
-import org.montclairrobotics.sprocket.drive.MotorInputType;
+import org.montclairrobotics.sprocket.drive.DTInput;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.RVector;
 import org.montclairrobotics.sprocket.loop.Updater;
@@ -18,7 +17,9 @@ public abstract class AutoState implements State{
 	public final void stop()
 	{
 		userStop();
-		AutoMode.driveTrainInput.set(new DriveTrainTarget(RVector.ZERO, Angle.ZERO,MotorInputType.SPEED));
+		AutoMode.tgtDir=RVector.ZERO;
+		AutoMode.tgtTurn=Angle.ZERO;
+		AutoMode.inputType=DTInput.Type.SPEED;
 	}
 	public void userStop(){}
 	public double timeInState()
