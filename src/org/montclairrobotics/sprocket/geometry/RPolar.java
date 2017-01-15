@@ -57,7 +57,7 @@ public class RPolar implements RVector {
 	public Vector rotate(Angle a) {
 		return new RPolar(magnitude, angle.add(a));
 	}
-
+	 
 	@Override
 	public Angle angleBetween(Vector c) {
 		return angle.subtract(c.getAngle());
