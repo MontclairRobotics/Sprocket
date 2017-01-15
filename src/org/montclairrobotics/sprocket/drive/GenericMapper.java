@@ -14,11 +14,11 @@ public class GenericMapper implements DriveTrainMapper{
 		Angle tgtTurn=driveTarget.getTurn();
 		for(DriveModule module:driveModules)
 		{
-			tgtTurn=tgtTurn.subtract(getTorque(module.getOffset(),module.getForceVector(),tgtDir));
+			tgtTurn=tgtTurn.subtract(getTorque(module.getOffset(),module.getForce(),tgtDir));
 		}
 		for(DriveModule module:driveModules)
 		{
-			module.set(inverseDot(module.getForceVector(),tgtDir.add(
+			module.set(inverseDot(module.getForce(),tgtDir.add(
 					new Polar(tgtTurn.toRadians()*module.getOffset().getMagnitude(),module.getOffset().getAngle().add(Angle.QUARTER)))));
 		}
 	}

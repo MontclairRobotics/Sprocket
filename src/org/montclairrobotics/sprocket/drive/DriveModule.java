@@ -22,11 +22,11 @@ import edu.wpi.first.wpilibj.SpeedController;
  */
 public class DriveModule extends Motor {
 
-    private Angle forceAngle;
+    //private Angle forceAngle;
     private RVector offset;
     private Distance maxSpeed;
     
-    private RVector forceVector;
+    private RVector force;
     
     /**
      * Creates a DriveModule with speed control enabled.
@@ -44,11 +44,11 @@ public class DriveModule extends Motor {
                        SEncoder enc, PID pid, Distance maxSpeed,
                        boolean invert) {
         super(motor, enc, pid, invert);
-        this.forceAngle = forceAngle;
+        //this.forceAngle = forceAngle;
         this.offset = offset;
         this.maxSpeed = maxSpeed;
         
-        this.forceVector=new RPolar(maxSpeed.get(),forceAngle);
+        this.force=new RPolar(maxSpeed.get(),forceAngle);
     }
     
     /**
@@ -81,7 +81,7 @@ public class DriveModule extends Motor {
      * @return The angle at which each wheel applies force
      */
     public Angle getForceAngle() {
-        return forceAngle;
+        return force.getAngle();
     }
     
     /**
@@ -101,8 +101,8 @@ public class DriveModule extends Motor {
     /**
      * @return The vector on which the wheel applies force
      */
-    public RVector getForceVector()
+    public RVector getForce()
     {
-    	return forceVector;
+    	return force;
     }
 }
