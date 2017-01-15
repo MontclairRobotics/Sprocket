@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.drive;
 
-public interface DriveTrainMapper {
+public interface DTMapper {
 
     void map(DTTarget driveTarget, DriveModule[] driveModules);
 

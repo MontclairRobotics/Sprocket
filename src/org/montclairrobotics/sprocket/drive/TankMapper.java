@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.drive;
 
-public class TankMapper implements DriveTrainMapper {
+public class TankMapper implements DTMapper {
 
     @Override
     public void map(DTTarget driveTarget, DriveModule[] driveModules) {

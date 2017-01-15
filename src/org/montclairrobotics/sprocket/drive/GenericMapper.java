@@ -6,7 +6,7 @@ import org.montclairrobotics.sprocket.geometry.RVector;
 import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.geometry.Vector;
 
-public class GenericMapper implements DriveTrainMapper{
+public class GenericMapper implements DTMapper{
 
 	@Override
 	public void map(DTTarget driveTarget, DriveModule[] driveModules) {

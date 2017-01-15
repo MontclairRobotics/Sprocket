@@ -78,7 +78,7 @@ public class DriveTrainBuilder {
         	throw new InvalidDriveTrainException("DriveTrain needs an input source");
         }
         
-        DriveTrainMapper mapper;
+        DTMapper mapper;
         switch(driveTrainType) {
         case MECANUM:
         	mapper = new MecanumMapper();

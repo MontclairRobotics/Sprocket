@@ -18,7 +18,7 @@ public class DriveTrain implements Updatable {
 	private DTInput input;
 	private Pipeline<DTTarget> pipeline;
 	private DriveModule[] modules;
-    private DriveTrainMapper mapper;
+    private DTMapper mapper;
 
 
     public DriveTrain(DriveModule... modules) {
@@ -75,7 +75,7 @@ public class DriveTrain implements Updatable {
     {
     	return pipeline;
     }
-    public DriveTrain setMapper(DriveTrainMapper mapper)
+    public DriveTrain setMapper(DTMapper mapper)
     {
     	this.mapper=mapper;
     	return this;

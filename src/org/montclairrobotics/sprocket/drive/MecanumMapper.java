@@ -8,7 +8,7 @@ import org.montclairrobotics.sprocket.geometry.RXY;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
 
-public class MecanumMapper implements DriveTrainMapper {
+public class MecanumMapper implements DTMapper {
 
     @Override
     public void map(DTTarget driveTarget, DriveModule[] driveModules) {
