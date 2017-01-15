@@ -13,6 +13,8 @@ public class Motor {
         TALON,
         UNKNOWN
     }
+    
+    public enum MotorInputType {PERCENT,SPEED};
 
     private SpeedController motor;
     private MotorType motorType;
