@@ -5,6 +5,7 @@ import org.montclairrobotics.sprocket.drive.MotorInputType;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.RVector;
+import org.montclairrobotics.sprocket.geometry.RXY;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.loop.Priority;
@@ -45,7 +46,7 @@ public class ArcadeDriveInput implements Input<DriveTrainTarget>,Updatable {
 
     public void update() {
         maxTurn = maxTurn.times(stick.getX());
-        dir = new RVector(new XY(0,stick.getY()*maxSpeed.get()));
+        dir = new RXY(0,stick.getY()*maxSpeed.get());
     }
 
     public RVector getDirection() {

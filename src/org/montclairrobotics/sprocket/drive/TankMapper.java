@@ -4,16 +4,16 @@ public class TankMapper implements DriveTrainMapper {
 
     @Override
     public void map(DriveTrainTarget driveTarget, DriveModule[] driveModules) {
-        double power = driveTarget.getDirection().getY().get();
+        double power = driveTarget.getDirection().getY();
         double turn = driveTarget.getTurn().toDegrees();
 
-        double leftPower = (power + turn)/driveTarget.getDirection().getMagnitude().get();
-        double rightPower = (power - turn)/driveTarget.getDirection().getMagnitude().get();
+        double leftPower = (power + turn)/driveTarget.getDirection().getMagnitude();
+        double rightPower = (power - turn)/driveTarget.getDirection().getMagnitude();
 
         for(DriveModule m : driveModules) {
-            if(m.getOffset().getX().get() < 0) {
+            if(m.getOffset().getX() < 0) {
                 m.set(leftPower);
-            } else if(m.getOffset().getX().get() > 0){
+            } else if(m.getOffset().getX() > 0){
                 m.set(rightPower);
             }
         }

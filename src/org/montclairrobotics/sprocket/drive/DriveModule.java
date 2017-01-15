@@ -3,6 +3,7 @@ package org.montclairrobotics.sprocket.drive;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Inch;
 import org.montclairrobotics.sprocket.geometry.Polar;
+import org.montclairrobotics.sprocket.geometry.RPolar;
 import org.montclairrobotics.sprocket.geometry.RVector;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.utils.PID;
@@ -47,7 +48,7 @@ public class DriveModule extends Motor {
         this.offset = offset;
         this.maxSpeed = maxSpeed;
         
-        this.forceVector=new RVector(new Polar(maxSpeed.get(),forceAngle));
+        this.forceVector=new RPolar(maxSpeed.get(),forceAngle);
     }
     
     /**
