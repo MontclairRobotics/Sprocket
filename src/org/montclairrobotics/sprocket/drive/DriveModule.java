@@ -41,7 +41,9 @@ public class DriveModule extends Motor {
     public DriveModule(SpeedController motor,
                        Angle forceAngle, 
                        RVector offset,
-                       SEncoder enc, PID pid, Distance maxSpeed,
+                       SEncoder enc, 
+                       PID pid, 
+                       Distance maxSpeed,
                        boolean invert) {
         super(motor, enc, pid, invert);
         //this.forceAngle = forceAngle;
@@ -61,8 +63,11 @@ public class DriveModule extends Motor {
      * @param maxSpeed The maximum desired speed of the drive module in Inches/second
      */
     public DriveModule(SpeedController motor,
-                       Angle forceAngle, RVector offset,
-                       SEncoder enc, PID pid, Distance maxSpeed) {
+                       Angle forceAngle, 
+                       RVector offset,
+                       SEncoder enc, 
+                       PID pid, 
+                       Distance maxSpeed) {
         this(motor, forceAngle, offset, enc, pid, maxSpeed, false);
     }
     
@@ -73,7 +78,8 @@ public class DriveModule extends Motor {
      * @param offset The position of the wheel relative to the geometrical center of the robot
      */
     public DriveModule(SpeedController motor,
-                       Angle forceAngle, RVector offset) {
+                       Angle forceAngle, 
+                       RVector offset) {
         this(motor, forceAngle, offset, null, null, null, false);
     }
 
