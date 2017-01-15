@@ -2,18 +2,21 @@ package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
+import org.montclairrobotics.sprocket.geometry.RVector;
 import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
+import org.montclairrobotics.sprocket.pipeline.Pipeline;
 import org.montclairrobotics.sprocket.utils.Input;
 
 public class DriveTrain implements Updatable {
 
-	public static Distance maxSpeed=Distance.ZERO;
-	public static Angle maxTurn=Angle.ZERO;
+	private Distance maxSpeed=Distance.ZERO;
+	private Angle maxTurn=Angle.ZERO;
 	
-	private Input<DriveTrainTarget> input;
+	private DTInput input;
+	private Pipeline<DTTarget> pipeline;
 	private DriveModule[] modules;
     private DriveTrainMapper mapper;
 
@@ -40,20 +43,37 @@ public class DriveTrain implements Updatable {
 
 	@Override
 	public void update() {
-		DriveTrainTarget target = input.get();
+		RVector tgtDir=input.getDir();
+		Angle tgtTurn=input.getTurn();
+		if(input.getInputType().equals(DTInput.Type.PERCENT))
+		{
+			tgtDir=RVector.ToReal(tgtDir.scale(maxSpeed.get(),false));
+			tgtTurn=tgtTurn.times(maxSpeed.get());
+		}
+		DTTarget target=new DTTarget(tgtDir,tgtTurn);
+		target=pipeline.get(target);
 		mapper.map(target, modules);
 	}
     
 	
 	//======================GETTERS AND SETTERS======================
-	public DriveTrain setInput(Input<DriveTrainTarget> input)
+	public DriveTrain setInput(DTInput input)
+	{
+		this.input=input;
+		return this;
+	}
+	public DTInput getInput()
+	{
+		return input;
+	}
+	public DriveTrain setPipeline(Pipeline<DTTarget> pipeline)
     {
-    	this.input=input;
+    	this.pipeline=pipeline;
     	return this;
     }
-    public Input<DriveTrainTarget> getInput()
+    public Pipeline<DTTarget> getPipeline()
     {
-    	return input;
+    	return pipeline;
     }
     public DriveTrain setMapper(DriveTrainMapper mapper)
     {

@@ -4,17 +4,17 @@ import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.RVector;
 import org.montclairrobotics.sprocket.geometry.Vector;
 
-public class DriveTrainTarget {
+public class DTTarget {
 
-    public static final DriveTrainTarget ZERO = new DriveTrainTarget(RVector.ZERO,Angle.ZERO,MotorInputType.SPEED);
+    public static final DTTarget ZERO = new DTTarget(RVector.ZERO,Angle.ZERO);
 	private RVector direction;
     private Angle turn;
-    private MotorInputType inputType;
+    //private MotorInputType inputType;
 
-    public DriveTrainTarget(RVector direction, Angle turn, MotorInputType inputType) {
+    public DTTarget(RVector direction, Angle turn) {
         this.direction = direction;
         this.turn = turn;
-        this.inputType = inputType;
+        //this.inputType = inputType;
     }
 
     public RVector getDirection() {
@@ -33,7 +33,7 @@ public class DriveTrainTarget {
         this.turn = turn;
     }
 
-    public MotorInputType getInputType() {
+    /*public MotorInputType getInputType() {
         return inputType;
-    }
+    }*/
 }

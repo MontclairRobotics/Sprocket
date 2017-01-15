@@ -3,7 +3,7 @@ package org.montclairrobotics.sprocket.drive;
 public class TankMapper implements DriveTrainMapper {
 
     @Override
-    public void map(DriveTrainTarget driveTarget, DriveModule[] driveModules) {
+    public void map(DTTarget driveTarget, DriveModule[] driveModules) {
         double power = driveTarget.getDirection().getY();
         double turn = driveTarget.getTurn().toDegrees();
 

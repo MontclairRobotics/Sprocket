@@ -9,7 +9,7 @@ import org.montclairrobotics.sprocket.geometry.Vector;
 public class GenericMapper implements DriveTrainMapper{
 
 	@Override
-	public void map(DriveTrainTarget driveTarget, DriveModule[] driveModules) {
+	public void map(DTTarget driveTarget, DriveModule[] driveModules) {
 		RVector tgtDir=driveTarget.getDirection();
 		Angle tgtTurn=driveTarget.getTurn();
 		for(DriveModule module:driveModules)

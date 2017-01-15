@@ -4,21 +4,21 @@ import java.util.ArrayList;
 
 import org.montclairrobotics.sprocket.utils.Input;
 
-public class Pipeline <T> implements Input<T>{
+public class Pipeline <T>{
 
 	private ArrayList<Step<T>> steps;
-	private Input<T> init;
+	//private Input<T> init;
 	
-	public Pipeline(Input<T> init,ArrayList<Step<T>> steps)
+	public Pipeline(ArrayList<Step<T>> steps)
 	{
 		this.steps=steps;
-		this.init=init;
+		//this.init=init;
 	}
 
-	public T get()
+	/*public T get()
 	{
 		return get(init.get());
-	}
+	}*/
 	
 	public T get(T res)
 	{

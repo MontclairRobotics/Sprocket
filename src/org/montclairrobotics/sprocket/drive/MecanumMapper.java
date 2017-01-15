@@ -11,7 +11,7 @@ import org.montclairrobotics.sprocket.geometry.XY;
 public class MecanumMapper implements DriveTrainMapper {
 
     @Override
-    public void map(DriveTrainTarget driveTarget, DriveModule[] driveModules) {
+    public void map(DTTarget driveTarget, DriveModule[] driveModules) {
         double turn = driveTarget.getTurn().toDegrees();
 
         for(DriveModule m : driveModules) {
