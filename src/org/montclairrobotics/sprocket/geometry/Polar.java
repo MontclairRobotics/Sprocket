@@ -57,4 +57,11 @@ public class Polar implements Vector {
 	public Vector rotate(Angle a) {
 		return new Polar(magnitude, angle.add(a));
 	}
+	
+	@Override
+	public Angle angleBetween(Vector a)
+	{
+		return angle.subtract(a.getAngle());
+	}
+	
 }

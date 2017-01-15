@@ -38,5 +38,9 @@ public interface Angle {
 
 	Angle times(double x);
 
+	public double sin();
+	public double cos();
+	public double tan();
+
 
 }

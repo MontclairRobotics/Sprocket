@@ -41,4 +41,17 @@ public class Degrees implements Angle {
 	public Angle times(double x) {
 		return new Degrees(toDegrees()*x);
 	}
+	
+	public double sin()
+	{
+		return Math.sin(toRadians());
+	}
+	public double cos()
+	{
+		return Math.cos(toRadians());
+	}
+	public double tan()
+	{
+		return Math.tan(toRadians());
+	}
 }

@@ -56,4 +56,10 @@ public class XY implements Vector {
 	public Vector rotate(Angle a) {
 		return new Polar(getMagnitude(),getAngle().add(a));
 	}
+
+	@Override
+	public Angle angleBetween(Vector a)
+	{
+		return getAngle().subtract(a.getAngle());
+	}
 }
