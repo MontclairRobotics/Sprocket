@@ -18,7 +18,8 @@ public class GenericMapper implements DriveTrainMapper{
 		}
 		for(DriveModule module:driveModules)
 		{
-			module.set(inverseDot(module.getForceVector(),tgtDir)+tgtTurn.toRadians()*module.getOffset().getMagnitude());
+			module.set(inverseDot(module.getForceVector(),tgtDir.add(
+					new Polar(tgtTurn.toRadians()*module.getOffset().getMagnitude(),module.getOffset().getAngle().add(Angle.QUARTER)))));
 		}
 	}
 	
