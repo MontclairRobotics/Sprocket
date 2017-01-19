@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.montclairrobotics.sprocket.control.ArcadeDriveInput;
 import org.montclairrobotics.sprocket.geometry.Angle;
-import org.montclairrobotics.sprocket.geometry.Inch;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.utils.PID;
 
@@ -13,7 +12,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 
 public class DriveTrainBuilder {
 
-    private ArrayList<DriveModule> modules;
+    /*private ArrayList<DriveModule> modules;
     private DriveTrainInput input;
     private DriveTrainType driveTrainType;
     private DrivePipeline drivePipeline;
@@ -90,6 +89,6 @@ public class DriveTrainBuilder {
         if(drivePipeline == null) setDefaultPipeline();
         
         return new DriveTrain(modules.toArray(new DriveModule[]{}), input, drivePipeline, mapper);
-    }
+    }*/
 
 }
