@@ -30,6 +30,8 @@ public class DriveModule {
     
     private Motor[] motors;
     
+    
+    private double power;
     /**
      * Creates a DriveModule with speed control enabled.
      * @param motor The WPILIB SpeedController that this DriveModule encompasses
@@ -114,9 +116,15 @@ public class DriveModule {
     
     public void set(double val)
     {
+    	power=val;
     	for(Motor motor:motors)
     	{
-    		motor.set(val);
+    		//motor.set(val);
     	}
+    }
+    
+    public String toString()
+    {
+    	return "("+offset.getX()+","+offset.getY()+"): "+(power*100)+"%";
     }
 }

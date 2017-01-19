@@ -29,9 +29,9 @@ public class Motor {
         }
 
         if(pid == null || enc == null) {
-            inputType = MotorInputType.SPEED;
-        } else {
             inputType = MotorInputType.PERCENT;
+        } else {
+            inputType = MotorInputType.SPEED;
         }
 
         this.motor = motor;
@@ -55,8 +55,8 @@ public class Motor {
         }
 
         motor.setInverted(invert);
-
-        pid.setInput(new EncoderInput(enc));
+        if(pid!=null)
+        	pid.setInput(new EncoderInput(enc));
     }
 
     public Motor(SpeedController motor, SEncoder enc, PID pid) {

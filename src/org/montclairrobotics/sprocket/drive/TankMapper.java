@@ -7,8 +7,13 @@ public class TankMapper implements DTMapper {
         double power = driveTarget.getDirection().getY();
         double turn = driveTarget.getTurn().toDegrees();
 
-        double leftPower = (power + turn)/driveTarget.getDirection().getMagnitude();
-        double rightPower = (power - turn)/driveTarget.getDirection().getMagnitude();
+        double leftPower = (power + turn);
+        double rightPower = (power - turn);
+        
+        double scaleFactor = driveTarget.getDirection().getMagnitude()/((leftPower+rightPower)/2);
+        
+        leftPower *= scaleFactor;
+        rightPower *= scaleFactor;
 
         for(DriveModule m : driveModules) {
             if(m.getOffset().getX() < 0) {

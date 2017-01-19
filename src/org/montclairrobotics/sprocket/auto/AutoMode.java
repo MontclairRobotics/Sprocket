@@ -3,6 +3,7 @@ package org.montclairrobotics.sprocket.auto;
 import org.montclairrobotics.sprocket.drive.DTInput;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.geometry.Angle;
+import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.RVector;
 import org.montclairrobotics.sprocket.states.State;
 import org.montclairrobotics.sprocket.states.StateMachine;
@@ -55,5 +56,15 @@ public class AutoMode implements DTInput{
 	@Override
 	public Type getInputType() {
 		return inputType;
+	}
+	@Override
+	public void setMaxSpeed(Distance m) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void setMaxTurn(Angle a) {
+		// TODO Auto-generated method stub
+		
 	}
 }

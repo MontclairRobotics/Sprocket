@@ -44,7 +44,7 @@ public class ArcadeDriveInput implements DTInput,Updatable {
 
 
     public void update() {
-        maxTurn = maxTurn.times(stick.getX());
+        turn = maxTurn.times(stick.getX());
         dir = new RXY(0,stick.getY()*maxSpeed.get());
     }
 
@@ -64,7 +64,17 @@ public class ArcadeDriveInput implements DTInput,Updatable {
 	public DTInput.Type getInputType() {
 		return DTInput.Type.PERCENT;
 	}
+	
+	public void setMaxSpeed(Distance m)
+	{
+		this.maxSpeed=m;
+	}
 
+	public void setMaxTurn(Angle t)
+	{
+		this.maxTurn=t;
+	}
+	
 	/*@Override
 	public DriveTrainTarget get() {
 		// TODO Auto-generated method stub
