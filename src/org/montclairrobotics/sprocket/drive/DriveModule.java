@@ -20,13 +20,15 @@ import edu.wpi.first.wpilibj.SpeedController;
  * @author MHS Robotics
  *
  */
-public class DriveModule extends Motor {
+public class DriveModule {
 
     //private Angle forceAngle;
     private RVector offset;
-    private Distance maxSpeed;
+    //private Distance maxSpeed;
     
     private RVector force;
+    
+    private Motor[] motors;
     
     /**
      * Creates a DriveModule with speed control enabled.
@@ -38,19 +40,17 @@ public class DriveModule extends Motor {
      * @param maxSpeed The maximum desired speed of the drive module in Inches/second
      * @param invert Whether the motor should run with inverted speed values
      */
-    public DriveModule(SpeedController motor,
-                       Angle forceAngle, 
-                       RVector offset,
-                       SEncoder enc, 
-                       PID pid, 
-                       Distance maxSpeed,
-                       boolean invert) {
-        super(motor, enc, pid, invert);
+    public DriveModule(RVector offset, 
+                       RVector force,
+                       Motor... motors
+                       ) {
+        //super(motor, enc, pid, invert);
         //this.forceAngle = forceAngle;
         this.offset = offset;
-        this.maxSpeed = maxSpeed;
+        //this.maxSpeed = maxSpeed;
         
-        this.force=new RPolar(maxSpeed.get(),forceAngle);
+        this.force=force;//new RPolar(maxSpeed.get(),forceAngle);
+        this.motors=motors;
     }
     
     /**
@@ -62,14 +62,14 @@ public class DriveModule extends Motor {
      * @param pid The PID controller object with pre-set constants
      * @param maxSpeed The maximum desired speed of the drive module in Inches/second
      */
-    public DriveModule(SpeedController motor,
+    /*public DriveModule(SpeedController motor,
                        Angle forceAngle, 
                        RVector offset,
                        SEncoder enc, 
                        PID pid, 
                        Distance maxSpeed) {
         this(motor, forceAngle, offset, enc, pid, maxSpeed, false);
-    }
+    }*/
     
     /**
      * This is the simplest way of creating a DriveModule. It creates a DriveModule without speed control enabled.
@@ -77,11 +77,11 @@ public class DriveModule extends Motor {
      * @param forceAngle The angle at which the wheel provides force relative to the robot's front
      * @param offset The position of the wheel relative to the geometrical center of the robot
      */
-    public DriveModule(SpeedController motor,
+    /*public DriveModule(SpeedController motor,
                        Angle forceAngle, 
                        RVector offset) {
         this(motor, forceAngle, offset, null, null, null, false);
-    }
+    }*/
 
     /**
      * @return The angle at which each wheel applies force
@@ -94,7 +94,7 @@ public class DriveModule extends Motor {
      * @return The maximum speed at the motor should run with speed control enabled. Returns null if not set
      */
     public Distance getMaxSpeed() {
-        return maxSpeed;
+        return new Distance(force.getMagnitude());
     }
     
     /**
@@ -110,5 +110,13 @@ public class DriveModule extends Motor {
     public RVector getForce()
     {
     	return force;
+    }
+    
+    public void set(double val)
+    {
+    	for(Motor motor:motors)
+    	{
+    		motor.set(val);
+    	}
     }
 }
