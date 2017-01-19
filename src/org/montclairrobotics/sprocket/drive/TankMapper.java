@@ -5,15 +5,20 @@ public class TankMapper implements DTMapper {
     @Override
     public void map(DTTarget driveTarget, DriveModule[] driveModules) {
         double power = driveTarget.getDirection().getY();
-        double turn = driveTarget.getTurn().toDegrees();
+        double turn = driveTarget.getTurn().toDegrees() / 45;
 
-        double leftPower = (power + turn);
-        double rightPower = (power - turn);
-        
-        double scaleFactor = driveTarget.getDirection().getMagnitude()/((leftPower+rightPower)/2);
-        
-        leftPower *= scaleFactor;
-        rightPower *= scaleFactor;
+        double max = 0;
+
+        if(power == 0.0 || turn == 0.0) {
+            max = 1;
+        } else if(Math.abs(power) > Math.abs(turn)) {
+            max = 1 + Math.abs(turn/power);
+        } else {
+            max = 1 + Math.abs(power/turn);
+        }
+
+        double leftPower = (power + turn)/max;
+        double rightPower = (power - turn)/max;
 
         for(DriveModule m : driveModules) {
             if(m.getOffset().getX() < 0) {
