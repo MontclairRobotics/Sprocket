@@ -119,7 +119,7 @@ public class DriveModule {
     	power=val;
     	for(Motor motor:motors)
     	{
-    		//motor.set(val);
+    		motor.set(val);
     	}
     }
     

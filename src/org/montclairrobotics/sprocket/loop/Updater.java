@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 public class Updater {
-
+	
+	private static double lastLoop=getTime();
+	private static double loopTime=1.0/50;
+	
     private static TreeMap<Priority, ArrayList<Updatable>> updatables = new TreeMap<>((o1, o2) -> {
             if(o1.getPriority() > o2.getPriority()) {
                 return -1;
@@ -24,6 +27,8 @@ public class Updater {
     }
 
     public static void loop() {
+    	loopTime=getTime()-lastLoop;
+    	lastLoop=getTime();
         for(ArrayList<Updatable> us : updatables.values()) {
             for(Updatable u : us) {
                 u.update();
@@ -33,6 +38,11 @@ public class Updater {
 
 	public static double getTime() {
 		return System.currentTimeMillis()/1000;
+	}
+	
+	public static double getLoopTime()
+	{
+		return loopTime;
 	}
 
 }
