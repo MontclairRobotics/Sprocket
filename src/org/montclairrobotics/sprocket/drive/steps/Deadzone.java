@@ -1,13 +1,16 @@
 package org.montclairrobotics.sprocket.drive.steps;
 
 import org.montclairrobotics.sprocket.drive.DTTarget;
+import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.RVector;
 import org.montclairrobotics.sprocket.geometry.RXY;
+import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.pipeline.Step;
 
 public class Deadzone implements Step<DTTarget>{
 
 	private RVector deadZone;
+	private Angle turnDeadZone;
 	
 	public Deadzone()
 	{
@@ -15,24 +18,30 @@ public class Deadzone implements Step<DTTarget>{
 	}
 	public Deadzone(double x,double y)
 	{
-		this(new RXY(x,y));
+		this(new RXY(0,y),new Radians(x));
 	}
-	public Deadzone(RVector dz)
+	public Deadzone(RVector dz,Angle turnDZ)
 	{
 		this.deadZone=dz;
+		this.turnDeadZone=turnDZ;
 	}
 	@Override
 	public DTTarget get(DTTarget in) {
-		RVector tgt=in.getDirection();
-		if(Math.abs(tgt.getX())<deadZone.getX())
+		RVector tgtDir=in.getDirection();
+		if(Math.abs(tgtDir.getX())<deadZone.getX())
 		{
-			tgt=new RXY(0,tgt.getY());
+			tgtDir=new RXY(0,tgtDir.getY());
 		}
-		if(Math.abs(tgt.getY())<deadZone.getY())
+		if(Math.abs(tgtDir.getY())<deadZone.getY())
 		{
-			tgt=new RXY(tgt.getX(),0);
+			tgtDir=new RXY(tgtDir.getX(),0);
 		}
-		return new DTTarget(tgt,in.getTurn());
+		Angle tgtTurn=in.getTurn();
+		if(Math.abs(tgtTurn.toDegrees())<turnDeadZone.toDegrees())
+		{
+			tgtTurn=Angle.ZERO;
+		}
+		return new DTTarget(tgtDir,tgtTurn);
 	}
 
 }

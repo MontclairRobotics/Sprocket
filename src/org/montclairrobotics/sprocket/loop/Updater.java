@@ -36,9 +36,14 @@ public class Updater {
         }
     }
 
-	public static double getTime() {
-		return System.currentTimeMillis()/1000;
+	public static long getTimeMillis() {
+		return System.currentTimeMillis();
 	}
+	
+	public static double getTime() {
+		return getTimeMillis() / 1000.0;
+	}
+	
 	
 	public static double getLoopTime()
 	{
