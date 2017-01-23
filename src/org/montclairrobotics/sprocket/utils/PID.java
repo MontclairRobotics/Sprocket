@@ -53,7 +53,7 @@ public class PID implements Updatable {
 		setPID(P,I,D);
 	}
 	
-	public PID setInput(Input i)
+	public PID setInput(Input<Double> i)
 	{
 		this.input=i;
 		return this;
@@ -113,15 +113,8 @@ public class PID implements Updatable {
 	 */
 	public double get()
 	{
-		runCalculate();
+		out = calculate(input.get());
 		return out;
-	}
-	
-	private void runCalculate()
-	{
-		if(calculated||input==null)return;
-		out=calculate(input.get());
-		calculated=true;
 	}
 	
 	private double calculate(double val)
@@ -132,7 +125,7 @@ public class PID implements Updatable {
 			double diff=maxIn-minIn;
 			error=((error-minIn)%diff+diff)%diff+minIn;
 		}
-		totalError+=error;
+		totalError += error * Updater.getLoopTime();
 		if (I != 0) 
 		{
 			double potentialIGain = (error+totalError) * I;
@@ -147,8 +140,8 @@ public class PID implements Updatable {
 			}
 		}
 	
-		double out = P * error + I * totalError +
-	             D * (error - prevError); //+ calculateFeedForward();
+		double out = P * error * Updater.getLoopTime() + I * totalError +
+	             D * (error - prevError) / Updater.getLoopTime(); //+ calculateFeedForward();
 
 		prevError = error;
 		
@@ -175,7 +168,6 @@ public class PID implements Updatable {
 
 	public void update()
 	{
-		runCalculate();
-		calculated=false;
+		calculate(input.get());
 	}
 }

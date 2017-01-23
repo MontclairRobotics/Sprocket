@@ -1,8 +1,8 @@
-package org.montclairrobotics.sprocket.auto.defaultautostates;
+package org.montclairrobotics.sprocket.auto.states;
 
 import org.montclairrobotics.sprocket.auto.AutoState;
 
-public class DriveTime extends AutoState{
+public class TurnEncoders extends AutoState{
 
 	@Override
 	public void update() {
@@ -15,5 +15,6 @@ public class DriveTime extends AutoState{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 
 }
