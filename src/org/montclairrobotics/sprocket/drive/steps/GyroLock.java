@@ -3,6 +3,7 @@ package org.montclairrobotics.sprocket.drive.steps;
 import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degrees;
+import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.pipeline.Step;
 import org.montclairrobotics.sprocket.utils.Input;
@@ -20,6 +21,7 @@ public class GyroLock implements Step<DTTarget>{
 	public GyroLock(PID pid,Input<Boolean> lock)
 	{
 		this.pid=pid;
+		pid.setMinMax(-180, 179, 0, 0);
 		this.lock=lock;
 	}
 	
@@ -29,12 +31,12 @@ public class GyroLock implements Step<DTTarget>{
 		boolean isLocked=lock.get();
 		if(isLocked&&!lastLock)
 		{
-			pid.setTarget(in.getTurn().toDegrees());
+			pid.setTarget(pid.getInput());
 			lastLock=true;
 		}
 		if(isLocked)
 		{
-			Angle tgt=new Degrees(pid.get());
+			Angle tgt=new Radians(pid.get());
 			out=new DTTarget(in.getDirection(),tgt);
 			lastLockTime=Updater.getTime();
 		}

@@ -3,6 +3,7 @@ package org.montclairrobotics.sprocket.control;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
+import org.montclairrobotics.sprocket.utils.Input;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -13,7 +14,7 @@ import edu.wpi.first.wpilibj.Joystick;
  * the Sprocket control loop and calling anonymous functions passed in by
  * developers. This system makes defining button behaviors incredibly simple.
  */
-public class Button implements Updatable {
+public class Button implements Updatable, Input<Boolean> {
 	
 	private Joystick stick;
 	private int id;
@@ -33,6 +34,16 @@ public class Button implements Updatable {
 		wasPressed = stick.getRawButton(buttonId);
 		
 		Updater.add(this, Priority.CONTROL);
+	}
+	
+	/**
+	 * 
+	 * @param stick The Joystick port that you want to use to control the robot
+	 * @param buttonId The raw button ID of the button you're binding to. On most 
+	 * Joysticks the ID is specified on the buttons themselves.
+	 */
+	public Button(int stick, int buttonId) {
+		this(new Joystick(stick), buttonId);
 	}
 	
 	/**
@@ -84,6 +95,11 @@ public class Button implements Updatable {
 		}
 		
 		wasPressed = pressed;
+	}
+
+	@Override
+	public Boolean get() {
+		return stick.getRawButton(id);
 	}
 
 }

@@ -20,7 +20,7 @@ public class PID implements Updatable {
 	private Input<Double> input;
 	private double P,I,D,minIn,maxIn,minOut,maxOut;
 	
-	private boolean calculated=false;
+	//private boolean calculated=false;
 	private double out;
 	private double target;
 	private double totalError, prevError, error;
@@ -169,5 +169,10 @@ public class PID implements Updatable {
 	public void update()
 	{
 		calculate(input.get());
+	}
+	
+	public double getTarget()
+	{
+		return target;
 	}
 }
