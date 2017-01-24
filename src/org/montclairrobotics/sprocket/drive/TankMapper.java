@@ -1,5 +1,8 @@
 package org.montclairrobotics.sprocket.drive;
 
+import org.montclairrobotics.sprocket.geometry.Angle;
+import org.montclairrobotics.sprocket.geometry.Vector;
+
 public class TankMapper implements DTMapper {
 
     @Override
@@ -22,10 +25,40 @@ public class TankMapper implements DTMapper {
 
         for(DriveModule m : driveModules) {
             if(m.getOffset().getX() < 0) {
-                m.set(leftPower);
+            	setWheel(m,leftPower);
             } else if(m.getOffset().getX() > 0){
-                m.set(rightPower);
+                setWheel(m,rightPower);
             }
         }
+        
+        
+        
     }
+    
+    public static void setWheel(DriveModule m,double power)
+    {
+    	if(m.getForce().getY()>0)
+    	{
+    		m.set(power);
+    	}
+    	else
+    	{
+    		m.set(-power);
+    	}
+    }
+    
+    /*
+	 * If a dot b = |c| and c is || to b,  given a and c returns b
+	 */
+	public static double inverseDot(Vector force,Vector target)
+	{
+		Angle diff=force.angleBetween(target);
+		double degTo90=Math.abs(Math.abs(diff.toDegrees())-90);
+		if(degTo90<30)
+		{
+			return target.getMagnitude()*degTo90/15;
+		}
+		return target.getMagnitude()/diff.cos();
+	}
+    
 }

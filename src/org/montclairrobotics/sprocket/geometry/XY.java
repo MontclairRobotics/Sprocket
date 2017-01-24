@@ -62,4 +62,9 @@ public class XY implements Vector {
 	{
 		return getAngle().subtract(a.getAngle());
 	}
+
+	@Override
+	public RVector toReal() {
+		return new RXY(x,y);
+	}
 }

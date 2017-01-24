@@ -1,8 +1,8 @@
-package org.montclairrobotics.sprocket.auto.defaultautostates;
+package org.montclairrobotics.sprocket.auto.states;
 
 import org.montclairrobotics.sprocket.auto.AutoState;
 
-public class TurnGyro extends AutoState{
+public class DriveTime extends AutoState{
 
 	@Override
 	public void update() {

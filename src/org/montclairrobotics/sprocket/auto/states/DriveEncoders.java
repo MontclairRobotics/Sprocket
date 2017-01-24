@@ -1,4 +1,4 @@
-package org.montclairrobotics.sprocket.auto.defaultautostates;
+package org.montclairrobotics.sprocket.auto.states;
 
 import org.montclairrobotics.sprocket.auto.AutoState;
 

@@ -67,10 +67,12 @@ public class DriveModule {
     {
     	return force;
     }
-    
-    public void set(double val) {
-    	power = val;
-    	for(Motor motor : motors) {
+
+    public void set(double val)
+    {
+    	power=val;
+    	for(Motor motor:motors)
+    	{
     		motor.set(val);
     	}
     }

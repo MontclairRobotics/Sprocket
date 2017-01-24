@@ -63,5 +63,11 @@ public class Polar implements Vector {
 	{
 		return angle.subtract(a.getAngle());
 	}
+
+
+	@Override
+	public RVector toReal() {
+		return new RPolar(magnitude,angle);
+	}
 	
 }

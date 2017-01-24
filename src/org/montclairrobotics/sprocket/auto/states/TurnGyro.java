@@ -1,8 +1,8 @@
-package org.montclairrobotics.sprocket.auto.defaultautostates;
+package org.montclairrobotics.sprocket.auto.states;
 
 import org.montclairrobotics.sprocket.auto.AutoState;
 
-public class TurnEncoders extends AutoState{
+public class TurnGyro extends AutoState{
 
 	@Override
 	public void update() {
@@ -15,6 +15,5 @@ public class TurnEncoders extends AutoState{
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 
 }
