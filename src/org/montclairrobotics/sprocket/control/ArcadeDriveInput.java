@@ -1,18 +1,14 @@
 package org.montclairrobotics.sprocket.control;
 
+import edu.wpi.first.wpilibj.Joystick;
 import org.montclairrobotics.sprocket.drive.DTInput;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.RVector;
 import org.montclairrobotics.sprocket.geometry.RXY;
-import org.montclairrobotics.sprocket.geometry.Vector;
-import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
-import org.montclairrobotics.sprocket.utils.Input;
-
-import edu.wpi.first.wpilibj.Joystick;
 
 public class ArcadeDriveInput implements DTInput,Updatable {
 
@@ -33,14 +29,6 @@ public class ArcadeDriveInput implements DTInput,Updatable {
         this.maxTurn=Angle.QUARTER;
         Updater.add(this, Priority.INPUT);
     }
-
-    /*public ArcadeDriveInput(Joystick stick, Distance maxSpeed, Angle maxTurn) {
-        inputType=MotorInputType.SPEED;
-        this.stick = stick;
-        this.maxSpeed = maxSpeed;
-        this.maxTurn=maxTurn;
-        Updater.add(this, Priority.INPUT);
-    }*/
 
 
     public void update() {
