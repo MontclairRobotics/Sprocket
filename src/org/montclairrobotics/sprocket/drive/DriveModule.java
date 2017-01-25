@@ -2,7 +2,7 @@ package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
-import org.montclairrobotics.sprocket.geometry.RVector;
+import org.montclairrobotics.sprocket.geometry.Vector;
 
 /**
  * DriveModule is a class that extends Motor which provides additional behaviors
@@ -16,8 +16,8 @@ import org.montclairrobotics.sprocket.geometry.RVector;
  */
 public class DriveModule {
 
-    private RVector offset;
-    private RVector force;
+    private Vector offset;
+    private Vector force;
     private Motor[] motors;
     
     
@@ -29,8 +29,8 @@ public class DriveModule {
      * @param force The vector on which the module applies force
      * @param motors All the motors which are a part of this module
      */
-    public DriveModule(RVector offset,
-                       RVector force,
+    public DriveModule(Vector offset,
+                       Vector force,
                        Motor... motors
                        ) {
 
@@ -56,14 +56,14 @@ public class DriveModule {
     /**
      * @return Where the wheel is located relative to the center of the robot
      */
-    public RVector getOffset() {
+    public Vector getOffset() {
         return offset;
     }
     
     /**
      * @return The vector on which the wheel applies force
      */
-    public RVector getForce()
+    public Vector getForce()
     {
     	return force;
     }

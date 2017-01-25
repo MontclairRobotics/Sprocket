@@ -2,13 +2,12 @@ package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
-import org.montclairrobotics.sprocket.geometry.RVector;
 import org.montclairrobotics.sprocket.geometry.Radians;
+import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.pipeline.Pipeline;
-import org.montclairrobotics.sprocket.utils.Input;
 
 public class DriveTrain implements Updatable {
 
@@ -45,11 +44,11 @@ public class DriveTrain implements Updatable {
 
 	@Override
 	public void update() {
-		RVector tgtDir=input.getDir();
+		Vector tgtDir=input.getDir();
 		Angle tgtTurn=input.getTurn();
 		if(input.getInputType().equals(DTInput.Type.PERCENT))
 		{
-			tgtDir=RVector.ToReal(tgtDir.scale(maxSpeed.get(),false));
+			tgtDir=tgtDir.scale(maxSpeed.get(),false);
 			tgtTurn=tgtTurn.times(maxSpeed.get());
 		}
 		DTTarget target=new DTTarget(tgtDir,tgtTurn);

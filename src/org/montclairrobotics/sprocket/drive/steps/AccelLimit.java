@@ -4,8 +4,6 @@ import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degrees;
 import org.montclairrobotics.sprocket.geometry.Distance;
-import org.montclairrobotics.sprocket.geometry.RVector;
-import org.montclairrobotics.sprocket.geometry.RXY;
 import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.loop.Updater;
@@ -18,7 +16,7 @@ public class AccelLimit implements Step<DTTarget>{
 	private Distance maxAccel;
 	private Angle maxTurn;
 	
-	private RVector lastDir;
+	private Vector lastDir;
 	private Angle lastTurn;
 	
 	public AccelLimit()
@@ -33,7 +31,7 @@ public class AccelLimit implements Step<DTTarget>{
 	{
 		this.maxAccel=maxAccel;
 		this.maxTurn=maxTurn;
-		lastDir=RVector.ZERO;
+		lastDir=Vector.ZERO;
 		lastTurn=Angle.ZERO;
 	}
 	
@@ -54,7 +52,7 @@ public class AccelLimit implements Step<DTTarget>{
 		Angle dAng=in.getTurn().subtract(lastTurn);
 		dAng=new Degrees(Utils.constrain(dAng.toDegrees(),-maxTurn.toDegrees()*Updater.getLoopTime(),maxTurn.toDegrees()*Updater.getLoopTime()));
 		
-		DTTarget tgt= new DTTarget(lastDir.add(dDir).toReal(),lastTurn.add(dAng));
+		DTTarget tgt= new DTTarget(lastDir.add(dDir),lastTurn.add(dAng));
 		
 		lastDir=tgt.getDirection();
 		lastTurn=tgt.getTurn();

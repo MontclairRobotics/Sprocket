@@ -1,14 +1,15 @@
 package org.montclairrobotics.sprocket.control;
 
-import edu.wpi.first.wpilibj.Joystick;
 import org.montclairrobotics.sprocket.drive.DTInput;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
-import org.montclairrobotics.sprocket.geometry.RVector;
-import org.montclairrobotics.sprocket.geometry.RXY;
+import org.montclairrobotics.sprocket.geometry.Vector;
+import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
+
+import edu.wpi.first.wpilibj.Joystick;
 
 public class ArcadeDriveInput implements DTInput,Updatable {
 
@@ -19,7 +20,7 @@ public class ArcadeDriveInput implements DTInput,Updatable {
     private Distance maxSpeed;
     private Angle maxTurn;
 
-    private RVector dir;
+    private Vector dir;
     private Angle turn;
 
     public ArcadeDriveInput(Joystick stick) {
@@ -33,13 +34,13 @@ public class ArcadeDriveInput implements DTInput,Updatable {
 
     public void update() {
         turn = maxTurn.times(stick.getX());
-        dir = new RXY(0,stick.getY()*maxSpeed.get());
+        dir = new XY(0,stick.getY()*maxSpeed.get());
     }
 
-    public RVector getDirection() {
+    public Vector getDirection() {
         return dir;
     }
-    public RVector getDir()
+    public Vector getDir()
     {
     	return getDirection();//I'm very lazy
     }
