@@ -4,16 +4,15 @@ import org.montclairrobotics.sprocket.drive.DTInput;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
-import org.montclairrobotics.sprocket.geometry.RVector;
+import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.states.State;
 import org.montclairrobotics.sprocket.states.StateMachine;
-import org.montclairrobotics.sprocket.utils.Input;
 
 public class AutoMode implements DTInput{
 	private StateMachine machine;
 	private DTInput oldInput;
 	public static DriveTrain driveTrain;
-	public static RVector tgtDir;
+	public static Vector tgtDir;
 	public static Angle tgtTurn;
 	public static DTInput.Type inputType;
 	
@@ -46,7 +45,7 @@ public class AutoMode implements DTInput{
 		return machine.isDone();
 	}
 	@Override
-	public RVector getDir() {
+	public Vector getDir() {
 		return tgtDir;
 	}
 	@Override

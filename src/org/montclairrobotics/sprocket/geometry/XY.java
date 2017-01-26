@@ -4,7 +4,10 @@ public class XY implements Vector {
 
     private double x;
     private double y;
-
+    public XY(double x,double y,Distance scale)
+	{
+		this(x*scale.get(),y*scale.get());
+	}
     public XY(double x, double y) {
         this.x = x;
         this.y = y;
@@ -61,10 +64,5 @@ public class XY implements Vector {
 	public Angle angleBetween(Vector a)
 	{
 		return getAngle().subtract(a.getAngle());
-	}
-
-	@Override
-	public RVector toReal() {
-		return new RXY(x,y);
 	}
 }

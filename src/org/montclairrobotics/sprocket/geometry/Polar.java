@@ -4,7 +4,10 @@ public class Polar implements Vector {
 
     private double magnitude;
     private Angle angle;
-
+    public Polar(Distance mag,Angle ang)
+	{
+		this(mag.get(),ang);
+	}
     public Polar(double mag, Angle a) {
         magnitude = mag;
         angle = a;
@@ -62,12 +65,6 @@ public class Polar implements Vector {
 	public Angle angleBetween(Vector a)
 	{
 		return angle.subtract(a.getAngle());
-	}
-
-
-	@Override
-	public RVector toReal() {
-		return new RPolar(magnitude,angle);
 	}
 	
 }

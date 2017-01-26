@@ -2,7 +2,6 @@ package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Polar;
-import org.montclairrobotics.sprocket.geometry.RVector;
 import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.geometry.Vector;
 
@@ -10,7 +9,7 @@ public class GenericMapper implements DTMapper{
 
 	@Override
 	public void map(DTTarget driveTarget, DriveModule[] driveModules) {
-		RVector tgtDir=driveTarget.getDirection();
+		Vector tgtDir=driveTarget.getDirection();
 		Angle tgtTurn=driveTarget.getTurn();
 		for(DriveModule module:driveModules)
 		{
@@ -23,7 +22,7 @@ public class GenericMapper implements DTMapper{
 		}
 	}
 	
-	public static Angle getTorque(RVector offset,RVector force,RVector target)
+	public static Angle getTorque(Vector offset,Vector force,Vector target)
 	{
 		if(offset.getMagnitude()==0)
 			return Angle.ZERO;

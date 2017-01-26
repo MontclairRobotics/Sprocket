@@ -1,18 +1,19 @@
 package org.montclairrobotics.sprocket.drive;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.SpeedController;
+import java.util.ArrayList;
+
 import org.montclairrobotics.sprocket.control.ArcadeDriveInput;
 import org.montclairrobotics.sprocket.drive.steps.Deadzone;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
-import org.montclairrobotics.sprocket.geometry.RPolar;
-import org.montclairrobotics.sprocket.geometry.RVector;
+import org.montclairrobotics.sprocket.geometry.Polar;
+import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.pipeline.Pipeline;
 import org.montclairrobotics.sprocket.pipeline.Step;
 import org.montclairrobotics.sprocket.utils.PID;
 
-import java.util.ArrayList;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SpeedController;
 
 /**
  * DriveTrainBuilder is a helper class which makes constructing DriveTrains more
@@ -42,22 +43,22 @@ public class DriveTrainBuilder {
         return this;
     }
 
-    public DriveTrainBuilder addWheel(SpeedController motor, RVector offset, Angle force, SEncoder enc, PID pid, Distance maxSpeed, boolean invert) {
-        modules.add(new DriveModule(offset, new RPolar(1, force), new Motor(motor, enc, pid, invert)));
+    public DriveTrainBuilder addWheel(SpeedController motor, Vector offset, Angle force, SEncoder enc, PID pid, Distance maxSpeed, boolean invert) {
+        modules.add(new DriveModule(offset, new Polar(1, force), new Motor(motor, enc, pid, invert)));
         return this;
     }
 
-    public DriveTrainBuilder addWheel(SpeedController motor, RVector offset, Angle force, SEncoder enc, PID pid, Distance maxSpeed) {
+    public DriveTrainBuilder addWheel(SpeedController motor, Vector offset, Angle force, SEncoder enc, PID pid, Distance maxSpeed) {
         return addWheel(motor, offset, force, enc, pid, maxSpeed, false);
     }
 
-    public DriveTrainBuilder addWheel(SpeedController motor, RVector offset, Angle force) {
+    public DriveTrainBuilder addWheel(SpeedController motor, Vector offset, Angle force) {
         return addWheel(motor, offset, force, null, null, null);
     }
     
     
-    public DriveTrainBuilder addWheels(RVector offset, Angle force, Motor... motors) {
-    	modules.add(new DriveModule(offset, new RPolar(1, force), motors));
+    public DriveTrainBuilder addWheels(Vector offset, Angle force, Motor... motors) {
+    	modules.add(new DriveModule(offset, new Polar(1, force), motors));
     	return this;
     }
     
