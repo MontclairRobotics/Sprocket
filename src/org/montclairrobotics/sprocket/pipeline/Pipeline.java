@@ -4,26 +4,20 @@ import java.util.ArrayList;
 
 import org.montclairrobotics.sprocket.utils.Input;
 
-public class Pipeline <T>{
+public class Pipeline <T> {
 
 	private ArrayList<Step<T>> steps;
-	//private Input<T> init;
 	
-	public Pipeline(ArrayList<Step<T>> steps)
-	{
-		this.steps=steps;
-		//this.init=init;
+	public Pipeline(ArrayList<Step<T>> steps) {
+		this.steps = steps;
 	}
-
-	/*public T get()
-	{
-		return get(init.get());
-	}*/
 	
-	public T get(T res)
-	{
-		for(Step<T> step:steps)
-		{
+	public ArrayList<Step<T>> getSteps() {
+		return steps;
+	}
+	
+	public T get(T res) {
+		for(Step<T> step:steps){
 			res=step.get(res);
 
 		}

@@ -8,9 +8,12 @@ import org.montclairrobotics.sprocket.pipeline.Step;
 
 public class DTPipeline extends Pipeline<DTTarget>{
 
-	public DTPipeline(DTStep... steps) {
+	public DTPipeline(Step<DTTarget>... steps) {
 		super(new ArrayList<Step<DTTarget>>(Arrays.asList(steps)));
-		// TODO Auto-generated constructor stub
+	}
+	
+	public DTPipeline(ArrayList<Step<DTTarget>> steps) {
+		super(steps);
 	}
 
 }

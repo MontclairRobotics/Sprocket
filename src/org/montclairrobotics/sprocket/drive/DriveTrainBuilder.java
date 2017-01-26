@@ -3,24 +3,37 @@ package org.montclairrobotics.sprocket.drive;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
 import org.montclairrobotics.sprocket.control.ArcadeDriveInput;
+import org.montclairrobotics.sprocket.drive.steps.Deadzone;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.RPolar;
 import org.montclairrobotics.sprocket.geometry.RVector;
 import org.montclairrobotics.sprocket.pipeline.Pipeline;
+import org.montclairrobotics.sprocket.pipeline.Step;
 import org.montclairrobotics.sprocket.utils.PID;
 
 import java.util.ArrayList;
 
+/**
+ * DriveTrainBuilder is a helper class which makes constructing DriveTrains more
+ * straightforward for beginners. This class abstracts a lot of the more advanced
+ * features of DriveTrain to make constructing the vast majority of robots a lot
+ * easier than it would be otherwise. All methods in this class can be chained
+ * and even though you're using a Builder you still have a lot of functionality
+ * and power exposed.
+ *
+ */
 public class DriveTrainBuilder {
 
     private ArrayList<DriveModule> modules;
     private DTInput input;
     private DriveTrainType driveTrainType;
-    private Pipeline<DTTarget> drivePipeline;
+    private ArrayList<Step<DTTarget>> pipelineSteps;
 
     public DriveTrainBuilder() {
         modules = new ArrayList<>();
+        pipelineSteps = new ArrayList<>();
+        pipelineSteps.add(new Deadzone());
     }
 
 
@@ -41,7 +54,15 @@ public class DriveTrainBuilder {
     public DriveTrainBuilder addWheel(SpeedController motor, RVector offset, Angle force) {
         return addWheel(motor, offset, force, null, null, null);
     }
-
+    
+    
+    public DriveTrainBuilder addWheels(RVector offset, Angle force, Motor... motors) {
+    	modules.add(new DriveModule(offset, new RPolar(1, force), motors));
+    	return this;
+    }
+    
+    
+    
     public DriveTrainBuilder setInput(DTInput input) {
         this.input = input;
         return this;
@@ -53,7 +74,30 @@ public class DriveTrainBuilder {
     }
     
     public DriveTrainBuilder setDefaultPipeline() {
-    	drivePipeline = new ZeroPipeline();
+    	pipelineSteps.clear();
+    	pipelineSteps.add(new Deadzone());
+    	return this;
+    }
+    
+    public DriveTrainBuilder setPipeline(Pipeline<DTTarget> pipeline) {
+    	pipelineSteps = pipeline.getSteps();
+    	return this;
+    }
+    
+    public DriveTrainBuilder clearPipeline() {
+    	pipelineSteps.clear();
+    	return this;
+    }
+    
+    public DriveTrainBuilder addStep(DTStep step) {
+    	pipelineSteps.add(step);
+    	return this;
+    }
+    
+    public DriveTrainBuilder addSteps(DTStep... steps) {
+    	for(DTStep step : steps) {
+    		pipelineSteps.add(step);
+    	}
     	return this;
     }
     
@@ -78,14 +122,13 @@ public class DriveTrainBuilder {
         default:
         	mapper = new TankMapper();
         }
-        
-        if(drivePipeline == null) setDefaultPipeline();
 
         DriveTrain dt = new DriveTrain(modules.toArray(new DriveModule[]{}));
 
         dt.setInput(input);
         dt.setMapper(mapper);
-        dt.setPipeline(drivePipeline);
+        
+        dt.setPipeline(new DTPipeline(pipelineSteps));
 
         return dt;
     }
