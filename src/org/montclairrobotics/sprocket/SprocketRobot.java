@@ -1,8 +1,10 @@
 package org.montclairrobotics.sprocket;
 
+import org.montclairrobotics.sprocket.auto.AutoMode;
 import org.montclairrobotics.sprocket.loop.Updater;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 
 /**
@@ -12,6 +14,10 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  */
 public class SprocketRobot extends IterativeRobot {
 
+	private SendableChooser<AutoMode> chooser;
+	private AutoMode[] autoModes;
+	private AutoMode selectedAutoMode;
+	
     @Override
     public void startCompetition() {
         super.startCompetition();
@@ -24,11 +30,17 @@ public class SprocketRobot extends IterativeRobot {
 
     @Override
     public void disabledInit() {
+    	if(selectedAutoMode!=null)
+    	{
+    		selectedAutoMode.stop();
+    	}
         super.disabledInit();
     }
 
     @Override
     public void autonomousInit() {
+    	selectedAutoMode=chooser.getSelected();
+    	selectedAutoMode.start();
         super.autonomousInit();
     }
 
@@ -63,6 +75,16 @@ public class SprocketRobot extends IterativeRobot {
     public void testPeriodic() {
         super.testPeriodic();
         Updater.loop();
+    }
+    
+    public void setAutoModes(AutoMode... modes)
+    {
+    	this.autoModes=modes;
+    	chooser=new SendableChooser<AutoMode>();
+    	for(AutoMode mode:modes)
+    	{
+    		chooser.addObject(mode+"", mode);
+    	}
     }
 
 }

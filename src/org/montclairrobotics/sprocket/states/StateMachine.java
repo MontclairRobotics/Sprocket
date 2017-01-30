@@ -1,19 +1,30 @@
 package org.montclairrobotics.sprocket.states;
 
-public class StateMachine implements State{
+import org.montclairrobotics.sprocket.loop.Priority;
+import org.montclairrobotics.sprocket.loop.Updatable;
+import org.montclairrobotics.sprocket.loop.Updater;
+
+public class StateMachine implements State,Updatable{
 
 	private State[] states;
 	private int index;
+	private boolean top;
 	
 	public StateMachine(State...s)
 	{
 		this.states=s;
 		index=-1;
+		Updater.add(this, Priority.AUTO);
+	}
+	public void start(boolean top)
+	{
+		this.top=top;
+		index=0;
+		startState();
 	}
 	@Override
 	public void start() {
-		index=0;
-		states[index].start();
+		start(true);
 	}
 
 	@Override
@@ -21,19 +32,20 @@ public class StateMachine implements State{
 		if(isDone())return;
 		states[index].stop();
 		index=-1;
+		top=false;
 	}
 
 	@Override
-	public void update() {
+	public void stateUpdate() {
 		if(isDone())return;
-		states[index].update();
+		states[index].stateUpdate();
 		while(states[index].isDone())
 		{
 			states[index].stop();
 			index++;
 			if(isDone())return;
-			states[index].start();
-			states[index].update();
+			startState();
+			states[index].stateUpdate();
 		}
 	}
 
@@ -41,6 +53,26 @@ public class StateMachine implements State{
 	public boolean isDone() {
 		return index>=0&&index<states.length;
 	}
-
-	
+	public State[] getStates()
+	{
+		return states;
+	}
+	@Override
+	public void update() {
+		if(top)
+		{
+			stateUpdate();
+		}
+	}
+	public void startState()
+	{
+		if(states[index] instanceof StateMachine)
+		{
+			((StateMachine)states[index]).start(false);
+		}
+		else
+		{
+			states[index].start();
+		}
+	}
 }

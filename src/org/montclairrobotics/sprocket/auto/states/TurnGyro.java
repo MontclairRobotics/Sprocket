@@ -5,7 +5,7 @@ import org.montclairrobotics.sprocket.auto.AutoState;
 public class TurnGyro extends AutoState{
 
 	@Override
-	public void update() {
+	public void stateUpdate() {
 		// TODO Auto-generated method stub
 		
 	}

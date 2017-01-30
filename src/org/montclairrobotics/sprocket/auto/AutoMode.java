@@ -8,62 +8,40 @@ import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.states.State;
 import org.montclairrobotics.sprocket.states.StateMachine;
 
-public class AutoMode implements DTInput{
-	private StateMachine machine;
+public class AutoMode{
+	private AutoStateMachine machine;
 	private DTInput oldInput;
-	public static DriveTrain driveTrain;
-	public static Vector tgtDir;
-	public static Angle tgtTurn;
-	public static DTInput.Type inputType;
+	private AutoDTInput tempInput;
+	private DriveTrain driveTrain;
 	
-	public AutoMode(DriveTrain dt,StateMachine m)
+	private String name;
+	
+	public AutoMode(String name,DriveTrain dt,AutoStateMachine m)
 	{
+		this.name=name;
 		this.driveTrain=dt;
 		this.machine=m;
 	}
-	public AutoMode(DriveTrain dt,State... s)
+	public AutoMode(String name,DriveTrain dt,IAutoState... s)
 	{
-		this(dt,new StateMachine(s));
+		this(name,dt,new AutoStateMachine(s));
 	}
 	public void start()
 	{
 		oldInput=driveTrain.getInput();
-		driveTrain.setInput(this);
-		machine.start();
+		tempInput=new AutoDTInput();
+		machine.setDTInput(tempInput);
+		driveTrain.setInput(tempInput);
+		machine.start(true);
 	}
 	public void stop()
 	{
 		machine.stop();
 		driveTrain.setInput(oldInput);
 	}
-	public void update()
+	public String toString()
 	{
-		machine.update();
+		return name;
 	}
-	public boolean isDone()
-	{
-		return machine.isDone();
-	}
-	@Override
-	public Vector getDir() {
-		return tgtDir;
-	}
-	@Override
-	public Angle getTurn() {
-		return tgtTurn;
-	}
-	@Override
-	public Type getInputType() {
-		return inputType;
-	}
-	@Override
-	public void setMaxSpeed(Distance m) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void setMaxTurn(Angle a) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }
