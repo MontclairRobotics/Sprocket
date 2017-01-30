@@ -7,9 +7,9 @@ import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.Vector;
 
 public class AutoDTInput implements DTInput{
-	public Vector tgtDir;
-	public Angle tgtTurn;
-	public DTInput.Type inputType;
+	public Vector tgtDir=Vector.ZERO;
+	public Angle tgtTurn=Angle.ZERO;
+	public DTInput.Type inputType=DTInput.Type.PERCENT;
 	@Override
 	public Vector getDir() {
 		return tgtDir;

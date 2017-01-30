@@ -4,6 +4,8 @@ import org.montclairrobotics.sprocket.auto.AutoState;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class DriveTime extends AutoState{
 
 	double time;
@@ -25,6 +27,9 @@ public class DriveTime extends AutoState{
 
 	@Override
 	public boolean isDone() {
+		SmartDashboard.putNumber("time", time);
+		SmartDashboard.putNumber("stateTime", timeInState());
+		SmartDashboard.putNumber("tgtDirY", tgtDir.getY());
 		return timeInState()>time;
 	}
 

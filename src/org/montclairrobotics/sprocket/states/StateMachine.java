@@ -4,6 +4,8 @@ import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class StateMachine implements State,Updatable{
 
 	private State[] states;
@@ -47,11 +49,12 @@ public class StateMachine implements State,Updatable{
 			startState();
 			states[index].stateUpdate();
 		}
+		SmartDashboard.putString("what about here","yep");
 	}
 
 	@Override
 	public boolean isDone() {
-		return index>=0&&index<states.length;
+		return index<0||index>=states.length;
 	}
 	public State[] getStates()
 	{
@@ -63,6 +66,10 @@ public class StateMachine implements State,Updatable{
 		{
 			stateUpdate();
 		}
+		SmartDashboard.putString("Updating", "Statemachine, top="+top);
+
+		SmartDashboard.putNumber("index",index);
+		SmartDashboard.putNumber("length of states", states.length);
 	}
 	public void startState()
 	{
@@ -74,5 +81,6 @@ public class StateMachine implements State,Updatable{
 		{
 			states[index].start();
 		}
+		SmartDashboard.putString("I hope it gets here","It does!");
 	}
 }

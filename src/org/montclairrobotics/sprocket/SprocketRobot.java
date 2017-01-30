@@ -5,6 +5,7 @@ import org.montclairrobotics.sprocket.loop.Updater;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -85,6 +86,7 @@ public class SprocketRobot extends IterativeRobot {
     	{
     		chooser.addObject(mode+"", mode);
     	}
+    	SmartDashboard.putData("AUTO:",chooser);
     }
 
 }

@@ -8,6 +8,8 @@ import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.states.State;
 import org.montclairrobotics.sprocket.states.StateMachine;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class AutoMode{
 	private AutoStateMachine machine;
 	private DTInput oldInput;
@@ -33,6 +35,7 @@ public class AutoMode{
 		machine.setDTInput(tempInput);
 		driveTrain.setInput(tempInput);
 		machine.start(true);
+		SmartDashboard.putString("StartingAutoMode","START");
 	}
 	public void stop()
 	{

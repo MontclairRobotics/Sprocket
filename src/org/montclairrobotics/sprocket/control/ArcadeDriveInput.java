@@ -34,7 +34,7 @@ public class ArcadeDriveInput implements DTInput,Updatable {
 
     public void update() {
         turn = maxTurn.times(stick.getX());
-        dir = new XY(0,stick.getY()*maxSpeed.get());
+        dir = new XY(0,stick.getY()*maxSpeed.get()*-1);
     }
 
     public Vector getDirection() {
