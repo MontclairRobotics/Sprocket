@@ -1,6 +1,7 @@
 package org.montclairrobotics.sprocket;
 
 import org.montclairrobotics.sprocket.auto.AutoMode;
+import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.loop.Updater;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -18,6 +19,17 @@ public class SprocketRobot extends IterativeRobot {
 	private SendableChooser<AutoMode> chooser;
 	private AutoMode[] autoModes;
 	private AutoMode selectedAutoMode;
+	
+	private static DriveTrain driveTrain;
+	
+	public static DriveTrain getDriveTrain() {
+		return driveTrain;
+	}
+	
+	public static void setDriveTrain(DriveTrain dt) {
+		driveTrain = dt;
+	}
+	
 	
     @Override
     public void startCompetition() {
