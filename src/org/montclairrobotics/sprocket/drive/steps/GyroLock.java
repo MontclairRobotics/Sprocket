@@ -12,22 +12,38 @@ public class GyroLock implements Step<DTTarget>{
 
 	private PID pid;
 	private Input<Boolean> lock;
+	private boolean autoLock;
 	private boolean lastLock;
 	private double lastLockTime;
 	
 	public static final double TIME_TO_UNLOCK=1;
 	
+	public GyroLock(PID pid)
+	{
+		this(pid,
+				new Input<Boolean>(){
+					@Override
+					public Boolean get() {
+						return false;
+					}},
+					true);
+	}
 	public GyroLock(PID pid,Input<Boolean> lock)
+	{
+		this(pid,lock,false);
+	}
+	public GyroLock(PID pid,Input<Boolean> lock,boolean autolock)
 	{
 		this.pid=pid;
 		pid.setMinMax(-180, 179, 0, 0);
 		this.lock=lock;
+		this.autoLock=autoLock;
 	}
 	
 	@Override
 	public DTTarget get(DTTarget in) {
 		DTTarget out=in;
-		boolean isLocked=lock.get();
+		boolean isLocked=lock.get()||autoLock&&in.getDirection().getAngle().toRadians()<0.15;
 		if(isLocked&&!lastLock)
 		{
 			pid.setTarget(pid.getInput());
