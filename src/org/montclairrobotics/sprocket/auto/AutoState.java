@@ -36,4 +36,18 @@ public abstract class AutoState implements IAutoState{
 	{
 		return output;
 	}
+	
+	public void setDirection(Vector v) {
+		output.tgtDir = v;
+	}
+	
+	public void setTurn(Angle a) {
+		output.tgtTurn = a;
+	}
+	
+	public void setTarget(Vector v, Angle a) {
+		output.tgtDir = v;
+		output.tgtTurn = a;
+	}
+	
 }
