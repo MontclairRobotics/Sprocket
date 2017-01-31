@@ -43,13 +43,9 @@ public class DriveTrainBuilder {
         return this;
     }
 
-    public DriveTrainBuilder addWheel(SpeedController motor, Vector offset, Angle force, SEncoder enc, PID pid, Distance maxSpeed, boolean invert) {
-        modules.add(new DriveModule(offset, new Polar(1, force), new Motor(motor, enc, pid, invert)));
-        return this;
-    }
-
     public DriveTrainBuilder addWheel(SpeedController motor, Vector offset, Angle force, SEncoder enc, PID pid, Distance maxSpeed) {
-        return addWheel(motor, offset, force, enc, pid, maxSpeed, false);
+        modules.add(new DriveModule(offset, new Polar(1, force), new Motor(motor, enc, pid)));
+        return this;
     }
 
     public DriveTrainBuilder addWheel(SpeedController motor, Vector offset, Angle force) {

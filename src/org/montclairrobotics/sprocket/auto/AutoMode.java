@@ -1,46 +1,39 @@
 package org.montclairrobotics.sprocket.auto;
 
+import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.drive.DTInput;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
-import org.montclairrobotics.sprocket.geometry.Angle;
-import org.montclairrobotics.sprocket.geometry.Distance;
-import org.montclairrobotics.sprocket.geometry.Vector;
-import org.montclairrobotics.sprocket.states.State;
 import org.montclairrobotics.sprocket.states.StateMachine;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class AutoMode{
-	private AutoStateMachine machine;
-	private DTInput oldInput;
-	private AutoDTInput tempInput;
-	private DriveTrain driveTrain;
+public class AutoMode {
 	
+	private StateMachine machine;
 	private String name;
+	private DTInput oldInput;
 	
-	public AutoMode(String name,DriveTrain dt,AutoStateMachine m)
+	public AutoMode(String name, StateMachine m)
 	{
-		this.name=name;
-		this.driveTrain=dt;
-		this.machine=m;
+		this.name = name;
+		this.machine = m;
 	}
-	public AutoMode(String name,DriveTrain dt,IAutoState... s)
+	public AutoMode(String name, AutoState... s)
 	{
-		this(name,dt,new AutoStateMachine(s));
+		this(name, new StateMachine(s));
 	}
 	public void start()
 	{
-		oldInput=driveTrain.getInput();
-		tempInput=new AutoDTInput();
-		machine.setDTInput(tempInput);
-		driveTrain.setInput(tempInput);
+		DriveTrain dt=SprocketRobot.getDriveTrain();
+		oldInput = dt.getInput();
+		dt.setInput(dt.autoInput);
 		machine.start(true);
 		SmartDashboard.putString("StartingAutoMode","START");
 	}
 	public void stop()
 	{
 		machine.stop();
-		driveTrain.setInput(oldInput);
+		SprocketRobot.getDriveTrain().setInput(oldInput);
 	}
 	public String toString()
 	{

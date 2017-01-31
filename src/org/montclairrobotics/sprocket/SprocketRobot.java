@@ -1,5 +1,8 @@
 package org.montclairrobotics.sprocket;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.montclairrobotics.sprocket.auto.AutoMode;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.loop.Updater;
@@ -52,18 +55,21 @@ public class SprocketRobot extends IterativeRobot {
 
     @Override
     public void autonomousInit() {
-    	selectedAutoMode=chooser.getSelected();
+    	getDriveTrain().autoInit();
+    	selectedAutoMode = chooser.getSelected();
     	selectedAutoMode.start();
         super.autonomousInit();
     }
 
     @Override
     public void teleopInit() {
+    	getDriveTrain().teleopInit();
         super.teleopInit();
     }
 
     @Override
     public void testInit() {
+    	getDriveTrain().teleopInit();
         super.testInit();
     }
 
@@ -99,6 +105,12 @@ public class SprocketRobot extends IterativeRobot {
     		chooser.addObject(mode+"", mode);
     	}
     	SmartDashboard.putData("AUTO:",chooser);
+    }
+    
+    public void addAutoMode(AutoMode mode) {
+    	List<AutoMode> modes = Arrays.asList(autoModes);
+    	modes.add(mode);
+    	autoModes = modes.toArray(autoModes);
     }
 
 }

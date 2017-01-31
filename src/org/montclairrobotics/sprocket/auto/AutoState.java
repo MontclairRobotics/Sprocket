@@ -1,18 +1,20 @@
 package org.montclairrobotics.sprocket.auto;
 
+import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.drive.DTInput;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.states.State;
 
-public abstract class AutoState implements IAutoState{
+public abstract class AutoState implements State {
 	private double t;//time state was started
 	public AutoDTInput output;//output to drivetrain
 	
 	public final void start()
 	{
 		t=Updater.getTime();
+		output = SprocketRobot.getDriveTrain().getAutoInput();
 		userStart();
 	}
 	public void userStart(){}

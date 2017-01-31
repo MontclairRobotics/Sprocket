@@ -1,6 +1,7 @@
 package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.SprocketRobot;
+import org.montclairrobotics.sprocket.auto.AutoDTInput;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.Radians;
@@ -11,7 +12,9 @@ import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.pipeline.Pipeline;
 
 public class DriveTrain implements Updatable {
-
+	
+	public AutoDTInput autoInput;
+	
 	private Distance maxSpeed=Distance.ZERO;
 	private Angle maxTurn=Angle.ZERO;
 	
@@ -19,6 +22,7 @@ public class DriveTrain implements Updatable {
 	private Pipeline<DTTarget> pipeline;
 	private DriveModule[] modules;
     private DTMapper mapper;
+    private boolean auto = false;
 
 
     public DriveTrain(DriveModule... modules) {
@@ -39,6 +43,7 @@ public class DriveTrain implements Updatable {
     		}
     	}
     	input=new ZeroInput();
+    	autoInput = new AutoDTInput();
     	pipeline=new ZeroPipeline();
     	SprocketRobot.setDriveTrain(this);
     	Updater.add(this, Priority.DRIVE_CALC);
@@ -46,6 +51,8 @@ public class DriveTrain implements Updatable {
 
 	@Override
 	public void update() {
+		//DTInput input = auto ? this.autoInput : this.input;
+		
 		Vector tgtDir=input.getDir();
 		Angle tgtTurn=input.getTurn();
 		if(input.getInputType().equals(DTInput.Type.PERCENT))
@@ -58,6 +65,13 @@ public class DriveTrain implements Updatable {
 		mapper.map(target, modules);
 	}
     
+	public void teleopInit() {
+		auto = false;
+	}
+	
+	public void autoInit() {
+		auto = true;
+	}
 	
 	//======================GETTERS AND SETTERS======================
 	public DriveTrain setInput(DTInput input)
@@ -107,4 +121,9 @@ public class DriveTrain implements Updatable {
     {
     	return modules;
     }
+    public AutoDTInput getAutoInput() {
+    	return autoInput;
+    }
+    
+    
 }

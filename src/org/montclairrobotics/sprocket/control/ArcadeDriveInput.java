@@ -11,12 +11,10 @@ import org.montclairrobotics.sprocket.loop.Updater;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class ArcadeDriveInput implements DTInput,Updatable {
+public class ArcadeDriveInput implements DTInput, Updatable {
 
     private Joystick stick;
-    //MotorInputType inputType;
     
-    //private boolean speedControl;
     private Distance maxSpeed;
     private Angle maxTurn;
 
@@ -24,17 +22,23 @@ public class ArcadeDriveInput implements DTInput,Updatable {
     private Angle turn;
 
     public ArcadeDriveInput(Joystick stick) {
-    	//inputType=MotorInputType.PERCENT;
         this.stick = stick;
         this.maxSpeed=new Distance(1);
         this.maxTurn=Angle.QUARTER;
         Updater.add(this, Priority.INPUT);
     }
+    
+    public ArcadeDriveInput(Joystick stick, Distance maxSpeed, Angle maxTurnSpeed) {
+    	this.stick = stick;
+    	this.maxSpeed = maxSpeed;
+    	this.maxTurn = maxTurnSpeed;
+    	Updater.add(this, Priority.INPUT);
+    }
 
 
     public void update() {
         turn = maxTurn.times(stick.getX());
-        dir = new XY(0,stick.getY()*maxSpeed.get()*-1);
+        dir = new XY(0, stick.getY()*maxSpeed.get());
     }
 
     public Vector getDirection() {
@@ -63,10 +67,4 @@ public class ArcadeDriveInput implements DTInput,Updatable {
 	{
 		this.maxTurn=t;
 	}
-	
-	/*@Override
-	public DriveTrainTarget get() {
-		// TODO Auto-generated method stub
-		return new DriveTrainTarget(getDirection(),getTurn(),inputType);
-	}*/
 }

@@ -15,7 +15,7 @@ public class Motor {
         UNKNOWN
     }
     
-    public enum MotorInputType {PERCENT,SPEED};
+    public enum MotorInputType {PERCENT, SPEED};
 
     private SpeedController motor;
     private MotorType motorType;
@@ -23,15 +23,18 @@ public class Motor {
     private PID pid;
     private MotorInputType inputType;
 
-    public Motor(SpeedController motor, SEncoder enc, PID pid, boolean invert) {
+    public Motor(SpeedController motor, SEncoder enc, PID pid, MotorInputType inputType) {
         if(motor == null) {
             throw new IllegalArgumentException("SpeedController argument was null when instantiating Motor object");
         }
 
-        if(pid == null || enc == null) {
-            inputType = MotorInputType.PERCENT;
-        } else {
-            inputType = MotorInputType.SPEED;
+        this.inputType = inputType;
+        if(this.inputType == null) {
+        	if(enc == null || pid == null) {
+        		this.inputType = MotorInputType.PERCENT;
+        	} else {
+        		this.inputType = MotorInputType.SPEED;
+        	}
         }
 
         this.motor = motor;
@@ -52,19 +55,20 @@ public class Motor {
                 CANTalon cMotor = (CANTalon) motor;
                 cMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
             break;
+            default:
+            break;
         }
 
-        motor.setInverted(invert);
         if(pid!=null)
         	pid.setInput(new EncoderInput(enc));
     }
-
+    
     public Motor(SpeedController motor, SEncoder enc, PID pid) {
-        this(motor, enc, pid, false);
+        this(motor, enc, pid, null);
     }
 
     public Motor(SpeedController motor) {
-        this(motor, null, null, false);
+        this(motor, null, null);
     }
 
     public void set(double power) {
