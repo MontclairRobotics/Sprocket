@@ -1,6 +1,8 @@
 package org.montclairrobotics.sprocket.drive;
 
+import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
+import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Input;
 
 import edu.wpi.first.wpilibj.SpeedController;
@@ -12,11 +14,13 @@ public class ControlledMotor extends Motor implements Updatable {
 	public ControlledMotor(SpeedController motor, Input<Double> input) {
 		super(motor);
 		this.input = input;
+		Updater.add(this, Priority.OUTPUT);
 	}
 	
 	public ControlledMotor(SpeedController motor, Input<Boolean> forwardInput, Input<Boolean> reverseInput, double speed) {
 		super(motor);
 		this.input = new ButtonPairInput(forwardInput, reverseInput, speed);
+		Updater.add(this, Priority.OUTPUT);
 	}
 	
 	public ControlledMotor(SpeedController motor, Input<Boolean> forwardInput, Input<Boolean> reverseInput) {
