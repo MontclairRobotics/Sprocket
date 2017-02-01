@@ -32,12 +32,12 @@ public class GyroLock implements Step<DTTarget>{
 	{
 		this(pid,lock,false);
 	}
-	public GyroLock(PID pid,Input<Boolean> lock,boolean autolock)
+	public GyroLock(PID pid,Input<Boolean> lock,boolean autoLock)
 	{
 		this.pid=pid;
 		pid.setMinMax(-180, 179, 0, 0);
 		this.lock=lock;
-		this.autoLock=autoLock;
+		this.autoLock = autoLock;
 	}
 	
 	@Override
