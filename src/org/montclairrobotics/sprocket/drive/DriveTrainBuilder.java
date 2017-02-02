@@ -112,6 +112,9 @@ public class DriveTrainBuilder {
         }
         
         DTMapper mapper;
+        if(driveTrainType == null) {
+        	driveTrainType = DriveTrainType.TANK;
+        }
         switch(driveTrainType) {
         case MECANUM:
         	mapper = new MecanumMapper();

@@ -63,13 +63,13 @@ public class SprocketRobot extends IterativeRobot {
 
     @Override
     public void teleopInit() {
-    	getDriveTrain().teleopInit();
+    	if(getDriveTrain() != null) getDriveTrain().teleopInit();
         super.teleopInit();
     }
 
     @Override
     public void testInit() {
-    	getDriveTrain().teleopInit();
+    	if(getDriveTrain() != null) getDriveTrain().teleopInit();
         super.testInit();
     }
 
