@@ -21,7 +21,8 @@ public class ArcadeDriveInput implements DTInput, Updatable {
     private Vector dir;
     private Angle turn;
 
-	private Vector sensitivity=new XY(1,1);
+	private double sensitivity=1;
+	private double turnSensitivity=1;
 
     public ArcadeDriveInput(Joystick stick) {
         this.stick = stick;
@@ -37,18 +38,16 @@ public class ArcadeDriveInput implements DTInput, Updatable {
     	Updater.add(this, Priority.INPUT);
     }
 
-    public void setSensitivity(Vector sensitivity)
+    public ArcadeDriveInput setSensitivity(double dir,double turn)
     {
-    	this.sensitivity=sensitivity;
-    }
-    public void setSensitivity(double x,double y)
-    {
-    	setSensitivity(new XY(x,y));
+    	turnSensitivity=turn;
+    	sensitivity=dir;
+    	return this;
     }
 
     public void update() {
-        turn = maxTurn.times(stick.getX()*sensitivity.getX());
-        dir = new XY(0, stick.getY()*maxSpeed.get()*sensitivity.getY()*-1);
+        turn = maxTurn.times(stick.getX()*turnSensitivity);
+        dir = new XY(0, stick.getY()*maxSpeed.get()*sensitivity*-1);
     }
 
     public Vector getDirection() {
