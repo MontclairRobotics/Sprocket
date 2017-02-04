@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.montclairrobotics.sprocket.auto.AutoMode;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
+import org.montclairrobotics.sprocket.loop.Priority;
+import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -17,11 +19,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * This class is basically just a wrapper around iterative robot which all Sprocket
  * robots must extend.
  */
-public class SprocketRobot extends IterativeRobot {
+public class SprocketRobot extends IterativeRobot implements Updatable{
 
 	private SendableChooser<AutoMode> chooser;
 	private AutoMode[] autoModes;
 	private AutoMode selectedAutoMode;
+	
+	public SprocketRobot()
+	{
+		Updater.add(this,Priority.NORMAL);
+	}
 	
 	private static DriveTrain driveTrain;
 	
@@ -41,11 +48,11 @@ public class SprocketRobot extends IterativeRobot {
 
     @Override
     public void robotInit() {
-        super.robotInit();
+        //super.robotInit();
     }
 
     @Override
-    public void disabledInit() {
+    public final void disabledInit() {
     	if(selectedAutoMode!=null)
     	{
     		selectedAutoMode.stop();
@@ -54,7 +61,7 @@ public class SprocketRobot extends IterativeRobot {
     }
 
     @Override
-    public void autonomousInit() {
+    public final void autonomousInit() {
     	getDriveTrain().autoInit();
     	selectedAutoMode = chooser.getSelected();
     	selectedAutoMode.start();
@@ -62,36 +69,36 @@ public class SprocketRobot extends IterativeRobot {
     }
 
     @Override
-    public void teleopInit() {
+    public final void teleopInit() {
     	if(getDriveTrain() != null) getDriveTrain().teleopInit();
         super.teleopInit();
     }
 
     @Override
-    public void testInit() {
+    public final void testInit() {
     	if(getDriveTrain() != null) getDriveTrain().teleopInit();
         super.testInit();
     }
 
     @Override
-    public void disabledPeriodic() {
+    public final void disabledPeriodic() {
         super.disabledPeriodic();
     }
 
     @Override
-    public void autonomousPeriodic() {
+    public final void autonomousPeriodic() {
         super.autonomousPeriodic();
         Updater.loop();
     }
 
     @Override
-    public void teleopPeriodic() {
+    public final void teleopPeriodic() {
         super.teleopPeriodic();
         Updater.loop();
     }
 
     @Override
-    public void testPeriodic() {
+    public final void testPeriodic() {
         super.testPeriodic();
         Updater.loop();
     }
@@ -113,4 +120,12 @@ public class SprocketRobot extends IterativeRobot {
     	autoModes = modes.toArray(autoModes);
     }
 
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+
+    
+    
 }
