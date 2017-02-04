@@ -167,3 +167,4 @@ fabric.properties
 src.zip
 sysProps.xml
 META-INF/MANIFEST.MF
+*.stackdump
