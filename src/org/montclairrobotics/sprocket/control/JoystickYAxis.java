@@ -32,7 +32,7 @@ public class JoystickYAxis implements Input<Double> {
 	 */
 	@Override
 	public Double get() {
-		return stick.getY();
+		return -stick.getY();
 	}
 
 }
