@@ -9,7 +9,7 @@ public class TankMapper implements DTMapper {
     @Override
     public void map(DTTarget driveTarget, DriveModule[] driveModules) {
         double power = driveTarget.getDirection().getY()/SprocketRobot.getDriveTrain().getMaxSpeed().get();
-        double turn = driveTarget.getTurn().toDegrees()/SprocketRobot.getDriveTrain().getMaxTurn().toDegrees();
+        double turn = driveTarget.getTurn().divide(SprocketRobot.getDriveTrain().getMaxTurn());
 
         double max = 0;
 

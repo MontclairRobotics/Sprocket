@@ -55,4 +55,9 @@ public class Radians implements Angle{
 	{
 		return Math.tan(toRadians());
 	}
+
+	@Override
+	public double divide(Angle maxTurn) {
+		return toRadians()/maxTurn.toRadians();
+	}
 }
