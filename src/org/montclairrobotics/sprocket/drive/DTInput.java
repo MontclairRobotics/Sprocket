@@ -12,4 +12,9 @@ public interface DTInput {
 	public Type getInputType();
 	public void setMaxSpeed(Distance m);
 	public void setMaxTurn(Angle a);
+	
+	public default boolean isEnabled()
+	{
+		return true;
+	}
 }

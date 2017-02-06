@@ -18,7 +18,7 @@ public class DriveTrain implements Updatable {
 	private Distance maxSpeed=Distance.ZERO;
 	private Angle maxTurn=Angle.ZERO;
 	
-	private DTInput input;
+	private DTInput[] inputs;
 	private Pipeline<DTTarget> pipeline;
 	private DriveModule[] modules;
     private DTMapper mapper;
@@ -42,7 +42,7 @@ public class DriveTrain implements Updatable {
 	    		}
     		}
     	}
-    	input=new ZeroInput();
+    	inputs=new DTInput[]{new ZeroInput()};
     	autoInput = new AutoDTInput();
     	pipeline=new ZeroPipeline();
     	SprocketRobot.setDriveTrain(this);
@@ -52,6 +52,13 @@ public class DriveTrain implements Updatable {
 	@Override
 	public void update() {
 		//DTInput input = auto ? this.autoInput : this.input;
+		DTInput input;
+		int i=0;
+		while(i<inputs.length && !inputs[i].isEnabled())
+		{
+			i++;
+		}
+		input=inputs[i];
 		
 		Vector tgtDir=input.getDir();
 		Angle tgtTurn=input.getTurn();
@@ -74,16 +81,19 @@ public class DriveTrain implements Updatable {
 	}
 	
 	//======================GETTERS AND SETTERS======================
-	public DriveTrain setInput(DTInput input)
+	public DriveTrain setInputs(DTInput[] inputs)
 	{
-		this.input=input;
-		input.setMaxSpeed(maxSpeed);
-		input.setMaxTurn(maxTurn);
+		this.inputs=inputs;
+		for(DTInput input:inputs)
+		{
+			input.setMaxSpeed(maxSpeed);
+			input.setMaxTurn(maxTurn);
+		}
 		return this;
 	}
-	public DTInput getInput()
+	public DTInput[] getInputs()
 	{
-		return input;
+		return inputs;
 	}
 	public DriveTrain setPipeline(Pipeline<DTTarget> pipeline)
     {
