@@ -21,16 +21,4 @@ public class ZeroInput implements DTInput{
 		return DTInput.Type.PERCENT;
 	}
 
-	@Override
-	public void setMaxSpeed(Distance m) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setMaxTurn(Angle a) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

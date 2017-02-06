@@ -77,8 +77,6 @@ public class DriveTrain implements Updatable {
 	public DriveTrain setInput(DTInput input)
 	{
 		this.input=input;
-		input.setMaxSpeed(maxSpeed);
-		input.setMaxTurn(maxTurn);
 		return this;
 	}
 	public DTInput getInput()

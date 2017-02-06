@@ -29,16 +29,4 @@ public class AutoDTInput implements DTInput {
 		return inputType;
 	}
 
-	@Override
-	public void setMaxSpeed(Distance m) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setMaxTurn(Angle a) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

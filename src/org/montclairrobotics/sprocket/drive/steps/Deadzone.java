@@ -1,5 +1,6 @@
 package org.montclairrobotics.sprocket.drive.steps;
 
+import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Radians;
@@ -18,7 +19,7 @@ public class Deadzone implements Step<DTTarget>{
 	}
 	public Deadzone(double x,double y)
 	{
-		this(new XY(0,y),new Radians(x));
+		this(new XY(0,y).scale(SprocketRobot.getDriveTrain().getMaxSpeed(),false),new Radians(x*SprocketRobot.getDriveTrain().getMaxTurn().toRadians()));
 	}
 	public Deadzone(Vector dz,Angle turnDZ)
 	{

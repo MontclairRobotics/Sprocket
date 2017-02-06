@@ -1,5 +1,6 @@
 package org.montclairrobotics.sprocket.drive.steps;
 
+import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degrees;
@@ -25,7 +26,7 @@ public class AccelLimit implements Step<DTTarget>{
 	}
 	public AccelLimit(double maxAccel,double maxTurn)
 	{
-		this(new Distance(maxAccel),new Radians(maxTurn));
+		this(new Distance(maxAccel*SprocketRobot.getDriveTrain().getMaxSpeed().get()),new Radians(maxTurn*SprocketRobot.getDriveTrain().getMaxTurn().toRadians()));
 	}
 	public AccelLimit(Distance maxAccel,Angle maxTurn) 
 	{

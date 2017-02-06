@@ -67,4 +67,8 @@ public class Polar implements Vector {
 		return angle.subtract(a.getAngle());
 	}
 	
+	public Vector scale(Distance dist, boolean norm) {
+		return scale(dist.get(),norm);
+	}
+	
 }

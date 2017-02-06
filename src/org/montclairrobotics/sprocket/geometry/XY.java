@@ -65,4 +65,7 @@ public class XY implements Vector {
 	{
 		return getAngle().subtract(a.getAngle());
 	}
+	public Vector scale(Distance dist, boolean norm) {
+		return scale(dist.get(),norm);
+	}
 }

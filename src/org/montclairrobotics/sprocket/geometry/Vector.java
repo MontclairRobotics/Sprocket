@@ -13,5 +13,5 @@ public interface Vector {
     double dotProduct(Vector v);
 	Vector rotate(Angle angle);
 	Angle angleBetween(Vector c);
-
+	public Vector scale(Distance dist, boolean norm);
 }
