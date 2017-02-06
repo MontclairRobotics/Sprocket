@@ -1,5 +1,6 @@
 package org.montclairrobotics.sprocket.drive;
 
+import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
 
@@ -7,8 +8,8 @@ public class TankMapper implements DTMapper {
 
     @Override
     public void map(DTTarget driveTarget, DriveModule[] driveModules) {
-        double power = driveTarget.getDirection().getY();
-        double turn = driveTarget.getTurn().toDegrees() / 45;
+        double power = driveTarget.getDirection().getY()/SprocketRobot.getDriveTrain().getMaxSpeed().get();
+        double turn = driveTarget.getTurn().toDegrees()/SprocketRobot.getDriveTrain().getMaxTurn().toDegrees();
 
         double max = 0;
 
