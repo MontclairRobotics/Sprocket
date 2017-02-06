@@ -13,16 +13,15 @@ import org.montclairrobotics.sprocket.pipeline.Pipeline;
 
 public class DriveTrain implements Updatable {
 	
-	public AutoDTInput autoInput;
-	
 	private Distance maxSpeed=Distance.ZERO;
 	private Angle maxTurn=Angle.ZERO;
 	
 	private DTInput input;
+	private AutoDTInput tempInput;
+	private DTInput oldInput;
 	private Pipeline<DTTarget> pipeline;
 	private DriveModule[] modules;
     private DTMapper mapper;
-    private boolean auto = false;
 
 
     public DriveTrain(DriveModule... modules) {
@@ -43,7 +42,6 @@ public class DriveTrain implements Updatable {
     		}
     	}
     	input=new ZeroInput();
-    	autoInput = new AutoDTInput();
     	pipeline=new ZeroPipeline();
     	SprocketRobot.setDriveTrain(this);
     	Updater.add(this, Priority.DRIVE_CALC);
@@ -63,14 +61,6 @@ public class DriveTrain implements Updatable {
 		DTTarget target = new DTTarget(tgtDir,tgtTurn);
 		target=pipeline.get(target);
 		mapper.map(target, modules);
-	}
-    
-	public void teleopInit() {
-		auto = false;
-	}
-	
-	public void autoInit() {
-		auto = true;
 	}
 	
 	//======================GETTERS AND SETTERS======================
@@ -121,9 +111,17 @@ public class DriveTrain implements Updatable {
     {
     	return modules;
     }
-    public AutoDTInput getAutoInput() {
-    	return autoInput;
+    
+    public AutoDTInput getTempInput() {
+    	if(oldInput == null) oldInput = input;
+    	tempInput = new AutoDTInput();
+    	setInput(tempInput);
+    	return tempInput;
     }
     
+    public void useDefaultInput() {
+    	input = oldInput;
+    	oldInput = null;
+    }
     
 }

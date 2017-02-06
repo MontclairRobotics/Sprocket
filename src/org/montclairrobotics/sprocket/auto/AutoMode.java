@@ -18,7 +18,6 @@ public class AutoMode {
 	
 	private StateMachine machine;
 	private String name;
-	private DTInput oldInput;
 
 	/**
 	 * Creates an AutoMode based off of a pre-configured StateMachine
@@ -42,16 +41,13 @@ public class AutoMode {
 	}
 	public void start()
 	{
-		DriveTrain dt=SprocketRobot.getDriveTrain();
-		oldInput = dt.getInput();
-		dt.setInput(dt.autoInput);
 		machine.start(true);
 		SmartDashboard.putString("StartingAutoMode","START");
 	}
 	public void stop()
 	{
 		machine.stop();
-		SprocketRobot.getDriveTrain().setInput(oldInput);
+		SprocketRobot.getDriveTrain().useDefaultInput();
 	}
 	public String toString()
 	{
