@@ -35,6 +35,7 @@ public abstract class AutoState implements State {
 		output.tgtDir=Vector.ZERO;
 		output.tgtTurn=Angle.ZERO;
 		output.inputType=DTInput.Type.SPEED;
+		SprocketRobot.getDriveTrain().useDefaultInput();
 	}
 
 	/**
