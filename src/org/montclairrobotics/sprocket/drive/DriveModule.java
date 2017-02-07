@@ -68,6 +68,9 @@ public class DriveModule {
     	return force;
     }
 
+    /**
+     * @param val The power at which to run the DriveModule from 0 to 1 as a percent of the maximum force.
+     */
     public void set(double val)
     {
     	power=val;
@@ -77,6 +80,9 @@ public class DriveModule {
     	}
     }
     
+    /**
+     * @return (offestX,offsetY): Percent Power
+     */
     public String toString()
     {
     	return "("+offset.getX()+","+offset.getY()+"): "+(power*100)+"%";
