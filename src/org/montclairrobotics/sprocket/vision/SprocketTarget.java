@@ -22,7 +22,7 @@ public class SprocketTarget implements VisionTarget{
 	public SprocketTarget(VisionComponent[] pieces, VisionPipeline visionPipeline,MatOfPointsInput input,UsbCamera camera)
 	{
 	    visionThread = new VisionThread(camera, visionPipeline, pipeline -> {
-	        if (!input.isEmpty()) {
+	        if (!input.get().isEmpty()) {
 	            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
 	            synchronized (imgLock) {
 	                centerX = r.x + (r.width / 2);
