@@ -37,6 +37,9 @@ public interface Angle {
     Angle opposite();
 
 	Angle times(double x);
+	Angle divide(double x);
+	
+	double divide(Angle x);
 
 	public double sin();
 	public double cos();

@@ -44,7 +44,7 @@ public class AccelLimit implements Step<DTTarget>{
 		
 		if(dDir.getMagnitude()>maxAccel.get()*Updater.getLoopTime())
 		{
-			dDir=dDir.scale(maxAccel.get()*Updater.getLoopTime(),true);
+			dDir=dDir.setMag(maxAccel.get()*Updater.getLoopTime());
 		}
 		
 		Dashboard.putNumber("dDirAfter", dDir.getMagnitude());

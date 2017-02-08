@@ -57,7 +57,7 @@ public class DriveTrain implements Updatable {
 		Angle tgtTurn=input.getTurn();
 		if(input.getInputType().equals(DTInput.Type.PERCENT))
 		{
-			tgtDir=tgtDir.scale(maxSpeed.get(),false);
+			tgtDir=tgtDir.scale(maxSpeed.get());
 			tgtTurn=tgtTurn.times(maxSpeed.get());
 		}
 		DTTarget target = new DTTarget(tgtDir,tgtTurn);

@@ -44,11 +44,8 @@ public class Polar implements Vector {
     }
 
     @Override
-    public Vector scale(double s,boolean norm) {
-    	if(norm)
-    		return new Polar(s,angle);
-    	else
-    		return new Polar(magnitude * s, angle);
+    public Vector scale(double s) {
+    	return new Polar(magnitude * s, angle);
     }
 
     @Override
@@ -65,6 +62,14 @@ public class Polar implements Vector {
 	public Angle angleBetween(Vector a)
 	{
 		return angle.subtract(a.getAngle());
+	}
+	@Override
+	public Vector setMag(double mag) {
+		return new Polar(mag,angle);
+	}
+	@Override
+	public Vector normalize() {
+		return setMag(1);
 	}
 	
 }

@@ -4,6 +4,6 @@ import java.util.ArrayList;
 
 import org.opencv.core.MatOfPoint;
 
-public interface MatOfPointsInput {
-	public ArrayList<MatOfPoint> get();
+public interface FilterContours {
+	public ArrayList<MatOfPoint> filterContoursOutput();
 }

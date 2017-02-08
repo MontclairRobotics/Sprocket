@@ -9,7 +9,9 @@ public interface Vector {
     double getY();
     Vector add(Vector v);
     Vector subtract(Vector v);
-    Vector scale(double s,boolean norm);
+    Vector scale(double s);
+    Vector setMag(double mag);
+    Vector normalize();
     double dotProduct(Vector v);
 	Vector rotate(Angle angle);
 	Angle angleBetween(Vector c);

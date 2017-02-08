@@ -14,13 +14,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.VisionRunner;
 import edu.wpi.first.wpilibj.vision.VisionThread;
 
-public class BoxComponent implements VisionComponent{
+public class Box {
 	double width;
 	double height;
 	double tolerance;
 	boolean checkHeight;
 	
-	public BoxComponent(double width,double height,double ratioTolerance)
+	public Box(double width,double height,double ratioTolerance)
 	{
 		this.width=width;
 		this.height=height;
@@ -28,7 +28,6 @@ public class BoxComponent implements VisionComponent{
 		checkHeight=height>width;
 	}
 
-	@Override
 	public double getScale(MatOfPoint mat) {
 		Rect r = Imgproc.boundingRect(mat);
 		if(Math.abs((height/width)-(r.height/r.width))>tolerance)
