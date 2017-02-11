@@ -20,6 +20,17 @@ public class XY implements Vector {
 
     @Override
     public Angle getAngle() {
+    	if(y==0.0)
+    	{
+    		if(x>0)
+    		{
+    			return Angle.QUARTER;
+    		}
+    		else
+    		{
+    			return Angle.QUARTER.times(3);
+    		}
+    	}
         return new Radians(Math.atan(x/y));
     }
 
@@ -44,9 +55,7 @@ public class XY implements Vector {
     }
 
     @Override
-    public Vector scale(double s,boolean norm) {
-    	if(norm&&getMagnitude()!=0)
-    		s/=getMagnitude();
+    public Vector scale(double s) {
         return new XY(x * s, y * s);
     }
 
@@ -65,7 +74,14 @@ public class XY implements Vector {
 	{
 		return getAngle().subtract(a.getAngle());
 	}
-	public Vector scale(Distance dist, boolean norm) {
-		return scale(dist.get(),norm);
+	
+	@Override
+	public Vector setMag(double mag) {
+		return new Polar(mag,getAngle());
+	}
+	
+	@Override
+	public Vector normalize() {
+		return setMag(1);
 	}
 }

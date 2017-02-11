@@ -30,7 +30,7 @@ public class MecanumMapper implements DTMapper {
             }
 
             //Scale it to the appropriate turn speed
-            turnVector.scale(turn, false);
+            turnVector.scale(turn);
             double turnPower = getPower(turnVector, m.getForceAngle());
 
             power += turnPower;

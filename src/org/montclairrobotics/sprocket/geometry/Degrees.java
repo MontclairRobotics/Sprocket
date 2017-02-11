@@ -54,9 +54,13 @@ public class Degrees implements Angle {
 	{
 		return Math.tan(toRadians());
 	}
+	
+	public Angle divide(double x) {
+		return new Degrees(degrees/x);
+	}
 
 	@Override
-	public double divide(Angle maxTurn) {
-		return toDegrees()/maxTurn.toDegrees();
+	public double divide(Angle x) {
+		return degrees/x.toDegrees();
 	}
 }

@@ -57,7 +57,12 @@ public class Radians implements Angle{
 	}
 
 	@Override
-	public double divide(Angle maxTurn) {
-		return toRadians()/maxTurn.toRadians();
+	public Angle divide(double x) {
+		return new Radians(radians/x);
+	}
+
+	@Override
+	public double divide(Angle x) {
+		return radians/x.toRadians();
 	}
 }
