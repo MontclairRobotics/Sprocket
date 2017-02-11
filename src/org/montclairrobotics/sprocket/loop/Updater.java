@@ -25,7 +25,13 @@ public class Updater {
         ArrayList<Updatable> priorities = updatables.get(priority);
         priorities.add(updatable);
     }
-
+    
+    public static void remove(Updatable obj) {
+    	for(ArrayList<Updatable> objects : updatables.values()) {
+    		objects.remove(obj);
+    	}
+    }
+    
     public static void loop() {
     	loopTime=getTime()-lastLoop;
     	lastLoop=getTime();

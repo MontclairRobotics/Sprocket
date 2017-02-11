@@ -60,7 +60,7 @@ public class Motor {
         }
 
         if(pid!=null)
-        	pid.setInput(new EncoderInput(enc));
+        	pid.setInput(new EncoderSpeedInput(enc));
     }
     
     public Motor(SpeedController motor, SEncoder enc, PID pid) {

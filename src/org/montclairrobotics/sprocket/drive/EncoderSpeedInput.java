@@ -2,11 +2,11 @@ package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.utils.Input;
 
-public class EncoderInput implements Input<Double> {
+public class EncoderSpeedInput implements Input<Double> {
 
     private SEncoder enc;
 
-    public EncoderInput(SEncoder e) {
+    public EncoderSpeedInput(SEncoder e) {
         enc = e;
     }
 
