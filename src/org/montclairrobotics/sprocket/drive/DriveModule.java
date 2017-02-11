@@ -2,6 +2,7 @@ package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
+import org.montclairrobotics.sprocket.geometry.Polar;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.motors.Module;
 import org.montclairrobotics.sprocket.motors.Motor;
@@ -46,7 +47,11 @@ public class DriveModule extends Module{
         this.force = force;
     }
 
-    /**
+    public DriveModule(Vector offset, Polar force, Motor... motors) {
+		this(offset,force,null,null,Module.MotorInputType.PERCENT,motors);
+	}
+
+	/**
      * @return The angle at which each wheel applies force
      */
     public Angle getForceAngle() {

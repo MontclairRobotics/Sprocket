@@ -59,6 +59,11 @@ public class Module {
         this.maxSpeed=maxSpeed;
     }
     
+    public Module(Motor... motors)
+    {
+    	this(null,null,MotorInputType.PERCENT,Distance.IN,motors);
+    }
+    
 
     /**
      * @param val The power at which to run the DriveModule from 0 to 1 as a percent of the maximum force.
