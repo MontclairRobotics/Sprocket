@@ -8,6 +8,7 @@ import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.Polar;
 import org.montclairrobotics.sprocket.geometry.Vector;
+import org.montclairrobotics.sprocket.motors.Module;
 import org.montclairrobotics.sprocket.motors.Motor;
 import org.montclairrobotics.sprocket.motors.SEncoder;
 import org.montclairrobotics.sprocket.pipeline.Pipeline;
@@ -46,7 +47,7 @@ public class DriveTrainBuilder {
     }
 
     public DriveTrainBuilder addWheel(SpeedController motor, Vector offset, Angle force, SEncoder enc, PID pid, Distance maxSpeed) {
-        modules.add(new DriveModule(offset, new Polar(1, force), new Motor(motor, enc, pid)));
+        modules.add(new DriveModule(offset, new Polar(1, force),enc,pid,Module.MotorInputType.SPEED, new Motor(motor)));
         return this;
     }
 
