@@ -13,6 +13,8 @@ public class AutoDTInput implements DTInput {
 	public Vector tgtDir = Vector.ZERO;
 	public Angle tgtTurn = Angle.ZERO;
 	public DTInput.Type inputType = DTInput.Type.PERCENT;
+	
+	public boolean enabled = false;
 
 	@Override
 	public Vector getDir() {
@@ -27,6 +29,31 @@ public class AutoDTInput implements DTInput {
 	@Override
 	public Type getInputType() {
 		return inputType;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return enabled;
+	}
+	
+	public void enable() {
+		enabled = true;
+	}
+	
+	public void disable() { 
+		enabled = false;
+	}
+	
+	@Override
+	public void setMaxSpeed(Distance d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setMaxTurn(Angle a) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

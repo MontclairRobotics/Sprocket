@@ -125,7 +125,7 @@ public class DriveTrainBuilder {
 
         DriveTrain dt = new DriveTrain(modules.toArray(new DriveModule[]{}));
 
-        dt.setInput(input);
+        dt.addInput(input);
         dt.setMapper(mapper);
         
         dt.setPipeline(new DTPipeline(pipelineSteps));

@@ -1,5 +1,7 @@
 package org.montclairrobotics.sprocket.drive;
 
+import java.util.ArrayList;
+
 import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.auto.AutoDTInput;
 import org.montclairrobotics.sprocket.geometry.Angle;
@@ -18,7 +20,7 @@ public class DriveTrain implements Updatable {
 	private Distance maxSpeed=Distance.ZERO;
 	private Angle maxTurn=Angle.ZERO;
 	
-	private DTInput input;
+	private ArrayList<DTInput> inputs;
 	private Pipeline<DTTarget> pipeline;
 	private DriveModule[] modules;
     private DTMapper mapper;
@@ -42,7 +44,8 @@ public class DriveTrain implements Updatable {
 	    		}
     		}
     	}
-    	input=new ZeroInput();
+    	inputs=new ArrayList<DTInput>();
+    	inputs.add(new ZeroInput());
     	autoInput = new AutoDTInput();
     	pipeline=new ZeroPipeline();
     	SprocketRobot.setDriveTrain(this);
@@ -52,6 +55,13 @@ public class DriveTrain implements Updatable {
 	@Override
 	public void update() {
 		//DTInput input = auto ? this.autoInput : this.input;
+		DTInput input;
+		int i=0;
+		while(i<inputs.size() && !inputs.get(i).isEnabled())
+		{
+			i++;
+		}
+		input=inputs.get(i);
 		
 		Vector tgtDir=input.getDir();
 		Angle tgtTurn=input.getTurn();
@@ -74,14 +84,33 @@ public class DriveTrain implements Updatable {
 	}
 	
 	//======================GETTERS AND SETTERS======================
-	public DriveTrain setInput(DTInput input)
+	public DriveTrain setInputs(ArrayList<DTInput> inputs)
 	{
-		this.input=input;
+		this.inputs=inputs;
+		if(!(inputs.get(inputs.size() - 1) instanceof ZeroInput)) {
+			inputs.add(new ZeroInput());
+		}
+		for(DTInput input:inputs)
+		{
+			input.setMaxSpeed(maxSpeed);
+			input.setMaxTurn(maxTurn);
+		}
 		return this;
 	}
-	public DTInput getInput()
+	
+	public DriveTrain addInput(int pos, DTInput input) {
+		inputs.add(pos, input);
+		return this;
+	}
+	
+	public DriveTrain addInput(DTInput input) {
+		inputs.add(inputs.size() - 1, input);
+		return this;
+	}
+	
+	public ArrayList<DTInput> getInputs()
 	{
-		return input;
+		return inputs;
 	}
 	public DriveTrain setPipeline(Pipeline<DTTarget> pipeline)
     {
