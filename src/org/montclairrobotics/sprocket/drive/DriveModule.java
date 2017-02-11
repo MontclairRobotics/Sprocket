@@ -3,6 +3,10 @@ package org.montclairrobotics.sprocket.drive;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.Vector;
+import org.montclairrobotics.sprocket.motors.Module;
+import org.montclairrobotics.sprocket.motors.Motor;
+import org.montclairrobotics.sprocket.utils.PID;
+import org.montclairrobotics.sprocket.motors.SEncoder;
 
 /**
  * DriveModule is a class that extends Motor which provides additional behaviors
@@ -14,7 +18,7 @@ import org.montclairrobotics.sprocket.geometry.Vector;
  * @author MHS Robotics
  *
  */
-public class DriveModule {
+public class DriveModule extends Module{
 
     private Vector offset;
     private Vector force;
@@ -31,9 +35,12 @@ public class DriveModule {
      */
     public DriveModule(Vector offset,
                        Vector force,
+                       SEncoder enc,
+                       PID pid,
+                       Module.MotorInputType inputType,
                        Motor... motors
                        ) {
-
+    	super(enc, pid, inputType, new Distance(force.getMagnitude()), motors);
         this.offset = offset;
         this.motors = motors;
         this.force = force;

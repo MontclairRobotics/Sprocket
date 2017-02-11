@@ -1,4 +1,4 @@
-package org.montclairrobotics.sprocket.drive;
+package org.montclairrobotics.sprocket.motors;
 
 import org.montclairrobotics.sprocket.utils.PID;
 
@@ -15,27 +15,15 @@ public class Motor {
         UNKNOWN
     }
     
-    public enum MotorInputType {PERCENT, SPEED};
 
     private SpeedController motor;
     private MotorType motorType;
-    private SEncoder enc;
-    private PID pid;
-    private MotorInputType inputType;
 
-    public Motor(SpeedController motor, SEncoder enc, PID pid, MotorInputType inputType) {
+    public Motor(SpeedController motor) {
         if(motor == null) {
             throw new IllegalArgumentException("SpeedController argument was null when instantiating Motor object");
         }
 
-        this.inputType = inputType;
-        if(this.inputType == null) {
-        	if(enc == null || pid == null) {
-        		this.inputType = MotorInputType.PERCENT;
-        	} else {
-        		this.inputType = MotorInputType.SPEED;
-        	}
-        }
 
         this.motor = motor;
         if(motor instanceof CANTalon) {
@@ -45,8 +33,6 @@ public class Motor {
         } else {
             motorType = MotorType.UNKNOWN;
         }
-        this.enc = enc;
-        this.pid = pid;
 
 
 
@@ -59,25 +45,11 @@ public class Motor {
             break;
         }
 
-        if(pid!=null)
-        	pid.setInput(new EncoderSpeedInput(enc));
     }
     
-    public Motor(SpeedController motor, SEncoder enc, PID pid) {
-        this(motor, enc, pid, null);
-    }
-
-    public Motor(SpeedController motor) {
-        this(motor, null, null);
-    }
-
+    
     public void set(double power) {
-        if(inputType == MotorInputType.SPEED) {
-            pid.setTarget(power);
-            motor.set(pid.get());
-        } else {
-            motor.set(power);
-        }
+        motor.set(power);
     }
 
     public boolean getInverted() {
@@ -96,7 +68,4 @@ public class Motor {
         return motorType;
     }
 
-    public SEncoder getEnc() {
-        return enc;
-    }
 }

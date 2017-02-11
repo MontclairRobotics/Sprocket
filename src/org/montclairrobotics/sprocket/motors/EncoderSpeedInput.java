@@ -1,4 +1,4 @@
-package org.montclairrobotics.sprocket.drive;
+package org.montclairrobotics.sprocket.motors;
 
 import org.montclairrobotics.sprocket.utils.Input;
 

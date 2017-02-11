@@ -72,8 +72,5 @@ public class Polar implements Vector {
 		return setMag(1);
 	}
 	
-	public Vector scale(Distance dist, boolean norm) {
-		return scale(dist.get(),norm);
-	}
 	
 }
