@@ -15,14 +15,15 @@ import org.montclairrobotics.sprocket.utils.PID;
 public class VisionDTInput implements DTInput,Updatable{
 	
 	private VisionTarget target;
-	private double turnP,distP,maxTurn,turn,dist;
+	private double turnP,distP,minTurnError,minDistError,turn,dist;
 	private Input<Boolean> enabled;
-	public VisionDTInput(VisionTarget target,double turnP,double distP,double maxTurn,Input<Boolean> enabled)
+	public VisionDTInput(VisionTarget target,double turnP,double distP,double minTurnError,double minDistError,Input<Boolean> enabled)
 	{
 		this.target=target;
 		this.turnP=turnP;
 		this.distP=distP;
-		this.maxTurn=maxTurn;
+		this.minTurnError=minTurnError;
+		this.minDistError=minDistError;
 		this.enabled=enabled;
 		Updater.add(this, Priority.CALC);
 	}
@@ -30,13 +31,14 @@ public class VisionDTInput implements DTInput,Updatable{
 	public void update()
 	{
 		turn=target.getTurn()*turnP;
-		if(Math.abs(turn)>maxTurn)
+		if(Math.abs(turn)<minTurnError)
+			turn=0;
+		dist=target.getDistance()*distP;
+		if(Math.abs(dist)<minDistError)
+			dist=0;
+		if(Math.abs(turn)>0.0)
 		{
 			dist=0;
-		}
-		else
-		{
-			dist=target.getDistance()*distP;
 		}
 	}
 	
