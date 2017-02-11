@@ -8,5 +8,5 @@ import edu.wpi.first.wpilibj.vision.VisionPipeline;
 
 public interface FilterContoursPipeline extends VisionPipeline{
 
-	public ArrayList<MatOfPoint> filterContours();
+	public ArrayList<MatOfPoint> filterContoursOutput();
 }

@@ -22,7 +22,7 @@ public class FilterContoursTarget extends SprocketVisionTarget
 
 			@Override
 			public TurnDistanceInput get() {
-				Rect r = Imgproc.boundingRect(visionPipeline.filterContours().get(0));
+				Rect r = Imgproc.boundingRect(visionPipeline.filterContoursOutput().get(0));
 				return new TurnDistanceInput(tgtX-r.x+r.width/2,tgtY-r.y+r.height/2);
 			}}, camera);
 	}
