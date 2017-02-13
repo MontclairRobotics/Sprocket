@@ -62,7 +62,7 @@ public class DriveTrain implements Updatable {
 	}
 	
 	//======================GETTERS AND SETTERS======================
-	public DriveTrain setInput(DTInput input)
+	public DriveTrain setDefaultInput(DTInput input)
 	{
 		this.input=input;
 		this.defaultInput = input;

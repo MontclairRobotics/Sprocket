@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * This class is basically just a wrapper around iterative robot which all Sprocket
  * robots must extend.
  */
-public class SprocketRobot extends IterativeRobot implements Updatable{
+public abstract class SprocketRobot extends IterativeRobot implements Updatable{
 
 	private SendableChooser<AutoMode> chooser;
 	private AutoMode[] autoModes;
@@ -126,10 +126,9 @@ public class SprocketRobot extends IterativeRobot implements Updatable{
     	runState = state;
     	state.start();
     }
-    
-	@Override
-	public void update() {
-		if(runState != null) {
+
+    public void update() {
+    	if(runState != null) {
 			if(runState.isDone()) {
 				runState.stop();
 				runState = null;
@@ -137,8 +136,6 @@ public class SprocketRobot extends IterativeRobot implements Updatable{
 				runState.stateUpdate();
 			}
 		}
-	}
-
-    
+    }
     
 }
