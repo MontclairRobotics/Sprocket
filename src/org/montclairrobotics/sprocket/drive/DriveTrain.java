@@ -1,7 +1,6 @@
 package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.SprocketRobot;
-import org.montclairrobotics.sprocket.auto.AutoDTInput;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.Radians;
@@ -17,8 +16,7 @@ public class DriveTrain implements Updatable {
 	private Angle maxTurn=Angle.ZERO;
 	
 	private DTInput input;
-	private AutoDTInput tempInput;
-	private DTInput oldInput;
+	private DTInput defaultInput;
 	private Pipeline<DTTarget> pipeline;
 	private DriveModule[] modules;
     private DTMapper mapper;
@@ -67,6 +65,7 @@ public class DriveTrain implements Updatable {
 	public DriveTrain setInput(DTInput input)
 	{
 		this.input=input;
+		this.defaultInput = input;
 		return this;
 	}
 	public DTInput getInput()
@@ -110,16 +109,13 @@ public class DriveTrain implements Updatable {
     	return modules;
     }
     
-    public AutoDTInput getTempInput() {
-    	if(oldInput == null) oldInput = input;
-    	tempInput = new AutoDTInput();
-    	setInput(tempInput);
-    	return tempInput;
+    public DriveTrain setTempInput(DTInput tempInput) {
+    	input = tempInput;
+    	return this;
     }
     
     public void useDefaultInput() {
-    	input = oldInput;
-    	oldInput = null;
+    	input = defaultInput;
     }
     
 }

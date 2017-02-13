@@ -14,14 +14,15 @@ import org.montclairrobotics.sprocket.states.State;
  * Sprocket comes with some basic AutoStates built in, but you will need to make
  * at least some of them on your own by extending this class.
  */
-public abstract class AutoState implements State {
+public abstract class AutoState extends AutoDTInput implements State {
 	private double t;//time state was started
 	public AutoDTInput output;//output to drivetrain
 	
 	public final void start()
 	{
 		t=Updater.getTime();
-		output = SprocketRobot.getDriveTrain().getTempInput();
+		output = this;
+		SprocketRobot.getDriveTrain().setTempInput(this);
 		userStart();
 	}
 
@@ -90,5 +91,4 @@ public abstract class AutoState implements State {
 		output.tgtDir = v;
 		output.tgtTurn = a;
 	}
-	
 }
