@@ -37,7 +37,7 @@ public class DriveTrainBuilder {
     public DriveTrainBuilder() {
         modules = new ArrayList<>();
         pipelineSteps = new ArrayList<>();
-        pipelineSteps.add(new Deadzone());
+        //pipelineSteps.add(new Deadzone());
     }
 
 
@@ -75,7 +75,7 @@ public class DriveTrainBuilder {
     
     public DriveTrainBuilder setDefaultPipeline() {
     	pipelineSteps.clear();
-    	pipelineSteps.add(new Deadzone());
+    	//pipelineSteps.add(new Deadzone());
     	return this;
     }
     
@@ -128,7 +128,7 @@ public class DriveTrainBuilder {
 
         DriveTrain dt = new DriveTrain(modules.toArray(new DriveModule[]{}));
 
-        dt.setInput(input);
+        dt.setDefaultInput(input);
         dt.setMapper(mapper);
         
         dt.setPipeline(new DTPipeline(pipelineSteps));
