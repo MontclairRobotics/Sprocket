@@ -120,6 +120,9 @@ public class SprocketRobot extends IterativeRobot implements Updatable{
     }
     
     public final void runState(AutoState state) {
+	    if(runState != null) {
+	        runState.stop();
+        }
     	runState = state;
     	state.start();
     }
