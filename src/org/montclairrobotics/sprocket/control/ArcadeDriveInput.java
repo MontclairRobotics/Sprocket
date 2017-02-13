@@ -102,19 +102,19 @@ public class ArcadeDriveInput implements DTInput, Updatable {
 		return DTInput.Type.PERCENT;
 	}
 
-	@Override
-	public boolean isEnabled() {
-		return true;
+    /**
+     * @param m The maximum speed of the robot (for scaling, in units/sec)
+     */
+	public void setMaxSpeed(Distance m)
+	{
+		this.maxSpeed=m;
 	}
 
-	@Override
-	public void setMaxSpeed(Distance d) {
-		maxSpeed = d;
-	}
-
-	@Override
-	public void setMaxTurn(Angle a) {
-		maxTurn = a;
-		
+    /**
+     * @param t The maximum turning speed of the robot (for scaling, in units/sec)
+     */
+	public void setMaxTurn(Angle t)
+	{
+		this.maxTurn=t;
 	}
 }

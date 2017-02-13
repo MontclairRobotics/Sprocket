@@ -21,8 +21,7 @@ public abstract class AutoState implements State {
 	public final void start()
 	{
 		t=Updater.getTime();
-		output = new AutoDTInput();
-		SprocketRobot.getDriveTrain().addInput(0, output);
+		output = SprocketRobot.getDriveTrain().getAutoInput();
 		userStart();
 	}
 
@@ -36,7 +35,6 @@ public abstract class AutoState implements State {
 		output.tgtDir=Vector.ZERO;
 		output.tgtTurn=Angle.ZERO;
 		output.inputType=DTInput.Type.SPEED;
-		SprocketRobot.getDriveTrain().getInputs().remove(0);
 	}
 
 	/**

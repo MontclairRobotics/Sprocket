@@ -14,10 +14,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * the AutoStates that it contains before ending. When instantiated, these modes
  * will automatically be spent to a SmartDashboard chooser.
  */
-public class AutoMode extends AutoDTInput {
+public class AutoMode {
 	
 	private StateMachine machine;
 	private String name;
+	private DTInput oldInput;
 
 	/**
 	 * Creates an AutoMode based off of a pre-configured StateMachine
@@ -39,16 +40,18 @@ public class AutoMode extends AutoDTInput {
 	{
 		this(name, new StateMachine(s));
 	}
-	
 	public void start()
 	{
-		DriveTrain dt = SprocketRobot.getDriveTrain();
+		DriveTrain dt=SprocketRobot.getDriveTrain();
+		oldInput = dt.getInput();
+		dt.setInput(dt.autoInput);
 		machine.start(true);
 		SmartDashboard.putString("StartingAutoMode","START");
 	}
 	public void stop()
 	{
 		machine.stop();
+		SprocketRobot.getDriveTrain().setInput(oldInput);
 	}
 	public String toString()
 	{

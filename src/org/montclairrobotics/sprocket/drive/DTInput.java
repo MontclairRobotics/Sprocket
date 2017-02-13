@@ -10,9 +10,4 @@ public interface DTInput {
 	public Vector getDir();
 	public Angle getTurn();
 	public Type getInputType();
-	
-	public boolean isEnabled();
-	
-	public void setMaxSpeed(Distance d);
-	public void setMaxTurn(Angle a);
 }
