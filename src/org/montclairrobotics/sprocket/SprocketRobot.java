@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.montclairrobotics.sprocket.auto.AutoMode;
+import org.montclairrobotics.sprocket.auto.AutoState;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
@@ -24,6 +25,7 @@ public class SprocketRobot extends IterativeRobot implements Updatable{
 	private SendableChooser<AutoMode> chooser;
 	private AutoMode[] autoModes;
 	private AutoMode selectedAutoMode;
+	private AutoState runState;
 	
 	public SprocketRobot()
 	{
@@ -62,7 +64,6 @@ public class SprocketRobot extends IterativeRobot implements Updatable{
 
     @Override
     public final void autonomousInit() {
-    	getDriveTrain().autoInit();
     	selectedAutoMode = chooser.getSelected();
     	selectedAutoMode.start();
         super.autonomousInit();
@@ -70,13 +71,11 @@ public class SprocketRobot extends IterativeRobot implements Updatable{
 
     @Override
     public final void teleopInit() {
-    	if(getDriveTrain() != null) getDriveTrain().teleopInit();
         super.teleopInit();
     }
 
     @Override
     public final void testInit() {
-    	if(getDriveTrain() != null) getDriveTrain().teleopInit();
         super.testInit();
     }
 
@@ -119,11 +118,22 @@ public class SprocketRobot extends IterativeRobot implements Updatable{
     	modes.add(mode);
     	autoModes = modes.toArray(autoModes);
     }
-
+    
+    public final void runState(AutoState state) {
+    	runState = state;
+    	state.start();
+    }
+    
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-		
+		if(runState != null) {
+			if(runState.isDone()) {
+				runState.stop();
+				runState = null;
+			} else {
+				runState.stateUpdate();
+			}
+		}
 	}
 
     

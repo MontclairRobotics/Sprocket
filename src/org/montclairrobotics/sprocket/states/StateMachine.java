@@ -6,7 +6,7 @@ import org.montclairrobotics.sprocket.loop.Updater;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class StateMachine implements State,Updatable{
+public class StateMachine implements State, Updatable{
 
 	private State[] states;
 	private int index;
