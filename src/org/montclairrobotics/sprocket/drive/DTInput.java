@@ -6,8 +6,6 @@ import org.montclairrobotics.sprocket.geometry.Vector;
 
 public interface DTInput {
 	
-	public enum Type{PERCENT, SPEED};
 	public Vector getDir();
 	public Angle getTurn();
-	public Type getInputType();
 }

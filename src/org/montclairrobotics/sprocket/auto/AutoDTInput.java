@@ -12,7 +12,7 @@ import org.montclairrobotics.sprocket.geometry.Vector;
 public class AutoDTInput implements DTInput {
 	public Vector tgtDir = Vector.ZERO;
 	public Angle tgtTurn = Angle.ZERO;
-	public DTInput.Type inputType = DTInput.Type.PERCENT;
+	//public DTInput.Type inputType = DTInput.Type.PERCENT;
 
 	@Override
 	public Vector getDir() {
@@ -24,9 +24,9 @@ public class AutoDTInput implements DTInput {
 		return tgtTurn;
 	}
 
-	@Override
+	/*@Override
 	public Type getInputType() {
 		return inputType;
 	}
-
+*/
 }

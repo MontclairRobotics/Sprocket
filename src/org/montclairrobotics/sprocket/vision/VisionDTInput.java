@@ -12,12 +12,14 @@ import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class VisionDTInput implements DTInput,Updatable{
 	
 	private VisionTarget target;
 	private double turnP,distP,minTurnError,minDistError,turn,dist;
 	private Input<Boolean> enabled;
-	public VisionDTInput(VisionTarget target,double turnP,double distP,double minTurnError,double minDistError,Input<Boolean> enabled)
+	public VisionDTInput(VisionTarget target,double turnP,double minTurnError,double distP,double minDistError)
 	{
 		this.target=target;
 		this.turnP=turnP;
@@ -30,6 +32,9 @@ public class VisionDTInput implements DTInput,Updatable{
 	@Override
 	public void update()
 	{
+		SmartDashboard.putNumber("TurnP", turnP);
+		SmartDashboard.putNumber("DistP", distP);
+		
 		turn=target.getTurn()*turnP;
 		if(Math.abs(turn)<minTurnError)
 			turn=0;
@@ -50,11 +55,6 @@ public class VisionDTInput implements DTInput,Updatable{
 	@Override
 	public Angle getTurn() {
 		return new Radians(turn);
-	}
-	@Override
-	public Type getInputType() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 }

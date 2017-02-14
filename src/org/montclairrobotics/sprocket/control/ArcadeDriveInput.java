@@ -97,11 +97,6 @@ public class ArcadeDriveInput implements DTInput, Updatable {
         return turn;
     }
 
-	@Override
-	public DTInput.Type getInputType() {
-		return DTInput.Type.PERCENT;
-	}
-
     /**
      * @param m The maximum speed of the robot (for scaling, in units/sec)
      */

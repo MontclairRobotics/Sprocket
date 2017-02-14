@@ -16,9 +16,5 @@ public class ZeroInput implements DTInput{
 		return Angle.ZERO;
 	}
 
-	@Override
-	public Type getInputType() {
-		return DTInput.Type.PERCENT;
-	}
 
 }

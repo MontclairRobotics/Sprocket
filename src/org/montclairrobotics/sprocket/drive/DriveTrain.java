@@ -51,11 +51,6 @@ public class DriveTrain implements Updatable {
 		
 		Vector tgtDir=input.getDir();
 		Angle tgtTurn=input.getTurn();
-		if(input.getInputType().equals(DTInput.Type.PERCENT))
-		{
-			tgtDir=tgtDir.scale(maxSpeed.get());
-			tgtTurn=tgtTurn.times(maxSpeed.get());
-		}
 		DTTarget target = new DTTarget(tgtDir,tgtTurn);
 		target=pipeline.get(target);
 		mapper.map(target, modules);
