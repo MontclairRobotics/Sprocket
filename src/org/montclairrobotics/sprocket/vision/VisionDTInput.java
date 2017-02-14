@@ -32,8 +32,8 @@ public class VisionDTInput implements DTInput,Updatable{
 	@Override
 	public void update()
 	{
-		SmartDashboard.putNumber("TurnP", turnP);
-		SmartDashboard.putNumber("DistP", distP);
+		SmartDashboard.putNumber("turn", target.getTurn());
+		SmartDashboard.putNumber("dist", target.getDistance());
 		
 		turn=target.getTurn()*turnP;
 		if(Math.abs(turn)<minTurnError)
