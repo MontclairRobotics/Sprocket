@@ -19,6 +19,7 @@ public class VisionTarget implements Updatable{
 	private VisionThread visionThread;
 	private TurnDistanceInput output=TurnDistanceInput.ZERO;
 	private TurnDistanceInput savedOutput=TurnDistanceInput.ZERO;
+	private Object threadLock = new Object();
 
 	public VisionTarget(VisionPipeline visionPipeline,Input<TurnDistanceInput> getTarget, int IMG_WIDTH,int IMG_HEIGHT)
 	{
@@ -31,7 +32,7 @@ public class VisionTarget implements Updatable{
 	            TurnDistanceInput out =getTarget.get();
 	            if(out!=null)
 	            {
-		            synchronized (output) {
+		            synchronized (threadLock) {
 		                this.output=out;
 		            }
 	            }
@@ -46,7 +47,7 @@ public class VisionTarget implements Updatable{
 	@Override
 	public void update()
 	{
-		synchronized (output) {
+		synchronized (threadLock) {
 			savedOutput=output;
 		}
 	}
