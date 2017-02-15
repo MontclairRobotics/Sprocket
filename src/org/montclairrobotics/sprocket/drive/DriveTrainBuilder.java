@@ -89,13 +89,13 @@ public class DriveTrainBuilder {
     	return this;
     }
     
-    public DriveTrainBuilder addStep(DTStep step) {
+    public DriveTrainBuilder addStep(Step<DTTarget> step) {
     	pipelineSteps.add(step);
     	return this;
     }
     
-    public DriveTrainBuilder addSteps(DTStep... steps) {
-    	for(DTStep step : steps) {
+    public DriveTrainBuilder addSteps(Step<DTTarget>... steps) {
+    	for(Step<DTTarget> step : steps) {
     		pipelineSteps.add(step);
     	}
     	return this;
