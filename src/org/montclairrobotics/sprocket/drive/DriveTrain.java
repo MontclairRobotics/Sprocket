@@ -81,6 +81,16 @@ public class DriveTrain implements Updatable {
     	this.mapper=mapper;
     	return this;
     }
+    
+    public Distance getDistance() {
+    	double avgDist = 0.0;
+    	for(DriveModule m : modules) {
+    		avgDist += m.getDistance().get();
+    	}
+    	avgDist /= modules.length;
+    	return new Distance(avgDist);
+    }
+    
     public DriveTrain setMaxSpeed(Distance s)
     {
     	maxSpeed=s;

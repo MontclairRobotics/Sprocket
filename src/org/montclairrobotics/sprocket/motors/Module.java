@@ -82,8 +82,16 @@ public class Module {
     	}
     }
     
+    /**
+     * @return The encoder for this motor
+     */
     public SEncoder getEnc() {
         return enc;
+    }
+    
+    public Distance getDistance() {
+    	if(enc == null) return Distance.ZERO;
+    	return enc.getInches();
     }
 
 }
