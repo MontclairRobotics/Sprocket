@@ -32,7 +32,7 @@ public class GyroLock implements Step<DTTarget>{
 	}
 	public GyroLock(PID pid,Input<Boolean> lock)
 	{
-		this(pid,lock,false);
+		this(pid,lock,true);
 	}
 	public GyroLock(PID pid, Input<Boolean> lock, boolean autoLock)
 	{
