@@ -26,7 +26,7 @@ public class DriveEncoders extends AutoState {
 	public void stateUpdate() {
 		output.tgtDir = this.tgtDir;
 	}
-
+	
 	@Override
 	public boolean isDone() {
 		return Math.abs(dist.get() - startDist.get()) < 4;
