@@ -2,10 +2,11 @@ package org.montclairrobotics.sprocket.motors;
 
 
 import org.montclairrobotics.sprocket.geometry.Distance;
+import org.montclairrobotics.sprocket.utils.Input;
 
 import edu.wpi.first.wpilibj.Encoder;
 
-public class SEncoder {
+public class SEncoder implements Input<Distance> {
 
     private Encoder enc;
     private double ticksPerInch;
@@ -51,5 +52,10 @@ public class SEncoder {
     public Encoder getWPIEncoder() {
         return enc;
     }
+
+	@Override
+	public Distance get() {
+		return this.getInches();
+	}
 
 }

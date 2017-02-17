@@ -9,8 +9,9 @@ import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.pipeline.Pipeline;
+import org.montclairrobotics.sprocket.utils.Input;
 
-public class DriveTrain implements Updatable {
+public class DriveTrain implements Updatable, Input<Distance> {
 	
 	private Distance maxSpeed=Distance.ZERO;
 	private Angle maxTurn=Angle.ZERO;
@@ -126,5 +127,10 @@ public class DriveTrain implements Updatable {
     public void useDefaultInput() {
     	input = defaultInput;
     }
+
+	@Override
+	public Distance get() {
+		return this.getDistance();
+	}
     
 }
