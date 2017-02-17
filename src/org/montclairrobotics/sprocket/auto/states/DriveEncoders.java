@@ -5,14 +5,15 @@ import org.montclairrobotics.sprocket.auto.AutoState;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
+import org.montclairrobotics.sprocket.utils.Input;
 
 public class DriveEncoders extends AutoState {
 	
-	private Distance dist;
+	private Input<Distance> dist;
 	private Distance startDist;
 	private Vector tgtDir;
 	
-	public DriveEncoders(Distance d, Vector tgtDir) {
+	public DriveEncoders(Input<Distance> d, Vector tgtDir) {
 		this.dist = d;
 		this.tgtDir = tgtDir;
 	}
@@ -29,7 +30,7 @@ public class DriveEncoders extends AutoState {
 	
 	@Override
 	public boolean isDone() {
-		return Math.abs(dist.get() - startDist.get()) < 4;
+		return Math.abs(dist.get().get() - startDist.get()) < 4;
 	}
 	
 	@Override
