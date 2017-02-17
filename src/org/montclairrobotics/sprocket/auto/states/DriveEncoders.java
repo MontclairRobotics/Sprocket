@@ -2,46 +2,44 @@ package org.montclairrobotics.sprocket.auto.states;
 
 import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.auto.AutoState;
+import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.geometry.Distance;
-import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
-import org.montclairrobotics.sprocket.utils.Input;
 
 public class DriveEncoders extends AutoState {
 	
-	private Input<Distance> dist;
+	private DriveTrain dt;
 	private Distance tgtDistance;
 	private Distance stopDist;
-	//private Vector tgtDir;
 	private Distance maxAccel;
 	
-	public DriveEncoders(Input<Distance> dist,Distance tgtDistance,Distance maxAccel) {
-		this.dist = dist;
+	public DriveEncoders(Distance tgtDistance,Distance maxAccel) {
 		this.tgtDistance=tgtDistance;
-		//this.tgtDir = tgtDir;
 		this.maxAccel=maxAccel;
 	}
 	
 	@Override
 	public void userStart() {
-		stopDist = new Distance(dist.get().get()+tgtDistance.get());
+		this.dt = SprocketRobot.getDriveTrain();
+		stopDist = new Distance(dt.getDistance().get()+tgtDistance.get());
 	}
 	
 	@Override
 	public void stateUpdate() {
 		tgtDir = new XY(0,
-				Math.sqrt(Math.abs(2*maxAccel.get()*(stopDist.get()-dist.get().get())))
-				*(stopDist.get()-dist.get().get()>0?1:-1));
+				Math.sqrt(Math.abs(2*maxAccel.get()*(stopDist.get()-dt.getDistance().get())))
+				*(stopDist.get()-dt.getDistance().get()>0?1:-1));
 	}
 	
 	@Override
 	public boolean isDone() {
-		return Math.abs(stopDist.get()-dist.get().get()) < 2;
+		return Math.abs(stopDist.get()-dt.getDistance().get()) < 2;
 	}
 	
 	@Override
 	public void userStop() {
 		tgtDir = new XY(0, 0);
+		this.dt = null;
 	}
 
 }
