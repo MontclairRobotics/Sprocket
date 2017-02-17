@@ -100,6 +100,7 @@ public class ArcadeDriveInput implements DTInput, Updatable {
     /**
      * @param m The maximum speed of the robot (for scaling, in units/sec)
      */
+    @Override
 	public void setMaxSpeed(Distance m)
 	{
 		this.maxSpeed=m;
@@ -108,6 +109,7 @@ public class ArcadeDriveInput implements DTInput, Updatable {
     /**
      * @param t The maximum turning speed of the robot (for scaling, in units/sec)
      */
+    @Override
 	public void setMaxTurn(Angle t)
 	{
 		this.maxTurn=t;
