@@ -25,6 +25,8 @@ public class PID implements Updatable {
 	private double target;
 	private double totalError, prevError, error;
 	
+	private long lastUpdateTime;
+	
 	/**
 	 * PID constructor with default values
 	 */
@@ -38,6 +40,7 @@ public class PID implements Updatable {
 		this.maxOut=0.0;
 		this.minIn=0.0;
 		this.maxIn=0.0;
+		this.lastUpdateTime = System.currentTimeMillis();
 		setTarget();
 		Updater.add(this, Priority.INPUT_PID);
 	}
@@ -119,13 +122,15 @@ public class PID implements Updatable {
 	
 	private double calculate(double val)
 	{
+		double loopTime = (System.currentTimeMillis() - lastUpdateTime) / 1000.0;
+		lastUpdateTime = System.currentTimeMillis();
 		error=target-val;
 		if(minIn!=0&&maxIn!=0)
 		{
 			double diff=maxIn-minIn;
 			error=((error-minIn)%diff+diff)%diff+minIn;
 		}
-		totalError += error * Updater.getLoopTime();
+		totalError += error * loopTime;
 		if (I != 0) 
 		{
 			double potentialIGain = (error+totalError) * I;
@@ -140,8 +145,8 @@ public class PID implements Updatable {
 			}
 		}
 	
-		double out = P * error * Updater.getLoopTime() + I * totalError +
-	             D * (error - prevError) / Updater.getLoopTime(); //+ calculateFeedForward();
+		double out = P * error * loopTime + I * totalError +
+	             D * (error - prevError) / loopTime; //+ calculateFeedForward();
 
 		prevError = error;
 		
