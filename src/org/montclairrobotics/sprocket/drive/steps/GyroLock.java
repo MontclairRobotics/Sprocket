@@ -1,5 +1,6 @@
 package org.montclairrobotics.sprocket.drive.steps;
 
+import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Radians;
@@ -52,7 +53,9 @@ public class GyroLock implements Step<DTTarget>{
 	@Override
 	public DTTarget get(DTTarget in) {
 		DTTarget out=in;
-		boolean isLocked = (lock != null && lock.get()) || manualLock || (autoLock && Math.abs(in.getDirection().getAngle().toRadians())<0.15);
+		boolean isLocked = (lock != null && lock.get()) || manualLock || 
+				(autoLock && Math.abs(in.getDirection().getAngle().toRadians())<
+						SprocketRobot.getDriveTrain().getMaxTurn().toRadians()*0.15);
 		if(isLocked&&!lastLock)
 		{
 			pid.setTarget(pid.getInput());
