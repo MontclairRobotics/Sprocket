@@ -12,6 +12,7 @@ public class TurnGyro extends AutoState {
 	
 	public TurnGyro(PID pid) {
 		this.pid = pid;
+		pid.setMinMax(-180, 179, 0, 0);
 	}
 	
 	public TurnGyro(PID pid, Input<Double> gyro) {
