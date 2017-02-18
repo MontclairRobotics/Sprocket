@@ -50,6 +50,21 @@ public class DriveModule extends Module{
     public DriveModule(Vector offset, Vector force, Motor... motors) {
 		this(offset,force,null,null,Module.MotorInputType.PERCENT,motors);
 	}
+    
+    public DriveModule(Vector offset,
+	            Angle force,
+	            Distance maxSpeed,
+	            SEncoder enc,
+	            PID pid,
+	            Module.MotorInputType inputType,
+	            Motor... motors
+	            ) {
+	this(offset,new Polar(maxSpeed,force),enc,pid,inputType,motors);
+	}
+	
+	public DriveModule(Vector offset, Angle force,Distance maxSpeed, Motor... motors) {
+	this(offset,new Polar(maxSpeed,force),null,null,Module.MotorInputType.PERCENT,motors);
+	}
 
 	/**
      * @return The angle at which each wheel applies force
