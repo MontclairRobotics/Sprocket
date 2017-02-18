@@ -5,14 +5,14 @@ import org.montclairrobotics.sprocket.geometry.Vector;
 
 public class DTTarget {
 
-    public static final DTTarget ZERO = new DTTarget(Vector.ZERO,Angle.ZERO);
+    public static final DTTarget ZERO = new DTTarget(Vector.ZERO,0);
 	private Vector direction;
-    private Angle turn;
+    private double turn;
     //private MotorInputType inputType;
 
-    public DTTarget(Vector vector, Angle turn) {
+    public DTTarget(Vector vector, double tgtTurn) {
         this.direction = vector;
-        this.turn = turn;
+        this.turn = tgtTurn;
         //this.inputType = inputType;
     }
 
@@ -24,11 +24,11 @@ public class DTTarget {
         this.direction = direction;
     }
 
-    public Angle getTurn() {
+    public double getTurn() {
         return turn;
     }
 
-    public void setTurn(Angle turn) {
+    public void setTurn(double turn) {
         this.turn = turn;
     }
 

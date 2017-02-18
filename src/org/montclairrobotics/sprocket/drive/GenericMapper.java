@@ -10,15 +10,15 @@ public class GenericMapper implements DTMapper{
 	@Override
 	public void map(DTTarget driveTarget, DriveModule[] driveModules) {
 		Vector tgtDir=driveTarget.getDirection();
-		Angle tgtTurn=driveTarget.getTurn();
+		double tgtTurn=driveTarget.getTurn();
 		for(DriveModule module:driveModules)
 		{
-			tgtTurn=tgtTurn.subtract(getTorque(module.getOffset(),module.getForce(),tgtDir));
+			tgtTurn=tgtTurn-getTorque(module.getOffset(),module.getForce(),tgtDir).toRadians();
 		}
 		for(DriveModule module:driveModules)
 		{
 			module.set(inverseDot(module.getForce(),tgtDir.add(
-					new Polar(tgtTurn.toRadians()*module.getOffset().getMagnitude(),module.getOffset().getAngle().add(Angle.QUARTER)))));
+					new Polar(tgtTurn*module.getOffset().getMagnitude(),module.getOffset().getAngle().add(Angle.QUARTER)))));
 		}
 	}
 	

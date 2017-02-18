@@ -15,25 +15,25 @@ import org.montclairrobotics.sprocket.utils.Utils;
 public class AccelLimit implements Step<DTTarget>{
 
 	private Distance maxAccel;
-	private Angle maxTurn;
+	private double maxTurn;
 	
 	private Vector lastDir;
-	private Angle lastTurn;
+	private double lastTurn;
 	
 	public AccelLimit()
 	{
-		this(new Distance(4),new Degrees(180));
+		this(new Distance(4),new Degrees(180).toRadians());
 	}
 	public AccelLimit(double maxAccel,double maxTurn)
 	{
-		this(new Distance(maxAccel*SprocketRobot.getDriveTrain().getMaxSpeed().get()),new Radians(maxTurn*SprocketRobot.getDriveTrain().getMaxTurn().toRadians()));
+		this(new Distance(maxAccel*SprocketRobot.getDriveTrain().getMaxSpeed().get()),maxTurn*SprocketRobot.getDriveTrain().getMaxTurn());
 	}
-	public AccelLimit(Distance maxAccel,Angle maxTurn) 
+	public AccelLimit(Distance maxAccel,double maxTurn) 
 	{
 		this.maxAccel=maxAccel;
 		this.maxTurn=maxTurn;
 		lastDir=Vector.ZERO;
-		lastTurn=Angle.ZERO;
+		lastTurn=0;
 	}
 	
 	@Override
@@ -50,10 +50,10 @@ public class AccelLimit implements Step<DTTarget>{
 		
 		Dashboard.putNumber("dDirAfter", dDir.getMagnitude());
 		
-		Angle dAng=in.getTurn().subtract(lastTurn);
-		dAng=new Degrees(Utils.constrain(dAng.toDegrees(),-maxTurn.toDegrees()*Updater.getLoopTime(),maxTurn.toDegrees()*Updater.getLoopTime()));
+		double dAng=in.getTurn()-lastTurn;
+		dAng=Utils.constrain(dAng,-maxTurn*Updater.getLoopTime(),maxTurn*Updater.getLoopTime());
 		
-		DTTarget tgt= new DTTarget(lastDir.add(dDir),lastTurn.add(dAng));
+		DTTarget tgt= new DTTarget(lastDir.add(dDir),lastTurn+dAng);
 		
 		lastDir=tgt.getDirection();
 		lastTurn=tgt.getTurn();

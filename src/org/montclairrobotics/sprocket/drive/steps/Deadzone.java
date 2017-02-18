@@ -19,7 +19,7 @@ public class Deadzone implements Step<DTTarget>{
 	}
 	public Deadzone(double x,double y)
 	{
-		this(new XY(0,y).scale(SprocketRobot.getDriveTrain().getMaxSpeed().get()),new Radians(x*SprocketRobot.getDriveTrain().getMaxTurn().toRadians()));
+		this(new XY(0,y).scale(SprocketRobot.getDriveTrain().getMaxSpeed().get()),new Radians(x*SprocketRobot.getDriveTrain().getMaxTurn()));
 	}
 	public Deadzone(Vector dz,Angle turnDZ)
 	{
@@ -37,10 +37,10 @@ public class Deadzone implements Step<DTTarget>{
 		{
 			tgtDir=new XY(tgtDir.getX(),0);
 		}
-		Angle tgtTurn=in.getTurn();
-		if(Math.abs(tgtTurn.toDegrees())<turnDeadZone.toDegrees())
+		double tgtTurn=in.getTurn();
+		if(Math.abs(tgtTurn)<turnDeadZone.toRadians())
 		{
-			tgtTurn=Angle.ZERO;
+			tgtTurn=0;
 		}
 		return new DTTarget(tgtDir,tgtTurn);
 	}

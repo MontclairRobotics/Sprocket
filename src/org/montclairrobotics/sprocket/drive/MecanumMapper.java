@@ -3,6 +3,7 @@ package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Position;
+import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
 
@@ -10,7 +11,7 @@ public class MecanumMapper implements DTMapper {
 
     @Override
     public void map(DTTarget driveTarget, DriveModule[] driveModules) {
-        double turn = driveTarget.getTurn().toDegrees();
+        double turn = new Radians(driveTarget.getTurn()).toDegrees();
 
         for(DriveModule m : driveModules) {
             double power = getPower(driveTarget.getDirection(), m.getForceAngle());

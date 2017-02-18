@@ -22,10 +22,10 @@ public class ArcadeDriveInput implements DTInput, Updatable {
     private Joystick stick;
     
     private Distance maxSpeed;
-    private Angle maxTurn;
+    private double maxTurn;
 
     private Vector dir;
-    private Angle turn;
+    private double turn;
     private Vector raw;
 
 	private double sensitivity = 1;
@@ -38,7 +38,7 @@ public class ArcadeDriveInput implements DTInput, Updatable {
     public ArcadeDriveInput(Joystick stick) {
         this.stick = stick;
         this.maxSpeed = new Distance(1);
-        this.maxTurn = Angle.QUARTER;
+        this.maxTurn = Angle.QUARTER.toRadians();
         Updater.add(this, Priority.INPUT);
     }
 
@@ -49,7 +49,7 @@ public class ArcadeDriveInput implements DTInput, Updatable {
      * @param maxSpeed The maximum speed that the Joystick can tell the DriveTrain to go in units/sec
      * @param maxTurnSpeed The maximum turning speed that the Joystick can tell the DriveTrain to go in units/sec
      */
-    public ArcadeDriveInput(Joystick stick, Distance maxSpeed, Angle maxTurnSpeed) {
+    public ArcadeDriveInput(Joystick stick, Distance maxSpeed, double maxTurnSpeed) {
     	this.stick = stick;
     	this.maxSpeed = maxSpeed;
     	this.maxTurn = maxTurnSpeed;
@@ -72,7 +72,7 @@ public class ArcadeDriveInput implements DTInput, Updatable {
     }
 
     public void update() {
-        turn = maxTurn.times(stick.getX()*turnSensitivity);
+        turn = maxTurn*stick.getX()*turnSensitivity;
         dir = new XY(0, stick.getY()*maxSpeed.get()*sensitivity*-1);
         raw=new XY(stick.getX(),stick.getY());
     }
@@ -100,7 +100,7 @@ public class ArcadeDriveInput implements DTInput, Updatable {
     /**
      * @return The calculated turning speed for the DriveTrain
      */
-    public Angle getTurn() {
+    public double getTurn() {
         return turn;
     }
 
@@ -117,7 +117,7 @@ public class ArcadeDriveInput implements DTInput, Updatable {
      * @param t The maximum turning speed of the robot (for scaling, in units/sec)
      */
     @Override
-	public void setMaxTurn(Angle t)
+	public void setMaxTurn(double t)
 	{
 		this.maxTurn=t;
 	}

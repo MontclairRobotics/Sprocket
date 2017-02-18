@@ -20,7 +20,7 @@ public class FieldCentricDriveInput extends ArcadeDriveInput{
 	private Input<Boolean> enabled;
 	
 	private Vector dir;
-	private Angle turn;
+	private double turn;
 
 	public FieldCentricDriveInput(Joystick stick,PID pid,Input<Boolean> enabled) 
 	{
@@ -31,7 +31,7 @@ public class FieldCentricDriveInput extends ArcadeDriveInput{
 		reset();
 	}
 	public FieldCentricDriveInput(Joystick stick, Distance maxSpeed,
-			Angle maxTurnSpeed,PID pid,Input<Boolean> enabled) {
+			double maxTurnSpeed,PID pid,Input<Boolean> enabled) {
 		super(stick, maxSpeed, maxTurnSpeed);
 		this.pid=pid.copy();
 		this.pid.setMinMax(-180, 179, 0, 0);
@@ -51,13 +51,13 @@ public class FieldCentricDriveInput extends ArcadeDriveInput{
 			{
 				pid.setTarget(field.getAngle().toDegrees());
 				dir=new XY(0,raw.getMagnitude());
-				turn=new Radians(pid.get()*SprocketRobot.getDriveTrain().getMaxTurn().toRadians());
+				turn=pid.get()*SprocketRobot.getDriveTrain().getMaxTurn();
 			}
 			else
 			{
 				pid.setTarget(field.getAngle().add(Angle.HALF).toDegrees());
 				dir=new XY(0,-raw.getMagnitude());
-				turn=new Radians(pid.get()*SprocketRobot.getDriveTrain().getMaxTurn().toRadians());
+				turn=pid.get()*SprocketRobot.getDriveTrain().getMaxTurn();
 			}	
 		}
 		else
@@ -81,7 +81,7 @@ public class FieldCentricDriveInput extends ArcadeDriveInput{
     /**
      * @return The calculated turning speed for the DriveTrain
      */
-    public Angle getTurn() {
+    public double getTurn() {
         return turn;
     }
     

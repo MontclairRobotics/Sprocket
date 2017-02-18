@@ -55,7 +55,7 @@ public class GyroLock implements Step<DTTarget>{
 		DTTarget out=in;
 		boolean isLocked = (lock != null && lock.get()) || manualLock || 
 				(autoLock && Math.abs(in.getDirection().getAngle().toRadians())<
-						SprocketRobot.getDriveTrain().getMaxTurn().toRadians()*0.15);
+						SprocketRobot.getDriveTrain().getMaxTurn()*0.15);
 		if(isLocked&&!lastLock)
 		{
 			pid.setTarget(pid.getInput());
@@ -63,7 +63,7 @@ public class GyroLock implements Step<DTTarget>{
 		}
 		if(isLocked)
 		{
-			Angle tgt=new Radians(pid.get());
+			double tgt=pid.get()*SprocketRobot.getDriveTrain().getMaxTurn();
 			out=new DTTarget(in.getDirection(),tgt);
 			lastLockTime=Updater.getTime();
 		}

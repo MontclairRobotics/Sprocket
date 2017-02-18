@@ -12,8 +12,8 @@ public class ZeroInput implements DTInput{
 	}
 
 	@Override
-	public Angle getTurn() {
-		return Angle.ZERO;
+	public double getTurn() {
+		return 0;
 	}
 
 

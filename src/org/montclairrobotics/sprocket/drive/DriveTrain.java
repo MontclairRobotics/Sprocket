@@ -14,7 +14,7 @@ import org.montclairrobotics.sprocket.utils.Input;
 public class DriveTrain implements Updatable, Input<Distance> {
 	
 	private Distance maxSpeed=Distance.ZERO;
-	private Angle maxTurn=Angle.ZERO;
+	private double maxTurn=0;
 	
 	private DTInput input;
 	private DTInput defaultInput;
@@ -34,9 +34,9 @@ public class DriveTrain implements Updatable, Input<Distance> {
     		if(module.getOffset().getMagnitude()>0)
     		{
     			double turn=module.getMaxSpeed().get()/module.getOffset().getMagnitude();
-    			if(turn>maxTurn.toRadians())
+    			if(turn>maxTurn)
 	    		{
-	    			maxTurn=new Radians(turn);
+	    			maxTurn=turn;
 	    		}
     		}
     	}
@@ -51,7 +51,7 @@ public class DriveTrain implements Updatable, Input<Distance> {
 		//DTInput input = auto ? this.autoInput : this.input;
 		
 		Vector tgtDir=input.getDir();
-		Angle tgtTurn=input.getTurn();
+		double tgtTurn=input.getTurn();
 		DTTarget target = new DTTarget(tgtDir,tgtTurn);
 		target=pipeline.get(target);
 		mapper.map(target, modules);
@@ -103,12 +103,12 @@ public class DriveTrain implements Updatable, Input<Distance> {
     {
     	return maxSpeed;
     }
-    public DriveTrain setMaxTurn(Angle t)
+    public DriveTrain setMaxTurn(double t)
     {
     	maxTurn=t;
     	return this;
     }
-    public Angle getMaxTurn()
+    public double getMaxTurn()
     {
     	return maxTurn;
     }
