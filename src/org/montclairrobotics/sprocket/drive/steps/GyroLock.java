@@ -36,8 +36,8 @@ public class GyroLock implements Step<DTTarget>{
 	}
 	public GyroLock(PID pid, Input<Boolean> lock, boolean autoLock)
 	{
-		this.pid=pid;
-		pid.setMinMax(-180, 179, 0, 0);
+		this.pid=pid.copy();
+		this.pid.setMinMax(-180, 179, 0, 0);
 		this.lock=lock;
 		this.autoLock = autoLock;
 	}

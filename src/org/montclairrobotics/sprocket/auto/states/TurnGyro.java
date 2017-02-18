@@ -11,13 +11,13 @@ public class TurnGyro extends AutoState {
 	private PID pid; 
 	
 	public TurnGyro(PID pid) {
-		this.pid = pid;
-		pid.setMinMax(-180, 179, 0, 0);
+		this.pid = pid.copy();
+		this.pid.setMinMax(-180, 179, 0, 0);
 	}
 	
 	public TurnGyro(PID pid, Input<Double> gyro) {
 		this(pid);
-		pid.setInput(gyro);
+		this.pid.setInput(gyro);
 	}
 	
 	@Override
