@@ -1,6 +1,8 @@
 package org.montclairrobotics.sprocket.motors;
 
+import org.montclairrobotics.sprocket.drive.ControlledMotor;
 import org.montclairrobotics.sprocket.utils.PID;
+import org.montclairrobotics.sprocket.utils.Utils;
 
 import com.ctre.CANTalon;
 
@@ -18,6 +20,10 @@ public class Motor {
 
     private SpeedController motor;
     private MotorType motorType;
+    
+    private double minPower = -1.0;
+	private double maxPower = 1.0;
+	
 
     public Motor(SpeedController motor) {
         if(motor == null) {
@@ -49,7 +55,7 @@ public class Motor {
     
     
     public void set(double power) {
-        motor.set(power);
+        motor.set(Utils.constrain(power, minPower, maxPower));
     }
 
     public boolean getInverted() {
@@ -67,5 +73,11 @@ public class Motor {
     public MotorType getMotorType() {
         return motorType;
     }
+    
+    public Motor constrain(double min, double max) {
+		this.minPower = min;
+		this.maxPower = max;
+		return this;
+	}
 
 }
