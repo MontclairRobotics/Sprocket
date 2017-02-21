@@ -16,9 +16,9 @@ public class DriveTime extends AutoState {
 
 	double time;
 	private Vector tgtDir;
-	private double tgtTurn;
+	private Angle tgtTurn;
 	
-	public DriveTime(double time, Vector tgtDir, double tgtTurn)
+	public DriveTime(double time, Vector tgtDir, Angle tgtTurn)
 	{
 		this.time = time;
 		this.tgtDir = tgtDir;

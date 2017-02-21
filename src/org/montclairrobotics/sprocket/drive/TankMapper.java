@@ -2,7 +2,6 @@ package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.geometry.Angle;
-import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.geometry.Vector;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,7 +11,7 @@ public class TankMapper implements DTMapper {
     @Override
     public void map(DTTarget driveTarget, DriveModule[] driveModules) {
         double power = driveTarget.getDirection().getY()/SprocketRobot.getDriveTrain().getMaxSpeed().get();
-        double turn = driveTarget.getTurn()/SprocketRobot.getDriveTrain().getMaxTurn();
+        double turn = driveTarget.getTurn().toDegrees()/SprocketRobot.getDriveTrain().getMaxTurn().toDegrees();
 
         double max = 0;
 
@@ -37,7 +36,7 @@ public class TankMapper implements DTMapper {
         
         SmartDashboard.putNumber("power", power);
         SmartDashboard.putNumber("turn", turn);
-        SmartDashboard.putNumber("DriveTargetTurn", new Radians(driveTarget.getTurn()).toDegrees());
+        SmartDashboard.putNumber("DriveTargetTurn", driveTarget.getTurn().toDegrees());
         
     }
     

@@ -34,7 +34,7 @@ public abstract class AutoState extends AutoDTInput implements State {
 	{
 		userStop();
 		output.tgtDir=Vector.ZERO;
-		output.tgtTurn=0;
+		output.tgtTurn=Angle.ZERO;
 		//output.inputType=DTInput.Type.SPEED;
 		SprocketRobot.getDriveTrain().useDefaultInput();
 	}
@@ -78,7 +78,7 @@ public abstract class AutoState extends AutoDTInput implements State {
 	/**
 	 * @param a Sets the turning speed of the current DTInput that goes to the DriveTrain
 	 */
-	public void setTurn(double a) {
+	public void setTurn(Angle a) {
 		output.tgtTurn = a;
 	}
 
@@ -87,7 +87,7 @@ public abstract class AutoState extends AutoDTInput implements State {
 	 * @param v The direction
 	 * @param a The turning speed (units/sec)
 	 */
-	public void setTarget(Vector v, double a) {
+	public void setTarget(Vector v, Angle a) {
 		output.tgtDir = v;
 		output.tgtTurn = a;
 	}

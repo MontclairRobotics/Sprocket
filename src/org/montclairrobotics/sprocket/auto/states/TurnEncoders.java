@@ -8,11 +8,11 @@ import org.montclairrobotics.sprocket.geometry.Angle;
 public class TurnEncoders extends AutoState {
 	
 	private Angle turn;
-	private double turnSpeed;
+	private Angle turnSpeed;
 	private double finalPos;
 	private DriveModule module;
 	
-	public TurnEncoders(Angle turn, double turnSpeed) {
+	public TurnEncoders(Angle turn, Angle turnSpeed) {
 		this.turn = turn;
 		this.turnSpeed = turnSpeed;
 	}
@@ -41,7 +41,7 @@ public class TurnEncoders extends AutoState {
 	
 	@Override
 	public void userStop() {
-		output.tgtTurn = 0;
+		output.tgtTurn = Angle.ZERO;
 	}
 
 

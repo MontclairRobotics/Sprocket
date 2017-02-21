@@ -3,7 +3,6 @@ package org.montclairrobotics.sprocket.auto.states;
 import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.auto.AutoState;
 import org.montclairrobotics.sprocket.geometry.Degrees;
-import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 
@@ -23,7 +22,7 @@ public class TurnGyro extends AutoState {
 	
 	@Override
 	public void stateUpdate() {
-		output.tgtTurn = SprocketRobot.getDriveTrain().getMaxTurn() * pid.get();
+		output.tgtTurn = new Degrees(SprocketRobot.getDriveTrain().getMaxTurn().toDegrees() * pid.get());
 	}
 
 	@Override

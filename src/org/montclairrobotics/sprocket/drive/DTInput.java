@@ -7,8 +7,8 @@ import org.montclairrobotics.sprocket.geometry.Vector;
 public interface DTInput {
 	
 	public Vector getDir();
-	public double getTurn();
+	public Angle getTurn();
 	
 	public default void setMaxSpeed(Distance speed){}
-	public default void setMaxTurn(double maxTurn){}
+	public default void setMaxTurn(Angle turn){}
 }
