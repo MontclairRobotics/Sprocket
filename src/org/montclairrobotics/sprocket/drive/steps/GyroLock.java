@@ -8,8 +8,9 @@ import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.pipeline.Step;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
+import org.montclairrobotics.sprocket.utils.Togglable;
 
-public class GyroLock implements Step<DTTarget>{
+public class GyroLock implements Step<DTTarget>, Togglable {
 
 	private PID pid;
 	private Input<Boolean> lock;
