@@ -7,4 +7,11 @@ public class Utils {
 		if(val>max)return max;
 		return val;
 	}
+	
+	public static double wrap(double val,double wrapAt)
+	{
+		double halfWrapAt=wrapAt/2;
+		return ((val+halfWrapAt)%wrapAt+wrapAt)%wrapAt-halfWrapAt;
+	}
+	
 }
