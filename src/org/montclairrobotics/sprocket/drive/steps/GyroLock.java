@@ -13,7 +13,6 @@ import org.montclairrobotics.sprocket.utils.Togglable;
 public class GyroLock implements Step<DTTarget>, Togglable {
 
 	private PID pid;
-	private Input<Boolean> lock;
 	private boolean autoLock;
 	private boolean lastLock;
 	private boolean manualLock;
@@ -23,23 +22,12 @@ public class GyroLock implements Step<DTTarget>, Togglable {
 	
 	public GyroLock(PID pid)
 	{
-		this(pid,
-				new Input<Boolean>(){
-					@Override
-					public Boolean get() {
-						return false;
-					}},
-					true);
+		this(pid,true);
 	}
-	public GyroLock(PID pid,Input<Boolean> lock)
-	{
-		this(pid,lock,true);
-	}
-	public GyroLock(PID pid, Input<Boolean> lock, boolean autoLock)
+	public GyroLock(PID pid, boolean autoLock)
 	{
 		this.pid=pid.copy();
 		this.pid.setMinMax(-180, 179, 0, 0);
-		this.lock=lock;
 		this.autoLock = autoLock;
 	}
 	
@@ -54,9 +42,9 @@ public class GyroLock implements Step<DTTarget>, Togglable {
 	@Override
 	public DTTarget get(DTTarget in) {
 		DTTarget out=in;
-		boolean isLocked = (lock != null && lock.get()) || manualLock || 
+		boolean isLocked = manualLock || 
 				(autoLock && Math.abs(in.getDirection().getAngle().toRadians())<
-						SprocketRobot.getDriveTrain().getMaxTurn().toRadians()*0.15);
+						SprocketRobot.getDriveTrain().getMaxTurn().toRadians()*0.05);
 		if(isLocked&&!lastLock)
 		{
 			pid.setTarget(pid.getInput());
