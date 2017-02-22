@@ -91,4 +91,9 @@ public class XY implements Vector {
 	public Vector normalize() {
 		return setMag(1);
 	}
+	
+	public String toString()
+	{
+		return "("+x+","+y+")";
+	}
 }

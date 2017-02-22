@@ -63,4 +63,9 @@ public class Degrees implements Angle {
 	public double divide(Angle x) {
 		return degrees/x.toDegrees();
 	}
+	
+	public String toString()
+	{
+		return degrees+"°";
+	}
 }

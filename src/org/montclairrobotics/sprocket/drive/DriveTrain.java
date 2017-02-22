@@ -2,6 +2,7 @@ package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.geometry.Angle;
+import org.montclairrobotics.sprocket.geometry.Debug;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.geometry.Vector;
@@ -53,7 +54,9 @@ public class DriveTrain implements Updatable, Input<Distance> {
 		Vector tgtDir=input.getDir();
 		Angle tgtTurn=input.getTurn();
 		DTTarget target = new DTTarget(tgtDir,tgtTurn);
+		Debug.string("DriveTrain INPUT:",target.toString());
 		target=pipeline.get(target);
+		Debug.string("DriveTrain PIPELINE OUTPUT:",target.toString());
 		mapper.map(target, modules);
 	}
 	

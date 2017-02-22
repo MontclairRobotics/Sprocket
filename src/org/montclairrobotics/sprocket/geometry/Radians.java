@@ -65,4 +65,8 @@ public class Radians implements Angle{
 	public double divide(Angle x) {
 		return radians/x.toRadians();
 	}
+	public String toString()
+	{
+		return toDegrees()+"°";
+	}
 }

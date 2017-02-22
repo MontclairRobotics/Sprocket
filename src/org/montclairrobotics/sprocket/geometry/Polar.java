@@ -72,5 +72,9 @@ public class Polar implements Vector {
 		return setMag(1);
 	}
 	
-	
+
+	public String toString()
+	{
+		return "("+getX()+","+getY()+")";
+	}
 }

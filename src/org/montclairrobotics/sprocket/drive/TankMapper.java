@@ -34,9 +34,9 @@ public class TankMapper implements DTMapper {
             }
         }
         
-        SmartDashboard.putNumber("power", power);
-        SmartDashboard.putNumber("turn", turn);
-        SmartDashboard.putNumber("DriveTargetTurn", driveTarget.getTurn().toDegrees());
+        Debug.num("power", power);
+        Debug.num("turn", turn);
+        Debug.num("DriveTargetTurn", driveTarget.getTurn().toDegrees());
         
     }
     
