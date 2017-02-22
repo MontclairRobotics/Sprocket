@@ -3,6 +3,7 @@ package org.montclairrobotics.sprocket.drive.steps;
 import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.geometry.Angle;
+import org.montclairrobotics.sprocket.geometry.Debug;
 import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.pipeline.Step;
@@ -60,6 +61,10 @@ public class GyroLock implements Step<DTTarget>, Togglable {
 		{
 			lastLock=false;
 		}
+		Debug.string("Gyro Lock",isLocked?"Enabled":"Disabled");
+		Debug.num("Gyro Target", pid.getTarget());
+		Debug.num("Gyro Val", pid.getInput());
+		Debug.num("Gyro Error", pid.getError());
 		return out;
 	}
 
