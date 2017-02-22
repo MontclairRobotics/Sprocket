@@ -44,8 +44,10 @@ public class GyroLock implements Step<DTTarget>, Togglable {
 	public DTTarget get(DTTarget in) {
 		DTTarget out=in;
 		boolean isLocked = manualLock || 
-				(autoLock && Math.abs(in.getDirection().getAngle().toRadians())<
+				(autoLock && Math.abs(in.getTurn().toRadians())<
 						SprocketRobot.getDriveTrain().getMaxTurn().toRadians()*0.05);
+
+		Debug.num("Gyro AutoLock Condition",Math.abs(in.getDirection().getAngle().toRadians()));
 		if(isLocked&&!lastLock)
 		{
 			pid.setTarget(pid.getInput());
@@ -62,6 +64,7 @@ public class GyroLock implements Step<DTTarget>, Togglable {
 			lastLock=false;
 		}
 		Debug.string("Gyro Lock",isLocked?"Enabled":"Disabled");
+		Debug.num("Gyro AutoLock Value",SprocketRobot.getDriveTrain().getMaxTurn().toRadians()*0.05);
 		Debug.num("Gyro Target", pid.getTarget());
 		Debug.num("Gyro Val", pid.getInput());
 		Debug.num("Gyro Error", pid.getError());
