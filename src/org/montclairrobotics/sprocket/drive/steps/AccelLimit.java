@@ -20,20 +20,31 @@ public class AccelLimit implements Step<DTTarget>{
 	private Vector lastDir;
 	private Angle lastTurn;
 	
+	private boolean relative;
+	
 	public AccelLimit()
 	{
 		this(new Distance(4),new Degrees(180));
 	}
 	public AccelLimit(double maxAccel,double maxTurn)
 	{
-		this(new Distance(maxAccel*SprocketRobot.getDriveTrain().getMaxSpeed().get()),new Radians(maxTurn*SprocketRobot.getDriveTrain().getMaxTurn().toRadians()));
+		this(maxAccel,maxTurn,true);
+	}
+	public AccelLimit(double maxAccel,double maxTurn,boolean relative)
+	{
+		this(new Distance(maxAccel),new Radians(maxTurn),relative);
 	}
 	public AccelLimit(Distance maxAccel,Angle maxTurn) 
+	{
+		this(maxAccel,maxTurn,false);
+	}
+	public AccelLimit(Distance maxAccel,Angle maxTurn,boolean relative) 
 	{
 		this.maxAccel=maxAccel;
 		this.maxTurn=maxTurn;
 		lastDir=Vector.ZERO;
 		lastTurn=Angle.ZERO;
+		this.relative=relative;
 	}
 	
 	@Override
