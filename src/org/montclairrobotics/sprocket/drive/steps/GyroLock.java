@@ -53,7 +53,7 @@ public class GyroLock implements Step<DTTarget>, Togglable {
 			pid.setTarget(pid.getInput());
 			lastLock=true;
 		}
-		if(isLocked)
+		else if(isLocked)
 		{
 			Angle tgt=new Radians(pid.get());
 			out=new DTTarget(in.getDirection(),tgt);

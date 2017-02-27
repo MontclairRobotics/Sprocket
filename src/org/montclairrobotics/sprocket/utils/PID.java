@@ -1,6 +1,7 @@
 package org.montclairrobotics.sprocket.utils;
 
 
+import org.montclairrobotics.sprocket.geometry.Debug;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
@@ -116,7 +117,7 @@ public class PID implements Updatable {
 	 */
 	public double get()
 	{
-		out = calculate(input.get());
+		//out = calculate(input.get());
 		return out;
 	}
 	
@@ -131,7 +132,7 @@ public class PID implements Updatable {
 			error=((error-minIn)%diff+diff)%diff+minIn;
 		}
 		totalError += error * loopTime;
-		if (I != 0) 
+		if (I != 0.0) 
 		{
 			double potentialIGain = (error+totalError) * I;
 			if (potentialIGain < maxOut) {
@@ -173,7 +174,7 @@ public class PID implements Updatable {
 
 	public void update()
 	{
-		calculate(input.get());
+		out=calculate(input.get());
 	}
 	
 	public double getTarget()

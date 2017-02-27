@@ -2,6 +2,7 @@ package org.montclairrobotics.sprocket.control;
 
 import org.montclairrobotics.sprocket.drive.DTInput;
 import org.montclairrobotics.sprocket.geometry.Angle;
+import org.montclairrobotics.sprocket.geometry.Debug;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
@@ -75,6 +76,7 @@ public class ArcadeDriveInput implements DTInput, Updatable {
         turn = maxTurn.times(stick.getX()*turnSensitivity);
         dir = new XY(0, stick.getY()*maxSpeed.get()*sensitivity*-1);
         raw=new XY(stick.getX(),stick.getY());
+        Debug.string("What input thinks maxTurn is", maxTurn.toString());
     }
 
     /**

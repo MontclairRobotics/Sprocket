@@ -59,13 +59,13 @@ public class AccelLimit implements Step<DTTarget>{
 		Vector dDir=in.getDirection().subtract(lastDir);
 		
 		Debug.num("maxAccel", maxAccel.get()*Updater.getLoopTime());
-		
+		Debug.string("dDirBefore", dDir.toString());
 		if(dDir.getMagnitude()>maxAccel.get()*Updater.getLoopTime())
 		{
 			dDir=dDir.setMag(maxAccel.get()*Updater.getLoopTime());
 		}
 
-		Debug.string("dDir", dDir.toString());
+		Debug.string("dDirAfter", dDir.toString());
 		Debug.string("lastDir", lastDir.toString());
 		Debug.string("newDir", (lastDir.add(dDir)).toString());
 		

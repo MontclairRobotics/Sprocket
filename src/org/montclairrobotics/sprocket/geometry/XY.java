@@ -20,25 +20,7 @@ public class XY implements Vector {
 
     @Override
     public Angle getAngle() {
-    	if(y>0.0)
-    	{
-            return new Radians(Math.atan(x/y));
-    	}
-    	else if(y<0.0)
-    	{
-    		return new Radians(-Math.atan(x/y));
-    	}
-    	else
-    	{
-    		if(x>0)
-    		{
-    			return Angle.QUARTER;
-    		}
-    		else
-    		{
-    			return Angle.QUARTER.times(3);
-    		}
-    	}
+    	return new Radians(Math.atan2(x, y));
     }
 
     @Override
