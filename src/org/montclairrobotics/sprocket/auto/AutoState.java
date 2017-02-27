@@ -14,14 +14,12 @@ import org.montclairrobotics.sprocket.states.State;
  * Sprocket comes with some basic AutoStates built in, but you will need to make
  * at least some of them on your own by extending this class.
  */
-public abstract class AutoState extends AutoDTInput implements State {
+public abstract class AutoState extends AutoDTInput implements IAutoState {
 	private double t;//time state was started
-	public AutoDTInput output;//output to drivetrain
 	
 	public final void start()
 	{
 		t=Updater.getTime();
-		output = this;
 		SprocketRobot.getDriveTrain().setTempInput(this);
 		userStart();
 	}
@@ -33,8 +31,8 @@ public abstract class AutoState extends AutoDTInput implements State {
 	public final void stop()
 	{
 		userStop();
-		output.tgtDir=Vector.ZERO;
-		output.tgtTurn=Angle.ZERO;
+		tgtDir=Vector.ZERO;
+		tgtTurn=Angle.ZERO;
 		//output.inputType=DTInput.Type.SPEED;
 		SprocketRobot.getDriveTrain().useDefaultInput();
 	}
@@ -53,33 +51,17 @@ public abstract class AutoState extends AutoDTInput implements State {
 	}
 
 	/**
-	 * @param out The drive input that should be sent to the DriveTrain
-	 */
-	public void setDTInput(AutoDTInput out)
-	{
-		this.output = out;
-	}
-
-	/**
-	 * @return The input that will be sent to the DriveTrain unless changed by setDTInput
-	 */
-	public DTInput getDTInput()
-	{
-		return output;
-	}
-
-	/**
 	 * @param v Sets the direction of the current DTInput that goes to the DriveTrain
 	 */
 	public void setDirection(Vector v) {
-		output.tgtDir = v;
+		tgtDir = v;
 	}
 
 	/**
 	 * @param a Sets the turning speed of the current DTInput that goes to the DriveTrain
 	 */
 	public void setTurn(Angle a) {
-		output.tgtTurn = a;
+		tgtTurn = a;
 	}
 
 	/**
@@ -88,7 +70,7 @@ public abstract class AutoState extends AutoDTInput implements State {
 	 * @param a The turning speed (units/sec)
 	 */
 	public void setTarget(Vector v, Angle a) {
-		output.tgtDir = v;
-		output.tgtTurn = a;
+		tgtDir = v;
+		tgtTurn = a;
 	}
 }

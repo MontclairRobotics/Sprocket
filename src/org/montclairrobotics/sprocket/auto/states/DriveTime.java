@@ -15,8 +15,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveTime extends AutoState {
 
 	double time;
-	private Vector tgtDir;
-	private Angle tgtTurn;
 	
 	public DriveTime(double time, Vector tgtDir, Angle tgtTurn)
 	{
@@ -27,8 +25,7 @@ public class DriveTime extends AutoState {
 	
 	@Override
 	public void stateUpdate() {
-		output.tgtDir = this.tgtDir;
-		output.tgtTurn = this.tgtTurn;
+		
 	}
 
 	@Override

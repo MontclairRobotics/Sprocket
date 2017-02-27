@@ -3,6 +3,7 @@ package org.montclairrobotics.sprocket.auto;
 import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.drive.DTInput;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
+import org.montclairrobotics.sprocket.states.State;
 import org.montclairrobotics.sprocket.states.StateMachine;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,9 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * the AutoStates that it contains before ending. When instantiated, these modes
  * will automatically be spent to a SmartDashboard chooser.
  */
-public class AutoMode {
-	
-	private StateMachine machine;
+public class AutoMode extends AutoStateMachine {
 	private String name;
 
 	/**
@@ -24,10 +23,10 @@ public class AutoMode {
 	 * @param name The name of the AutoMode (for SmartDashboard)
 	 * @param m The StateMachine which contains AutoModes
 	 */
-	public AutoMode(String name, StateMachine m)
+	public AutoMode(String name, State... m)
 	{
+		super(m);
 		this.name = name;
-		this.machine = m;
 	}
 
 	/**
@@ -39,19 +38,28 @@ public class AutoMode {
 	{
 		this(name, new StateMachine(s));
 	}
-	public void start()
+	public void userStart()
 	{
-		machine.start(true);
+		super.start(true);
 		SmartDashboard.putString("StartingAutoMode","START");
 	}
-	public void stop()
+	public void userStop()
 	{
-		machine.stop();
+		super.stop();
 		SprocketRobot.getDriveTrain().useDefaultInput();
 	}
 	public String toString()
 	{
 		return name;
+	}
+
+	@Override
+	public void stateUpdate() {
+	}
+
+	@Override
+	public boolean isDone() {
+		return super.isDone();
 	}
 	
 }
