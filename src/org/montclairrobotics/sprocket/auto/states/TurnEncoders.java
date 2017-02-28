@@ -31,7 +31,7 @@ public class TurnEncoders extends AutoState {
 	
 	@Override
 	public void stateUpdate() {
-		tgtTurn = turnSpeed;
+		output.tgtTurn = turnSpeed;
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class TurnEncoders extends AutoState {
 	
 	@Override
 	public void userStop() {
-		tgtTurn = Angle.ZERO;
+		output.tgtTurn = Angle.ZERO;
 	}
 
 
