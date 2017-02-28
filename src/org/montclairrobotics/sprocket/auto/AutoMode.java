@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class AutoMode extends StateMachine{
 	
-	private StateMachine machine;
 	private String name;
 
 	/**
