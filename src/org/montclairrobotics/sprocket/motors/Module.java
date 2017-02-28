@@ -1,9 +1,6 @@
 package org.montclairrobotics.sprocket.motors;
 
-import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
-import org.montclairrobotics.sprocket.geometry.Vector;
-import org.montclairrobotics.sprocket.motors.Motor;
 import org.montclairrobotics.sprocket.utils.PID;
 
 /**

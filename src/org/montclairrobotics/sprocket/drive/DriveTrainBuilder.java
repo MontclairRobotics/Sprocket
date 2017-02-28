@@ -3,7 +3,6 @@ package org.montclairrobotics.sprocket.drive;
 import java.util.ArrayList;
 
 import org.montclairrobotics.sprocket.control.ArcadeDriveInput;
-import org.montclairrobotics.sprocket.drive.steps.Deadzone;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.Polar;

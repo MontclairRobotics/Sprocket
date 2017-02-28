@@ -6,8 +6,8 @@ import org.montclairrobotics.sprocket.geometry.Polar;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.motors.Module;
 import org.montclairrobotics.sprocket.motors.Motor;
-import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.motors.SEncoder;
+import org.montclairrobotics.sprocket.utils.PID;
 
 /**
  * DriveModule is a class that extends Motor which provides additional behaviors

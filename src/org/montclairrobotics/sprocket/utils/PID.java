@@ -1,7 +1,6 @@
 package org.montclairrobotics.sprocket.utils;
 
 
-import org.montclairrobotics.sprocket.geometry.Debug;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;

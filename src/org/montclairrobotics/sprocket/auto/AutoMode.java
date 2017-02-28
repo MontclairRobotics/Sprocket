@@ -1,8 +1,6 @@
 package org.montclairrobotics.sprocket.auto;
 
 import org.montclairrobotics.sprocket.SprocketRobot;
-import org.montclairrobotics.sprocket.drive.DTInput;
-import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.states.State;
 import org.montclairrobotics.sprocket.states.StateMachine;
 

@@ -5,8 +5,6 @@ import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Debug;
 import org.montclairrobotics.sprocket.geometry.Vector;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class TankMapper implements DTMapper {
 
     @Override

@@ -1,7 +1,5 @@
 package org.montclairrobotics.sprocket.motors;
 
-import org.montclairrobotics.sprocket.drive.ControlledMotor;
-import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Utils;
 
 import com.ctre.CANTalon;
