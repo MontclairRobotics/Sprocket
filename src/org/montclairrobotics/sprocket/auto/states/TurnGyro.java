@@ -22,7 +22,7 @@ public class TurnGyro extends AutoState {
 	
 	@Override
 	public void stateUpdate() {
-		output.tgtTurn = new Degrees(SprocketRobot.getDriveTrain().getMaxTurn().toDegrees() * pid.get());
+		tgtTurn = new Degrees(SprocketRobot.getDriveTrain().getMaxTurn().toDegrees() * pid.get());
 	}
 
 	@Override
