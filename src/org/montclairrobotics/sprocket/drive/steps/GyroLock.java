@@ -44,10 +44,11 @@ public class GyroLock implements Step<DTTarget>, Togglable {
 	public DTTarget get(DTTarget in) {
 		DTTarget out=in;
 		boolean isLocked = manualLock || 
-				(autoLock && Math.abs(in.getTurn().toRadians())<
-						SprocketRobot.getDriveTrain().getMaxTurn().toRadians()*0.05);
-
-		Debug.num("Gyro AutoLock Condition",Math.abs(in.getDirection().getAngle().toRadians()));
+				(autoLock && 
+						Math.abs(in.getTurn().toRadians())<
+							SprocketRobot.getDriveTrain().getMaxTurn().toRadians()*0.05&&
+						Math.abs(in.getDirection().getMagnitude())<
+							SprocketRobot.getDriveTrain().getMaxSpeed().get()*0.05);
 		if(isLocked&&!lastLock)
 		{
 			pid.setTarget(pid.getInput());
