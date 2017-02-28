@@ -76,7 +76,6 @@ public class ArcadeDriveInput implements DTInput, Updatable {
         turn = maxTurn.times(stick.getX()*turnSensitivity);
         dir = new XY(0, stick.getY()*maxSpeed.get()*sensitivity*-1);
         raw=new XY(stick.getX(),stick.getY());
-        Debug.string("What input thinks maxTurn is", maxTurn.toString());
     }
 
     /**

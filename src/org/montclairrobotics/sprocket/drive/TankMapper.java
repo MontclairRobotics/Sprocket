@@ -37,7 +37,6 @@ public class TankMapper implements DTMapper {
         
         Debug.num("power", power);
         Debug.num("turn", turn);
-        Debug.num("DriveTargetTurn", driveTarget.getTurn().toDegrees());
         
     }
     

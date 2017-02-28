@@ -62,7 +62,6 @@ public class Deadzone implements Step<DTTarget>{
 		}
 
 		DTTarget output=new DTTarget(tgtDir,tgtTurn);
-		Debug.string("After Deadzone",output.toString());
 		return output;
 	}
 
