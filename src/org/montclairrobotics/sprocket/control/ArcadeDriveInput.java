@@ -43,19 +43,20 @@ public class ArcadeDriveInput implements DTInput, Updatable {
         Updater.add(this, Priority.INPUT);
     }
 
-    /**
+    /*
      * Instantiates an ArcadeDriveInput which is scaled based off of manually
      * inputted values.
      * @param stick The joystick that will be used for DriveTrain control
      * @param maxSpeed The maximum speed that the Joystick can tell the DriveTrain to go in units/sec
      * @param maxTurnSpeed The maximum turning speed that the Joystick can tell the DriveTrain to go in units/sec
      */
+    /*
     public ArcadeDriveInput(Joystick stick, Distance maxSpeed, Angle maxTurnSpeed) {
     	this.stick = stick;
     	this.maxSpeed = maxSpeed;
     	this.maxTurn = maxTurnSpeed;
     	Updater.add(this, Priority.INPUT);
-    }
+    }*/
 
     /**
      * Sets the sensitivity of each Joystick axis. For example, if the direction
@@ -73,11 +74,20 @@ public class ArcadeDriveInput implements DTInput, Updatable {
     }
 
     public void update() {
-        turn = maxTurn.times(stick.getX()*turnSensitivity);
-        dir = new XY(0, stick.getY()*maxSpeed.get()*sensitivity*-1);
-        raw=new XY(stick.getX(),stick.getY());
+        turn = maxTurn.times(getX()*turnSensitivity);
+        dir = new XY(0, getY()*maxSpeed.get()*sensitivity*-1);
+        raw=new XY(getX(),getY());
     }
 
+    public double getX()
+    {
+    	return stick.getX();
+    }
+    public double getY()
+    {
+    	return stick.getY();
+    }
+    
     /**
      * @return The calculated direction for the DriveTrain
      */

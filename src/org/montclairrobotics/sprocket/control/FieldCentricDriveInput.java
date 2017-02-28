@@ -22,17 +22,8 @@ public class FieldCentricDriveInput extends ArcadeDriveInput{
 	private Vector dir;
 	private Angle turn;
 
-	public FieldCentricDriveInput(Joystick stick,PID pid,Input<Boolean> enabled) 
-	{
+	public FieldCentricDriveInput(Joystick stick,PID pid,Input<Boolean> enabled) {
 		super(stick);
-		this.pid=pid.copy();
-		this.pid.setMinMax(-180, 179, 0, 0);
-		this.enabled=enabled;
-		reset();
-	}
-	public FieldCentricDriveInput(Joystick stick, Distance maxSpeed,
-			Angle maxTurnSpeed,PID pid,Input<Boolean> enabled) {
-		super(stick, maxSpeed, maxTurnSpeed);
 		this.pid=pid.copy();
 		this.pid.setMinMax(-180, 179, 0, 0);
 		this.enabled=enabled;
