@@ -3,6 +3,7 @@ package org.montclairrobotics.sprocket.auto.states;
 import org.montclairrobotics.sprocket.auto.AutoState;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
+import org.montclairrobotics.sprocket.geometry.XY;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -12,13 +13,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * generally not recommended and this state should only be used in specific
  * cases where driving by time makes sense or while testing.
  */
-public class DriveTime extends AutoState {
+public class DriveTime extends Delay {
 
 	double time;
 	
+	public DriveTime(double time,double power)
+	{
+		this(time,new XY(0,power));
+	}
+	public DriveTime(double time,Vector tgtDir)
+	{
+		this(time,tgtDir,Angle.ZERO);
+	}
 	public DriveTime(double time, Vector tgtDir, Angle tgtTurn)
 	{
-		this.time = time;
+		super(time);
 		this.tgtDir = tgtDir;
 		this.tgtTurn = tgtTurn;
 	}
@@ -26,7 +35,7 @@ public class DriveTime extends AutoState {
 	@Override
 	public void stateUpdate() {
 	}
-
+/*
 	@Override
 	public boolean isDone() {
 		SmartDashboard.putNumber("time", time);
@@ -34,5 +43,5 @@ public class DriveTime extends AutoState {
 		SmartDashboard.putNumber("tgtDirY", tgtDir.getY());
 		return timeInState() > time;
 	}
-
+*/
 }

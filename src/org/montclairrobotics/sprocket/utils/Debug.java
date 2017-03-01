@@ -1,4 +1,4 @@
-package org.montclairrobotics.sprocket.geometry;
+package org.montclairrobotics.sprocket.utils;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -16,5 +16,14 @@ public class Debug {
 	{
 		if(DEBUG_MODE)
 			SmartDashboard.putString(key, value);
+	}
+	
+	public static void msg(String key,double value)
+	{
+		num(key,value);
+	}
+	public static void msg(String key,String value)
+	{
+		string(key,value);
 	}
 }

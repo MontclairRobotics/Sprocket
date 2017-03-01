@@ -2,8 +2,8 @@ package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.geometry.Angle;
-import org.montclairrobotics.sprocket.geometry.Debug;
 import org.montclairrobotics.sprocket.geometry.Vector;
+import org.montclairrobotics.sprocket.utils.Debug;
 
 public class TankMapper implements DTMapper {
 

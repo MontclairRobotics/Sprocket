@@ -1,5 +1,6 @@
 package org.montclairrobotics.sprocket;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
 	public SprocketRobot()
 	{
 		Updater.add(this,Priority.NORMAL);
+		autoModes=new AutoMode[0];
 	}
 	
 	private static DriveTrain driveTrain;
@@ -114,11 +116,12 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     }
     
     public void addAutoMode(AutoMode mode) {
-    	List<AutoMode> modes = Arrays.asList(autoModes);
+    	ArrayList<AutoMode> modes = new ArrayList<AutoMode>(Arrays.asList(autoModes));
     	modes.add(mode);
     	autoModes = modes.toArray(autoModes);
+    	//Wow, Rafi. Wow
     }
-    
+    /*
     public final void runState(AutoState state) {
 	    if(runState != null) {
 	        runState.stop();
@@ -137,5 +140,5 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
 			}
 		}
     }
-    
+    */
 }
