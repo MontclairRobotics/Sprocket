@@ -51,9 +51,7 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     }
 
     @Override
-    public void robotInit() {
-        //super.robotInit();
-    }
+    public abstract void robotInit();
 
     @Override
     public final void disabledInit() {
