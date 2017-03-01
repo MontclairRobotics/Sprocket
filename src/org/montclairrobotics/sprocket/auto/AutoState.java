@@ -30,8 +30,8 @@ public abstract class AutoState extends AutoDTInput implements State {
 	public final void stop()
 	{
 		userStop();
-		tgtDir=Vector.ZERO;
-		tgtTurn=Angle.ZERO;
+		/*tgtDir=Vector.ZERO;
+		tgtTurn=Angle.ZERO;*/
 		//output.inputType=DTInput.Type.SPEED;
 		SprocketRobot.getDriveTrain().useDefaultInput();
 	}

@@ -14,8 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * cases where driving by time makes sense or while testing.
  */
 public class DriveTime extends Delay {
-
-	double time;
 	
 	public DriveTime(double time,double power)
 	{
