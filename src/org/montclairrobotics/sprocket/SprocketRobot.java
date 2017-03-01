@@ -112,7 +112,7 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     	{
     		chooser.addObject(mode+"", mode);
     	}
-    	SmartDashboard.putData("AUTO:",chooser);
+    	sendAutoModes();
     }
     
     public void addAutoMode(AutoMode mode) {
@@ -120,6 +120,11 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     	modes.add(mode);
     	autoModes = modes.toArray(autoModes);
     	//Wow, Rafi. Wow
+    }
+    
+    public void sendAutoModes()
+    {
+    	SmartDashboard.putData("AUTO:",chooser);
     }
     /*
     public final void runState(AutoState state) {
