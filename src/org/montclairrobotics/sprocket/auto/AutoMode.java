@@ -3,6 +3,7 @@ package org.montclairrobotics.sprocket.auto;
 import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.states.State;
 import org.montclairrobotics.sprocket.states.StateMachine;
+import org.montclairrobotics.sprocket.utils.Debug;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -30,7 +31,7 @@ public class AutoMode extends StateMachine{
 	public void start()
 	{
 		super.start(true);
-		SmartDashboard.putString("StartingAutoMode","START");
+		Debug.msg("Auto Mode Running:",name);
 	}
 	public void stop()
 	{

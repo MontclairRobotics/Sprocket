@@ -49,7 +49,6 @@ public class StateMachine implements State, Updatable{
 			startState();
 			states[index].stateUpdate();
 		}
-		SmartDashboard.putString("what about here","yep");
 	}
 
 	@Override
@@ -66,10 +65,6 @@ public class StateMachine implements State, Updatable{
 		{
 			stateUpdate();
 		}
-		SmartDashboard.putString("Updating", "Statemachine, top="+top);
-
-		SmartDashboard.putNumber("index",index);
-		SmartDashboard.putNumber("length of states", states.length);
 	}
 	public void startState()
 	{
