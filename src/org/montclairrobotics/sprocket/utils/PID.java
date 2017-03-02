@@ -18,7 +18,11 @@ import org.montclairrobotics.sprocket.loop.Updater;
 public class PID implements Updatable {
 
 	private Input<Double> input;
-	private double P,I,D,minIn,maxIn,minOut,maxOut;
+	private double P,I,D;
+	protected double minIn;
+	protected double maxIn;
+	protected double minOut;
+	protected double maxOut;
 	
 	//private boolean calculated=false;
 	private double out;
@@ -162,9 +166,13 @@ public class PID implements Updatable {
 		this.out=out;
 	}
 	
-	public double getInput()
+	public double getCurInput()
 	{
 		return input.get();
+	}
+	public Input<Double> getInput()
+	{
+		return input;
 	}
 	public double getError(){
 		return error;
