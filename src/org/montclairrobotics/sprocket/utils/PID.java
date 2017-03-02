@@ -52,7 +52,6 @@ public class PID implements Updatable {
 	 */
 	public PID(double P,double I,double D)
 	{
-		super();
 		setPID(P,I,D);
 	}
 	

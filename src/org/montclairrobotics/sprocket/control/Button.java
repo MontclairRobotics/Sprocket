@@ -14,36 +14,15 @@ import edu.wpi.first.wpilibj.Joystick;
  * the Sprocket control loop and calling anonymous functions passed in by
  * developers. This system makes defining button behaviors incredibly simple.
  */
-public class Button implements Updatable, Input<Boolean> {
+public abstract class Button implements Updatable, Input<Boolean> {
 	
-	private Joystick stick;
-	private int id;
-	private boolean wasPressed;
+	private boolean wasPressed=false;
 	
 	private ButtonAction pressAction, releaseAction, heldAction, offAction;
 	
-	/**
-	 * 
-	 * @param stick The WPILIB Joystick that you want to use to control the robot
-	 * @param buttonId The raw button ID of the button you're binding to. On most 
-	 * Joysticks the ID is specified on the buttons themselves.
-	 */
-	public Button(Joystick stick, int buttonId) {
-		this.stick = stick;
-		this.id = buttonId;
-		wasPressed = stick.getRawButton(buttonId);
-		
+	public Button()
+	{
 		Updater.add(this, Priority.CONTROL);
-	}
-	
-	/**
-	 * 
-	 * @param stick The Joystick port that you want to use to control the robot
-	 * @param buttonId The raw button ID of the button you're binding to. On most 
-	 * Joysticks the ID is specified on the buttons themselves.
-	 */
-	public Button(int stick, int buttonId) {
-		this(new Joystick(stick), buttonId);
 	}
 	
 	/**
@@ -80,7 +59,7 @@ public class Button implements Updatable, Input<Boolean> {
 	
 	@Override
 	public void update() {
-		boolean pressed = stick.getRawButton(id);
+		boolean pressed = get();
 		if(pressed) {
 			if(heldAction != null) heldAction.onAction();
 		} else {
@@ -96,10 +75,6 @@ public class Button implements Updatable, Input<Boolean> {
 		
 		wasPressed = pressed;
 	}
-
 	@Override
-	public Boolean get() {
-		return stick.getRawButton(id);
-	}
-
+	public abstract Boolean get();
 }
