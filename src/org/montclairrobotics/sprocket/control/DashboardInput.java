@@ -17,4 +17,8 @@ public class DashboardInput implements Input<Double>{
 	public Double get() {
 		return SmartDashboard.getNumber(name, 0.0);
 	}
+
+	public void set(double value) {
+		SmartDashboard.putNumber(name, value);
+	}
 }

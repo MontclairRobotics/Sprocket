@@ -2,60 +2,72 @@ package org.montclairrobotics.sprocket.utils;
 
 import org.montclairrobotics.sprocket.control.Button;
 import org.montclairrobotics.sprocket.control.ButtonAction;
+import org.montclairrobotics.sprocket.control.DashboardInput;
 
 public class PIDTuner extends PID
 {
 	private Input<Double> TempP;
 	private Button test;
 	private Button apply;
-	private double realP,realI,realD;
-	private Input<Double> cyclesPerSec;
+	private Button run;
+	private DashboardInput realP,realI,realD;
+	private Input<Double> cyclesPer10Sec;
 
-	public PIDTuner(Input<Double> P,Input<Double> cyclesPerSec,Button test,Button apply)
+	public PIDTuner(Input<Double> TempP,Input<Double> cyclesPer10Sec,Button test,Button apply,Button run)
 	{
 		super();
-		this.TempP=P;
+		this.TempP=TempP;
 		this.test=test;
 		this.apply=apply;
-		this.cyclesPerSec=cyclesPerSec;
+		this.cyclesPer10Sec=cyclesPer10Sec;
+		this.run=run;
+
+		realP=new DashboardInput("PID Tuner P");
+		realI=new DashboardInput("PID Tuner I");
+		realD=new DashboardInput("PID Tuner D");
 		
 		apply.setPressAction(new ButtonAction(){
 			@Override
 			public void onAction() {
 				recalculatePIDs();
 			}});
+		
+		
 	}
 	
 	public void recalculatePIDs() {
-		if(cyclesPerSec.get()==0.0)
+		if(cyclesPer10Sec.get()==0.0)
 		{
 			return;
 		}
-		double period=1/cyclesPerSec.get();
-		realP=0.6*TempP.get();
-		realI=2/period;
-		realD=period/8;
+		double period=0.1/cyclesPer10Sec.get();
+
+		realP.set(0.6*TempP.get());
+		realI.set(2/period);
+		realD.set(period/8);
 	}
 	public PID copy()
 	{
-		return new PIDTuner(TempP,cyclesPerSec,test,apply).setInput(getInput()).setMinMax(minIn,maxIn,minOut,maxOut);
+		return new PIDTuner(TempP,cyclesPer10Sec,test,apply,run).setInput(getInput()).setMinMax(minIn,maxIn,minOut,maxOut);
 	}
 	public void update()
 	{
+		
 		if(test.get())
 		{
 			super.setPID(TempP.get(),0,0);
 		}
-		else if(apply.get())
+		else if(run.get())
 		{
-			super.setPID(realP, realI, realD);
+			super.setPID(realP.get(), realI.get(), realD.get());
+		}
+		else
+		{
+			super.setPID(0, 0, 0);
 		}
 		super.update();
 		Debug.msg("PID Tuner Test Mode",test.get()?"Enabled":"Disabled");
-		Debug.msg("PID Tuner Active",test.get()?"Enabled":"Disabled");
+		Debug.msg("PID Tuner Active",run.get()?"Enabled":"Disabled");
 		Debug.msg("PID Tuner Test P",TempP.get());
-		Debug.msg("PID Tuner Saved P",realP);
-		Debug.msg("PID Tuner Saved I",realI);
-		Debug.msg("PID Tuner Saved D",realD);
 	}
 }
