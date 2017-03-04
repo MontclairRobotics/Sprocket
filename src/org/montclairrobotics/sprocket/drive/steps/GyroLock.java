@@ -50,7 +50,7 @@ public class GyroLock implements Step<DTTarget>, Togglable {
 							SprocketRobot.getDriveTrain().getMaxSpeed().get()*0.05);
 		if(isLocked&&!lastLock)
 		{
-			pid.setTarget(pid.getInput());
+			pid.setTarget(pid.getInput().get());
 			lastLock=true;
 		}
 		else if(isLocked)
