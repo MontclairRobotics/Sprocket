@@ -4,7 +4,7 @@ import org.montclairrobotics.sprocket.utils.Togglable;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class ToggleButton extends Button {
+public class ToggleButton extends JoystickButton {
 	
 	Togglable obj;
 	

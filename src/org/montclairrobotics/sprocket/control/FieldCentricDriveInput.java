@@ -32,7 +32,7 @@ public class FieldCentricDriveInput extends ArcadeDriveInput{
 	{
 		super.update();
 		Vector raw=getRaw();
-		Vector field=raw.rotate(new Degrees(pid.getInput()-zeroAngle));
+		Vector field=raw.rotate(new Degrees(pid.getInput().get()-zeroAngle));
 		
 		if(enabled.get())
 		{
@@ -76,6 +76,6 @@ public class FieldCentricDriveInput extends ArcadeDriveInput{
     
 	public void reset()
 	{
-		zeroAngle=pid.getInput();
+		zeroAngle=pid.getInput().get();
 	}
 }
