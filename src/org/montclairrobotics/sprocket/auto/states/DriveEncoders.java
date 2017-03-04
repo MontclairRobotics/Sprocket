@@ -18,6 +18,10 @@ public class DriveEncoders extends AutoState {
 		this.maxAccel=maxAccel;
 	}
 	
+	public DriveEncoders(Distance tgtDist) {
+		this(tgtDist, new Distance(100));
+	}
+	
 	@Override
 	public void userStart() {
 		this.dt = SprocketRobot.getDriveTrain();
