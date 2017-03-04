@@ -61,7 +61,7 @@ public class XY implements Vector {
 	@Override
 	public Angle angleBetween(Vector a)
 	{
-		return getAngle().subtract(a.getAngle());
+		return getAngle().subtract(a.getAngle()).wrap();
 	}
 	
 	@Override

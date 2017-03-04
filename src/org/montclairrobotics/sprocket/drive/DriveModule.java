@@ -3,16 +3,18 @@ package org.montclairrobotics.sprocket.drive;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.Polar;
+import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.motors.Module;
 import org.montclairrobotics.sprocket.motors.Motor;
 import org.montclairrobotics.sprocket.motors.SEncoder;
 import org.montclairrobotics.sprocket.utils.PID;
+import org.montclairrobotics.sprocket.utils.Utils;
 
 /**
  * DriveModule is a class that extends Motor which provides additional behaviors
  * when compared to a vanilla motor. DriveModules are aware of the angle in which
- * they provide force, where they are relative to the robot's geometrical center,
+ * they provide force, where they are relative to the robot's geometric center,
  * and it's maximum size. This information makes drive train calculations easier
  * without needing to have the developer enter Motors in any specific order, while
  * also making generic power mappers possible.
@@ -23,7 +25,6 @@ public class DriveModule extends Module{
 
     private Vector offset;
     private Vector force;
-    private Motor[] motors;
     
     
     private double power;
@@ -43,7 +44,6 @@ public class DriveModule extends Module{
                        ) {
     	super(enc, pid, inputType, new Distance(force.getMagnitude()), motors);
         this.offset = offset;
-        this.motors = motors;
         this.force = force;
     }
 
@@ -95,9 +95,10 @@ public class DriveModule extends Module{
     	return force;
     }
 
-    /**
-     * @param val The power at which to run the DriveModule from 0 to 1 as a percent of the maximum force.
+    /*
+     * @param val The power at which to run the DriveModule from as the maximum force.
      */
+    /*
     public void set(double val)
     {
     	power=val;
@@ -105,6 +106,27 @@ public class DriveModule extends Module{
     	{
     		motor.set(val/force.getMagnitude());
     	}
+    }
+    */
+    
+    public void setTgtVector(Vector dir,Angle turn)
+    {
+    	setTgtVector(dir.add(offset.rotate(Angle.QUARTER).scale(turn.toRadians())));//add to the direction the required force to turn
+    }
+    public void setTgtVector(Vector target)
+    {
+    	power=Utils.constrain(Utils.inverseDot(force,target), -force.getMagnitude(), force.getMagnitude());//Take the inverse dot to calculate required power, and constrain it to how much power we have
+    }
+    public Angle getTorque()
+    {
+    	if(offset.getMagnitude()==0.0) 
+    		return Angle.ZERO;
+    	Vector appliedPower=force.setMag(power);//how much force we are applying
+    	return new Radians(appliedPower.rotate(offset.getAngle().add(Angle.QUARTER)).getY()/offset.getMagnitude());//take the force in the direction perpendicular to our offset and divide by our magnitude to calculate our torque
+    }
+    public void applyTgtVector()
+    {
+    	set(power);
     }
     
     /**

@@ -45,6 +45,8 @@ public interface Angle {
 	public double cos();
 	public double tan();
 
+	Angle wrap();
+
 
 
 }

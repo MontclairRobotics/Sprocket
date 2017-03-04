@@ -69,4 +69,9 @@ public class Radians implements Angle{
 	{
 		return toDegrees()+"°";
 	}
+
+	@Override
+	public Angle wrap() {
+		return new WrappedRadians(radians);
+	}
 }

@@ -61,7 +61,7 @@ public class Polar implements Vector {
 	@Override
 	public Angle angleBetween(Vector a)
 	{
-		return angle.subtract(a.getAngle());
+		return angle.subtract(a.getAngle()).wrap();
 	}
 	@Override
 	public Vector setMag(double mag) {
