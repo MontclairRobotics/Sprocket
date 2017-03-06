@@ -2,6 +2,7 @@ package org.montclairrobotics.sprocket.utils;
 
 import org.montclairrobotics.sprocket.control.Button;
 import org.montclairrobotics.sprocket.control.ButtonAction;
+import org.montclairrobotics.sprocket.control.DashboardButton;
 import org.montclairrobotics.sprocket.control.DashboardInput;
 
 public class PIDTuner extends PID
@@ -33,6 +34,10 @@ public class PIDTuner extends PID
 			}});
 		
 		
+	}
+	
+	public PIDTuner(Button runButton) {
+		this(new DashboardInput("Temp P"), new DashboardInput("Cycles/10sec"), new DashboardButton("Test"), new DashboardButton("Apply"), runButton);
 	}
 	
 	public void recalculatePIDs() {
