@@ -5,7 +5,7 @@ import org.montclairrobotics.sprocket.control.ButtonAction;
 import org.montclairrobotics.sprocket.control.DashboardButton;
 import org.montclairrobotics.sprocket.control.DashboardInput;
 
-public class PIDTuner extends PID
+public class PIDThingy extends PID
 {
 	private Input<Double> TempP;
 	private Button test;
@@ -14,7 +14,7 @@ public class PIDTuner extends PID
 	private DashboardInput realP,realI,realD;
 	private Input<Double> cyclesPer10Sec;
 
-	public PIDTuner(Input<Double> TempP,Input<Double> cyclesPer10Sec,Button test,Button apply,Button run)
+	public PIDThingy(Input<Double> TempP,Input<Double> cyclesPer10Sec,Button test,Button apply,Button run)
 	{
 		super();
 		this.TempP=TempP;
@@ -36,7 +36,7 @@ public class PIDTuner extends PID
 		
 	}
 	
-	public PIDTuner(Button runButton) {
+	public PIDThingy(Button runButton) {
 		this(new DashboardInput("Temp P"), new DashboardInput("Cycles/10sec"), new DashboardButton("Test"), new DashboardButton("Apply"), runButton);
 	}
 	
@@ -53,7 +53,7 @@ public class PIDTuner extends PID
 	}
 	public PID copy()
 	{
-		return new PIDTuner(TempP,cyclesPer10Sec,test,apply,run).setInput(getInput()).setMinMax(minIn,maxIn,minOut,maxOut);
+		return new PIDThingy(TempP,cyclesPer10Sec,test,apply,run).setInput(getInput()).setMinMax(minIn,maxIn,minOut,maxOut);
 	}
 	public void update()
 	{
