@@ -14,8 +14,7 @@ public class Disable implements State{
 	
 	@Override
 	public void start() {
-		obj.disable();// TODO Auto-generated method stub
-		
+		obj.disable();
 	}
 
 	@Override

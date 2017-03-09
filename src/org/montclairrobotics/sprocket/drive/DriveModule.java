@@ -59,11 +59,11 @@ public class DriveModule extends Module{
 	            Module.MotorInputType inputType,
 	            Motor... motors
 	            ) {
-	this(offset,new Polar(maxSpeed,force),enc,pid,inputType,motors);
+    	this(offset,new Polar(maxSpeed,force),enc,pid,inputType,motors);
 	}
 	
 	public DriveModule(Vector offset, Angle force,Distance maxSpeed, Motor... motors) {
-	this(offset,new Polar(maxSpeed,force),null,null,Module.MotorInputType.PERCENT,motors);
+		this(offset,new Polar(maxSpeed,force),null,null,Module.MotorInputType.PERCENT,motors);
 	}
 
 	/**
@@ -100,11 +100,7 @@ public class DriveModule extends Module{
      */
     public void set(double val)
     {
-    	power=val;
-    	for(Motor motor:motors)
-    	{
-    		motor.set(val/force.getMagnitude());
-    	}
+    	super.set(val);
     }
     
     /**

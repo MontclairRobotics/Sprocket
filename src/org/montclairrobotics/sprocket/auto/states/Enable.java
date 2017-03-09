@@ -14,8 +14,7 @@ public class Enable implements State{
 	
 	@Override
 	public void start() {
-		obj.enable();// TODO Auto-generated method stub
-		
+		obj.enable();
 	}
 
 	@Override

@@ -56,7 +56,17 @@ public class PID implements Updatable {
 	 */
 	public PID(double P,double I,double D)
 	{
-		setPID(P,I,D);
+		this.input=null;
+		this.P=P;
+		this.I=I;
+		this.D=D;
+		this.minOut=0.0;
+		this.maxOut=0.0;
+		this.minIn=0.0;
+		this.maxIn=0.0;
+		this.lastUpdateTime = System.currentTimeMillis();
+		setTarget();
+		Updater.add(this, Priority.INPUT_PID);
 	}
 	
 	public PID setInput(Input<Double> i)
@@ -180,6 +190,7 @@ public class PID implements Updatable {
 
 	public void update()
 	{
+		if(input == null || input.get() == null) return;
 		out=calculate(input.get());
 	}
 	

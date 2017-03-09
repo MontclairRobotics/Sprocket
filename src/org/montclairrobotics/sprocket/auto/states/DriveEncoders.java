@@ -5,6 +5,7 @@ import org.montclairrobotics.sprocket.auto.AutoState;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.XY;
+import org.montclairrobotics.sprocket.utils.Utils;
 
 public class DriveEncoders extends AutoState {
 	
@@ -12,14 +13,16 @@ public class DriveEncoders extends AutoState {
 	private Distance tgtDistance;
 	private Distance stopDist;
 	private Distance maxAccel;
+	private double speed;
 	
-	public DriveEncoders(Distance tgtDistance,Distance maxAccel) {
+	public DriveEncoders(Distance tgtDistance,Distance maxAccel,double speed) {
 		this.tgtDistance=tgtDistance;
 		this.maxAccel=maxAccel;
+		this.speed = speed;
 	}
 	
-	public DriveEncoders(Distance tgtDist) {
-		this(tgtDist, new Distance(100));
+	public DriveEncoders(Distance tgtDist,double speed) {
+		this(tgtDist, new Distance(100),speed);
 	}
 	
 	@Override
@@ -30,9 +33,10 @@ public class DriveEncoders extends AutoState {
 	
 	@Override
 	public void stateUpdate() {
-		tgtDir = new XY(0,
+		tgtDir = new XY(0,Utils.constrain(
 				Math.sqrt(Math.abs(2*maxAccel.get()*(stopDist.get()-dt.getDistance().get())))
-				*(stopDist.get()-dt.getDistance().get()>0?1:-1));
+				*(stopDist.get()-dt.getDistance().get()>0?1:-1)
+				,-speed,speed));
 	}
 	
 	@Override
