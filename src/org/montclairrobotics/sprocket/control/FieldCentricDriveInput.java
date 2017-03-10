@@ -68,9 +68,11 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
 	@Override
 	public void enable() {
 		SprocketRobot.getDriveTrain().setTempInput(this);
+		gyroLock.enable();
 	}
 	@Override
 	public void disable() {
 		SprocketRobot.getDriveTrain().useDefaultInput();
+		gyroLock.disable();
 	}
 }
