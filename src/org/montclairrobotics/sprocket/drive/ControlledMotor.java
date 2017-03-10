@@ -5,6 +5,7 @@ import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.motors.Motor;
 import org.montclairrobotics.sprocket.utils.Input;
+import org.montclairrobotics.sprocket.utils.Togglable;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
@@ -17,9 +18,10 @@ import edu.wpi.first.wpilibj.SpeedController;
  * using Joystick inputs. If you're using button pairs, you could also use
  * ControlledMotor to run a shooter forward and backward using the button pair.
  */
-public class ControlledMotor extends Motor implements Updatable {
+public class ControlledMotor extends Motor implements Updatable,Togglable {
 	
 	private Input<Double> input;
+	private boolean enabled;
 	
 	/**
 	 * Used to construct a ControlledMotor based off of an Input of a double such as
@@ -62,7 +64,18 @@ public class ControlledMotor extends Motor implements Updatable {
 	
 	@Override
 	public void update() {
-		set(input.get());
+		if(enabled)
+			set(input.get());
+	}
+
+	@Override
+	public void enable() {
+		enabled=true;
+	}
+
+	@Override
+	public void disable() {
+		enabled=false;
 	}
 
 }

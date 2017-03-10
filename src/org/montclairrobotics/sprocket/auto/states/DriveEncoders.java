@@ -13,17 +13,17 @@ public class DriveEncoders extends AutoState {
 	private Distance tgtDistance;
 	private Distance stopDist;
 	private Distance maxAccel;
-	private Distance speed;
+	private double speed;
 	private Distance encSpeed;
 	
-	public DriveEncoders(Distance tgtDistance, Distance maxAccel, Distance speed,Distance encSpeed) {
+	public DriveEncoders(Distance tgtDistance, Distance maxAccel, double speed,Distance encSpeed) {
 		this.tgtDistance=tgtDistance;
 		this.maxAccel=maxAccel;
 		this.speed = speed;
 		this.encSpeed=encSpeed;
 	}
 	
-	public DriveEncoders(Distance tgtDist, Distance speed,Distance encSpeed) {
+	public DriveEncoders(Distance tgtDist, double speed,Distance encSpeed) {
 		this(tgtDist, new Distance(4),speed,encSpeed);
 	}
 	
@@ -48,7 +48,7 @@ public class DriveEncoders extends AutoState {
 				,-speed,speed));
 		 */
 		
-		tgtDir = new XY(0, speed.get());
+		tgtDir = new XY(0, speed);
 	}
 	
 	@Override
