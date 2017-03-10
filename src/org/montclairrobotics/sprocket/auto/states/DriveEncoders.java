@@ -13,36 +13,47 @@ public class DriveEncoders extends AutoState {
 	private Distance tgtDistance;
 	private Distance stopDist;
 	private Distance maxAccel;
-	private double speed;
+	private Distance speed;
+	private Distance encSpeed;
 	
-	public DriveEncoders(Distance tgtDistance, Distance maxAccel, double speed) {
+	public DriveEncoders(Distance tgtDistance, Distance maxAccel, Distance speed,Distance encSpeed) {
 		this.tgtDistance=tgtDistance;
 		this.maxAccel=maxAccel;
 		this.speed = speed;
+		this.encSpeed=encSpeed;
 	}
 	
-	public DriveEncoders(Distance tgtDist, double speed) {
-		this(tgtDist, new Distance(100),speed);
+	public DriveEncoders(Distance tgtDist, Distance speed,Distance encSpeed) {
+		this(tgtDist, new Distance(4),speed,encSpeed);
 	}
 	
 	@Override
 	public void userStart() {
 		this.dt = SprocketRobot.getDriveTrain();
-		stopDist = new Distance(dt.getDistance().get()+tgtDistance.get());
+		stopDist = new Distance(dt.getDistance().getY()+tgtDistance.get());
 	}
 	
 	@Override
 	public void stateUpdate() {
-		/*tgtDir = new XY(0,Utils.constrain(
+		/*
+		tgtDir = new XY(0,Utils.constrain(
 				Math.sqrt(Math.abs(2*maxAccel.get()*(stopDist.get()-dt.getDistance().get())))
 				*(stopDist.get()-dt.getDistance().get()>0?1:-1)
 				,-speed,speed));*/
-		tgtDir = new XY(0, speed);
+		
+		/*
+		tgtDir = new XY(0,Utils.constrain(
+				Math.sqrt(Math.abs(2*maxAccel.get()*(stopDist.get()-dt.getDistance().getY())/encSpeed))
+				*(stopDist.get()-dt.getDistance().getY()>0?1:-1)
+				,-speed,speed));
+		 */
+		
+		tgtDir = new XY(0, speed.get());
 	}
 	
 	@Override
 	public boolean isDone() {
-		return Math.abs(stopDist.get()-dt.getDistance().get()) < 2;
+		return Math.abs(stopDist.get()-dt.getDistance().getY()) < 2;
 	}
 	
 	@Override

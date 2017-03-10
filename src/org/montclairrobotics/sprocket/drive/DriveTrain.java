@@ -88,13 +88,15 @@ public class DriveTrain implements Updatable, Input<Distance> {
     	return this;
     }
     
-    public Distance getDistance() {
-    	double avgDist = 0.0;
+    public Vector getDistance() {
+    	if(modules.length==0)
+    		return Vector.ZERO;
+    	Vector totDist = Vector.ZERO;
     	for(DriveModule m : modules) {
-    		avgDist += m.getDistance().get();
+    		totDist=totDist.add(m.getForce().setMag(m.getDistance().get()));
     	}
-    	avgDist /= modules.length;
-    	return new Distance(avgDist);
+    	Vector avgDist=totDist.scale(1.0/modules.length);
+    	return avgDist;
     }
     
     public DriveTrain setMaxSpeed(Distance s)
@@ -133,7 +135,7 @@ public class DriveTrain implements Updatable, Input<Distance> {
 
 	@Override
 	public Distance get() {
-		return this.getDistance();
+		return new Distance(this.getDistance().getY());
 	}
     
 }
