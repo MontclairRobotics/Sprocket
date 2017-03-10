@@ -15,13 +15,13 @@ public class DriveEncoders extends AutoState {
 	private Distance maxAccel;
 	private double speed;
 	
-	public DriveEncoders(Distance tgtDistance,Distance maxAccel,double speed) {
+	public DriveEncoders(Distance tgtDistance, Distance maxAccel, double speed) {
 		this.tgtDistance=tgtDistance;
 		this.maxAccel=maxAccel;
 		this.speed = speed;
 	}
 	
-	public DriveEncoders(Distance tgtDist,double speed) {
+	public DriveEncoders(Distance tgtDist, double speed) {
 		this(tgtDist, new Distance(100),speed);
 	}
 	
@@ -33,10 +33,11 @@ public class DriveEncoders extends AutoState {
 	
 	@Override
 	public void stateUpdate() {
-		tgtDir = new XY(0,Utils.constrain(
+		/*tgtDir = new XY(0,Utils.constrain(
 				Math.sqrt(Math.abs(2*maxAccel.get()*(stopDist.get()-dt.getDistance().get())))
 				*(stopDist.get()-dt.getDistance().get()>0?1:-1)
-				,-speed,speed));
+				,-speed,speed));*/
+		tgtDir = new XY(0, speed);
 	}
 	
 	@Override
