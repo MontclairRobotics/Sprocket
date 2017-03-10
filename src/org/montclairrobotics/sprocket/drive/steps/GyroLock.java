@@ -76,5 +76,10 @@ public class GyroLock implements Step<DTTarget>, Togglable {
 	public void setTargetAngle(Angle a) {
 		pid.setTarget(a.toDegrees());
 	}
+	
+	public PID getPID()
+	{
+		return pid;
+	}
 
 }

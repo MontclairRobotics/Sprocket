@@ -1,6 +1,7 @@
 package org.montclairrobotics.sprocket.control;
 
 import org.montclairrobotics.sprocket.SprocketRobot;
+import org.montclairrobotics.sprocket.drive.steps.GyroLock;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degrees;
 import org.montclairrobotics.sprocket.geometry.Radians;
@@ -8,52 +9,32 @@ import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
+import org.montclairrobotics.sprocket.utils.Togglable;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class FieldCentricDriveInput extends ArcadeDriveInput{
+public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglable{
 
 	private Double zeroAngle;
-	private PID pid;
-	private Input<Boolean> enabled;
+	private GyroLock gyroLock;
 	
 	private Vector dir;
-	private Angle turn;
+	
+	private Vector field,robot;
 
-	public FieldCentricDriveInput(Joystick stick,PID pid,Input<Boolean> enabled) {
+	public FieldCentricDriveInput(Joystick stick,GyroLock gyroLock) {
 		super(stick);
-		this.pid=pid.copy();
-		this.pid.setMinMax(-180, 179, 0, 0);
-		this.enabled=enabled;
+		this.gyroLock=gyroLock;
 		reset();
 	}
 	@Override
 	public void update()
 	{
 		super.update();
-		Vector raw=getRaw();
-		Vector field=raw.rotate(new Degrees(pid.getInput().get()-zeroAngle));
-		
-		if(enabled.get())
-		{
-			if(Math.abs(field.getAngle().toDegrees())<90)
-			{
-				pid.setTarget(field.getAngle().toDegrees());
-				dir=new XY(0,raw.getMagnitude());
-				turn=new Radians(pid.get()*SprocketRobot.getDriveTrain().getMaxTurn().toRadians());
-			}
-			else
-			{
-				pid.setTarget(field.getAngle().add(Angle.HALF).toDegrees());
-				dir=new XY(0,-raw.getMagnitude());
-				turn=new Radians(pid.get()*SprocketRobot.getDriveTrain().getMaxTurn().toRadians());
-			}	
-		}
-		else
-		{
-			dir=getDir();
-			turn=getTurn();
-		}
+		field=getRaw();
+		robot=field.rotate(new Degrees(-(gyroAngle()-zeroAngle)));
+	
+		dir=new XY(0,robot.getY());
 	}
 	public Vector getDirection() {
         return dir;
@@ -71,11 +52,25 @@ public class FieldCentricDriveInput extends ArcadeDriveInput{
      * @return The calculated turning speed for the DriveTrain
      */
     public Angle getTurn() {
-        return turn;
+		gyroLock.setTargetAngle(robot.getAngle());
+        return Angle.ZERO;
     }
     
 	public void reset()
 	{
-		zeroAngle=pid.getInput().get();
+		zeroAngle=gyroAngle();
+	}
+	
+	private double gyroAngle()
+	{
+		return gyroLock.getPID().getInput().get();
+	}
+	@Override
+	public void enable() {
+		SprocketRobot.getDriveTrain().setTempInput(this);
+	}
+	@Override
+	public void disable() {
+		SprocketRobot.getDriveTrain().useDefaultInput();
 	}
 }
