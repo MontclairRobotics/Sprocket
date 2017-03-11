@@ -5,6 +5,7 @@ import org.montclairrobotics.sprocket.auto.AutoState;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.XY;
+import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Utils;
 
 public class DriveEncoders extends AutoState {
@@ -15,6 +16,7 @@ public class DriveEncoders extends AutoState {
 	private Distance maxAccel;
 	private double speed;
 	private Distance encSpeed;
+	private boolean forwards;
 	
 	public DriveEncoders(Distance tgtDistance, Distance maxAccel, double speed,Distance encSpeed) {
 		this.tgtDistance=tgtDistance;
@@ -31,6 +33,7 @@ public class DriveEncoders extends AutoState {
 	public void userStart() {
 		this.dt = SprocketRobot.getDriveTrain();
 		stopDist = new Distance(dt.getDistance().getY()+tgtDistance.get());
+		forwards=tgtDistance.get()>0;
 	}
 	
 	@Override
@@ -53,7 +56,13 @@ public class DriveEncoders extends AutoState {
 	
 	@Override
 	public boolean isDone() {
-		return Math.abs(stopDist.get()-dt.getDistance().getY()) < 2;
+		Debug.msg("forwards", forwards?"YES":"NO");
+		Debug.msg("DISTANCE", dt.getDistance().getY());
+		Debug.msg("StopDistance", stopDist.get());
+		if(forwards)
+			return dt.getDistance().getY()>stopDist.get()-1;
+		else
+			return dt.getDistance().getY()<stopDist.get()+1;
 	}
 	
 	@Override

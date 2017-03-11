@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 public class ControlledMotor extends Motor implements Updatable,Togglable {
 	
 	private Input<Double> input;
-	private boolean enabled;
+	private boolean enabled=true;
 	
 	/**
 	 * Used to construct a ControlledMotor based off of an Input of a double such as
