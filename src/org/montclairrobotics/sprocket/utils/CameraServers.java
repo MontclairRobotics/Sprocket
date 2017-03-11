@@ -38,7 +38,7 @@ import edu.wpi.first.wpilibj.vision.USBCamera;
 // replicates CameraServer.cpp in java lib
 
 public class CameraServers {
-
+	
   private static final int kPort = 1180;
   private static final byte[] kMagicNumber = {0x01, 0x00, 0x00, 0x00};
   private static final int kSize640x480 = 0;
@@ -71,7 +71,7 @@ public class CameraServers {
     }
   }
 
-  public CameraServers(String[] camNamesInput) {
+  public CameraServers(String... camNamesInput) {
 	  cams=new USBCamera[camNamesInput.length];
 	  camNames=camNamesInput;
     m_quality = 50;
