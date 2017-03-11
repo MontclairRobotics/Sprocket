@@ -21,6 +21,7 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
 	private Vector dir;
 	
 	private Vector field,robot;
+	private boolean forwards,active;
 
 	public FieldCentricDriveInput(Joystick stick,GyroLock gyroLock) {
 		super(stick);
@@ -32,9 +33,23 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
 	{
 		super.update();
 		field=getRaw();
-		robot=field.rotate(new Degrees(-(gyroAngle()-zeroAngle)));
-	
-		dir=new XY(0,robot.getY());
+		if(field.getMagnitude()>0.1)
+		{
+			robot=field.rotate(new Degrees(-(gyroAngle()-zeroAngle)));
+		
+			forwards=Math.abs(robot.getAngle().toDegrees())<90;
+			
+			if(forwards)
+				dir=new XY(0,robot.getY()*Math.abs(robot.getY()));
+			else
+				dir=new XY(0,-robot.getY()*Math.abs(robot.getY()));
+			active=true;
+		}
+		else
+		{
+			active=false;
+			dir=Vector.ZERO;
+		}
 	}
 	public Vector getDirection() {
         return dir;
@@ -52,7 +67,17 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
      * @return The calculated turning speed for the DriveTrain
      */
     public Angle getTurn() {
-		gyroLock.setTargetAngle(robot.getAngle());
+    	if(active)
+    	{
+	    	if(forwards)
+	    	{
+	    		gyroLock.setTargetAngle(robot.getAngle());
+	    	}
+	    	else
+	    	{
+	    		gyroLock.setTargetAngle(robot.getAngle().add(Angle.HALF));
+	    	}
+    	}
         return Angle.ZERO;
     }
     
