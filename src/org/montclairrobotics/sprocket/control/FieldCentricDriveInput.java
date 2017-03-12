@@ -1,6 +1,7 @@
 package org.montclairrobotics.sprocket.control;
 
 import org.montclairrobotics.sprocket.SprocketRobot;
+import org.montclairrobotics.sprocket.drive.steps.DriveGyro;
 import org.montclairrobotics.sprocket.drive.steps.GyroLock;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degrees;
@@ -16,16 +17,16 @@ import edu.wpi.first.wpilibj.Joystick;
 public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglable{
 
 	private Double zeroAngle;
-	private GyroLock gyroLock;
+	private DriveGyro gyro;
 	
 	private Vector dir;
 	
 	private Vector field,robot;
 	private boolean forwards;
 
-	public FieldCentricDriveInput(Joystick stick,GyroLock gyroLock) {
+	public FieldCentricDriveInput(Joystick stick,DriveGyro gyro) {
 		super(stick);
-		this.gyroLock=gyroLock;
+		this.gyro=gyro;
 		reset();
 	}
 	@Override
@@ -69,11 +70,11 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
     public Angle getTurn() {
 	    	if(forwards)
 	    	{
-	    		gyroLock.setTargetAngle(robot.getAngle());
+	    		gyro.setTargetAngle(robot.getAngle());
 	    	}
 	    	else
 	    	{
-	    		gyroLock.setTargetAngle(robot.getAngle().add(Angle.HALF));
+	    		gyro.setTargetAngle(robot.getAngle().add(Angle.HALF));
 	    	}
         return Angle.ZERO;
     }
@@ -85,16 +86,16 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
 	
 	private double gyroAngle()
 	{
-		return gyroLock.getPID().getInput().get();
+		return gyro.getPID().getInput().get();
 	}
 	@Override
 	public void enable() {
 		SprocketRobot.getDriveTrain().setTempInput(this);
-		gyroLock.enable();
+		gyro.enable();
 	}
 	@Override
 	public void disable() {
 		SprocketRobot.getDriveTrain().useDefaultInput();
-		gyroLock.disable();
+		gyro.disable();
 	}
 }

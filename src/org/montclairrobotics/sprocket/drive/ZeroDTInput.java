@@ -3,7 +3,7 @@ package org.montclairrobotics.sprocket.drive;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
 
-public class ZeroInput implements DTInput{
+public class ZeroDTInput implements DTInput{
 
 	@Override
 	public Vector getDir() {

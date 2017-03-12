@@ -10,8 +10,12 @@ public class Utils {
 	
 	public static double wrap(double val,double wrapAt)
 	{
-		double halfWrapAt=wrapAt/2;
-		return ((val+halfWrapAt)%wrapAt+wrapAt)%wrapAt-halfWrapAt;
+		return wrap(val,-wrapAt/2,wrapAt/2);
+	}
+	public static double wrap(double val,double min,double max)
+	{
+		double diff=max-min;
+		return ((val-min)%diff+diff)%diff+min;
 	}
 	
 }

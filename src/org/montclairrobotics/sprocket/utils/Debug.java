@@ -26,4 +26,12 @@ public class Debug {
 	{
 		string(key,value);
 	}
+	public static void msg(String key,boolean value)
+	{
+		string(key,value?"TRUE":"FALSE");
+	}
+	public static void msg(String key,Object value)
+	{
+		string(key,value.toString());
+	}
 }

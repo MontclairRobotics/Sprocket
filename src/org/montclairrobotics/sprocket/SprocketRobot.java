@@ -52,6 +52,10 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
 
     @Override
     public abstract void robotInit();
+    public abstract void userStart();
+    public abstract void userTeleopInit();
+    public abstract void userAutonomousInit();
+    public abstract void userTestInit();
 
     @Override
     public final void disabledInit() {
@@ -59,26 +63,38 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     	{
     		selectedAutoMode.stop();
     	}
-        super.disabledInit();
     }
 
     @Override
     public final void autonomousInit() {
     	selectedAutoMode = chooser.getSelected();
     	selectedAutoMode.start();
-        super.autonomousInit();
+    	start();
+        userAutonomousInit();
     }
 
     @Override
     public final void teleopInit() {
-        super.teleopInit();
+    	start();
+        userTeleopInit();
     }
 
     @Override
     public final void testInit() {
-        super.testInit();
+        start();
+        userTestInit();
     }
-
+    
+    public final void start() 
+    {
+    	userStart();
+    	sendAutoModes();
+    }
+    public final void update()
+    {
+    	Updater.loop();
+    }
+    
     @Override
     public final void disabledPeriodic() {
         super.disabledPeriodic();
@@ -86,20 +102,17 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
 
     @Override
     public final void autonomousPeriodic() {
-        super.autonomousPeriodic();
-        Updater.loop();
+        update();
     }
 
     @Override
     public final void teleopPeriodic() {
-        super.teleopPeriodic();
-        Updater.loop();
+        update();
     }
 
     @Override
     public final void testPeriodic() {
-        super.testPeriodic();
-        Updater.loop();
+        update();
     }
     
     public void setAutoModes(AutoMode... modes)
@@ -112,7 +125,6 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     	ArrayList<AutoMode> modes = new ArrayList<AutoMode>(Arrays.asList(autoModes));
     	modes.add(mode);
     	autoModes = modes.toArray(autoModes);
-    	//Wow, Rafi. Wow
     }
     
     public void sendAutoModes()
@@ -124,24 +136,4 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     	}
     	SmartDashboard.putData("AUTO:",chooser);
     }
-    /*
-    public final void runState(AutoState state) {
-	    if(runState != null) {
-	        runState.stop();
-        }
-    	runState = state;
-    	state.start();
-    }
-
-    public void update() {
-    	if(runState != null) {
-			if(runState.isDone()) {
-				runState.stop();
-				runState = null;
-			} else {
-				runState.stateUpdate();
-			}
-		}
-    }
-    */
 }

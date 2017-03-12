@@ -41,7 +41,7 @@ public class DriveTrain implements Updatable, Input<Distance> {
 	    		}
     		}
     	}
-    	input=new ZeroInput();
+    	input=new ZeroDTInput();
     	pipeline=new ZeroPipeline();
     	SprocketRobot.setDriveTrain(this);
     	Updater.add(this, Priority.DRIVE_CALC);
