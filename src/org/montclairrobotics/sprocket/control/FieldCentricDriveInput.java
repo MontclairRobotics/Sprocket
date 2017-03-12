@@ -16,18 +16,32 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglable{
 
-	private Double zeroAngle;
 	private DriveGyro gyro;
-	
-	private Vector dir;
 	
 	private Vector field,robot;
 	private boolean forwards;
 
-	public FieldCentricDriveInput(Joystick stick,DriveGyro gyro) {
+	private Input<Angle> rotate;
+	private boolean rotToVector;
+
+	public FieldCentricDriveInput(Joystick stick,DriveGyro gyro)
+	{
+		this(stick,gyro,null,true);
+	}
+	public FieldCentricDriveInput(Joystick stick,DriveGyro gyro,Input<Angle> rotate)
+	{
+		this(stick,gyro,rotate,false);
+	}
+	public FieldCentricDriveInput(Joystick stick,DriveGyro gyro,boolean rotToVector)
+	{
+		this(stick,gyro,null,rotToVector);
+	}
+	public FieldCentricDriveInput(Joystick stick,DriveGyro gyro,Input<Angle> rotate,boolean rotToVector)
+	{
 		super(stick);
 		this.gyro=gyro;
-		reset();
+		this.rotate=rotate;
+		this.rotToVector=rotToVector;
 	}
 	@Override
 	public void update()
@@ -36,66 +50,42 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
 		field=getRaw();
 		if(field.getMagnitude()>0.1)
 		{
-			robot=field.rotate(new Degrees(-(gyroAngle()-zeroAngle)));
-		
+			robot=field.rotate(gyro.getCurrentAngleReset().negative());
 			forwards=Math.abs(robot.getAngle().toDegrees())<90;
-			
-			if(forwards)
-				dir=new XY(0,robot.getY()*Math.abs(robot.getY()));
-			else
-				dir=new XY(0,-robot.getY()*Math.abs(robot.getY()));
-			//gyroLock.enable();
 		}
 		else
 		{
-			//gyroLock.disable();
-			dir=Vector.ZERO;
+			robot=Vector.ZERO;
 		}
 	}
-	public Vector getDirection() {
-        return dir;
-    }
-
-    /**
+	/**
      * @return The calculated direction for the DriveTrain (shortcut for getDirection() )
      */
-    public Vector getDir()
-    {
-    	return getDirection();//I'm very lazy
+	@Override
+	public Vector getDir() {
+		return robot.square();
     }
 
     /**
      * @return The calculated turning speed for the DriveTrain
      */
+	@Override
     public Angle getTurn() {
-	    	if(forwards)
-	    	{
-	    		gyro.setTargetAngle(robot.getAngle());
-	    	}
-	    	else
-	    	{
-	    		gyro.setTargetAngle(robot.getAngle().add(Angle.HALF));
-	    	}
+
+		if(rotToVector)
+		{
+			gyro.setTargetAngleReset(robot.getAngle());
+			gyro.use();
+		}
         return Angle.ZERO;
     }
-    
-	public void reset()
-	{
-		zeroAngle=gyroAngle();
-	}
 	
-	private double gyroAngle()
-	{
-		return gyro.getPID().getInput().get();
-	}
 	@Override
 	public void enable() {
 		SprocketRobot.getDriveTrain().setTempInput(this);
-		gyro.enable();
 	}
 	@Override
 	public void disable() {
 		SprocketRobot.getDriveTrain().useDefaultInput();
-		gyro.disable();
 	}
 }

@@ -52,13 +52,30 @@ public class DriveGyro implements Step<DTTarget>, Togglable {
 		return out;
 	}
 	
+	public void reset()
+	{
+		resetRaw(getCurrentAngleRaw());
+	}
+	public void resetRaw(Angle r)
+	{
+		this.reset=r;
+	}
+	public void resetRelative(Angle r)
+	{
+		resetRaw(r.add(getCurrentAngleRaw()));
+	}
+	
 	public Angle getTargetAngle() 
 	{
 		return new Degrees(pid.getTargetVal());
 	}
-	public Angle getCurrentAngle()
+	public Angle getCurrentAngleRaw()
 	{
 		return new Degrees(pid.getInputVal());
+	}
+	public Angle getCurrentAngleReset()
+	{
+		return getCurrentAngleRaw().subtract(reset);
 	}
 	
 	public void setTargetAngleRaw(Angle a) 
@@ -71,7 +88,7 @@ public class DriveGyro implements Step<DTTarget>, Togglable {
 	}
 	public void setTargetAngleRelative(Angle a)
 	{
-		pid.setTarget(getCurrentAngle().add(a).toDegrees());
+		pid.setTarget(getCurrentAngleRaw().add(a).toDegrees());
 	}
 	
 	public void setTargetAngleRaw()
@@ -100,6 +117,17 @@ public class DriveGyro implements Step<DTTarget>, Togglable {
 	@Override
 	public void disable() {
 		enabled=false;
+	}
+	public void setTargetAngle(Angle a,boolean relative) {
+		// TODO Auto-generated method stub
+		if(relative)
+		{
+			setTargetAngleRelative(a);
+		}
+		else
+		{
+			setTargetAngleReset(a);
+		}
 	}
 
 }

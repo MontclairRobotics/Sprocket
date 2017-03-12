@@ -6,13 +6,15 @@ import org.montclairrobotics.sprocket.drive.steps.DriveGyro;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degrees;
 import org.montclairrobotics.sprocket.geometry.Radians;
+import org.montclairrobotics.sprocket.loop.Priority;
+import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.pipeline.Step;
 import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Togglable;
 
-public class GyroLock implements Step<DTTarget>, Togglable {
+public class GyroLock implements Updatable, Togglable {
 
 	private DriveGyro gyro;
 	private boolean lastLock;
@@ -23,6 +25,7 @@ public class GyroLock implements Step<DTTarget>, Togglable {
 	public GyroLock(DriveGyro gyro)
 	{
 		this.gyro=gyro;
+		Updater.add(this, Priority.HIGH);
 	}
 	
 	public void enable() {
@@ -34,8 +37,7 @@ public class GyroLock implements Step<DTTarget>, Togglable {
 	}
 	
 	@Override
-	public DTTarget get(DTTarget in) {
-		DTTarget out=in;
+	public void update() {
 		if(enabled&&!lastLock)
 		{
 			gyro.setTargetAngleRelative();
@@ -46,6 +48,5 @@ public class GyroLock implements Step<DTTarget>, Togglable {
 		}
 		lastLock=enabled;
 		Debug.msg("Gyro Lock Enabled",enabled);
-		return out;
 	}
 }

@@ -78,4 +78,9 @@ public class XY implements Vector {
 	{
 		return "("+x+","+y+")";
 	}
+	@Override
+	public Vector square() {
+		// TODO Auto-generated method stub
+		return new XY(x*Math.abs(x),y*Math.abs(y));
+	}
 }
