@@ -53,6 +53,7 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     @Override
     public void robotInit(){}
     public void userStart(){}
+    public void reset(){}
     public void userTeleopInit(){}
     public void userAutonomousInit(){}
     public void userTestInit(){}
@@ -89,6 +90,7 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     public final void start() 
     {
     	userStart();
+    	reset();
     	sendAutoModes();
     }
     public final void sprocketUpdate()
