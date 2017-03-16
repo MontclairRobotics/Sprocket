@@ -1,6 +1,7 @@
 package org.montclairrobotics.sprocket.control;
 
 import org.montclairrobotics.sprocket.SprocketRobot;
+import org.montclairrobotics.sprocket.drive.steps.DriveGyro;
 import org.montclairrobotics.sprocket.drive.steps.GyroLock;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degrees;
@@ -15,64 +16,76 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglable{
 
-	private Double zeroAngle;
-	private GyroLock gyroLock;
-	
-	private Vector dir;
+	private DriveGyro gyro;
 	
 	private Vector field,robot;
+	private boolean forwards;
 
-	public FieldCentricDriveInput(Joystick stick,GyroLock gyroLock) {
+	private Input<Angle> rotate;
+	private boolean rotToVector;
+
+	public FieldCentricDriveInput(Joystick stick,DriveGyro gyro)
+	{
+		this(stick,gyro,null,true);
+	}
+	public FieldCentricDriveInput(Joystick stick,DriveGyro gyro,Input<Angle> rotate)
+	{
+		this(stick,gyro,rotate,false);
+	}
+	public FieldCentricDriveInput(Joystick stick,DriveGyro gyro,boolean rotToVector)
+	{
+		this(stick,gyro,null,rotToVector);
+	}
+	public FieldCentricDriveInput(Joystick stick,DriveGyro gyro,Input<Angle> rotate,boolean rotToVector)
+	{
 		super(stick);
-		this.gyroLock=gyroLock;
-		reset();
+		this.gyro=gyro;
+		this.rotate=rotate;
+		this.rotToVector=rotToVector;
 	}
 	@Override
 	public void update()
 	{
 		super.update();
 		field=getRaw();
-		robot=field.rotate(new Degrees(-(gyroAngle()-zeroAngle)));
-	
-		dir=new XY(0,robot.getY());
+		if(field.getMagnitude()>0.1)
+		{
+			robot=field.rotate(gyro.getCurrentAngleReset().negative());
+			forwards=Math.abs(robot.getAngle().toDegrees())<90;
+		}
+		else
+		{
+			robot=Vector.ZERO;
+		}
 	}
-	public Vector getDirection() {
-        return dir;
-    }
-
-    /**
+	/**
      * @return The calculated direction for the DriveTrain (shortcut for getDirection() )
      */
-    public Vector getDir()
-    {
-    	return getDirection();//I'm very lazy
+	@Override
+	public Vector getDir() {
+		return robot.square();
     }
 
     /**
      * @return The calculated turning speed for the DriveTrain
      */
+	@Override
     public Angle getTurn() {
-		gyroLock.setTargetAngle(robot.getAngle());
+
+		if(rotToVector)
+		{
+			gyro.setTargetAngleReset(robot.getAngle());
+			gyro.use();
+		}
         return Angle.ZERO;
     }
-    
-	public void reset()
-	{
-		zeroAngle=gyroAngle();
-	}
 	
-	private double gyroAngle()
-	{
-		return gyroLock.getPID().getInput().get();
-	}
 	@Override
 	public void enable() {
 		SprocketRobot.getDriveTrain().setTempInput(this);
-		gyroLock.enable();
 	}
 	@Override
 	public void disable() {
 		SprocketRobot.getDriveTrain().useDefaultInput();
-		gyroLock.disable();
 	}
 }

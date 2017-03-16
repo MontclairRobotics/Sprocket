@@ -68,4 +68,9 @@ public class Degrees implements Angle {
 	{
 		return degrees+"°";
 	}
+
+	@Override
+	public Angle wrap() {
+		return new WrappedDegrees(degrees);
+	}
 }

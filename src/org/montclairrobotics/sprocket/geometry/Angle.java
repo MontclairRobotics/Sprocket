@@ -2,7 +2,7 @@ package org.montclairrobotics.sprocket.geometry;
 
 public interface Angle {
 
-    Angle ZERO=new Degrees(0),QUARTER = new Degrees(90),HALF = new Degrees(180);
+    Angle ZERO=new Degrees(-0),QUARTER = new Degrees(90),HALF = new Degrees(180);
 	/**
      * Returns the represented angle in degrees
      * @return the angle in degrees
@@ -44,6 +44,8 @@ public interface Angle {
 	public double sin();
 	public double cos();
 	public double tan();
+
+	public Angle wrap();
 
 
 

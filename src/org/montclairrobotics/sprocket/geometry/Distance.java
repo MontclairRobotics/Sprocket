@@ -26,4 +26,9 @@ public class Distance {
 	{
 		return inches/unit.get();
 	}
+	
+	public String toString()
+	{
+		return inches+" IN";
+	}
 }

@@ -2,35 +2,57 @@ package org.montclairrobotics.sprocket.auto.states;
 
 import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.auto.AutoState;
+import org.montclairrobotics.sprocket.drive.steps.DriveGyro;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degrees;
 import org.montclairrobotics.sprocket.geometry.Radians;
+import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 
 public class TurnGyro extends AutoState {
 	
-	private PID pid; 
+	private Angle tgt;
+	private DriveGyro gyro;
+	private double correctTime;
+	private boolean relative;
 	
-	public TurnGyro(Angle tgt,PID pid) {
-		this.pid = pid.copy();
-		this.pid.setMinMax(-180, 179, 0, 0);
-		this.pid.setTarget(tgt.toDegrees()+this.pid.getInput().get());
+	private static final Angle tolerance=new Degrees(2);
+	private static final double timeAtTarget=0.2;
+	
+	public TurnGyro(Angle tgt,DriveGyro gyro,boolean relative) 
+	{
+		this.tgt=tgt;
+		this.gyro=gyro;
+		this.relative=relative;
 	}
 	
-	public TurnGyro(Angle tgt,PID pid, Input<Double> gyro) {
-		this(tgt,pid);
-		this.pid.setInput(gyro);
+	@Override
+	public void userStart()
+	{
+		if(relative)
+		{
+			gyro.setTargetAngleRelative(tgt);
+		}
+		else
+		{
+			gyro.setTargetAngleReset(tgt);
+		}
+		correctTime=-1;
 	}
 	
 	@Override
 	public void stateUpdate() {
-		tgtTurn = new Radians(pid.get());
+		gyro.use();
+		if(Math.abs(gyro.getCurrentAngleRaw().subtract(tgt).wrap().toDegrees())<tolerance.toDegrees())
+		{
+			correctTime=Updater.getTime();
+		}
 	}
 
 	@Override
 	public boolean isDone() {
-		return Math.abs(pid.get()) < SprocketRobot.getDriveTrain().getMaxTurn().toRadians()*0.1;
+		return (timeAtTarget>0&&Updater.getTime()-correctTime>timeAtTarget);
 	}
 
 }
