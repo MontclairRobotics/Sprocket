@@ -13,19 +13,19 @@ import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.TargetablePID;
 import org.montclairrobotics.sprocket.utils.Togglable;
 
-public class DriveGyro implements Step<DTTarget>, Togglable {
+public class GyroCorrection implements Step<DTTarget>, Togglable {
 
 	private TargetablePID pid;
 	private boolean enabled;
 	private boolean used;
 	private Angle reset;
 	
-	public DriveGyro(Input<Double> gyro,TargetablePID pid)
+	public GyroCorrection(Input<Double> gyro,TargetablePID pid)
 	{
 		this(pid);
 		this.pid.setInput(gyro);
 	}
-	public DriveGyro(TargetablePID pid)
+	public GyroCorrection(TargetablePID pid)
 	{
 		this.pid=pid.copy();
 		this.pid.setMinMaxIn(-180, 179);

@@ -2,7 +2,7 @@ package org.montclairrobotics.sprocket.drive.utils;
 
 import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.drive.DTTarget;
-import org.montclairrobotics.sprocket.drive.steps.DriveGyro;
+import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degrees;
 import org.montclairrobotics.sprocket.geometry.Radians;
@@ -16,13 +16,13 @@ import org.montclairrobotics.sprocket.utils.Togglable;
 
 public class GyroLock implements Updatable, Togglable {
 
-	private DriveGyro gyro;
+	private GyroCorrection gyro;
 	private boolean lastLock;
 	private boolean enabled;
 	
 	public static final double TIME_TO_UNLOCK=1;
 	
-	public GyroLock(DriveGyro gyro)
+	public GyroLock(GyroCorrection gyro)
 	{
 		this.gyro=gyro;
 		Updater.add(this, Priority.HIGH);

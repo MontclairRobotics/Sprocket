@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.auto.states;
 
-import org.montclairrobotics.sprocket.drive.steps.DriveGyro;
+import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
 import org.montclairrobotics.sprocket.drive.utils.GyroLock;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
@@ -9,7 +9,7 @@ import org.montclairrobotics.sprocket.states.State;
 import org.montclairrobotics.sprocket.states.StateMachine;
 
 public class DriveEncoderGyro extends StateMachine{
-	public DriveEncoderGyro(Distance d,Angle a,boolean relative,double speed,Distance encSpeed,DriveGyro driveGyro)
+	public DriveEncoderGyro(Distance d,Angle a,boolean relative,double speed,Distance encSpeed,GyroCorrection driveGyro)
 	{
 		super(
 			new TurnGyro(a,driveGyro,relative),

@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.control;
 
 import org.montclairrobotics.sprocket.SprocketRobot;
-import org.montclairrobotics.sprocket.drive.steps.DriveGyro;
+import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
 import org.montclairrobotics.sprocket.drive.steps.GyroLock;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degrees;
@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglable{
 
-	private DriveGyro gyro;
+	private GyroCorrection gyro;
 	
 	private Vector field,robot;
 	private boolean forwards;
@@ -24,19 +24,19 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
 	private Input<Angle> rotate;
 	private boolean rotToVector;
 
-	public FieldCentricDriveInput(Joystick stick,DriveGyro gyro)
+	public FieldCentricDriveInput(Joystick stick,GyroCorrection gyro)
 	{
 		this(stick,gyro,null,true);
 	}
-	public FieldCentricDriveInput(Joystick stick,DriveGyro gyro,Input<Angle> rotate)
+	public FieldCentricDriveInput(Joystick stick,GyroCorrection gyro,Input<Angle> rotate)
 	{
 		this(stick,gyro,rotate,false);
 	}
-	public FieldCentricDriveInput(Joystick stick,DriveGyro gyro,boolean rotToVector)
+	public FieldCentricDriveInput(Joystick stick,GyroCorrection gyro,boolean rotToVector)
 	{
 		this(stick,gyro,null,rotToVector);
 	}
-	public FieldCentricDriveInput(Joystick stick,DriveGyro gyro,Input<Angle> rotate,boolean rotToVector)
+	public FieldCentricDriveInput(Joystick stick,GyroCorrection gyro,Input<Angle> rotate,boolean rotToVector)
 	{
 		super(stick);
 		this.gyro=gyro;

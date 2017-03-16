@@ -2,7 +2,7 @@ package org.montclairrobotics.sprocket.auto.states;
 
 import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.auto.AutoState;
-import org.montclairrobotics.sprocket.drive.steps.DriveGyro;
+import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degrees;
 import org.montclairrobotics.sprocket.geometry.Radians;
@@ -13,14 +13,14 @@ import org.montclairrobotics.sprocket.utils.PID;
 public class TurnGyro extends AutoState {
 	
 	private Angle tgt;
-	private DriveGyro gyro;
+	private GyroCorrection gyro;
 	private double correctTime;
 	private boolean relative;
 	
 	private static final Angle tolerance=new Degrees(2);
 	private static final double timeAtTarget=0.2;
 	
-	public TurnGyro(Angle tgt,DriveGyro gyro,boolean relative) 
+	public TurnGyro(Angle tgt,GyroCorrection gyro,boolean relative) 
 	{
 		this.tgt=tgt;
 		this.gyro=gyro;
