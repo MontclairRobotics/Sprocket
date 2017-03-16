@@ -43,7 +43,7 @@ public class GyroCorrection implements Step<DTTarget>, Togglable {
 		if(enabled&&used)
 		{
 			double tgt=pid.get();
-			Angle tgtAngle=SprocketRobot.getDriveTrain().getMaxTurn().times(tgt);
+			Angle tgtAngle=new Radians(tgt);
 			out=new DTTarget(in.getDirection(),tgtAngle);
 		}
 		used=false;

@@ -21,7 +21,6 @@ public class AccelLimit implements Step<DTTarget>,Togglable{
 	private Vector lastDir;
 	private Angle lastTurn;
 	
-	private boolean relative;
 	private boolean enabled=true;
 	
 	public AccelLimit()
@@ -30,23 +29,14 @@ public class AccelLimit implements Step<DTTarget>,Togglable{
 	}
 	public AccelLimit(double maxAccel,double maxTurn)
 	{
-		this(maxAccel,maxTurn,true);
-	}
-	public AccelLimit(double maxAccel,double maxTurn,boolean relative)
-	{
-		this(new Distance(maxAccel),new Radians(maxTurn),relative);
+		this(new Distance(maxAccel),new Radians(maxTurn));
 	}
 	public AccelLimit(Distance maxAccel,Angle maxTurn) 
-	{
-		this(maxAccel,maxTurn,false);
-	}
-	public AccelLimit(Distance maxAccel,Angle maxTurn,boolean relative) 
 	{
 		this.maxAccel=maxAccel;
 		this.maxTurn=maxTurn;
 		lastDir=Vector.ZERO;
 		lastTurn=Angle.ZERO;
-		this.relative=relative;
 	}
 	
 	@Override
@@ -54,12 +44,6 @@ public class AccelLimit implements Step<DTTarget>,Togglable{
 		Debug.msg("AccelLimit", enabled?"ENABLED":"DISABLED");
 		if(enabled)
 		{
-			if(relative)
-			{
-				relative=false;
-				maxAccel=new Distance(maxAccel.get()*SprocketRobot.getDriveTrain().getMaxSpeed().get());
-				maxTurn=maxTurn.times(SprocketRobot.getDriveTrain().getMaxSpeed().get());
-			}
 			Vector dDir=in.getDirection().subtract(lastDir);
 			
 			//Debug.num("maxAccel", maxAccel.get()*Updater.getLoopTime());

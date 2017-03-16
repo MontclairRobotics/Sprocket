@@ -42,8 +42,6 @@ public class Deadzone implements Step<DTTarget>{
 		if(relative)
 		{
 			relative=false;
-			deadZone=deadZone.scale(SprocketRobot.getDriveTrain().getMaxSpeed().get());
-			turnDeadZone=turnDeadZone.times(SprocketRobot.getDriveTrain().getMaxTurn().toRadians());
 		}
 		Vector tgtDir=in.getDirection();
 		if(Math.abs(tgtDir.getX())<deadZone.getX())

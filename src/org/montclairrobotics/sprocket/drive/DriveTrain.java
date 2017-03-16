@@ -13,10 +13,7 @@ import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Input;
 
 public class DriveTrain implements Updatable, Input<Distance> {
-	
-	private Distance maxSpeed=Distance.ZERO;
-	private Angle maxTurn=Angle.ZERO;
-	
+		
 	private DTInput input;
 	private DTInput defaultInput;
 	private Pipeline<DTTarget> pipeline;
@@ -26,21 +23,6 @@ public class DriveTrain implements Updatable, Input<Distance> {
 
     public DriveTrain(DriveModule... modules) {
     	this.modules = modules;
-    	for(DriveModule module:this.modules)
-    	{
-    		if(module.getMaxSpeed().get()>maxSpeed.get())
-    		{
-    			maxSpeed=module.getMaxSpeed();
-    		}
-    		if(module.getOffset().getMagnitude()>0)
-    		{
-    			double turn=module.getMaxSpeed().get()/module.getOffset().getMagnitude();
-    			if(turn>maxTurn.toRadians())
-	    		{
-	    			maxTurn=new Radians(turn);
-	    		}
-    		}
-    	}
     	input=new ZeroDTInput();
     	pipeline=new ZeroPipeline();
     	SprocketRobot.setDriveTrain(this);
@@ -65,8 +47,6 @@ public class DriveTrain implements Updatable, Input<Distance> {
 	{
 		this.input=input;
 		this.defaultInput = input;
-		input.setMaxSpeed(maxSpeed);
-		input.setMaxTurn(maxTurn);
 		return this;
 	}
 	public DTInput getInput()
@@ -99,24 +79,6 @@ public class DriveTrain implements Updatable, Input<Distance> {
     	return avgDist;
     }
     
-    public DriveTrain setMaxSpeed(Distance s)
-    {
-    	maxSpeed=s;
-    	return this;
-    }
-    public Distance getMaxSpeed()
-    {
-    	return maxSpeed;
-    }
-    public DriveTrain setMaxTurn(Angle t)
-    {
-    	maxTurn=t;
-    	return this;
-    }
-    public Angle getMaxTurn()
-    {
-    	return maxTurn;
-    }
     public DriveModule[] getModules()
     {
     	return modules;
@@ -124,8 +86,6 @@ public class DriveTrain implements Updatable, Input<Distance> {
     
     public DriveTrain setTempInput(DTInput tempInput) {
     	input = tempInput;
-		input.setMaxSpeed(maxSpeed);
-		input.setMaxTurn(maxTurn);
     	return this;
     }
     
