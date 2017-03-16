@@ -51,12 +51,11 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     }
 
     @Override
-    public void robotInit(){}
-    public void userStart(){}
-    public void userTeleopInit(){}
-    public void userAutonomousInit(){}
-    public void userTestInit(){}
-    public void update(){}
+    public abstract void robotInit();
+    public abstract void userStart();
+    public abstract void userTeleopInit();
+    public abstract void userAutonomousInit();
+    public abstract void userTestInit();
 
     @Override
     public final void disabledInit() {
@@ -91,7 +90,7 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     	userStart();
     	sendAutoModes();
     }
-    public final void sprocketUpdate()
+    public final void update()
     {
     	Updater.loop();
     }
@@ -103,17 +102,17 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
 
     @Override
     public final void autonomousPeriodic() {
-        sprocketUpdate();
+        update();
     }
 
     @Override
     public final void teleopPeriodic() {
-        sprocketUpdate();
+        update();
     }
 
     @Override
     public final void testPeriodic() {
-        sprocketUpdate();
+        update();
     }
     
     public void setAutoModes(AutoMode... modes)

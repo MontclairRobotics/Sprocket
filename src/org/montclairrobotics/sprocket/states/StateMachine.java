@@ -60,7 +60,7 @@ public class StateMachine implements State, Updatable{
 		return states;
 	}
 	@Override
-	public void sprocketUpdate() {
+	public void update() {
 		if(top)
 		{
 			stateUpdate();

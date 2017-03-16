@@ -58,7 +58,7 @@ public abstract class Button implements Updatable, Input<Boolean> {
 	}
 	
 	@Override
-	public void sprocketUpdate() {
+	public void update() {
 		boolean pressed = get();
 		if(pressed) {
 			if(heldAction != null) heldAction.onAction();

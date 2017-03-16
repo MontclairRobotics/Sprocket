@@ -72,7 +72,7 @@ public class ArcadeDriveInput implements DTInput, Updatable {
     	return this;
     }
 
-    public void sprocketUpdate() {
+    public void update() {
         turn = maxTurn.times(getX()*turnSensitivity);
         dir = new XY(0, getY()*maxSpeed.get()*sensitivity*-1);
         raw=new XY(getX(),-getY());
