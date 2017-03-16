@@ -44,9 +44,9 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
 		this.rotToVector=rotToVector;
 	}
 	@Override
-	public void update()
+	public void sprocketUpdate()
 	{
-		super.update();
+		super.sprocketUpdate();
 		field=getRaw();
 		if(field.getMagnitude()>0.1)
 		{

@@ -55,7 +55,7 @@ public class PIDTuner extends TargetablePID
 	{
 		return (PIDTuner)new PIDTuner(TempP,cyclesPer10Sec,test,apply,run).setInput(getInput()).setMinMaxIn(minIn,maxIn).setMinMaxOut(minOut,maxOut);
 	}
-	public void update()
+	public void sprocketUpdate()
 	{
 		
 		if(test.get())
@@ -70,7 +70,7 @@ public class PIDTuner extends TargetablePID
 		{
 			super.setPID(0, 0, 0);
 		}
-		super.update();
+		super.sprocketUpdate();
 		Debug.msg("PID Tuner Test Mode",test.get()?"Enabled":"Disabled");
 		Debug.msg("PID Tuner Active",run.get()?"Enabled":"Disabled");
 		Debug.msg("PID Tuner Test P",TempP.get());

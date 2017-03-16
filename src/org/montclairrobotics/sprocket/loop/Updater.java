@@ -37,7 +37,7 @@ public class Updater {
     	lastLoop=getTime();
         for(ArrayList<Updatable> us : updatables.values()) {
             for(Updatable u : us) {
-                u.update();
+                u.sprocketUpdate();
             }
         }
     }

@@ -134,7 +134,7 @@ public class PID implements Updatable {
 		return error.get();
 	}
 
-	public void update()
+	public void sprocketUpdate()
 	{
 		if(error == null || error.get() == null) return;
 		out=calculate(error.get());
