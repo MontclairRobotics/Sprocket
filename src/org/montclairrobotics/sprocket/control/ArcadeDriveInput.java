@@ -46,7 +46,7 @@ public class ArcadeDriveInput implements DTInput, Updatable {
      * @param maxTurnSpeed The maximum turning speed that the Joystick can tell the DriveTrain to go in units/sec
      */
     /*
-    public ArcadeDriveInput(Joystick stick, Distance maxSpeed, Angle maxTurnSpeed) {
+    public ArcadeDriveInput(Joystick stick, Angle maxTurnSpeed) {
     	this.stick = stick;
     	this.maxTurn = maxTurnSpeed;
     	Updater.add(this, Priority.INPUT);
