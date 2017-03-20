@@ -49,4 +49,14 @@ public class GyroLock implements Updatable, Togglable {
 		lastLock=enabled;
 		Debug.msg("Gyro Lock Enabled",enabled);
 	}
+	
+	public Angle getTargetAngle() {
+		return gyro.getTargetAngle();
+	}
+	
+	public void setTargetAngle(Angle a) {
+		gyro.setTargetAngleRaw(a);
+	}
+	
+	
 }
