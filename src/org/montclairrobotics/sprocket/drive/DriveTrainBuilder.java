@@ -46,13 +46,13 @@ public class DriveTrainBuilder {
         return this;
     }
 
-    public DriveTrainBuilder addWheel(SpeedController motor, Vector offset, Angle force, SEncoder enc, TargetablePID pid, Distance maxSpeed) {
+    public DriveTrainBuilder addWheel(SpeedController motor, Vector offset, Angle force, SEncoder enc, TargetablePID pid) {
         modules.add(new DriveModule(offset, new Polar(1, force),enc,pid,Module.MotorInputType.SPEED, new Motor(motor)));
         return this;
     }
 
     public DriveTrainBuilder addWheel(SpeedController motor, Vector offset, Angle force) {
-        return addWheel(motor, offset, force, null, null, null);
+        return addWheel(motor, offset, force, null, null);
     }
     
     

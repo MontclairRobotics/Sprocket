@@ -34,7 +34,7 @@ public class Module {
      * @param force The vector on which the module applies force
      * @param motors All the motors which are a part of this module
      */
-    public Module(SEncoder enc, TargetablePID pid, MotorInputType inputType, Distance maxSpeed,Motor... motors) {
+    public Module(SEncoder enc, TargetablePID pid, MotorInputType inputType,Motor... motors) {
 
         this.motors = motors;
         this.inputType = inputType;
@@ -59,7 +59,7 @@ public class Module {
     
     public Module(Motor... motors)
     {
-    	this(null,null,MotorInputType.PERCENT,Distance.IN,motors);
+    	this(null,null,MotorInputType.PERCENT,motors);
     }
     
 
