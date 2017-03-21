@@ -3,7 +3,7 @@ package org.montclairrobotics.sprocket.motors;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.PID;
-import org.montclairrobotics.sprocket.utils.TargetablePID;
+import org.montclairrobotics.sprocket.utils.PID;
 
 /**
  * DriveModule is a class that extends Motor which provides additional behaviors
@@ -23,7 +23,7 @@ public class Module {
     private double power;
 
     private SEncoder enc;
-    private TargetablePID pid;
+    private PID pid;
     private MotorInputType inputType;
     
     private Distance maxSpeed;
@@ -34,7 +34,7 @@ public class Module {
      * @param force The vector on which the module applies force
      * @param motors All the motors which are a part of this module
      */
-    public Module(SEncoder enc, TargetablePID pid, MotorInputType inputType,Motor... motors) {
+    public Module(SEncoder enc, PID pid, MotorInputType inputType,Motor... motors) {
 
         this.motors = motors;
         this.inputType = inputType;

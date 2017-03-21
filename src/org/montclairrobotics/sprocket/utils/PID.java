@@ -17,14 +17,17 @@ import org.montclairrobotics.sprocket.loop.Updater;
 
 public class PID implements Updatable {
 
-	private Input<Double> error;
-	protected double P,I,D;
+	private Input<Double> input;
+	private double P,I,D;
+	protected double minIn;
+	protected double maxIn;
 	protected double minOut;
 	protected double maxOut;
 	
 	//private boolean calculated=false;
 	private double out;
-	private double totalError, prevError, curError;
+	private double target;
+	private double totalError, prevError, error;
 	
 	private long lastUpdateTime;
 	
@@ -33,32 +36,42 @@ public class PID implements Updatable {
 	 */
 	public PID()
 	{
-		this(0.0,0.0,0.0);
-	}
-	
-	/**
-	 * @param P the Promotional Constant
-	 * @param I the Integrity Constant
-	 * @param D the Durability Constant
-	 */
-	public PID(double P,double I,double D)
-	{
-		this.error=null;
-		this.P=P;
-		this.I=I;
-		this.D=D;
-		this.minOut=-1.0;
-		this.maxOut=1.0;
+		this.input=null;
+		this.P=0.0;
+		this.I=0.0;
+		this.D=0.0;
+		this.minOut=0.0;
+		this.maxOut=0.0;
+		this.minIn=0.0;
+		this.maxIn=0.0;
 		this.lastUpdateTime = System.currentTimeMillis();
-		curError=0.0;
-		prevError=0.0;
-		totalError=0.0;
+		setTarget();
 		Updater.add(this, Priority.INPUT_PID);
 	}
 	
-	public PID setError(Input<Double> i)
+	/**
+	 * @param P the Propotional Constant
+	 * @param I the Integral Constant
+	 * @param D the Derivitive Constant
+	 */
+	public PID(double P,double I,double D)
 	{
-		this.error=i;
+		this.input=null;
+		this.P=P;
+		this.I=I;
+		this.D=D;
+		this.minOut=0.0;
+		this.maxOut=0.0;
+		this.minIn=0.0;
+		this.maxIn=0.0;
+		this.lastUpdateTime = System.currentTimeMillis();
+		setTarget();
+		Updater.add(this, Priority.INPUT_PID);
+	}
+	
+	public PID setInput(Input<Double> i)
+	{
+		this.input=i;
 		return this;
 	}
 	
@@ -68,10 +81,12 @@ public class PID implements Updatable {
 		this.D=D;
 		return this;
 	}
-	public PID setMinMaxOut(double minOut, double maxOut)
+	public PID setMinMax(double minIn, double maxIn, double minOut, double maxOut)
 	{
 		this.minOut=minOut;
 		this.maxOut=maxOut;
+		this.minIn=minIn;
+		this.maxIn=maxIn;
 		return this;
 	}
 	/**
@@ -80,9 +95,34 @@ public class PID implements Updatable {
 	 */
 	public PID copy()
 	{
-		return new PID().setError(error).setPID(P,I,D);
+		return new PID().setInput(input).setPID(P,I,D).setMinMax(minIn,maxIn,minOut,maxOut);
 	}
 	
+	public PID setTarget()
+	{
+		return setTarget(0.0,false);
+	}
+	public PID setTarget(double t)
+	{
+		return setTarget(t,false);
+	}
+	/**
+	 * Sets the setpoint
+	 * @param t the target/setpoint
+	 * @param reset true if the PID should reset, false otherwise
+	 */
+	public PID setTarget(double t,boolean reset)
+	{
+		target=t;
+		if(reset)
+		{
+			error=0.0;
+			prevError=0.0;
+			totalError=0.0;
+		}
+		return this;
+	}
+
 	/**
 	 * Get the output value
 	 * @return the output
@@ -97,14 +137,19 @@ public class PID implements Updatable {
 	{
 		double loopTime = (System.currentTimeMillis() - lastUpdateTime) / 1000.0;
 		lastUpdateTime = System.currentTimeMillis();
-		curError=getErrorVal();
-		totalError += curError * loopTime;
+		error=target-val;
+		if(minIn!=0&&maxIn!=0)
+		{
+			double diff=maxIn-minIn;
+			error=((error-minIn)%diff+diff)%diff+minIn;
+		}
+		totalError += error * loopTime;
 		if (I != 0.0) 
 		{
-			double potentialIGain = (curError+totalError) * I;
+			double potentialIGain = (error+totalError) * I;
 			if (potentialIGain < maxOut) {
 				if (potentialIGain > minOut) {
-					totalError += curError;
+					totalError += error;
 				} else {
 					totalError = minOut / I;
 				}
@@ -113,10 +158,10 @@ public class PID implements Updatable {
 			}
 		}
 	
-		double out = P * curError * loopTime + I * totalError +
-	             D * (curError - prevError) / loopTime; //+ calculateFeedForward();
+		double out = P * error * loopTime + I * totalError +
+	             D * (error - prevError) / loopTime; //+ calculateFeedForward();
 
-		prevError = curError;
+		prevError = error;
 		
 		if(minOut!=0 || maxOut!=0)
 		{
@@ -126,17 +171,31 @@ public class PID implements Updatable {
 		return out;
 	}
 	
-	public Input<Double> getError(){
-		return error;
-	}
-	public double getErrorVal()
+	public void setOut(double out)
 	{
-		return error.get();
+		this.out=out;
+	}
+	
+	public double getCurInput()
+	{
+		return input.get();
+	}
+	public Input<Double> getInput()
+	{
+		return input;
+	}
+	public double getError(){
+		return error;
 	}
 
 	public void update()
 	{
-		if(error == null || error.get() == null) return;
-		out=calculate(error.get());
+		if(input == null || input.get() == null) return;
+		out=calculate(input.get());
+	}
+	
+	public double getTarget()
+	{
+		return target;
 	}
 }

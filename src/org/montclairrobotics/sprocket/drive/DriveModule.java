@@ -8,7 +8,7 @@ import org.montclairrobotics.sprocket.motors.Module;
 import org.montclairrobotics.sprocket.motors.Motor;
 import org.montclairrobotics.sprocket.motors.SEncoder;
 import org.montclairrobotics.sprocket.utils.PID;
-import org.montclairrobotics.sprocket.utils.TargetablePID;
+import org.montclairrobotics.sprocket.utils.PID;
 
 /**
  * DriveModule is a class that extends Motor which provides additional behaviors
@@ -38,7 +38,7 @@ public class DriveModule extends Module{
     public DriveModule(Vector offset,
                        Vector force,
                        SEncoder enc,
-                       TargetablePID pid,
+                       PID pid,
                        Module.MotorInputType inputType,
                        Motor... motors
                        ) {
@@ -55,7 +55,7 @@ public class DriveModule extends Module{
     public DriveModule(Vector offset,
 	            Angle force,
 	            SEncoder enc,
-	            TargetablePID pid,
+	            PID pid,
 	            Module.MotorInputType inputType,
 	            Motor... motors
 	            ) {

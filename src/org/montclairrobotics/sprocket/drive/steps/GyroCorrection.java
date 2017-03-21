@@ -10,26 +10,25 @@ import org.montclairrobotics.sprocket.pipeline.Step;
 import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
-import org.montclairrobotics.sprocket.utils.TargetablePID;
+import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Togglable;
 
 public class GyroCorrection implements Step<DTTarget>, Togglable {
 
-	private TargetablePID pid;
+	private PID pid;
 	private boolean enabled;
 	private boolean used;
 	private Angle reset;
 	
-	public GyroCorrection(Input<Double> gyro,TargetablePID pid)
+	public GyroCorrection(Input<Double> gyro,PID pid)
 	{
 		this(pid);
 		this.pid.setInput(gyro);
 	}
-	public GyroCorrection(TargetablePID pid)
+	public GyroCorrection(PID pid)
 	{
 		this.pid=pid.copy();
-		this.pid.setMinMaxIn(-180, 179);
-		this.pid.setMinMaxOut(-1, 1);
+		this.pid.setMinMax(-180, 179, -1, 1);
 	}
 	
 	public void use()
@@ -67,11 +66,11 @@ public class GyroCorrection implements Step<DTTarget>, Togglable {
 	
 	public Angle getTargetAngle() 
 	{
-		return new Degrees(pid.getTargetVal());
+		return new Degrees(pid.getTarget());
 	}
 	public Angle getCurrentAngleRaw()
 	{
-		return new Degrees(pid.getInputVal());
+		return new Degrees(pid.getCurInput());
 	}
 	public Angle getCurrentAngleReset()
 	{
@@ -104,7 +103,7 @@ public class GyroCorrection implements Step<DTTarget>, Togglable {
 		pid.setTarget(reset.toDegrees());
 	}
 	
-	public TargetablePID getPID()
+	public PID getPID()
 	{
 		return pid;
 	}
