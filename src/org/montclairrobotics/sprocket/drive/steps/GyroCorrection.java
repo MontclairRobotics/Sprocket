@@ -16,7 +16,7 @@ import org.montclairrobotics.sprocket.utils.Togglable;
 public class GyroCorrection implements Step<DTTarget>, Togglable {
 
 	private PID pid;
-	private boolean enabled;
+	private boolean enabled=true;
 	private boolean used;
 	private Angle reset;
 	
