@@ -11,7 +11,6 @@ public class DoubleInput implements Input<Double>{
 
 	@Override
 	public Double get() {
-		// TODO Auto-generated method stub
 		return val;
 	}
 	

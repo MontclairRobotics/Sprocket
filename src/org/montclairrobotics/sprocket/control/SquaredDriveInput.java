@@ -15,7 +15,7 @@ public class SquaredDriveInput extends ArcadeDriveInput{
     public double getX()
     {
     	double x=super.getX();
-    	return x*Math.abs(x)*xSensitivity;
+    	return x*/*Math.abs(x)**/xSensitivity;
     }
     public double getY()
     {

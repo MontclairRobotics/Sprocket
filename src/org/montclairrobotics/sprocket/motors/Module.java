@@ -54,7 +54,7 @@ public class Module {
         if(pid!=null)
         	pid.setInput(enc);
         
-        this.maxSpeed=maxSpeed;
+        this.maxSpeed=new Distance(1);
     }
     
     public Module(Motor... motors)
