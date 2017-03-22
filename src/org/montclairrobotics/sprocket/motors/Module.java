@@ -16,7 +16,9 @@ import org.montclairrobotics.sprocket.utils.PID;
  *
  */
 public class Module {
-
+	
+	private static int id = 0;
+	
     public enum MotorInputType {PERCENT, SPEED};
     private Motor[] motors;
     
@@ -27,6 +29,7 @@ public class Module {
     private MotorInputType inputType;
     
     private Distance maxSpeed;
+    private int moduleId;
     
     /**
      * Creates a DriveModule with speed control enabled
@@ -55,6 +58,8 @@ public class Module {
         	pid.setInput(enc);
         
         this.maxSpeed=new Distance(1);
+        this.moduleId = id;
+        id++;
     }
     
     public Module(Motor... motors)
@@ -80,6 +85,7 @@ public class Module {
     	{
     		motor.set(power);
     	}
+    	Debug.num("module-" + moduleId, power);
     }
     
     /**

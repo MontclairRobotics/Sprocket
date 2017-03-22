@@ -18,7 +18,7 @@ public class TurnGyro extends AutoState {
 	private boolean relative;
 	
 	private static final Angle tolerance=new Degrees(2);
-	private static final double timeAtTarget=0.2;
+	private static final double timeAtTarget=0.5;
 	
 	public TurnGyro(Angle tgt,GyroCorrection gyro,boolean relative) 
 	{
@@ -44,7 +44,7 @@ public class TurnGyro extends AutoState {
 	@Override
 	public void stateUpdate() {
 		gyro.use();
-		if(Math.abs(gyro.getCurrentAngleRaw().subtract(tgt).wrap().toDegrees())<tolerance.toDegrees())
+		if(Math.abs(gyro.getError().toDegrees())<tolerance.toDegrees())
 		{
 			correctTime=Updater.getTime();
 		}
@@ -52,7 +52,7 @@ public class TurnGyro extends AutoState {
 
 	@Override
 	public boolean isDone() {
-		return (timeAtTarget>0&&Updater.getTime()-correctTime>timeAtTarget);
+		return (correctTime>0&&Updater.getTime()-correctTime>timeAtTarget);
 	}
 
 }

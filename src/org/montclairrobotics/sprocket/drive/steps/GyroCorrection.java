@@ -51,6 +51,11 @@ public class GyroCorrection implements Step<DTTarget>, Togglable {
 		return out;
 	}
 	
+	public Angle getError()
+	{
+		return new Degrees(pid.getError());
+	}
+	
 	public void reset()
 	{
 		resetRaw(getCurrentAngleRaw());
