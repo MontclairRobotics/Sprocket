@@ -18,7 +18,7 @@ public class GyroCorrection implements Step<DTTarget>, Togglable {
 	private PID pid;
 	private boolean enabled=true;
 	private boolean used;
-	private Angle reset;
+	private Angle reset=Angle.ZERO;
 	
 	public GyroCorrection(Input<Double> gyro,PID pid)
 	{
