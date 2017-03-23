@@ -7,21 +7,21 @@ import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.states.MultiState;
 import org.montclairrobotics.sprocket.states.State;
 import org.montclairrobotics.sprocket.states.StateMachine;
+import org.montclairrobotics.sprocket.utils.Input;
 
-public class DriveEncoderGyro extends StateMachine{
+public class DriveEncoderGyroWithInput extends StateMachine{
 	
 	
-	
-	public DriveEncoderGyro(Distance d,Angle a,boolean relative,double speed,Distance encSpeed,GyroCorrection driveGyro)
+	public DriveEncoderGyroWithInput(Input<Distance> d,Input<Angle> a,Input<Boolean> relative,Input<Double> speed,Distance encSpeed,GyroCorrection driveGyro)
 	{
 		super(
-			new TurnGyro(a,driveGyro,relative),
+			new TurnGyroWithInput(a,driveGyro,relative),
 			new MultiState(0,
-					new DriveEncoders(d,speed,encSpeed),
+					new DriveEncodersWithInput(d,speed,encSpeed),
 					new State(){
 						@Override
 						public void start() {
-							driveGyro.setTargetAngle(a,relative);
+							driveGyro.setTargetAngle(a.get(),relative.get());
 						}
 						@Override
 						public void stop() {}

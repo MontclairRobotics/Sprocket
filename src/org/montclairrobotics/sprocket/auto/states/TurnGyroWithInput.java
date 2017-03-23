@@ -11,26 +11,19 @@ import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 
-public class TurnGyro extends AutoState {
+public class TurnGyroWithInput extends AutoState {
 	
-	private Angle tgt;
+	private Input<Angle> tgt;
 	
-	public Angle getTgt() {
-		return tgt;
-	}
-
-	public void setTgt(Angle tgt) {
-		this.tgt = tgt;
-	}
 
 	private GyroCorrection gyro;
 	private double incorrectTime;
-	private boolean relative;
+	private Input<Boolean> relative;
 	
 	private static final Angle tolerance=new Degrees(5);
 	private static final double timeAtTarget=0.5;
 	
-	public TurnGyro(Angle tgt,GyroCorrection gyro,boolean relative) 
+	public TurnGyroWithInput(Input<Angle> tgt,GyroCorrection gyro,Input<Boolean> relative) 
 	{
 		this.tgt=tgt;
 		this.gyro=gyro;
@@ -40,13 +33,13 @@ public class TurnGyro extends AutoState {
 	@Override
 	public void userStart()
 	{
-		if(relative)
+		if(relative.get())
 		{
-			gyro.setTargetAngleRelative(tgt);
+			gyro.setTargetAngleRelative(tgt.get());
 		}
 		else
 		{
-			gyro.setTargetAngleReset(tgt);
+			gyro.setTargetAngleReset(tgt.get());
 		}
 		incorrectTime=Updater.getTime();
 	}
