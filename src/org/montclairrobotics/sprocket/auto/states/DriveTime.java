@@ -4,6 +4,7 @@ import org.montclairrobotics.sprocket.auto.AutoState;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
+import org.montclairrobotics.sprocket.utils.Input;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -28,6 +29,11 @@ public class DriveTime extends Delay {
 		super(time);
 		this.tgtDir = tgtDir;
 		this.tgtTurn = tgtTurn;
+	}
+	public DriveTime(Input<Double> timeInput, double power) {
+		super(timeInput);
+		this.tgtDir = new XY(0, power);
+		this.tgtTurn = Angle.ZERO;
 	}
 	
 	@Override

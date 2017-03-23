@@ -12,6 +12,10 @@ public class DashboardInput implements Input<Double>{
 	{
 		this.name=name;
 	}
+	public DashboardInput(String name, double defaultVal) {
+		this.name = name;
+		SmartDashboard.putNumber(name, defaultVal);
+	}
 	
 	@Override
 	public Double get() {
