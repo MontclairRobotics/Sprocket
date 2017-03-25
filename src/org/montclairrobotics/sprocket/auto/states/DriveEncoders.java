@@ -32,16 +32,13 @@ public class DriveEncoders extends AutoState {
 		this(new Distance(tgtDistance), speed, maxEncAccel, maxEncTicksPerSec);
 	}
 	
-	public DriveEncoders(Input<Double> dashInput, Distance maxAccel, double speed, Distance encSpeed) {
+	public DriveEncoders(Input<Double> dashInput, double speed, double maxEncAccel, double maxEncTicksPerSec) {
 		this.dashInput = dashInput;
 		this.speed = speed;
 		this.maxEncAccel = maxEncAccel;
 		this.maxEncTicksPerSec = maxEncTicksPerSec;
 	}
 	
-	public DriveEncoders(Input<Double> dashInput, double speed, Distance encSpeed) {
-		this(dashInput, new Distance(4), speed, encSpeed);
-	}
 	
 	@Override
 	public void userStart() {
