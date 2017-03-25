@@ -59,6 +59,7 @@ public class TurnGyro extends AutoState {
 		{
 			gyro.setTargetAngleReset(tgt);
 		}
+		gyro.setMinMaxOut(-0.5, 0.5);
 		incorrectTime=Updater.getTime();
 	}
 	
@@ -73,6 +74,12 @@ public class TurnGyro extends AutoState {
 		Debug.msg("incorrectTime", incorrectTime);
 		Debug.msg("cur-time", Updater.getTime());
 		Debug.msg("IS-DONE",isDone());
+	}
+	
+	@Override
+	public void userStop()
+	{
+		gyro.resetMinMaxOut();
 	}
 
 	@Override
