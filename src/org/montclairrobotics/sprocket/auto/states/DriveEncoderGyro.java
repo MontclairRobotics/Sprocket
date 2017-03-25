@@ -12,12 +12,12 @@ public class DriveEncoderGyro extends StateMachine{
 	
 	
 	
-	public DriveEncoderGyro(Distance d,Angle a,boolean relative,double speed,Distance encSpeed,GyroCorrection driveGyro)
+	public DriveEncoderGyro(Distance d,Angle a,boolean relative,double speed, Distance encSpeed, GyroCorrection driveGyro)
 	{
 		super(
 			new TurnGyro(a,driveGyro,relative),
 			new MultiState(0,
-					new DriveEncoders(d,speed,encSpeed),
+					new DriveEncoders(d,speed, encSpeed),
 					new State(){
 						@Override
 						public void start() {

@@ -6,6 +6,7 @@ import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.utils.Debug;
+import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.Utils;
 
 public class DriveEncoders extends AutoState {
@@ -14,23 +15,39 @@ public class DriveEncoders extends AutoState {
 	private Distance tgtDistance;
 	private Distance stopDist;
 	private Distance maxAccel;
-	private double speed;
 	private Distance encSpeed;
+	private double speed;
 	private boolean forwards;
 	
-	public DriveEncoders(Distance tgtDistance, Distance maxAccel, double speed,Distance encSpeed) {
+	private Input<Double> dashInput;
+	
+	public DriveEncoders(Distance tgtDistance, Distance maxAccel, double speed, Distance encSpeed) {
 		this.tgtDistance=tgtDistance;
 		this.maxAccel=maxAccel;
 		this.speed = speed;
-		this.encSpeed=encSpeed;
+		this.encSpeed = encSpeed;
 	}
 	
-	public DriveEncoders(Distance tgtDist, double speed,Distance encSpeed) {
-		this(tgtDist, new Distance(4),speed,encSpeed);
+	public DriveEncoders(Distance tgtDist, double speed, Distance encSpeed) {
+		this(tgtDist, new Distance(4),speed, encSpeed);
+	}
+	
+	public DriveEncoders(Input<Double> dashInput, Distance maxAccel, double speed, Distance encSpeed) {
+		this.dashInput = dashInput;
+		this.maxAccel = maxAccel;
+		this.speed = speed;
+		this.encSpeed = encSpeed;
+	}
+	
+	public DriveEncoders(Input<Double> dashInput, double speed, Distance encSpeed) {
+		this(dashInput, new Distance(4), speed, encSpeed);
 	}
 	
 	@Override
 	public void userStart() {
+		if(dashInput != null) {
+			this.tgtDistance = new Distance(dashInput.get());
+		}
 		this.dt = SprocketRobot.getDriveTrain();
 		stopDist = new Distance(dt.getDistance().getY()+tgtDistance.get());
 		forwards=tgtDistance.get()>0;

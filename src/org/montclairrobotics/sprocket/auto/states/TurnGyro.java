@@ -2,6 +2,7 @@ package org.montclairrobotics.sprocket.auto.states;
 
 import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.auto.AutoState;
+import org.montclairrobotics.sprocket.control.DashboardInput;
 import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degrees;
@@ -14,6 +15,7 @@ import org.montclairrobotics.sprocket.utils.PID;
 public class TurnGyro extends AutoState {
 	
 	private Angle tgt;
+	private DashboardInput dashInput;
 	
 	public Angle getTgt() {
 		return tgt;
@@ -37,9 +39,18 @@ public class TurnGyro extends AutoState {
 		this.relative=relative;
 	}
 	
+	public TurnGyro(DashboardInput dashInput, GyroCorrection gyro, boolean relative) {
+		this.dashInput = dashInput;
+		this.gyro = gyro;
+		this.relative = relative;
+	}
+	
 	@Override
 	public void userStart()
 	{
+		if(dashInput != null) {
+			tgt = new Degrees(dashInput.get());
+		}
 		if(relative)
 		{
 			gyro.setTargetAngleRelative(tgt);
