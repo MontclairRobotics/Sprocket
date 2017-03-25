@@ -70,13 +70,13 @@ public class DriveEncoders extends AutoState {
 				,-speed,speed));
 		 */
 		
-		/*
+		
 		double tgtV2inTicks=2*maxEncAccel*(stopDist.get()-dt.get().get());
 		double tgtV=Math.sqrt(Math.abs(tgtV2inTicks))/maxEncTicksPerSec*(stopDist.get()-dt.get().get()>0?1:-1);
 		tgtV=Utils.constrain(tgtV, -speed, speed);
-		tgtDir = new XY(0,tgtV);*/
+		tgtDir = new XY(0,tgtV);
 		
-		tgtDir = new XY(0, speed);
+		//tgtDir = new XY(0, speed);
 	}
 	
 	@Override
