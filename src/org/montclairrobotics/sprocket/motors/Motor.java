@@ -15,12 +15,14 @@ public class Motor {
         UNKNOWN
     }
     
+    
 
     private SpeedController motor;
     private MotorType motorType;
     
     private double minPower = -1.0;
 	private double maxPower = 1.0;
+	private boolean brakeMode=true;
 	
 
     public Motor(SpeedController motor) {
@@ -53,7 +55,14 @@ public class Motor {
     
     
     public void set(double power) {
-        motor.set(Utils.constrain(power, minPower, maxPower));
+    	if(brakeMode&&Math.abs(power)<0.05)
+    	{
+    		motor.stopMotor();
+    	}
+    	else
+    	{
+    		motor.set(Utils.constrain(power, minPower, maxPower));
+    	}
     }
 
     public boolean getInverted() {
