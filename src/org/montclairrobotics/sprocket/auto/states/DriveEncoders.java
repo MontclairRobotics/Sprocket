@@ -15,35 +15,32 @@ public class DriveEncoders extends AutoState {
 	private DriveTrain dt;
 	private Distance tgtDistance;
 	private Distance stopDist;
-	private Distance maxAccel;
-	private Distance encSpeed;
+	private double maxEncAccel;
+	private double maxEncTicksPerSec;
 	private double speed;
 	private boolean forwards;
 	
 	private Input<Double> dashInput;
 	private Input<Double> speedDashInput;
 	
-	public DriveEncoders(Distance tgtDistance, Distance maxAccel, double speed, Distance encSpeed) {
+	public DriveEncoders(Distance tgtDistance, double speed, double maxEncAccel, double maxEncTicksPerSec) {
 		this.tgtDistance=tgtDistance;
-		this.maxAccel=maxAccel;
 		this.speed = speed;
-		this.encSpeed = encSpeed;
+		this.maxEncAccel=maxEncAccel;
+		this.maxEncTicksPerSec = maxEncTicksPerSec;
 	}
 	
-	public DriveEncoders(Distance tgtDist, double speed, Distance encSpeed) {
-		this(tgtDist, new Distance(4),speed, encSpeed);
+	public DriveEncoders(double tgtDistance, double speed, double maxEncAccel, double maxEncTicksPerSec) {
+		this(new Distance(tgtDistance), speed, maxEncAccel, maxEncTicksPerSec);
 	}
 	
-	public DriveEncoders(Input<Double> dashInput, Distance maxAccel, Input<Double> speed, Distance encSpeed) {
+	public DriveEncoders(Input<Double> dashInput, Input<Double> speed, double maxEncAccel, double maxEncTicksPerSec) {
 		this.dashInput = dashInput;
-		this.maxAccel = maxAccel;
 		this.speedDashInput = speed;
-		this.encSpeed = encSpeed;
+		this.maxEncAccel = maxEncAccel;
+		this.maxEncTicksPerSec = maxEncTicksPerSec;
 	}
 	
-	public DriveEncoders(Input<Double> dashInput, Input<Double> speed, Distance encSpeed) {
-		this(dashInput, new Distance(4), speed, encSpeed);
-	}
 	
 	@Override
 	public void userStart() {
@@ -72,6 +69,12 @@ public class DriveEncoders extends AutoState {
 				*(stopDist.get()-dt.getDistance().getY()>0?1:-1)
 				,-speed,speed));
 		 */
+		
+		/*
+		double tgtV2inTicks=2*maxEncAccel*(stopDist.get()-dt.get().get());
+		double tgtV=Math.sqrt(Math.abs(tgtV2inTicks))/maxEncTicksPerSec*(stopDist.get()-dt.get().get()>0?1:-1);
+		tgtV=Utils.constrain(tgtV, -speed, speed);
+		tgtDir = new XY(0,tgtV);*/
 		
 		tgtDir = new XY(0, speed);
 	}

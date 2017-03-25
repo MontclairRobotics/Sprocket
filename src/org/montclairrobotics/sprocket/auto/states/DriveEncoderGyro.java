@@ -15,7 +15,7 @@ public class DriveEncoderGyro extends StateMachine{
 	
 	
 	
-	public DriveEncoderGyro(Distance d,Angle a,boolean relative,double speed, Distance encSpeed, GyroCorrection driveGyro)
+	public DriveEncoderGyro(Distance d,Angle a,boolean relative,double speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro)
 	{
 		super(
 			new TurnGyro(a,driveGyro,relative),
@@ -42,7 +42,7 @@ public class DriveEncoderGyro extends StateMachine{
 			);
 	}
 	
-	public DriveEncoderGyro(Distance d, double speed, Distance encSpeed, GyroCorrection driveGyro) {
+	public DriveEncoderGyro(Distance d, double speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro) {
 		super(
 				new MultiState(0,
 						new DriveEncoders(d, speed, encSpeed),
@@ -66,7 +66,7 @@ public class DriveEncoderGyro extends StateMachine{
 				);
 	}
 	
-	public DriveEncoderGyro(Input<Double> dInput, DashboardInput a, boolean relative, Input<Double> speed, Distance encSpeed, GyroCorrection driveGyro) {
+	public DriveEncoderGyro(Input<Double> dInput, DashboardInput a, boolean relative, Input<Double> speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro) {
 		super(
 				new TurnGyro(a,driveGyro,relative),
 				new MultiState(0,
@@ -91,7 +91,7 @@ public class DriveEncoderGyro extends StateMachine{
 				);
 	}
 	
-	public DriveEncoderGyro(Input<Double> d, Input<Double> speed, Distance encSpeed, GyroCorrection driveGyro) {
+	public DriveEncoderGyro(Input<Double> d, Input<Double> speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro) {
 		super(
 				new MultiState(0,
 						new DriveEncoders(d, speed, encSpeed),
