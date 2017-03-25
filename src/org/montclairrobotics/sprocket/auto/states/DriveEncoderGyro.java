@@ -41,6 +41,30 @@ public class DriveEncoderGyro extends StateMachine{
 			);
 	}
 	
+	public DriveEncoderGyro(Distance d, double speed, Distance encSpeed, GyroCorrection driveGyro) {
+		super(
+				new MultiState(0,
+						new DriveEncoders(d, speed, encSpeed),
+						new State(){
+					@Override
+					public void start() {
+						driveGyro.setTargetAngleRelative();
+					}
+					@Override
+					public void stop() {}
+					@Override
+					public void stateUpdate() {
+						driveGyro.use();
+					}
+
+					@Override
+					public boolean isDone() {
+						// TODO Auto-generated method stub
+						return false;
+					}})
+				);
+	}
+	
 	public DriveEncoderGyro(DashboardInput dInput, DashboardInput a, boolean relative, double speed, Distance encSpeed, GyroCorrection driveGyro) {
 		super(
 				new TurnGyro(a,driveGyro,relative),
@@ -57,13 +81,36 @@ public class DriveEncoderGyro extends StateMachine{
 							public void stateUpdate() {
 								driveGyro.use();
 							}
-
 							@Override
 							public boolean isDone() {
 								// TODO Auto-generated method stub
 								return false;
 							}}
 						)
+				);
+	}
+	
+	public DriveEncoderGyro(DashboardInput d, double speed, Distance encSpeed, GyroCorrection driveGyro) {
+		super(
+				new MultiState(0,
+						new DriveEncoders(d, speed, encSpeed),
+						new State(){
+					@Override
+					public void start() {
+						driveGyro.setTargetAngleRelative();
+					}
+					@Override
+					public void stop() {}
+					@Override
+					public void stateUpdate() {
+						driveGyro.use();
+					}
+
+					@Override
+					public boolean isDone() {
+						// TODO Auto-generated method stub
+						return false;
+					}})
 				);
 	}
 	
