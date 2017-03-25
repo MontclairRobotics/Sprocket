@@ -10,7 +10,7 @@ public class DashboardInput implements Input<Double>{
 	
 	public DashboardInput(String name)
 	{
-		this.name=name;
+		this(name,0.0);
 	}
 	public DashboardInput(String name, double defaultVal) {
 		this.name = name;
