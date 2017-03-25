@@ -30,7 +30,7 @@ public class TurnGyro extends AutoState {
 	private boolean relative;
 	
 	private static final Angle tolerance=new Degrees(5);
-	private static final double timeAtTarget=0.5;
+	private static final double timeAtTarget=0.2;
 	
 	public TurnGyro(Angle tgt,GyroCorrection gyro,boolean relative) 
 	{
