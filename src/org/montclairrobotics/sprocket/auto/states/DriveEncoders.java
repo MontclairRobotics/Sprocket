@@ -14,8 +14,8 @@ public class DriveEncoders extends AutoState {
 	private DriveTrain dt;
 	private Distance tgtDistance;
 	private Distance stopDist;
-	private Distance maxAccel;
-	private Distance encSpeed;
+	private double maxEncAccel;
+	private double maxEncTicksPerSec;
 	private double speed;
 	private boolean forwards;
 	
@@ -67,6 +67,11 @@ public class DriveEncoders extends AutoState {
 				*(stopDist.get()-dt.getDistance().getY()>0?1:-1)
 				,-speed,speed));
 		 */
+		
+		double tgtV2inTicks=2*maxEncAccel*(stopDist.get()-dt.get().get());
+		double tgtV=Math.sqrt(Math.abs(tgtV2inTicks))/maxEncTicksPerSec*(stopDist.get()-dt.get().get()>0?1:-1);
+		tgtV=Utils.constrain(tgtV, -speed, speed);
+		tgtDir = new XY(0,tgtV);
 		
 		tgtDir = new XY(0, speed);
 	}
