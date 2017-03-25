@@ -12,6 +12,7 @@ import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Togglable;
+import org.montclairrobotics.sprocket.utils.Utils;
 
 public class GyroCorrection implements Step<DTTarget>, Togglable {
 
@@ -19,6 +20,9 @@ public class GyroCorrection implements Step<DTTarget>, Togglable {
 	private boolean enabled=true;
 	private boolean used;
 	private Angle reset=Angle.ZERO;
+	
+	private double minOut=-1;
+	private double maxOut=1;
 	
 	public GyroCorrection(Input<Double> gyro,PID pid)
 	{
@@ -36,12 +40,24 @@ public class GyroCorrection implements Step<DTTarget>, Togglable {
 		used=true;
 	}
 	
+	
+	public void setMinMaxOut(double min,double max)
+	{
+		this.minOut=min;
+		this.maxOut=max;
+	}
+	public void resetMinMaxOut()
+	{
+		setMinMaxOut(-1,1);
+	}
+	
 	@Override
 	public DTTarget get(DTTarget in) {
 		DTTarget out=in;
 		if(enabled&&used)
 		{
 			double tgt=pid.get();
+			tgt=Utils.constrain(tgt, minOut, maxOut);
 			Angle tgtAngle=new Radians(tgt);
 			out=new DTTarget(in.getDirection(),tgtAngle);
 		}
