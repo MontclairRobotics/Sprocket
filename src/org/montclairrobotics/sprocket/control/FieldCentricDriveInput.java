@@ -20,26 +20,16 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
 	private Vector field,robot;
 	private boolean forwards;
 
-	private Input<Angle> rotate;
 	private boolean rotToVector;
 
 	public FieldCentricDriveInput(Joystick stick,GyroCorrection gyro)
 	{
-		this(stick,gyro,null,true);
-	}
-	public FieldCentricDriveInput(Joystick stick,GyroCorrection gyro,Input<Angle> rotate)
-	{
-		this(stick,gyro,rotate,false);
+		this(stick,gyro,true);
 	}
 	public FieldCentricDriveInput(Joystick stick,GyroCorrection gyro,boolean rotToVector)
 	{
-		this(stick,gyro,null,rotToVector);
-	}
-	public FieldCentricDriveInput(Joystick stick,GyroCorrection gyro,Input<Angle> rotate,boolean rotToVector)
-	{
 		super(stick);
 		this.gyro=gyro;
-		this.rotate=rotate;
 		this.rotToVector=rotToVector;
 	}
 	@Override
@@ -55,6 +45,7 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
 		else
 		{
 			robot=Vector.ZERO;
+			forwards=true;
 		}
 	}
 	/**
@@ -71,9 +62,16 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
 	@Override
     public Angle getTurn() {
 
-		if(rotToVector)
+		if(rotToVector&&robot.getMagnitude()>0.1)
 		{
-			gyro.setTargetAngleReset(robot.getAngle());
+			if(forwards)
+			{
+				gyro.setTargetAngleReset(robot.getAngle());
+			}
+			else
+			{
+				gyro.setTargetAngleReset(robot.getAngle().add(Angle.HALF));
+			}
 			gyro.use();
 		}
         return Angle.ZERO;
