@@ -62,15 +62,15 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
 	@Override
     public Angle getTurn() {
 
-		if(rotToVector&&robot.getMagnitude()>0.1)
+		if(rotToVector&&field.getMagnitude()>0.1)
 		{
 			if(forwards)
 			{
-				gyro.setTargetAngleReset(robot.getAngle());
+				gyro.setTargetAngleReset(field.getAngle());
 			}
 			else
 			{
-				gyro.setTargetAngleReset(robot.getAngle().add(Angle.HALF));
+				gyro.setTargetAngleReset(field.getAngle().add(Angle.HALF));
 			}
 			gyro.use();
 		}

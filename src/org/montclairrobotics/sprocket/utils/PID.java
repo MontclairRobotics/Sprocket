@@ -146,6 +146,7 @@ public class PID implements Updatable {
 			double diff=maxIn-minIn;
 			error=((error-minIn)%diff+diff)%diff+minIn;
 			dVal=((dVal-minIn)%diff+diff)%diff+minIn;
+			Debug.msg("dVal",dVal);
 		}
 		totalError += error * loopTime;
 		if (I != 0.0) 
@@ -163,7 +164,7 @@ public class PID implements Updatable {
 		}
 	
 		double out = P * error * loopTime + I * totalError +
-	             D * (error - dVal) / loopTime; //+ calculateFeedForward();
+	             D * (-dVal) / loopTime; //+ calculateFeedForward();
 
 		prevVal = val;
 		
