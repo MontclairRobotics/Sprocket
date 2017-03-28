@@ -145,6 +145,7 @@ public class PID implements Updatable {
 		{
 			double diff=maxIn-minIn;
 			error=((error-minIn)%diff+diff)%diff+minIn;
+			dVal=((dVal-minIn)%diff+diff)%diff+minIn;
 		}
 		totalError += error * loopTime;
 		if (I != 0.0) 
