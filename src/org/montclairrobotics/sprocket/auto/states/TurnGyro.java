@@ -15,7 +15,7 @@ import org.montclairrobotics.sprocket.utils.PID;
 public class TurnGyro extends AutoState {
 	
 	private Angle tgt;
-	private DashboardInput dashInput;
+	private Input<Double> dashInput;
 	
 	public Angle getTgt() {
 		return tgt;
@@ -39,7 +39,7 @@ public class TurnGyro extends AutoState {
 		this.relative=relative;
 	}
 	
-	public TurnGyro(DashboardInput dashInput, GyroCorrection gyro, boolean relative) {
+	public TurnGyro(Input<Double> dashInput, GyroCorrection gyro, boolean relative) {
 		this.dashInput = dashInput;
 		this.gyro = gyro;
 		this.relative = relative;

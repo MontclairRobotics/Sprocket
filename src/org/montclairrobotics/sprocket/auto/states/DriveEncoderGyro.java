@@ -66,7 +66,7 @@ public class DriveEncoderGyro extends StateMachine{
 				);
 	}
 	
-	public DriveEncoderGyro(Input<Double> dInput, DashboardInput a, boolean relative, Input<Double> speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro) {
+	public DriveEncoderGyro(Input<Double> dInput, Input<Double> a, boolean relative, Input<Double> speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro) {
 		super(
 				new TurnGyro(a,driveGyro,relative),
 				new MultiState(0,
