@@ -46,6 +46,7 @@ public class Motor {
             case CANTALON:
                 CANTalon cMotor = (CANTalon) motor;
                 cMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+                cMotor.enableBrakeMode(true);
             break;
             default:
             break;

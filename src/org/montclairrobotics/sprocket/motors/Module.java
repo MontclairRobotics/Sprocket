@@ -99,5 +99,9 @@ public class Module {
     	if(enc == null) return Distance.ZERO;
     	return enc.getInches();
     }
+    
+    public boolean hasEncoder() {
+    	return enc != null;
+    }
 
 }

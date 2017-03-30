@@ -72,10 +72,13 @@ public class DriveTrain implements Updatable, Input<Distance> {
     	if(modules.length==0)
     		return Vector.ZERO;
     	Vector totDist = Vector.ZERO;
+    	int modulesWithEnc = 0;
     	for(DriveModule m : modules) {
+    		if(!m.hasEncoder()) continue;
     		totDist=totDist.add(m.getForce().setMag(m.getDistance().get()));
+    		modulesWithEnc++;
     	}
-    	Vector avgDist=totDist.scale(1.0/modules.length);
+    	Vector avgDist=totDist.scale(1.0/modulesWithEnc);
     	return avgDist;
     }
     
