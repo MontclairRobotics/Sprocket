@@ -42,6 +42,33 @@ public class DriveEncoderGyro extends StateMachine{
 			);
 	}
 	
+	public DriveEncoderGyro(Distance d,Angle a,boolean relative,double speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro, double timeout)
+	{
+		super(
+			new TurnGyro(a,driveGyro,relative),
+			new MultiState(0,
+					new DriveEncoders(d,speed, maxEncAccel, maxEncTicksPerSec, timeout),
+					new State(){
+						@Override
+						public void start() {
+							driveGyro.setTargetAngle(a,relative);
+						}
+						@Override
+						public void stop() {}
+						@Override
+						public void stateUpdate() {
+							driveGyro.use();
+						}
+
+						@Override
+						public boolean isDone() {
+							// TODO Auto-generated method stub
+							return false;
+						}}
+					)
+			);
+	}
+	
 	public DriveEncoderGyro(Distance d, double speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro) {
 		super(
 				new MultiState(0,

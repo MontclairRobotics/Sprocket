@@ -19,6 +19,7 @@ public class DriveEncoders extends AutoState {
 	private double maxEncTicksPerSec;
 	private double speed;
 	private boolean forwards;
+	private double timeout = Double.MAX_VALUE;
 	
 	private Input<Double> dashInput;
 	private Input<Double> speedDashInput;
@@ -28,6 +29,14 @@ public class DriveEncoders extends AutoState {
 		this.speed = speed;
 		this.maxEncAccel=maxEncAccel;
 		this.maxEncTicksPerSec = maxEncTicksPerSec;
+	}
+	
+	public DriveEncoders(Distance tgtDistance, double speed, double maxEncAccel, double maxEncTicksPerSec, double timeout) {
+		this.tgtDistance=tgtDistance;
+		this.speed = speed;
+		this.maxEncAccel=maxEncAccel;
+		this.maxEncTicksPerSec = maxEncTicksPerSec;
+		this.timeout = timeout;
 	}
 	
 	public DriveEncoders(double tgtDistance, double speed, double maxEncAccel, double maxEncTicksPerSec) {
@@ -84,6 +93,9 @@ public class DriveEncoders extends AutoState {
 		Debug.msg("forwards", forwards?"YES":"NO");
 		Debug.msg("DISTANCE", dt.getDistance().getY());
 		Debug.msg("StopDistance", stopDist.get());
+		if(this.timeInState() > timeout) {
+			return true;
+		}
 		if(forwards)
 			return dt.getDistance().getY()>stopDist.get()-1;
 		else
