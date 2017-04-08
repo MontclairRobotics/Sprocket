@@ -27,6 +27,7 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
 	private AutoMode[] autoModes;
 	private AutoMode selectedAutoMode;
 	private AutoState runState;
+	private AutoMode defaultAutoMode;
 	
 	public SprocketRobot()
 	{
@@ -51,7 +52,11 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     }
 
     @Override
-    public void robotInit(){}
+    public final void robotInit(){
+    	userRobotInit();
+    	sendAutoModes();
+    }
+    public void userRobotInit(){}
     public void userStart(){}
     public void reset(){}
     public void userTeleopInit(){}
@@ -69,7 +74,13 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
 
     @Override
     public final void autonomousInit() {
+    	sendAutoModes();
     	selectedAutoMode = chooser.getSelected();
+    	
+    	if(selectedAutoMode==null)
+    	{
+    		selectedAutoMode=defaultAutoMode;
+    	}
     	selectedAutoMode.start();
     	start();
         userAutonomousInit();
@@ -130,9 +141,16 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     	autoModes = modes.toArray(autoModes);
     }
     
+    public void addDefaultAutoMode(AutoMode mode) {
+    	defaultAutoMode = mode;
+    }
+    
     public void sendAutoModes()
     {
     	chooser=new SendableChooser<AutoMode>();
+    	if(defaultAutoMode != null) {
+    		chooser.addDefault(defaultAutoMode + "", defaultAutoMode);
+    	}
     	for(AutoMode mode:autoModes)
     	{
     		chooser.addObject(mode+"", mode);
