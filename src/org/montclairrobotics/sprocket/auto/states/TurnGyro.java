@@ -60,7 +60,7 @@ public class TurnGyro extends AutoState {
 	}
 	
 	@Override
-	public void stateUpdate() {
+	public void enabled() {
 		gyro.use();
 		if(Math.abs(gyro.getError().toDegrees())>tolerance.toDegrees())
 		{

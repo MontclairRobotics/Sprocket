@@ -42,23 +42,23 @@ public class MultiState implements State {
 	}
 	
 	@Override
-	public void start() {
+	public void onEnable() {
 		for(State s : states) {
-			s.start();
+			s.onEnable();
 		}
 	}
 
 	@Override
-	public void stop() {
+	public void onDisable() {
 		for(State s : states) {
-			s.stop();
+			s.onDisable();
 		}
 	}
 
 	@Override
-	public void stateUpdate() {
+	public void enabled() {
 		for(State s : states) {
-			s.stateUpdate();
+			s.enabled();
 		}
 	}
 

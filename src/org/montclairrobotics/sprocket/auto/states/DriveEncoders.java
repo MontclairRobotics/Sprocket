@@ -55,7 +55,7 @@ public class DriveEncoders extends AutoState {
 	}
 	
 	@Override
-	public void stateUpdate() {
+	public void enabled() {
 		/*
 		tgtDir = new XY(0,Utils.constrain(
 				Math.sqrt(Math.abs(2*maxAccel.get()*(stopDist.get()-dt.getDistance().get())))

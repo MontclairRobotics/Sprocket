@@ -30,7 +30,7 @@ public class TurnEncoders extends AutoState {
 	}
 	
 	@Override
-	public void stateUpdate() {
+	public void enabled() {
 		tgtTurn = turnSpeed;
 	}
 

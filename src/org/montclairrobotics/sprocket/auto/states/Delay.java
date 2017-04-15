@@ -27,7 +27,7 @@ public class Delay extends AutoState{
 	}
 
 	@Override
-	public void stateUpdate() {
+	public void enabled() {
 		// TODO Auto-generated method stub
 		
 	}

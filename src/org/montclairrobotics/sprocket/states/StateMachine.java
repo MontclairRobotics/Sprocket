@@ -24,29 +24,29 @@ public class StateMachine implements State, Updatable{
 		startState();
 	}
 	@Override
-	public void start() {
+	public void onEnable() {
 		start(true);
 	}
 
 	@Override
-	public void stop() {
+	public void onDisable() {
 		if(isDone())return;
-		states[index].stop();
+		states[index].onDisable();
 		index=-1;
 		top=false;
 	}
 
 	@Override
-	public void stateUpdate() {
+	public void enabled() {
 		if(isDone())return;
-		states[index].stateUpdate();
+		states[index].enabled();
 		while(states[index].isDone())
 		{
-			states[index].stop();
+			states[index].onDisable();
 			index++;
 			if(isDone())return;
 			startState();
-			states[index].stateUpdate();
+			states[index].enabled();
 		}
 	}
 
@@ -62,7 +62,7 @@ public class StateMachine implements State, Updatable{
 	public void update() {
 		if(top)
 		{
-			stateUpdate();
+			enabled();
 		}
 	}
 	public void startState()
@@ -73,7 +73,7 @@ public class StateMachine implements State, Updatable{
 		}
 		else
 		{
-			states[index].start();
+			states[index].onEnable();
 		}
 	}
 }

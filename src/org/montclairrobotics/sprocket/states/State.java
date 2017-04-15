@@ -1,8 +1,7 @@
 package org.montclairrobotics.sprocket.states;
 
-public interface State {
-	void start();
-	void stop();
-	void stateUpdate();
+import org.montclairrobotics.sprocket.utils.Action;
+
+public interface State extends Action{
 	boolean isDone();
 }
