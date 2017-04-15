@@ -4,7 +4,6 @@ import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class StateMachine implements State, Updatable{
 
@@ -76,6 +75,5 @@ public class StateMachine implements State, Updatable{
 		{
 			states[index].start();
 		}
-		SmartDashboard.putString("I hope it gets here","It does!");
 	}
 }

@@ -1,8 +1,9 @@
-package org.montclairrobotics.sprocket.utils;
+package org.montclairrobotics.sprocket.frc;
 
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
+import org.montclairrobotics.sprocket.utils.Debug;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 

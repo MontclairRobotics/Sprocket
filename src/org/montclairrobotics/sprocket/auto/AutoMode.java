@@ -5,7 +5,6 @@ import org.montclairrobotics.sprocket.states.State;
 import org.montclairrobotics.sprocket.states.StateMachine;
 import org.montclairrobotics.sprocket.utils.Debug;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The AutoMode class is the fundamental component to Sprocket's autonomous

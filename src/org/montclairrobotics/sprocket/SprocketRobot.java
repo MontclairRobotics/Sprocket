@@ -2,7 +2,6 @@ package org.montclairrobotics.sprocket;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.montclairrobotics.sprocket.auto.AutoMode;
 import org.montclairrobotics.sprocket.auto.AutoState;

@@ -1,7 +1,6 @@
 package org.montclairrobotics.sprocket.auto.states;
 
 import org.montclairrobotics.sprocket.states.State;
-import org.montclairrobotics.sprocket.utils.Togglable;
 
 public class Disable implements State{
 

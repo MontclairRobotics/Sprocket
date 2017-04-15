@@ -1,12 +1,10 @@
 package org.montclairrobotics.sprocket.auto.states;
 
-import org.montclairrobotics.sprocket.auto.AutoState;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.utils.Input;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This auto state drives for a certain amount of time (in seconds) and also

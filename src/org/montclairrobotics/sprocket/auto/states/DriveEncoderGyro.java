@@ -1,8 +1,6 @@
 package org.montclairrobotics.sprocket.auto.states;
 
-import org.montclairrobotics.sprocket.control.DashboardInput;
 import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
-import org.montclairrobotics.sprocket.drive.utils.GyroLock;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degrees;
 import org.montclairrobotics.sprocket.geometry.Distance;

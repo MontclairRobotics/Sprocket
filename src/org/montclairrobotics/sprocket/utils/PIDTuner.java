@@ -1,20 +1,19 @@
 package org.montclairrobotics.sprocket.utils;
 
-import org.montclairrobotics.sprocket.control.Button;
-import org.montclairrobotics.sprocket.control.ButtonAction;
-import org.montclairrobotics.sprocket.control.DashboardButton;
-import org.montclairrobotics.sprocket.control.DashboardInput;
+import org.montclairrobotics.sprocket.control.ButtonListener;
+import org.montclairrobotics.sprocket.frc.DashboardButton;
+import org.montclairrobotics.sprocket.frc.DashboardInput;
 
 public class PIDTuner extends PID
 {
 	private Input<Double> TempP;
-	private Button test;
-	private Button apply;
-	private Button run;
+	private Input<Boolean> test;
+	private Input<Boolean> apply;
+	private Input<Boolean> run;
 	private DashboardInput realP,realI,realD;
 	private Input<Double> cyclesPer10Sec;
 
-	public PIDTuner(Input<Double> TempP,Input<Double> cyclesPer10Sec,Button test,Button apply,Button run)
+	public PIDTuner(Input<Double> TempP,Input<Double> cyclesPer10Sec,Input<Boolean> test,Input<Boolean> apply,Input<Boolean> run)
 	{
 		super();
 		this.TempP=TempP;
@@ -27,16 +26,16 @@ public class PIDTuner extends PID
 		realI=new DashboardInput("PID Tuner I");
 		realD=new DashboardInput("PID Tuner D");
 		
-		apply.setPressAction(new ButtonAction(){
+		new ButtonListener(apply).setAction(new Action(){
 			@Override
-			public void onAction() {
+			public void onEnable() {
 				recalculatePIDs();
 			}});
 		
 		
 	}
 	
-	public PIDTuner(Button runButton) {
+	public PIDTuner(Input<Boolean> runButton) {
 		this(new DashboardInput("Temp P"), new DashboardInput("Cycles/10sec"), new DashboardButton("Test"), new DashboardButton("Apply"), runButton);
 	}
 	

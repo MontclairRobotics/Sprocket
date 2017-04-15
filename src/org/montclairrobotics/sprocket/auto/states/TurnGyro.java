@@ -1,16 +1,12 @@
 package org.montclairrobotics.sprocket.auto.states;
 
-import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.auto.AutoState;
-import org.montclairrobotics.sprocket.control.DashboardInput;
 import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degrees;
-import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Input;
-import org.montclairrobotics.sprocket.utils.PID;
 
 public class TurnGyro extends AutoState {
 	

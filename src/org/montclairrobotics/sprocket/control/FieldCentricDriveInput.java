@@ -1,19 +1,14 @@
 package org.montclairrobotics.sprocket.control;
 
 import org.montclairrobotics.sprocket.SprocketRobot;
+import org.montclairrobotics.sprocket.core.Joystick;
 import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
 import org.montclairrobotics.sprocket.geometry.Angle;
-import org.montclairrobotics.sprocket.geometry.Degrees;
-import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.geometry.Vector;
-import org.montclairrobotics.sprocket.geometry.XY;
-import org.montclairrobotics.sprocket.utils.Input;
-import org.montclairrobotics.sprocket.utils.PID;
-import org.montclairrobotics.sprocket.utils.Togglable;
+import org.montclairrobotics.sprocket.utils.Action;
 
-import edu.wpi.first.wpilibj.Joystick;
 
-public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglable{
+public class FieldCentricDriveInput extends ArcadeDriveInput implements Action{
 
 	private GyroCorrection gyro;
 	
@@ -78,11 +73,11 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
     }
 	
 	@Override
-	public void enable() {
+	public void onEnable() {
 		SprocketRobot.getDriveTrain().setTempInput(this);
 	}
 	@Override
-	public void disable() {
+	public void onDisable() {
 		SprocketRobot.getDriveTrain().useDefaultInput();
 	}
 }

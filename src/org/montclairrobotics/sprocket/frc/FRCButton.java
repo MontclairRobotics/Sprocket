@@ -1,11 +1,10 @@
-package org.montclairrobotics.sprocket.control;
+package org.montclairrobotics.sprocket.frc;
 
-import org.montclairrobotics.sprocket.loop.Priority;
-import org.montclairrobotics.sprocket.loop.Updater;
+import org.montclairrobotics.sprocket.utils.Input;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class JoystickButton extends Button{
+public class FRCButton implements Input<Boolean>{
 
 	private Joystick stick;
 	private int id;
@@ -16,7 +15,7 @@ public class JoystickButton extends Button{
 	 * @param buttonId The raw button ID of the button you're binding to. On most 
 	 * Joysticks the ID is specified on the buttons themselves.
 	 */
-	public JoystickButton(Joystick stick, int buttonId) {
+	public FRCButton(Joystick stick, int buttonId) {
 		this.stick = stick;
 		this.id = buttonId;
 	}
@@ -27,7 +26,7 @@ public class JoystickButton extends Button{
 	 * @param buttonId The raw button ID of the button you're binding to. On most 
 	 * Joysticks the ID is specified on the buttons themselves.
 	 */
-	public JoystickButton(int stick, int buttonId) {
+	public FRCButton(int stick, int buttonId) {
 		this(new Joystick(stick), buttonId);
 	}
 	@Override

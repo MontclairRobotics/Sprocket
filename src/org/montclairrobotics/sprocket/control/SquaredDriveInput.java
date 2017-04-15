@@ -1,6 +1,7 @@
 package org.montclairrobotics.sprocket.control;
 
-import edu.wpi.first.wpilibj.Joystick;
+import org.montclairrobotics.sprocket.core.Joystick;
+
 
 public class SquaredDriveInput extends ArcadeDriveInput{
 	

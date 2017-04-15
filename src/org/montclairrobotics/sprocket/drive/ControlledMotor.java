@@ -4,10 +4,9 @@ import org.montclairrobotics.sprocket.core.Motor;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
+import org.montclairrobotics.sprocket.utils.Action;
 import org.montclairrobotics.sprocket.utils.Input;
-import org.montclairrobotics.sprocket.utils.Togglable;
 
-import edu.wpi.first.wpilibj.SpeedController;
 
 /**
  * ControlledMotor is a wrapper class for Motors which allows a motor to be
@@ -18,7 +17,7 @@ import edu.wpi.first.wpilibj.SpeedController;
  * using Joystick inputs. If you're using button pairs, you could also use
  * ControlledMotor to run a shooter forward and backward using the button pair.
  */
-public class ControlledMotor implements Updatable,Togglable {
+public class ControlledMotor implements Updatable,Action {
 	
 	private Motor output;
 	private Input<Double> input;
@@ -70,12 +69,12 @@ public class ControlledMotor implements Updatable,Togglable {
 	}
 
 	@Override
-	public void enable() {
+	public void onEnable() {
 		enabled=true;
 	}
 
 	@Override
-	public void disable() {
+	public void onDisable() {
 		enabled=false;
 	}
 

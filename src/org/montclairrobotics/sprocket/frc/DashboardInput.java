@@ -1,4 +1,4 @@
-package org.montclairrobotics.sprocket.control;
+package org.montclairrobotics.sprocket.frc;
 
 import org.montclairrobotics.sprocket.utils.Input;
 
