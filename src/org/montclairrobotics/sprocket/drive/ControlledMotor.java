@@ -69,12 +69,12 @@ public class ControlledMotor implements Updatable,Action {
 	}
 
 	@Override
-	public void onEnable() {
+	public void start() {
 		enabled=true;
 	}
 
 	@Override
-	public void onDisable() {
+	public void stop() {
 		enabled=false;
 	}
 

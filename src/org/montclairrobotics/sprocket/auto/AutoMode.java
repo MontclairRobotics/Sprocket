@@ -27,14 +27,14 @@ public class AutoMode extends StateMachine{
 		super(states);
 		this.name = name;
 	}
-	public void onEnable()
+	public void start()
 	{
 		super.start(true);
 		Debug.msg("Auto Mode Running:",name);
 	}
-	public void onDisable()
+	public void stop()
 	{
-		super.onDisable();
+		super.stop();
 		SprocketRobot.getDriveTrain().useDefaultInput();
 	}
 	public String toString()

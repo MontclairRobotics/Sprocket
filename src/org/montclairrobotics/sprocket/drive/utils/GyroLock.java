@@ -22,11 +22,11 @@ public class GyroLock implements Updatable, Action {
 		Updater.add(this, Priority.HIGH);
 	}
 	
-	public void onEnable() {
+	public void start() {
 		enabled = true;
 	}
 	
-	public void onDisable() {
+	public void stop() {
 		enabled = false;
 	}
 	

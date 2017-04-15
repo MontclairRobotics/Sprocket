@@ -17,12 +17,12 @@ public class TurnLimiter implements Step<DTTarget>, Action{
 	}
 
 	@Override
-	public void onEnable() {
+	public void start() {
 		enabled=true;
 	}
 
 	@Override
-	public void onDisable() {
+	public void stop() {
 		enabled=false;
 	}
 

@@ -21,11 +21,11 @@ public class DriveEncoderGyro extends StateMachine{
 					new DriveEncoders(d,speed, maxEncAccel, maxEncTicksPerSec),
 					new State(){
 						@Override
-						public void onEnable() {
+						public void start() {
 							driveGyro.setTargetAngle(a,relative);
 						}
 						@Override
-						public void onDisable() {}
+						public void stop() {}
 						@Override
 						public void enabled() {
 							driveGyro.use();
@@ -46,11 +46,11 @@ public class DriveEncoderGyro extends StateMachine{
 						new DriveEncoders(d, speed, maxEncAccel, maxEncTicksPerSec),
 						new State(){
 					@Override
-					public void onEnable() {
+					public void start() {
 						driveGyro.setTargetAngleRelative();
 					}
 					@Override
-					public void onDisable() {}
+					public void stop() {}
 					@Override
 					public void enabled() {
 						driveGyro.use();
@@ -71,11 +71,11 @@ public class DriveEncoderGyro extends StateMachine{
 						new DriveEncoders(dInput,speed, maxEncAccel, maxEncTicksPerSec),
 						new State(){
 							@Override
-							public void onEnable() {
+							public void start() {
 								driveGyro.setTargetAngle(new Degrees(a.get()),relative);
 							}
 							@Override
-							public void onDisable() {}
+							public void stop() {}
 							@Override
 							public void enabled() {
 								driveGyro.use();
@@ -95,11 +95,11 @@ public class DriveEncoderGyro extends StateMachine{
 						new DriveEncoders(d, speed, maxEncAccel, maxEncTicksPerSec),
 						new State(){
 					@Override
-					public void onEnable() {
+					public void start() {
 						driveGyro.setTargetAngleRelative();
 					}
 					@Override
-					public void onDisable() {}
+					public void stop() {}
 					@Override
 					public void enabled() {
 						driveGyro.use();

@@ -39,10 +39,10 @@ public class ButtonListener implements Updatable {
 		if(action!=null)
 		{
 			if(pressed && !wasPressed) {
-				action.onEnable();
+				action.start();
 			}
 			if(!pressed && wasPressed) {
-				action.onDisable();
+				action.stop();
 			}
 			if(pressed) {
 				action.enabled();

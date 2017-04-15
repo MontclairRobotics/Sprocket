@@ -16,7 +16,7 @@ import org.montclairrobotics.sprocket.states.State;
 public abstract class AutoState extends AutoDTInput implements State {
 	private double t;//time state was started
 	
-	public final void onEnable()
+	public final void start()
 	{
 		t=Updater.getTime();
 		SprocketRobot.getDriveTrain().setTempInput(this);
@@ -27,7 +27,7 @@ public abstract class AutoState extends AutoDTInput implements State {
 	 * Run when the AutoState beigns
 	 */
 	public void userStart(){}
-	public final void onDisable()
+	public final void stop()
 	{
 		userStop();
 		/*tgtDir=Vector.ZERO;

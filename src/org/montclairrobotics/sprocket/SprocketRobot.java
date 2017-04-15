@@ -62,14 +62,14 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     public final void disabledInit() {
     	if(selectedAutoMode!=null)
     	{
-    		selectedAutoMode.onDisable();
+    		selectedAutoMode.stop();
     	}
     }
 
     @Override
     public final void autonomousInit() {
     	selectedAutoMode = chooser.getSelected();
-    	selectedAutoMode.onEnable();
+    	selectedAutoMode.start();
     	start();
         userAutonomousInit();
     }

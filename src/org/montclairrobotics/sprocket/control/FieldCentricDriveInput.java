@@ -73,11 +73,11 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Action{
     }
 	
 	@Override
-	public void onEnable() {
+	public void start() {
 		SprocketRobot.getDriveTrain().setTempInput(this);
 	}
 	@Override
-	public void onDisable() {
+	public void stop() {
 		SprocketRobot.getDriveTrain().useDefaultInput();
 	}
 }

@@ -28,7 +28,7 @@ public class PIDTuner extends PID
 		
 		new ButtonListener(apply).setAction(new Action(){
 			@Override
-			public void onEnable() {
+			public void start() {
 				recalculatePIDs();
 			}});
 		
