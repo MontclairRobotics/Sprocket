@@ -3,6 +3,7 @@ package org.montclairrobotics.sprocket.drive;
 import java.util.ArrayList;
 
 import org.montclairrobotics.sprocket.control.ArcadeDriveInput;
+import org.montclairrobotics.sprocket.core.Joystick;
 import org.montclairrobotics.sprocket.frc.FRCMotor;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Polar;
@@ -13,7 +14,6 @@ import org.montclairrobotics.sprocket.pipeline.Pipeline;
 import org.montclairrobotics.sprocket.pipeline.Step;
 import org.montclairrobotics.sprocket.utils.PID;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
 
 /**

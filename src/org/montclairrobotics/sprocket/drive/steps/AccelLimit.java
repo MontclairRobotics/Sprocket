@@ -8,10 +8,11 @@ import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.pipeline.Step;
+import org.montclairrobotics.sprocket.utils.Action;
 import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Utils;
 
-public class AccelLimit implements Step<DTTarget>,Togglable{
+public class AccelLimit implements Step<DTTarget>,Action{
 
 	private Distance maxAccel;
 	private Angle maxTurn;
@@ -70,11 +71,11 @@ public class AccelLimit implements Step<DTTarget>,Togglable{
 		}
 	}
 	@Override
-	public void enable() {
+	public void onEnable() {
 		enabled=true;
 	}
 	@Override
-	public void disable() {
+	public void onDisable() {
 		enabled=false;
 	}
 

@@ -5,12 +5,13 @@ import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degrees;
 import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.pipeline.Step;
+import org.montclairrobotics.sprocket.utils.Action;
 import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Utils;
 
-public class GyroCorrection implements Step<DTTarget>, Togglable {
+public class GyroCorrection implements Step<DTTarget>, Action {
 
 	private PID pid;
 	private boolean enabled=true;
@@ -126,12 +127,12 @@ public class GyroCorrection implements Step<DTTarget>, Togglable {
 	}
 
 	@Override
-	public void enable() {
+	public void onEnable() {
 		enabled=true;
 	}
 
 	@Override
-	public void disable() {
+	public void onDisable() {
 		enabled=false;
 	}
 	public void setTargetAngle(Angle a,boolean relative) {

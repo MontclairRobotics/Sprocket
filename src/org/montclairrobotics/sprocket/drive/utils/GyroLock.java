@@ -5,9 +5,10 @@ import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
+import org.montclairrobotics.sprocket.utils.Action;
 import org.montclairrobotics.sprocket.utils.Debug;
 
-public class GyroLock implements Updatable, Togglable {
+public class GyroLock implements Updatable, Action {
 
 	private GyroCorrection gyro;
 	private boolean lastLock;
@@ -21,11 +22,11 @@ public class GyroLock implements Updatable, Togglable {
 		Updater.add(this, Priority.HIGH);
 	}
 	
-	public void enable() {
+	public void onEnable() {
 		enabled = true;
 	}
 	
-	public void disable() {
+	public void onDisable() {
 		enabled = false;
 	}
 	
