@@ -1,9 +1,9 @@
 package org.montclairrobotics.sprocket.drive;
 
+import org.montclairrobotics.sprocket.core.Motor;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
-import org.montclairrobotics.sprocket.motors.Motor;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.Togglable;
 
@@ -18,8 +18,9 @@ import edu.wpi.first.wpilibj.SpeedController;
  * using Joystick inputs. If you're using button pairs, you could also use
  * ControlledMotor to run a shooter forward and backward using the button pair.
  */
-public class ControlledMotor extends Motor implements Updatable,Togglable {
+public class ControlledMotor implements Updatable,Togglable {
 	
+	private Motor output;
 	private Input<Double> input;
 	private boolean enabled=true;
 	
@@ -29,8 +30,8 @@ public class ControlledMotor extends Motor implements Updatable,Togglable {
 	 * @param motor the motor which should be controlled
 	 * @param input the input to read from
 	 */
-	public ControlledMotor(SpeedController motor, Input<Double> input) {
-		super(motor);
+	public ControlledMotor(Motor motor, Input<Double> input) {
+		this.output=motor;
 		this.input = input;
 		Updater.add(this, Priority.OUTPUT);
 	}
@@ -44,8 +45,8 @@ public class ControlledMotor extends Motor implements Updatable,Togglable {
 	 * @param reverseInput this input is true if the motor should go in reverse. Can be null.
 	 * @param speed the speed at which to run the motor (whether forwards or backwards)
 	 */
-	public ControlledMotor(SpeedController motor, Input<Boolean> forwardInput, Input<Boolean> reverseInput, double speed) {
-		super(motor);
+	public ControlledMotor(Motor motor, Input<Boolean> forwardInput, Input<Boolean> reverseInput, double speed) {
+		this.output=motor;
 		this.input = new ButtonPairInput(forwardInput, reverseInput, speed);
 		Updater.add(this, Priority.OUTPUT);
 	}
@@ -58,14 +59,14 @@ public class ControlledMotor extends Motor implements Updatable,Togglable {
 	 * @param forwardInput this input is true if the motor should go forwards. Can be null.
 	 * @param reverseInput this input is true if the motor should go in reverse. Can be null.
 	 */
-	public ControlledMotor(SpeedController motor, Input<Boolean> forwardInput, Input<Boolean> reverseInput) {
+	public ControlledMotor(Motor motor, Input<Boolean> forwardInput, Input<Boolean> reverseInput) {
 		this(motor, forwardInput, reverseInput, 1.0);
 	}
 	
 	@Override
 	public void update() {
 		if(enabled)
-			set(input.get());
+			output.set(input.get());
 	}
 
 	@Override
