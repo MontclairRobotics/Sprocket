@@ -101,6 +101,7 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     @Override
     public final void disabledPeriodic() {
         super.disabledPeriodic();
+    	SmartDashboard.putData("AUTO:",chooser);
     }
 
     @Override
@@ -137,6 +138,5 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     	{
     		chooser.addObject(mode+"", mode);
     	}
-    	SmartDashboard.putData("AUTO:",chooser);
     }
 }
