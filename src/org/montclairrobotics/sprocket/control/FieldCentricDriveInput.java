@@ -9,6 +9,7 @@ import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
+import org.montclairrobotics.sprocket.utils.SmoothVectorInput;
 import org.montclairrobotics.sprocket.utils.Togglable;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -18,9 +19,12 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
 	private GyroCorrection gyro;
 	
 	private Vector field,robot;
+	private SmoothVectorInput fieldInput;
 	private boolean forwards;
 
 	private boolean rotToVector;
+	
+	private static final int SMOOTH_LEN=10;
 
 	public FieldCentricDriveInput(Joystick stick,GyroCorrection gyro)
 	{
@@ -31,12 +35,19 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
 		super(stick);
 		this.gyro=gyro;
 		this.rotToVector=rotToVector;
+		fieldInput=new SmoothVectorInput(SMOOTH_LEN,new Input<Vector>(){
+
+			@Override
+			public Vector get() {
+				// TODO Auto-generated method stub
+				return getRaw();
+			}});
 	}
 	@Override
 	public void update()
 	{
 		super.update();
-		field=getRaw();
+		field=fieldInput.get();
 		if(field.getMagnitude()>0.1)
 		{
 			robot=field.rotate(gyro.getCurrentAngleReset().negative());
