@@ -1,11 +1,6 @@
 package org.montclairrobotics.sprocket;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.montclairrobotics.sprocket.actions.Action;
-import org.montclairrobotics.sprocket.auto.AutoMode;
-import org.montclairrobotics.sprocket.auto.AutoState;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.loop.DisabledUpdater;
 import org.montclairrobotics.sprocket.loop.Priority;
@@ -14,8 +9,6 @@ import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Input;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**

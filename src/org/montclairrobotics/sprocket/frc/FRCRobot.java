@@ -1,11 +1,6 @@
 package org.montclairrobotics.sprocket.frc;
 
-import org.montclairrobotics.sprocket.auto.AutoMode;
-import org.montclairrobotics.sprocket.core.AutoSelector;
 import org.montclairrobotics.sprocket.core.SprocketRobot;
-import org.montclairrobotics.sprocket.drive.DriveTrain;
-import org.montclairrobotics.sprocket.loop.Priority;
-import org.montclairrobotics.sprocket.loop.Updater;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 
