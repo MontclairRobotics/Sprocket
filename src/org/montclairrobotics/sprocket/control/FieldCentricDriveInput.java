@@ -6,6 +6,8 @@ import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.utils.Action;
+import org.montclairrobotics.sprocket.utils.SmoothVectorInput;
+import org.montclairrobotics.sprocket.utils.Input;
 
 
 public class FieldCentricDriveInput extends ArcadeDriveInput implements Action{
@@ -13,9 +15,12 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Action{
 	private GyroCorrection gyro;
 	
 	private Vector field,robot;
+	private SmoothVectorInput fieldInput;
 	private boolean forwards;
 
 	private boolean rotToVector;
+	
+	private static final int SMOOTH_LEN=10;
 
 	public FieldCentricDriveInput(Joystick stick,GyroCorrection gyro)
 	{
@@ -26,12 +31,19 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Action{
 		super(stick);
 		this.gyro=gyro;
 		this.rotToVector=rotToVector;
+		fieldInput=new SmoothVectorInput(SMOOTH_LEN,new Input<Vector>(){
+
+			@Override
+			public Vector get() {
+				// TODO Auto-generated method stub
+				return getRaw();
+			}});
 	}
 	@Override
 	public void update()
 	{
 		super.update();
-		field=getRaw();
+		field=fieldInput.get();
 		if(field.getMagnitude()>0.1)
 		{
 			robot=field.rotate(gyro.getCurrentAngleReset().negative());
