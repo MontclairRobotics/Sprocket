@@ -1,4 +1,4 @@
-package org.montclairrobotics.sprocket;
+package org.montclairrobotics.sprocket.core;
 
 import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.drive.DriveTrain;

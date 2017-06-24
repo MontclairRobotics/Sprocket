@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.auto;
 
-import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.actions.State;
+import org.montclairrobotics.sprocket.core.SprocketRobot;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.loop.Updater;

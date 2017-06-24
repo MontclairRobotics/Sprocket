@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.auto.states;
 
-import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.auto.AutoState;
+import org.montclairrobotics.sprocket.core.SprocketRobot;
 import org.montclairrobotics.sprocket.drive.DriveModule;
 import org.montclairrobotics.sprocket.geometry.Angle;
 
