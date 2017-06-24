@@ -1,4 +1,4 @@
-package org.montclairrobotics.sprocket.utils;
+package org.montclairrobotics.sprocket.actions;
 
 public interface Action {
 	public default void start(){}

@@ -1,10 +1,10 @@
 package org.montclairrobotics.sprocket.drive;
 
+import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.core.Motor;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
-import org.montclairrobotics.sprocket.utils.Action;
 import org.montclairrobotics.sprocket.utils.Input;
 
 

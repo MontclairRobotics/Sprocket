@@ -1,11 +1,11 @@
 package org.montclairrobotics.sprocket.control;
 
 import org.montclairrobotics.sprocket.SprocketRobot;
+import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.core.Joystick;
 import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
-import org.montclairrobotics.sprocket.utils.Action;
 import org.montclairrobotics.sprocket.utils.SmoothVectorInput;
 import org.montclairrobotics.sprocket.utils.Input;
 
