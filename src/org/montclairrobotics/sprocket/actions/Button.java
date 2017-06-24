@@ -13,7 +13,7 @@ import org.montclairrobotics.sprocket.utils.Input;
  * the Sprocket control loop and calling anonymous functions passed in by
  * developers. This system makes defining button behaviors incredibly simple.
  */
-public class Button implements Updatable,Togglable {
+public class Button implements Updatable,Togglable,Input<Boolean> {
 
 	private Action action;
 	private boolean wasPressed=false;
@@ -40,12 +40,16 @@ public class Button implements Updatable,Togglable {
 		this.action=action;
 		return this;
 	}
+	public Action getAction()
+	{
+		return action;
+	}
 	
 	@Override
 	public void update() {
 		if(enabled)
 		{
-			boolean pressed = button.get();
+			boolean pressed = get();
 			if(action!=null)
 			{
 				if(pressed && !wasPressed) {
@@ -65,12 +69,14 @@ public class Button implements Updatable,Togglable {
 	}
 	@Override
 	public void enable() {
-		// TODO Auto-generated method stub
 		enabled=true;
 	}
 	@Override
 	public void disable() {
-		// TODO Auto-generated method stub
 		enabled=false;
+	}
+	@Override
+	public Boolean get() {
+		return button.get();
 	}
 }
