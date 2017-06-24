@@ -1,4 +1,4 @@
-package org.montclairrobotics.sprocket.states;
+package org.montclairrobotics.sprocket.actions;
 
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
@@ -21,11 +21,11 @@ public class StateMachine implements State, Updatable{
 	{
 		this.top=top;
 		index=0;
-		startState();
+		states[index].start();
 	}
 	@Override
 	public void start() {
-		start(true);
+		start(false);
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class StateMachine implements State, Updatable{
 			states[index].stop();
 			index++;
 			if(isDone())return;
-			startState();
+			states[index].start();
 			states[index].enabled();
 		}
 	}
@@ -63,17 +63,6 @@ public class StateMachine implements State, Updatable{
 		if(top)
 		{
 			enabled();
-		}
-	}
-	public void startState()
-	{
-		if(states[index] instanceof StateMachine)
-		{
-			((StateMachine)states[index]).start(false);
-		}
-		else
-		{
-			states[index].start();
 		}
 	}
 }

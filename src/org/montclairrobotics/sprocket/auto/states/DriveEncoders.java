@@ -49,7 +49,7 @@ public class DriveEncoders extends AutoState {
 		if(speedDashInput != null) {
 			this.speed = speedDashInput.get();
 		}
-		this.dt = SprocketRobot.getDriveTrain();
+		this.dt = SprocketRobot.getMainDriveTrain();
 		stopDist = new Distance(dt.getDistance().getY()+tgtDistance.get());
 		forwards=tgtDistance.get()>0;
 	}

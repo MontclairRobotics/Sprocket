@@ -3,12 +3,15 @@ package org.montclairrobotics.sprocket;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.auto.AutoMode;
 import org.montclairrobotics.sprocket.auto.AutoState;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
+import org.montclairrobotics.sprocket.loop.DisabledUpdater;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
+import org.montclairrobotics.sprocket.utils.Input;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -22,87 +25,57 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public abstract class SprocketRobot extends IterativeRobot implements Updatable{
 
-	private SendableChooser<AutoMode> chooser;
-	private AutoMode[] autoModes;
-	private AutoMode selectedAutoMode;
-	private AutoState runState;
+	public enum Mode {AUTO,TELEOP,TEST};
+	
+	public Input<Action> 
+		autoActionInput,
+		teleopActionInput,
+		testActionInput;
+	
+	private Action currentAction;
+	
+	private static DriveTrain driveTrain;
 	
 	public SprocketRobot()
 	{
 		Updater.add(this,Priority.NORMAL);
-		autoModes=new AutoMode[0];
 	}
 	
-	private static DriveTrain driveTrain;
+	//Stuff you can override if you feel like it
 	
-	public static DriveTrain getDriveTrain() {
-		return driveTrain;
-	}
-	
-	public static void setDriveTrain(DriveTrain dt) {
-		driveTrain = dt;
-	}
-	
-	
+    @Override
+    public void robotInit(){}
+    public void userStart(Mode mode){}
+    public void userStop(){}
+    public void userUpdate(){}
+
+    
+    //STUFF WE OVERRIDE IN THIS CLASS
     @Override
     public void startCompetition() {
         super.startCompetition();
     }
-
-    @Override
-    public void robotInit(){}
-    public void userStart(){}
-    public void reset(){}
-    public void userTeleopInit(){}
-    public void userAutonomousInit(){}
-    public void userTestInit(){}
-    public void update(){}
-
-    @Override
-    public final void disabledInit() {
-    	if(selectedAutoMode!=null)
-    	{
-    		selectedAutoMode.stop();
-    	}
-    }
-
+    
     @Override
     public final void autonomousInit() {
-    	selectedAutoMode = chooser.getSelected();
-    	selectedAutoMode.start();
-    	start();
-        userAutonomousInit();
+    	start(Mode.AUTO);
     }
 
     @Override
     public final void teleopInit() {
-    	start();
-        userTeleopInit();
+    	start(Mode.TELEOP);
     }
 
     @Override
     public final void testInit() {
-        start();
-        userTestInit();
-    }
-    
-    public final void start() 
-    {
-    	userStart();
-    	reset();
-    	sendAutoModes();
-    }
-    public final void sprocketUpdate()
-    {
-    	Updater.loop();
+        start(Mode.TEST);
     }
     
     @Override
-    public final void disabledPeriodic() {
-        super.disabledPeriodic();
-    	SmartDashboard.putData("AUTO:",chooser);
+    public final void disabledInit() {
+    	stop();
     }
-
+    
     @Override
     public final void autonomousPeriodic() {
         sprocketUpdate();
@@ -116,26 +89,66 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     @Override
     public final void testPeriodic() {
         sprocketUpdate();
-    }
+    } 
     
-    public void setAutoModes(AutoMode... modes)
+    @Override
+    public final void disabledPeriodic() {
+        sprocketDisabled();
+    }
+
+    
+    //OUR STUFF HERE
+    public static DriveTrain getMainDriveTrain() {
+		return driveTrain;
+	}
+	
+	public static void setMainDriveTrain(DriveTrain dt) {
+		driveTrain = dt;
+	}
+    public final void start(Mode mode) 
     {
-    	this.autoModes=modes;
-    	sendAutoModes();
-    }
-    
-    public void addAutoMode(AutoMode mode) {
-    	ArrayList<AutoMode> modes = new ArrayList<AutoMode>(Arrays.asList(autoModes));
-    	modes.add(mode);
-    	autoModes = modes.toArray(autoModes);
-    }
-    
-    public void sendAutoModes()
-    {
-    	chooser=new SendableChooser<AutoMode>();
-    	for(AutoMode mode:autoModes)
+    	switch(mode)
     	{
-    		chooser.addObject(mode+"", mode);
+    	case AUTO:
+    		if(autoActionInput!=null)
+    			currentAction=autoActionInput.get();
+    		break;
+    	case TELEOP:
+			if(teleopActionInput!=null)
+				currentAction=teleopActionInput.get();
+			break;
+    	case TEST:
+    		if(testActionInput!=null)
+    			currentAction=testActionInput.get();
+    		break;
     	}
+    	if(currentAction!=null)
+    	{
+    		currentAction.start();
+    	}
+    	userStart(mode);
+    }
+    public final void sprocketUpdate()
+    {
+    	Updater.loop();
+    }
+    public final void update()
+    {
+    	if(currentAction!=null)
+    	{
+    		currentAction.enabled();
+    	}
+    	userUpdate();
+    }
+    public final void stop()
+    {
+    	if(currentAction!=null)
+    	{
+    		currentAction.stop();
+    	}
+    }
+    public final void sprocketDisabled()
+    {
+    	DisabledUpdater.loop();
     }
 }

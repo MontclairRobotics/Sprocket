@@ -1,10 +1,10 @@
 package org.montclairrobotics.sprocket.auto;
 
 import org.montclairrobotics.sprocket.SprocketRobot;
+import org.montclairrobotics.sprocket.actions.State;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.loop.Updater;
-import org.montclairrobotics.sprocket.states.State;
 
 /**
  * This object represents a singular state or step in an autonomous routine.
@@ -19,7 +19,7 @@ public abstract class AutoState extends AutoDTInput implements State {
 	public final void start()
 	{
 		t=Updater.getTime();
-		SprocketRobot.getDriveTrain().setTempInput(this);
+		SprocketRobot.getMainDriveTrain().setTempInput(this);
 		userStart();
 	}
 
@@ -33,7 +33,7 @@ public abstract class AutoState extends AutoDTInput implements State {
 		/*tgtDir=Vector.ZERO;
 		tgtTurn=Angle.ZERO;*/
 		//output.inputType=DTInput.Type.SPEED;
-		SprocketRobot.getDriveTrain().useDefaultInput();
+		SprocketRobot.getMainDriveTrain().useDefaultInput();
 	}
 
 	/**

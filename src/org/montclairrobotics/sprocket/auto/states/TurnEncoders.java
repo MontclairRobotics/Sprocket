@@ -19,7 +19,7 @@ public class TurnEncoders extends AutoState {
 	
 	@Override
 	public void userStart() {
-		module = SprocketRobot.getDriveTrain().getModules()[0];
+		module = SprocketRobot.getMainDriveTrain().getModules()[0];
 		double modulePos = module.getEnc().getDistance().get();
 		double finalPos = ((module.getOffset().getMagnitude() * 2 * Math.PI)/360) * turn.toDegrees();
 		if(module.getOffset().getX() < 0) {

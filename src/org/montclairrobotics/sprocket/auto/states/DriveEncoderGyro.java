@@ -1,12 +1,12 @@
 package org.montclairrobotics.sprocket.auto.states;
 
+import org.montclairrobotics.sprocket.actions.MultiState;
+import org.montclairrobotics.sprocket.actions.State;
+import org.montclairrobotics.sprocket.actions.StateMachine;
 import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degrees;
 import org.montclairrobotics.sprocket.geometry.Distance;
-import org.montclairrobotics.sprocket.states.MultiState;
-import org.montclairrobotics.sprocket.states.State;
-import org.montclairrobotics.sprocket.states.StateMachine;
 import org.montclairrobotics.sprocket.utils.Input;
 
 public class DriveEncoderGyro extends StateMachine{

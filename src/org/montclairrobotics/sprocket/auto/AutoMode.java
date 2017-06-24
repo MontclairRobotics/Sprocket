@@ -1,8 +1,8 @@
 package org.montclairrobotics.sprocket.auto;
 
 import org.montclairrobotics.sprocket.SprocketRobot;
-import org.montclairrobotics.sprocket.states.State;
-import org.montclairrobotics.sprocket.states.StateMachine;
+import org.montclairrobotics.sprocket.actions.State;
+import org.montclairrobotics.sprocket.actions.StateMachine;
 import org.montclairrobotics.sprocket.utils.Debug;
 
 
@@ -35,7 +35,7 @@ public class AutoMode extends StateMachine{
 	public void stop()
 	{
 		super.stop();
-		SprocketRobot.getDriveTrain().useDefaultInput();
+		SprocketRobot.getMainDriveTrain().useDefaultInput();
 	}
 	public String toString()
 	{

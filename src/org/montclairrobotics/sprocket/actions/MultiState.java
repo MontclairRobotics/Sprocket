@@ -1,18 +1,23 @@
-package org.montclairrobotics.sprocket.states;
+package org.montclairrobotics.sprocket.actions;
 
 import org.montclairrobotics.sprocket.utils.Input;
 
-public class MultiState implements State {
+/**
+ * Can perform multiple actions at once
+ *
+ */
+
+public class MultiState extends MultiAction implements State {
 	
-	private State[] states;
 	private Input<Boolean> done;
 	
 	public MultiState(Input<Boolean> done, State... states) {
-		this.states = states;
+		super(states);
 		this.done = done;
 	}
 	
 	public MultiState(int stateToStopAt, State... states) {
+		super(states);
 		if(stateToStopAt < 0 || stateToStopAt > states.length) {
 			this.done = new Input<Boolean>() {
 				@Override
@@ -33,33 +38,10 @@ public class MultiState implements State {
 				}
 			};
 		}
-		
-		this.states = states;
 	}
 	
 	public MultiState(State... states) {
 		this(-1, states);
-	}
-	
-	@Override
-	public void start() {
-		for(State s : states) {
-			s.start();
-		}
-	}
-
-	@Override
-	public void stop() {
-		for(State s : states) {
-			s.stop();
-		}
-	}
-
-	@Override
-	public void enabled() {
-		for(State s : states) {
-			s.enabled();
-		}
 	}
 
 	@Override
