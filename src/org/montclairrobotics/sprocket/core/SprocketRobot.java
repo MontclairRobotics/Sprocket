@@ -36,11 +36,10 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
 	
 	//Stuff you can override if you feel like it
 	
-    @Override
-    public void robotInit(){}
-    public void userStart(Mode mode){}
-    public void userStop(){}
-    public void userUpdate(){}
+    public void init(){}
+    public void start(Mode mode){}
+    public void stop(){}
+    public void update(){}
 
     
     //STUFF WE OVERRIDE IN THIS CLASS
@@ -48,25 +47,29 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     public void startCompetition() {
         super.startCompetition();
     }
-    
+    @Override
+    public void robotInit()
+    {
+    	init();
+    }
     @Override
     public final void autonomousInit() {
-    	start(Mode.AUTO);
+    	sprocketStart(Mode.AUTO);
     }
 
     @Override
     public final void teleopInit() {
-    	start(Mode.TELEOP);
+    	sprocketStart(Mode.TELEOP);
     }
 
     @Override
     public final void testInit() {
-        start(Mode.TEST);
+        sprocketStart(Mode.TEST);
     }
     
     @Override
     public final void disabledInit() {
-    	stop();
+    	sprocketStop();
     }
     
     @Override
@@ -98,7 +101,7 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
 	public static void setMainDriveTrain(DriveTrain dt) {
 		driveTrain = dt;
 	}
-    public final void start(Mode mode) 
+    public final void sprocketStart(Mode mode) 
     {
     	switch(mode)
     	{
@@ -119,21 +122,13 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     	{
     		currentAction.start();
     	}
-    	userStart(mode);
+    	start(mode);
     }
     public final void sprocketUpdate()
     {
     	Updater.loop();
     }
-    public final void update()
-    {
-    	if(currentAction!=null)
-    	{
-    		currentAction.enabled();
-    	}
-    	userUpdate();
-    }
-    public final void stop()
+    public final void sprocketStop()
     {
     	if(currentAction!=null)
     	{
