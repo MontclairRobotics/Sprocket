@@ -7,11 +7,11 @@ import org.montclairrobotics.sprocket.utils.Debug;
 
 
 /**
- * The AutoMode class is the fundamental component to Sprocket's autonomous
+ * The AutoMode class is the master class Sprocket's autonomous
  * framework. All AutoModes consist of an AutoMode class which contains several
  * AutoStates. These AutoModes contain a StateMachine which runs all
  * the AutoStates that it contains before ending. When instantiated, these modes
- * will automatically be spent to a SmartDashboard chooser.
+ * will automatically be sent to a SmartDashboard chooser.
  */
 public class AutoMode extends StateMachine{
 	
