@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.auto.states;
 
 import org.montclairrobotics.sprocket.auto.AutoState;
-import org.montclairrobotics.sprocket.core.SprocketRobot;
+import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.drive.DriveModule;
 import org.montclairrobotics.sprocket.geometry.Angle;
 
@@ -19,7 +19,7 @@ public class TurnEncoders extends AutoState {
 	
 	@Override
 	public void userStart() {
-		module = SprocketRobot.getMainDriveTrain().getModules()[0];
+		module = Sprocket.getMainDriveTrain().getModules()[0];
 		double modulePos = module.getEnc().getDistance().get();
 		double finalPos = ((module.getOffset().getMagnitude() * 2 * Math.PI)/360) * turn.toDegrees();
 		if(module.getOffset().getX() < 0) {

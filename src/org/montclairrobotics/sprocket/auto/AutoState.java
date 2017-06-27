@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.auto;
 
 import org.montclairrobotics.sprocket.actions.State;
-import org.montclairrobotics.sprocket.core.SprocketRobot;
+import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.loop.Updater;
@@ -19,7 +19,7 @@ public abstract class AutoState extends AutoDTInput implements State {
 	public final void start()
 	{
 		t=Updater.getTime();
-		SprocketRobot.getMainDriveTrain().setTempInput(this);
+		Sprocket.getMainDriveTrain().setTempInput(this);
 		userStart();
 	}
 
@@ -33,7 +33,7 @@ public abstract class AutoState extends AutoDTInput implements State {
 		/*tgtDir=Vector.ZERO;
 		tgtTurn=Angle.ZERO;*/
 		//output.inputType=DTInput.Type.SPEED;
-		SprocketRobot.getMainDriveTrain().useDefaultInput();
+		Sprocket.getMainDriveTrain().useDefaultInput();
 	}
 
 	/**

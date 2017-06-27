@@ -16,10 +16,8 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  * This class is basically just a wrapper around iterative robot which all Sprocket
  * robots must extend.
  */
-public abstract class SprocketRobot extends IterativeRobot implements Updatable{
+public class Sprocket extends IterativeRobot implements Updatable{
 
-	public enum Mode {AUTO,TELEOP,TEST};
-	
 	public Input<Action> 
 		autoActionInput,
 		teleopActionInput,
@@ -27,20 +25,14 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
 	
 	private Action currentAction;
 	
-	private static DriveTrain driveTrain;
+	private IRobot robot;
 	
-	public SprocketRobot()
+	public Sprocket(IRobot robot)
 	{
+		this.robot=robot;
 		Updater.add(this,Priority.NORMAL);
 	}
 	
-	//Stuff you can override if you feel like it
-	
-    public void init(){}
-    public void start(Mode mode){}
-    public void stop(){}
-    public void update(){}
-
     
     //STUFF WE OVERRIDE IN THIS CLASS
     @Override

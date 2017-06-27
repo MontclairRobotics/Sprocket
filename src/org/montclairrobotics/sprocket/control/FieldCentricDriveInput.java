@@ -2,7 +2,7 @@ package org.montclairrobotics.sprocket.control;
 
 import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.core.Joystick;
-import org.montclairrobotics.sprocket.core.SprocketRobot;
+import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
@@ -86,10 +86,10 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Action{
 	
 	@Override
 	public void start() {
-		SprocketRobot.getMainDriveTrain().setTempInput(this);
+		Sprocket.getMainDriveTrain().setTempInput(this);
 	}
 	@Override
 	public void stop() {
-		SprocketRobot.getMainDriveTrain().useDefaultInput();
+		Sprocket.getMainDriveTrain().useDefaultInput();
 	}
 }

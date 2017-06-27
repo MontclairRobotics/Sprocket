@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.drive;
 
-import org.montclairrobotics.sprocket.core.SprocketRobot;
+import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.Vector;
@@ -24,7 +24,7 @@ public class DriveTrain implements Updatable, Input<Distance> {
     	this.modules = modules;
     	input=new ZeroDTInput();
     	pipeline=new ZeroPipeline();
-    	SprocketRobot.setMainDriveTrain(this);
+    	Sprocket.setMainDriveTrain(this);
     	Updater.add(this, Priority.DRIVE_CALC);
     }
 

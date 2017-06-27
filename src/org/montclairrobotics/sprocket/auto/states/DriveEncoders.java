@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.auto.states;
 
 import org.montclairrobotics.sprocket.auto.AutoState;
-import org.montclairrobotics.sprocket.core.SprocketRobot;
+import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.XY;
@@ -49,7 +49,7 @@ public class DriveEncoders extends AutoState {
 		if(speedDashInput != null) {
 			this.speed = speedDashInput.get();
 		}
-		this.dt = SprocketRobot.getMainDriveTrain();
+		this.dt = Sprocket.getMainDriveTrain();
 		stopDist = new Distance(dt.getDistance().getY()+tgtDistance.get());
 		forwards=tgtDistance.get()>0;
 	}
