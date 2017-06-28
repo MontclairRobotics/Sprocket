@@ -2,6 +2,7 @@ package org.montclairrobotics.sprocket.auto;
 
 import org.montclairrobotics.sprocket.actions.State;
 import org.montclairrobotics.sprocket.core.Sprocket;
+import org.montclairrobotics.sprocket.drive.DTInput;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.loop.Updater;
@@ -13,7 +14,9 @@ import org.montclairrobotics.sprocket.loop.Updater;
  * Sprocket comes with some basic AutoStates built in, but you will need to make
  * at least some of them on your own by extending this class.
  */
-public abstract class AutoState extends AutoDTInput implements State {
+public abstract class AutoState implements State,DTInput {
+	public Vector tgtDir = Vector.ZERO;
+	public Angle tgtTurn = Angle.ZERO;
 	private double t;//time state was started
 	
 	public final void start()
@@ -58,5 +61,15 @@ public abstract class AutoState extends AutoDTInput implements State {
 	public void setTarget(Vector v, Angle a) {
 		tgtDir = v;
 		tgtTurn = a;
+	}
+
+	@Override
+	public Vector getDir() {
+		return tgtDir;
+	}
+
+	@Override
+	public Angle getTurn() {
+		return tgtTurn;
 	}
 }
