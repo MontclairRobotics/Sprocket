@@ -29,45 +29,45 @@ public abstract class FRCRobot extends IterativeRobot implements IRobot,Updatabl
     @Override
     public void robotInit()
     {
-    	init();
+    	sprocket.initS();
     }
     @Override
     public final void autonomousInit() {
-    	sprocket.start(MODE.AUTO);
+    	sprocket.startS(MODE.AUTO);
     }
 
     @Override
     public final void teleopInit() {
-    	sprocket.start(MODE.TELEOP);
+    	sprocket.startS(MODE.TELEOP);
     }
 
     @Override
     public final void testInit() {
-        sprocket.start(MODE.TEST);
+        sprocket.startS(MODE.TEST);
     }
     
     @Override
     public final void disabledInit() {
-    	sprocket.stop();
+    	sprocket.stopS();
     }
     
     @Override
     public final void autonomousPeriodic() {
-        sprocket.update();
+        sprocket.updateS();
     }
 
     @Override
     public final void teleopPeriodic() {
-        sprocket.update();
+        sprocket.updateS();
     }
 
     @Override
     public final void testPeriodic() {
-        sprocket.update();
+        sprocket.updateS();
     } 
     
     @Override
     public final void disabledPeriodic() {
-        sprocket.disabledUpdate();
+        sprocket.disabledUpdateS();
     }
 }

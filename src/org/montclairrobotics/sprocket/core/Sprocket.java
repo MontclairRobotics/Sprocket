@@ -38,11 +38,15 @@ public class Sprocket{
     public static DriveTrain getMainDriveTrain() {
 		return driveTrain;
 	}
-	
 	public static void setMainDriveTrain(DriveTrain dt) {
 		driveTrain = dt;
 	}
-    public final void start(MODE mode) 
+	
+	public void initS()
+	{
+		robot.init();
+	}
+    public final void startS(MODE mode) 
     {
     	switch(mode)
     	{
@@ -66,22 +70,25 @@ public class Sprocket{
     	{
     		currentAction.start();
     	}
-    	start(mode);
+    	robot.start(mode);
     }
-    public final void update()
+    public final void updateS()
     {
     	Updater.loop();
+    	robot.debugs();
     }
-    public final void stop()
+    public final void stopS()
     {
     	if(currentAction!=null)
     	{
     		currentAction.stop();
     	}
     	curMode=MODE.DISABLED;
+    	robot.stop();
     }
-    public final void disabledUpdate()
+    public final void disabledUpdateS()
     {
     	DisabledUpdater.loop();
+    	robot.disabledUpdate();
     }
 }

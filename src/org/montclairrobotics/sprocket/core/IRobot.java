@@ -9,4 +9,6 @@ public interface IRobot extends Updatable{
     public default void start(Sprocket.MODE mode){}
     public default void stop(){}
     public default void update(){}
+    public default void disabledUpdate(){}
+    public default void debugs(){}
 }
