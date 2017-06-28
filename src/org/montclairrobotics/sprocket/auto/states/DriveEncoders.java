@@ -81,7 +81,7 @@ public class DriveEncoders extends AutoState {
 	}
 	
 	@Override
-	public boolean isDone() {
+	public boolean userIsDone() {
 		Debug.msg("forwards", forwards?"YES":"NO");
 		Debug.msg("DISTANCE", dt.getDistance().getY());
 		Debug.msg("StopDistance", stopDist.get());

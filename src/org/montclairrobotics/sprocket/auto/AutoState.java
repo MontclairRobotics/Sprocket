@@ -18,6 +18,7 @@ public abstract class AutoState implements State,DTInput {
 	public Vector tgtDir = Vector.ZERO;
 	public Angle tgtTurn = Angle.ZERO;
 	private double t;//time state was started
+	public double TIMEOUT=30;
 	
 	public final void start()
 	{
@@ -71,5 +72,18 @@ public abstract class AutoState implements State,DTInput {
 	@Override
 	public Angle getTurn() {
 		return tgtTurn;
+	}
+	
+	public abstract boolean userIsDone();
+	
+	@Override
+	public final boolean isDone()
+	{
+		return timeInState()<TIMEOUT || isDone();
+	}
+	
+	public void setTimeout(double t)
+	{
+		this.TIMEOUT=t;
 	}
 }

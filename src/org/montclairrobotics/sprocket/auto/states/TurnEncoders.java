@@ -35,7 +35,7 @@ public class TurnEncoders extends AutoState {
 	}
 
 	@Override
-	public boolean isDone() {
+	public boolean userIsDone() {
 		return Math.abs(module.getEnc().getDistance().get() - finalPos) < 1.0;
 	}
 	

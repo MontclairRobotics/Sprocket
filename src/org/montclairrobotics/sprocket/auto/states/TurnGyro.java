@@ -80,7 +80,7 @@ public class TurnGyro extends AutoState {
 	}
 
 	@Override
-	public boolean isDone() {
+	public boolean userIsDone() {
 		return (Updater.getTime()-incorrectTime>timeAtTarget);
 	}
 

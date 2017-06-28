@@ -24,6 +24,7 @@ public class Delay extends AutoState{
 	public void userStart() {
 		super.userStart();
 		if(timeInput != null) time = timeInput.get();
+		super.TIMEOUT=time;
 	}
 
 	@Override
@@ -33,10 +34,10 @@ public class Delay extends AutoState{
 	}
 
 	@Override
-	public boolean isDone() {
+	public boolean userIsDone() {
 		Debug.num("Time", time);
 		Debug.num("Time in State", timeInState());
-		return timeInState()>time;
+		return false;
 	}
 	
 }
