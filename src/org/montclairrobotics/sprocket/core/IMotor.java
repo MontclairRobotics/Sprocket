@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.core;
 
-public interface Motor {
+public interface IMotor {
 
 	void set(double power);
 

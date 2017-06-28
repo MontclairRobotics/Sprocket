@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.control;
 
-import org.montclairrobotics.sprocket.core.Joystick;
+import org.montclairrobotics.sprocket.core.IJoystick;
 import org.montclairrobotics.sprocket.utils.Input;
 
 
@@ -11,13 +11,13 @@ import org.montclairrobotics.sprocket.utils.Input;
  */
 public class JoystickYAxis implements Input<Double> {
 	
-	private Joystick stick;
+	private IJoystick stick;
 
 
 	/**
 	 * @param stick The Joystick
 	 */
-	public JoystickYAxis(Joystick stick) {
+	public JoystickYAxis(IJoystick stick) {
 		this.stick = stick;
 	}
 

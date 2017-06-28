@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.drive;
 
 import org.montclairrobotics.sprocket.actions.Action;
-import org.montclairrobotics.sprocket.core.Motor;
+import org.montclairrobotics.sprocket.core.IMotor;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
@@ -19,7 +19,7 @@ import org.montclairrobotics.sprocket.utils.Input;
  */
 public class ControlledMotor implements Updatable,Action {
 	
-	private Motor output;
+	private IMotor output;
 	private Input<Double> input;
 	private boolean enabled=true;
 	
@@ -29,7 +29,7 @@ public class ControlledMotor implements Updatable,Action {
 	 * @param motor the motor which should be controlled
 	 * @param input the input to read from
 	 */
-	public ControlledMotor(Motor motor, Input<Double> input) {
+	public ControlledMotor(IMotor motor, Input<Double> input) {
 		this.output=motor;
 		this.input = input;
 		Updater.add(this, Priority.OUTPUT);
@@ -44,7 +44,7 @@ public class ControlledMotor implements Updatable,Action {
 	 * @param reverseInput this input is true if the motor should go in reverse. Can be null.
 	 * @param speed the speed at which to run the motor (whether forwards or backwards)
 	 */
-	public ControlledMotor(Motor motor, Input<Boolean> forwardInput, Input<Boolean> reverseInput, double speed) {
+	public ControlledMotor(IMotor motor, Input<Boolean> forwardInput, Input<Boolean> reverseInput, double speed) {
 		this.output=motor;
 		this.input = new ButtonPairInput(forwardInput, reverseInput, speed);
 		Updater.add(this, Priority.OUTPUT);
@@ -58,7 +58,7 @@ public class ControlledMotor implements Updatable,Action {
 	 * @param forwardInput this input is true if the motor should go forwards. Can be null.
 	 * @param reverseInput this input is true if the motor should go in reverse. Can be null.
 	 */
-	public ControlledMotor(Motor motor, Input<Boolean> forwardInput, Input<Boolean> reverseInput) {
+	public ControlledMotor(IMotor motor, Input<Boolean> forwardInput, Input<Boolean> reverseInput) {
 		this(motor, forwardInput, reverseInput, 1.0);
 	}
 	

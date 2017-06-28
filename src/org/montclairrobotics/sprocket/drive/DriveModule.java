@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.drive;
 
-import org.montclairrobotics.sprocket.core.Motor;
+import org.montclairrobotics.sprocket.core.IMotor;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.Polar;
@@ -23,7 +23,7 @@ public class DriveModule extends Module{
 
     private Vector offset;
     private Vector force;
-    private Motor[] motors;
+    private IMotor[] motors;
     
     
     private double power;
@@ -39,7 +39,7 @@ public class DriveModule extends Module{
                        SEncoder enc,
                        PID pid,
                        Module.MotorInputType inputType,
-                       Motor... motors
+                       IMotor... motors
                        ) {
     	super(enc, pid, inputType, motors);
         this.offset = offset;
@@ -47,7 +47,7 @@ public class DriveModule extends Module{
         this.force = force;
     }
 
-    public DriveModule(Vector offset, Vector force,Motor... motors) {
+    public DriveModule(Vector offset, Vector force,IMotor... motors) {
 		this(offset,force,null,null,Module.MotorInputType.PERCENT,motors);
 	}
     
@@ -56,12 +56,12 @@ public class DriveModule extends Module{
 	            SEncoder enc,
 	            PID pid,
 	            Module.MotorInputType inputType,
-	            Motor... motors
+	            IMotor... motors
 	            ) {
     	this(offset,new Polar(1,force),enc,pid,inputType,motors);
 	}
 	
-	public DriveModule(Vector offset, Angle force, Motor... motors) {
+	public DriveModule(Vector offset, Angle force, IMotor... motors) {
 		this(offset,new Polar(1,force),null,null,Module.MotorInputType.PERCENT,motors);
 	}
 

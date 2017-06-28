@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.motors;
 
 
-import org.montclairrobotics.sprocket.core.Encoder;
+import org.montclairrobotics.sprocket.core.IEncoder;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Input;
@@ -9,7 +9,7 @@ import org.montclairrobotics.sprocket.utils.Input;
 
 public class SEncoder implements Input<Double> {
 
-    private Encoder enc;
+    private IEncoder enc;
     private int eId;
     private double ticksPerInch;
 
@@ -25,7 +25,7 @@ public class SEncoder implements Input<Double> {
         this(a, b, ticksPerInch, false);
     }*/
 
-    public SEncoder(Encoder e, double ticksPerInch) {
+    public SEncoder(IEncoder e, double ticksPerInch) {
         enc = e;
         this.ticksPerInch = ticksPerInch;
     }
@@ -53,7 +53,7 @@ public class SEncoder implements Input<Double> {
         enc.reset();
     }
 
-    public Encoder getRawEncoder() {
+    public IEncoder getRawEncoder() {
         return enc;
     }
 

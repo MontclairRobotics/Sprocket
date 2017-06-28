@@ -1,6 +1,7 @@
 package org.montclairrobotics.sprocket.utils;
 
-import org.montclairrobotics.sprocket.core.Debugger;
+import org.montclairrobotics.sprocket.core.IDebugger;
+import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.frc.DashboardDebug;
 
 
@@ -8,18 +9,16 @@ public class Debug {
 
 	public static boolean DEBUG_MODE=true;
 	
-	public static Debugger debugger=new DashboardDebug();
-	
 	public static void num(String key,double value)
 	{
 		if(DEBUG_MODE)
-			debugger.debugNum(key, value);
+			Sprocket.debugger.debugNum(key, value);
 	}
 	
 	public static void string(String key,String value)
 	{
 		if(DEBUG_MODE)
-			debugger.debugStr(key, value);
+			Sprocket.debugger.debugStr(key, value);
 	}
 	
 	public static void msg(String key,double value)

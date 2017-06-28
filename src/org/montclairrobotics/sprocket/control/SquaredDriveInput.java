@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.control;
 
-import org.montclairrobotics.sprocket.core.Joystick;
+import org.montclairrobotics.sprocket.core.IJoystick;
 
 
 public class SquaredDriveInput extends ArcadeDriveInput{
@@ -8,7 +8,7 @@ public class SquaredDriveInput extends ArcadeDriveInput{
 	private double xSensitivity = 1.0;
 	private double ySensitivity = 1.0;
 	
-    public SquaredDriveInput(Joystick stick) {
+    public SquaredDriveInput(IJoystick stick) {
 		super(stick);
 		// TODO Auto-generated constructor stub
 	}

@@ -15,7 +15,7 @@ import org.montclairrobotics.sprocket.loop.Updater;
  * 
  */
 
-public class PID implements Updatable {
+public class PID implements Updatable,Input<Double>{
 
 	private Input<Double> input;
 	private double P,I,D;
@@ -127,7 +127,7 @@ public class PID implements Updatable {
 	 * Get the output value
 	 * @return the output
 	 */
-	public double get()
+	public Double get()
 	{
 		//out = calculate(input.get());
 		return out;

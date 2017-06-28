@@ -1,12 +1,12 @@
 package org.montclairrobotics.sprocket.core;
 
-public interface IRobot {
+import org.montclairrobotics.sprocket.loop.Updatable;
 
-	public enum Mode {AUTO,TELEOP,TEST};
+public interface IRobot extends Updatable{
 	
 	//Stuff user overrides	
-    public void init(){}
-    public void start(Mode mode){}
-    public void stop(){}
-    public void update(){}
+    public default void init(){}
+    public default void start(Sprocket.MODE mode){}
+    public default void stop(){}
+    public default void update(){}
 }

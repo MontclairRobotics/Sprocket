@@ -2,6 +2,7 @@ package org.montclairrobotics.sprocket.core;
 
 import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
+import org.montclairrobotics.sprocket.frc.DashboardDebug;
 import org.montclairrobotics.sprocket.loop.DisabledUpdater;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
@@ -16,75 +17,26 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  * This class is basically just a wrapper around iterative robot which all Sprocket
  * robots must extend.
  */
-public class Sprocket extends IterativeRobot implements Updatable{
+public class Sprocket{
 
+	public static DriveTrain driveTrain;
+	public static IDebugger debugger=new DashboardDebug();
+
+	private IRobot robot;
+	
+	public enum MODE {AUTO,TELEOP,TEST,DISABLED};
+	public MODE curMode;
 	public Input<Action> 
 		autoActionInput,
 		teleopActionInput,
 		testActionInput;
-	
 	private Action currentAction;
-	
-	private IRobot robot;
 	
 	public Sprocket(IRobot robot)
 	{
 		this.robot=robot;
-		Updater.add(this,Priority.NORMAL);
+		Updater.add(robot,Priority.NORMAL);
 	}
-	
-    
-    //STUFF WE OVERRIDE IN THIS CLASS
-    @Override
-    public void startCompetition() {
-        super.startCompetition();
-    }
-    @Override
-    public void robotInit()
-    {
-    	init();
-    }
-    @Override
-    public final void autonomousInit() {
-    	sprocketStart(Mode.AUTO);
-    }
-
-    @Override
-    public final void teleopInit() {
-    	sprocketStart(Mode.TELEOP);
-    }
-
-    @Override
-    public final void testInit() {
-        sprocketStart(Mode.TEST);
-    }
-    
-    @Override
-    public final void disabledInit() {
-    	sprocketStop();
-    }
-    
-    @Override
-    public final void autonomousPeriodic() {
-        sprocketUpdate();
-    }
-
-    @Override
-    public final void teleopPeriodic() {
-        sprocketUpdate();
-    }
-
-    @Override
-    public final void testPeriodic() {
-        sprocketUpdate();
-    } 
-    
-    @Override
-    public final void disabledPeriodic() {
-        sprocketDisabled();
-    }
-
-    
     //OUR STUFF HERE
     public static DriveTrain getMainDriveTrain() {
 		return driveTrain;
@@ -93,7 +45,7 @@ public class Sprocket extends IterativeRobot implements Updatable{
 	public static void setMainDriveTrain(DriveTrain dt) {
 		driveTrain = dt;
 	}
-    public final void sprocketStart(Mode mode) 
+    public final void start(MODE mode) 
     {
     	switch(mode)
     	{
@@ -109,25 +61,29 @@ public class Sprocket extends IterativeRobot implements Updatable{
     		if(testActionInput!=null)
     			currentAction=testActionInput.get();
     		break;
+		default:
+			break;
     	}
+    	curMode=mode;
     	if(currentAction!=null)
     	{
     		currentAction.start();
     	}
     	start(mode);
     }
-    public final void sprocketUpdate()
+    public final void update()
     {
     	Updater.loop();
     }
-    public final void sprocketStop()
+    public final void stop()
     {
     	if(currentAction!=null)
     	{
     		currentAction.stop();
     	}
+    	curMode=MODE.DISABLED;
     }
-    public final void sprocketDisabled()
+    public final void disabledUpdate()
     {
     	DisabledUpdater.loop();
     }

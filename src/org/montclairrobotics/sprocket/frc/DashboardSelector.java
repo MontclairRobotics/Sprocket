@@ -1,9 +1,9 @@
 package org.montclairrobotics.sprocket.frc;
 
 import org.montclairrobotics.sprocket.auto.AutoMode;
-import org.montclairrobotics.sprocket.core.AutoSelector;
+import org.montclairrobotics.sprocket.core.IAutoSelector;
 
-public class DashboardSelector implements AutoSelector{
+public class DashboardSelector implements IAutoSelector{
 
 	@Override
 	public void addAutoMode(AutoMode mode) {

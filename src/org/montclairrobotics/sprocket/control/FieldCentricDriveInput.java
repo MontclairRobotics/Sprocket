@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.control;
 
 import org.montclairrobotics.sprocket.actions.Action;
-import org.montclairrobotics.sprocket.core.Joystick;
+import org.montclairrobotics.sprocket.core.IJoystick;
 import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
 import org.montclairrobotics.sprocket.geometry.Angle;
@@ -22,11 +22,11 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Action{
 	
 	private static final int SMOOTH_LEN=10;
 
-	public FieldCentricDriveInput(Joystick stick,GyroCorrection gyro)
+	public FieldCentricDriveInput(IJoystick stick,GyroCorrection gyro)
 	{
 		this(stick,gyro,true);
 	}
-	public FieldCentricDriveInput(Joystick stick,GyroCorrection gyro,boolean rotToVector)
+	public FieldCentricDriveInput(IJoystick stick,GyroCorrection gyro,boolean rotToVector)
 	{
 		super(stick);
 		this.gyro=gyro;

@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.core;
 
-public interface Joystick {
+public interface IJoystick {
 	public double getX();
 	public double getY();
 }

@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.control;
 
-import org.montclairrobotics.sprocket.core.Joystick;
+import org.montclairrobotics.sprocket.core.IJoystick;
 
 
 public class ExponentDriveInput extends ArcadeDriveInput
@@ -8,11 +8,11 @@ public class ExponentDriveInput extends ArcadeDriveInput
 
 	private double p;
 	
-	public ExponentDriveInput(Joystick stick) {
+	public ExponentDriveInput(IJoystick stick) {
 		this(stick,0.5);
 		// TODO Auto-generated constructor stub
 	}
-	public ExponentDriveInput(Joystick stick,double p) {
+	public ExponentDriveInput(IJoystick stick,double p) {
 		super(stick);
 		this.p=p;
 		// TODO Auto-generated constructor stub

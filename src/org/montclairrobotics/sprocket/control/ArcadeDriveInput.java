@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.control;
 
-import org.montclairrobotics.sprocket.core.Joystick;
+import org.montclairrobotics.sprocket.core.IJoystick;
 import org.montclairrobotics.sprocket.drive.DTInput;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Radians;
@@ -19,7 +19,7 @@ import org.montclairrobotics.sprocket.loop.Updater;
  */
 public class ArcadeDriveInput implements DTInput, Updatable {
 
-    private Joystick stick;
+    private IJoystick stick;
    
     private Vector dir;
     private Angle turn;
@@ -32,7 +32,7 @@ public class ArcadeDriveInput implements DTInput, Updatable {
      * Instantiates an ArcadeDriveInput with default scaling values
      * @param stick The joystick that will be used for DriveTrain control
      */
-    public ArcadeDriveInput(Joystick stick) {
+    public ArcadeDriveInput(IJoystick stick) {
         this.stick = stick;
         Updater.add(this, Priority.INPUT);
     }

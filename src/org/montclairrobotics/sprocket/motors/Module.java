@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.motors;
 
-import org.montclairrobotics.sprocket.core.Motor;
+import org.montclairrobotics.sprocket.core.IMotor;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.PID;
@@ -20,7 +20,7 @@ public class Module {
 	private static int id = 0;
 	
     public enum MotorInputType {PERCENT, SPEED};
-    private Motor[] motors;
+    private IMotor[] motors;
     
     private double power;
 
@@ -37,7 +37,7 @@ public class Module {
      * @param force The vector on which the module applies force
      * @param motors All the motors which are a part of this module
      */
-    public Module(SEncoder enc, PID pid, MotorInputType inputType,Motor... motors) {
+    public Module(SEncoder enc, PID pid, MotorInputType inputType,IMotor... motors) {
 
         this.motors = motors;
         this.inputType = inputType;
@@ -62,7 +62,7 @@ public class Module {
         id++;
     }
     
-    public Module(Motor... motors)
+    public Module(IMotor... motors)
     {
     	this(null,null,MotorInputType.PERCENT,motors);
     }
@@ -81,7 +81,7 @@ public class Module {
             pid.setTarget(power);
             power=(power+pid.get())/maxSpeed.get();
     	}
-    	for(Motor motor:motors)
+    	for(IMotor motor:motors)
     	{
     		motor.set(power);
     	}
