@@ -1,15 +1,9 @@
 package org.montclairrobotics.sprocket.frc;
 
-import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.core.IRobot;
 import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.core.Sprocket.MODE;
-import org.montclairrobotics.sprocket.drive.DriveTrain;
-import org.montclairrobotics.sprocket.loop.DisabledUpdater;
-import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
-import org.montclairrobotics.sprocket.loop.Updater;
-import org.montclairrobotics.sprocket.utils.Input;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 

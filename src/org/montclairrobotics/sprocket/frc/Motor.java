@@ -15,8 +15,6 @@ public class Motor implements IMotor{
         TALON,
         UNKNOWN
     }
-    
-    
 
     private SpeedController motor;
     private MotorType motorType;

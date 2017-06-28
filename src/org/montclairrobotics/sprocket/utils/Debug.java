@@ -1,8 +1,6 @@
 package org.montclairrobotics.sprocket.utils;
 
-import org.montclairrobotics.sprocket.core.IDebugger;
 import org.montclairrobotics.sprocket.core.Sprocket;
-import org.montclairrobotics.sprocket.frc.DashboardDebug;
 
 
 public class Debug {
