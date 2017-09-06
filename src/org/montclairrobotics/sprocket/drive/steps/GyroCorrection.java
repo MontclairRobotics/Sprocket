@@ -23,16 +23,27 @@ public class GyroCorrection implements Step<DTTarget>, Togglable {
 	
 	private double minOut=-1;
 	private double maxOut=1;
+	private double maxError;
+	private double farP;
 	
-	public GyroCorrection(Input<Double> gyro,PID pid)
+	public GyroCorrection(Input<Double> gyro,PID pid,double maxError,double farP)
 	{
 		this(pid);
 		this.pid.setInput(gyro);
+		this.maxError=maxError;
+		this.farP=farP;
 	}
-	public GyroCorrection(PID pid)
+	public GyroCorrection(PID pid,double maxError,double powIfMaxError)
 	{
 		this.pid=pid.copy();
 		this.pid.setMinMax(-180, 179, -1, 1);
+
+		this.maxError=maxError;
+		this.farP=powIfMaxError;
+	}
+	public GyroCorrection(PID pid)
+	{
+		this(pid,180,1);
 	}
 	
 	public void use()
@@ -56,8 +67,16 @@ public class GyroCorrection implements Step<DTTarget>, Togglable {
 		DTTarget out=in;
 		if(enabled&&used)
 		{
-			double tgt=pid.get();
-			tgt=Utils.constrain(tgt, minOut, maxOut);
+			double tgt;
+			if(Math.abs(pid.getError())>maxError)
+			{
+				tgt=farP*pid.getError()*(pid.getP()>0?1:-1);
+			}
+			else
+			{
+				tgt=pid.get();
+				tgt=Utils.constrain(tgt, minOut, maxOut);
+			}
 			Angle tgtAngle=new Radians(tgt);
 			out=new DTTarget(in.getDirection(),tgtAngle);
 		}

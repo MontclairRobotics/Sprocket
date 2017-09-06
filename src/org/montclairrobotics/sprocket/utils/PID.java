@@ -203,4 +203,19 @@ public class PID implements Updatable {
 	{
 		return target;
 	}
+	
+	public double getP()
+	{
+		return P;
+	}
+	
+	public double getI()
+	{
+		return I;
+	}
+	
+	public double getD()
+	{
+		return D;
+	}
 }

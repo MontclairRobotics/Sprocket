@@ -73,6 +73,8 @@ public class DriveEncoders extends AutoState {
 		
 		double tgtV2inTicks=2*maxEncAccel*(stopDist.get()-dt.get().get());
 		double tgtV=Math.sqrt(Math.abs(tgtV2inTicks))/maxEncTicksPerSec*(stopDist.get()-dt.get().get()>0?1:-1);
+		Debug.num("dt-get-get", dt.get().get());
+		Debug.num("stopDist", stopDist.get());
 		tgtV=Utils.constrain(tgtV, -speed, speed);
 		tgtDir = new XY(0,tgtV);
 		
