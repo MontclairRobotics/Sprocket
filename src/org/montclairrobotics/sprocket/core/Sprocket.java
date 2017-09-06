@@ -27,7 +27,7 @@ public class Sprocket{
 		autoActionInput,
 		teleopActionInput,
 		testActionInput;
-	private Action currentAction;
+	public Action currentAction;
 	
 	public Sprocket(IRobot robot)
 	{
