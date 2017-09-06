@@ -8,7 +8,7 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 
-public class Motor implements IMotor{
+public class FRCMotor implements IMotor{
 
     public enum MotorType {
         CANTALON,
@@ -24,7 +24,7 @@ public class Motor implements IMotor{
 	private boolean brakeMode=true;
 	
 
-    public Motor(SpeedController motor) {
+    public FRCMotor(SpeedController motor) {
         if(motor == null) {
             throw new IllegalArgumentException("SpeedController argument was null when instantiating Motor object");
         }

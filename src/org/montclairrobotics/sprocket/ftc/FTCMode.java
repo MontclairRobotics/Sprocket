@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 public abstract class FTCMode /*extends OpMode*/{
 
 	public Sprocket sprocket;
+	public FTCRobot robot;
 	public MODE mode;
 	public Action action;
 	
@@ -33,6 +34,8 @@ public abstract class FTCMode /*extends OpMode*/{
 	//@Override
 	public void init() {
         sprocket.initS();
+        if(robot!=null)
+        	robot.ftcSetup(hardwareMap,gamepad1,gamepad2,telemetry);
     }
 
     //@Override

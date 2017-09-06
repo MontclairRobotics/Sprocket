@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.montclairrobotics.sprocket.control.ArcadeDriveInput;
 import org.montclairrobotics.sprocket.core.IJoystick;
-import org.montclairrobotics.sprocket.frc.Motor;
+import org.montclairrobotics.sprocket.frc.FRCMotor;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Polar;
 import org.montclairrobotics.sprocket.geometry.Vector;
@@ -45,7 +45,7 @@ public class DriveTrainBuilder {
     }
 
     public DriveTrainBuilder addWheel(SpeedController motor, Vector offset, Angle force, SEncoder enc, PID pid) {
-        modules.add(new DriveModule(offset, new Polar(1, force),enc,pid,Module.MotorInputType.SPEED, new Motor(motor)));
+        modules.add(new DriveModule(offset, new Polar(1, force),enc,pid,Module.MotorInputType.SPEED, new FRCMotor(motor)));
         return this;
     }
 
@@ -54,7 +54,7 @@ public class DriveTrainBuilder {
     }
     
     
-    public DriveTrainBuilder addWheels(Vector offset, Angle force, Motor... motors) {
+    public DriveTrainBuilder addWheels(Vector offset, Angle force, FRCMotor... motors) {
     	modules.add(new DriveModule(offset, new Polar(1, force), motors));
     	return this;
     }
