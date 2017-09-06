@@ -1,5 +1,7 @@
-package org.montclairrobotics.sprocket.actions;
+package org.montclairrobotics.sprocket.core;
 
+import org.montclairrobotics.sprocket.actions.Action;
+import org.montclairrobotics.sprocket.actions.Togglable;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;

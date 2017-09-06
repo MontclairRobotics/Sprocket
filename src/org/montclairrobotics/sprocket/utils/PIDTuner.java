@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.utils;
 
 import org.montclairrobotics.sprocket.actions.Action;
-import org.montclairrobotics.sprocket.actions.Button;
+import org.montclairrobotics.sprocket.core.Button;
 import org.montclairrobotics.sprocket.frc.DashboardButton;
 import org.montclairrobotics.sprocket.frc.DashboardInput;
 

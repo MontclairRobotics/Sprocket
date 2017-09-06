@@ -1,10 +1,11 @@
 package org.montclairrobotics.sprocket.frc;
 
+import org.montclairrobotics.sprocket.core.Button;
 import org.montclairrobotics.sprocket.utils.Input;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class Button implements Input<Boolean>{
+public class FRCButton extends Button{
 
 	private Joystick stick;
 	private int id;
@@ -15,7 +16,7 @@ public class Button implements Input<Boolean>{
 	 * @param buttonId The raw button ID of the button you're binding to. On most 
 	 * Joysticks the ID is specified on the buttons themselves.
 	 */
-	public Button(Joystick stick, int buttonId) {
+	public FRCButton(Joystick stick, int buttonId) {
 		this.stick = stick;
 		this.id = buttonId;
 	}
@@ -26,7 +27,7 @@ public class Button implements Input<Boolean>{
 	 * @param buttonId The raw button ID of the button you're binding to. On most 
 	 * Joysticks the ID is specified on the buttons themselves.
 	 */
-	public Button(int stick, int buttonId) {
+	public FRCButton(int stick, int buttonId) {
 		this(new Joystick(stick), buttonId);
 	}
 	@Override
