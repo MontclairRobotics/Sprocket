@@ -6,6 +6,7 @@ import org.montclairrobotics.sprocket.core.Sprocket.MODE;
 
 public class FTCRobot extends FTCMode implements IRobot {
 
+	public enum GAMEPAD {A,B};
 //public Sprocket sprocket; //Dont need this because FTCMode has it!
 
 	public static HardwareMap hardwareMap;

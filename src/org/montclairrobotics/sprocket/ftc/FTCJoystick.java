@@ -1,10 +1,10 @@
 package org.montclairrobotics.sprocket.ftc;
 
 import org.montclairrobotics.sprocket.core.IJoystick;
+import org.montclairrobotics.sprocket.ftc.FTCRobot.GAMEPAD;
 
 //This class kills me
 public class FTCJoystick implements IJoystick{
-	public enum GAMEPAD {A,B};
 	public enum STICK {LEFT,RIGHT,DPAD};
 	private Gamepad gamepad;
 	private STICK stick;
