@@ -3,7 +3,7 @@ package org.montclairrobotics.sprocket.ftc;
 import org.montclairrobotics.sprocket.utils.Input;
 
 public class LightSensor implements Input<Double>{
-	private LightSensor sensor;
+	private com.qualcomm.robotcore.hardware.LightSensor sensor;
 	
 	public LightSensor(String sensorID)
 	{

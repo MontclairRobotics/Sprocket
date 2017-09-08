@@ -1,20 +1,16 @@
 package org.montclairrobotics.sprocket.ftc;
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
 import org.montclairrobotics.sprocket.actions.Action;
-import org.montclairrobotics.sprocket.core.IRobot;
 import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.core.Sprocket.MODE;
-import org.montclairrobotics.sprocket.loop.Updatable;
-
-import edu.wpi.first.wpilibj.IterativeRobot;
-
-
 /**
  * @author MHS Robotics
  * This class is basically just a wrapper around iterative robot which all Sprocket
  * robots must extend.
  */
-public abstract class FTCMode /*extends OpMode*/{
+public abstract class FTCMode extends OpMode {
 
 	public Sprocket sprocket;
 	public FTCRobot robot;

@@ -1,5 +1,9 @@
 package org.montclairrobotics.sprocket.ftc;
 
+import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.montclairrobotics.sprocket.core.IRobot;
 import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.core.Sprocket.MODE;

@@ -1,6 +1,7 @@
 package org.montclairrobotics.sprocket.ftc;
 
-import org.montclairrobotics.sprocket.ftc.FTCJoystick.STICK;
+import com.qualcomm.robotcore.hardware.Gamepad;
+
 import org.montclairrobotics.sprocket.ftc.FTCRobot.GAMEPAD;
 import org.montclairrobotics.sprocket.utils.Input;
 
@@ -42,7 +43,7 @@ public class FTCButton implements Input<Boolean>{
 		}	
 		this.button=button;
 	}
-	public FTCButton(Gamepad gamepad,BUTTON button)
+	public FTCButton(Gamepad gamepad, BUTTON button)
 	{
 		this.gamepad=gamepad;
 		this.button=button;
