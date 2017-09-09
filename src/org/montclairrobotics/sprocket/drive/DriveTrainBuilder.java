@@ -1,20 +1,15 @@
 package org.montclairrobotics.sprocket.drive;
 
-import java.util.ArrayList;
-
 import org.montclairrobotics.sprocket.control.ArcadeDriveInput;
 import org.montclairrobotics.sprocket.core.IJoystick;
-import org.montclairrobotics.sprocket.frc.FRCMotor;
+import org.montclairrobotics.sprocket.core.IMotor;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Polar;
 import org.montclairrobotics.sprocket.geometry.Vector;
-import org.montclairrobotics.sprocket.motors.Module;
-import org.montclairrobotics.sprocket.motors.SEncoder;
 import org.montclairrobotics.sprocket.pipeline.Pipeline;
 import org.montclairrobotics.sprocket.pipeline.Step;
-import org.montclairrobotics.sprocket.utils.PID;
 
-import edu.wpi.first.wpilibj.SpeedController;
+import java.util.ArrayList;
 
 /**
  * DriveTrainBuilder is a helper class which makes constructing DriveTrains more
@@ -43,7 +38,7 @@ public class DriveTrainBuilder {
         modules.add(module);
         return this;
     }
-
+    /*
     public DriveTrainBuilder addWheel(SpeedController motor, Vector offset, Angle force, SEncoder enc, PID pid) {
         modules.add(new DriveModule(offset, new Polar(1, force),enc,pid,Module.MotorInputType.SPEED, new FRCMotor(motor)));
         return this;
@@ -51,10 +46,10 @@ public class DriveTrainBuilder {
 
     public DriveTrainBuilder addWheel(SpeedController motor, Vector offset, Angle force) {
         return addWheel(motor, offset, force, null, null);
-    }
+    }*/
     
     
-    public DriveTrainBuilder addWheels(Vector offset, Angle force, FRCMotor... motors) {
+    public DriveTrainBuilder addWheels(Vector offset, Angle force, IMotor... motors) {
     	modules.add(new DriveModule(offset, new Polar(1, force), motors));
     	return this;
     }
