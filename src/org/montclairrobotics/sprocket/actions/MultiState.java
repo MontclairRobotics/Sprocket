@@ -18,13 +18,11 @@ public class MultiState extends MultiAction implements State {
 	
 	public MultiState(int stateToStopAt, State... states) {
 		super(states);
-		final State[] statesFinal=states;
-		final int stateToStopAtFinal=stateToStopAt;
 		if(stateToStopAt < 0 || stateToStopAt > states.length) {
 			this.done = new Input<Boolean>() {
 				@Override
 				public Boolean get() {
-					for(State s : statesFinal) {
+					for(State s : states) {
 						if(!s.isDone()) {
 							return false;
 						}
@@ -36,7 +34,7 @@ public class MultiState extends MultiAction implements State {
 			this.done = new Input<Boolean>() {
 				@Override
 				public Boolean get() {
-					return statesFinal[stateToStopAtFinal].isDone();
+					return states[stateToStopAt].isDone();
 				}
 			};
 		}
