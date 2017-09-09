@@ -11,117 +11,49 @@ import org.montclairrobotics.sprocket.utils.Input;
 
 public class DriveEncoderGyro extends StateMachine{
 	
-	
-	
-	public DriveEncoderGyro(Distance d,Angle a,boolean relative,double speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro)
+	public DriveEncoderGyro(Number distance,Number speed,Number angle,Comparable<Boolean> relative,GyroCorrection gyroCorrection)
 	{
-		super(
-			new TurnGyro(a,driveGyro,relative),
-			new MultiState(0,
-					new DriveEncoders(d,speed, maxEncAccel, maxEncTicksPerSec),
-					new State(){
-						@Override
-						public void start() {
-							driveGyro.setTargetAngle(a,relative);
-						}
-						@Override
-						public void stop() {}
-						@Override
-						public void enabled() {
-							driveGyro.use();
-						}
-
-						@Override
-						public boolean isDone() {
-							// TODO Auto-generated method stub
-							return false;
-						}}
-					)
-			);
+		super(makeStates(distance,speed,angle,relative,gyroCorrection));
 	}
 	
-	public DriveEncoderGyro(Distance d, double speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro) {
-		super(
-				new MultiState(0,
-						new DriveEncoders(d, speed, maxEncAccel, maxEncTicksPerSec),
-						new State(){
-					@Override
-					public void start() {
-						driveGyro.setTargetAngleRelative();
-					}
-					@Override
-					public void stop() {}
-					@Override
-					public void enabled() {
-						driveGyro.use();
-					}
-
-					@Override
-					public boolean isDone() {
-						// TODO Auto-generated method stub
-						return false;
-					}})
-				);
-	}
-
-	//Lets make it to States!
-	public static State[] makeStatesA(Distance d,Angle a,boolean relative,double speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro)
+	public static State[] makeStates(Number distance,Number speed,Number angle,Comparable<Boolean> relative,GyroCorrection gyroCorrection)
 	{
-		return {
-				new TurnGyro(a,driveGyro,relative),
-				new MultiState(0,
-						new DriveEncoders(d,speed, maxEncAccel, maxEncTicksPerSec),
-						new State(){
-							@Override
-							public void start() {
-								driveGyro.setTargetAngle(a,relative);
-							}
-							@Override
-							public void stop() {}
+		State[] r={
+			new TurnGyro(angle,gyroCorrection,relative),
+			new State()
+			{
 
-							@Override
-							public void disabled() {
-							}
+				@Override
+				public void start() {
+					// TODO Auto-generated method stub
+					gyroCorrection.setTargetAngle(new Degrees(angle.doubleValue()),relative.compareTo(true)==0);
+				}
 
-							@Override
-							public void enabled() {
-								driveGyro.use();
-							}
+				@Override
+				public void enabled() {
+					// TODO Auto-generated method stub
+					gyroCorrection.use();	
+				}
 
-							@Override
-							public boolean isDone() {
-								// TODO Auto-generated method stub
-								return false;
-							}}
-				)};
-	}
-	public static State[] makeStatesB(Distance d, double speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro)
-	{
-		return {new MultiState(0,
-				new DriveEncoders(d, speed, maxEncAccel, maxEncTicksPerSec),
-				new State(){
-					@Override
-					public void start() {
-						driveGyro.setTargetAngleRelative();
-					}
-					@Override
-					public void stop() {}
+				@Override
+				public void stop() {
+					// TODO Auto-generated method stub
+					
+				}
 
-					@Override
-					public void disabled() {
+				@Override
+				public void disabled() {
+					// TODO Auto-generated method stub
+					
+				}
 
-					}
-
-					@Override
-					public void enabled() {
-						driveGyro.use();
-					}
-
-					@Override
-					public boolean isDone() {
-						// TODO Auto-generated method stub
-						return false;
-					}})};
-		);
+				@Override
+				public boolean isDone() {
+					// TODO Auto-generated method stub
+					return false;
+				}
+			}
+		};
+		return r;
 	}
 }

@@ -11,43 +11,28 @@ import org.montclairrobotics.sprocket.utils.Input;
 public class TurnGyro extends AutoState {
 	
 	private Angle tgt;
-	private Input<Double> dashInput;
+	private Number tgtInDeg;
 	
-	public Angle getTgt() {
-		return tgt;
-	}
-
-	public void setTgt(Angle tgt) {
-		this.tgt = tgt;
-	}
 
 	private GyroCorrection gyro;
 	private double incorrectTime;
-	private boolean relative;
+	private Comparable<Boolean> relative;
 	
-	private static final Angle tolerance=new Degrees(4);
-	private static final double timeAtTarget=0.5;
+	public static Angle tolerance=new Degrees(4);
+	public static double timeAtTarget=0.5;
 	
-	public TurnGyro(Angle tgt,GyroCorrection gyro,boolean relative) 
+	public TurnGyro(Number tgtDeg,GyroCorrection gyro,Comparable<Boolean> relative) 
 	{
-		this.tgt=tgt;
+		this.tgtInDeg=tgtDeg;
 		this.gyro=gyro;
 		this.relative=relative;
-	}
-	
-	public TurnGyro(Input<Double> dashInput, GyroCorrection gyro, boolean relative) {
-		this.dashInput = dashInput;
-		this.gyro = gyro;
-		this.relative = relative;
 	}
 	
 	@Override
 	public void userStart()
 	{
-		if(dashInput != null) {
-			tgt = new Degrees(dashInput.get());
-		}
-		if(relative)
+		tgt = new Degrees(tgtInDeg.doubleValue());
+		if(relative.compareTo(true)==0)
 		{
 			gyro.setTargetAngleRelative(tgt);
 		}
@@ -82,6 +67,15 @@ public class TurnGyro extends AutoState {
 	@Override
 	public boolean userIsDone() {
 		return (Updater.getTime()-incorrectTime>timeAtTarget);
+	}
+	
+
+	public Angle getTgt() {
+		return tgt;
+	}
+
+	public void setTgt(Angle tgt) {
+		this.tgt = tgt;
 	}
 
 }
