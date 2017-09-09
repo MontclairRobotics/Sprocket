@@ -1,13 +1,9 @@
 package org.montclairrobotics.sprocket.auto.states;
 
-import org.montclairrobotics.sprocket.actions.MultiState;
 import org.montclairrobotics.sprocket.actions.State;
 import org.montclairrobotics.sprocket.actions.StateMachine;
 import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
-import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degrees;
-import org.montclairrobotics.sprocket.geometry.Distance;
-import org.montclairrobotics.sprocket.utils.Input;
 
 public class DriveEncoderGyro extends StateMachine{
 	
@@ -18,6 +14,9 @@ public class DriveEncoderGyro extends StateMachine{
 	
 	public static State[] makeStates(Number distance,Number speed,Number angle,Comparable<Boolean> relative,GyroCorrection gyroCorrection)
 	{
+		final GyroCorrection gcFinal=gyroCorrection;
+		final Number angleFinal=angle;
+		final Comparable<Boolean> relativeFinal=relative;
 		State[] r={
 			new TurnGyro(angle,gyroCorrection,relative),
 			new State()
@@ -26,13 +25,13 @@ public class DriveEncoderGyro extends StateMachine{
 				@Override
 				public void start() {
 					// TODO Auto-generated method stub
-					gyroCorrection.setTargetAngle(new Degrees(angle.doubleValue()),relative.compareTo(true)==0);
+					gcFinal.setTargetAngle(new Degrees(angleFinal.doubleValue()),relativeFinal.compareTo(true)==0);
 				}
 
 				@Override
 				public void enabled() {
 					// TODO Auto-generated method stub
-					gyroCorrection.use();	
+					gcFinal.use();
 				}
 
 				@Override
