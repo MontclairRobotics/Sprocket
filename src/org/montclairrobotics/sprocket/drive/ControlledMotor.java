@@ -78,6 +78,18 @@ public class ControlledMotor implements Updatable,Action {
 		enabled=false;
 	}
 
+	@Override
+	public void enabled() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void disabled() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 
 class ButtonPairInput implements Input<Double> {

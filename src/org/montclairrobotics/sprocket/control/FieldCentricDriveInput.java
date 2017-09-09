@@ -92,4 +92,14 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Action{
 	public void stop() {
 		Sprocket.getMainDriveTrain().useDefaultInput();
 	}
+	@Override
+	public void enabled() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void disabled() {
+		// TODO Auto-generated method stub
+		
+	}
 }

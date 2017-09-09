@@ -35,4 +35,16 @@ public class SpeedLimiter implements Step<DTTarget>, Action{
 		}
 		return new DTTarget(out,in.getTurn());
 	}
+
+	@Override
+	public void enabled() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void disabled() {
+		// TODO Auto-generated method stub
+		
+	}
 }

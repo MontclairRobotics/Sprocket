@@ -20,5 +20,17 @@ public class Toggle implements Action{
 	{
 		obj.disable();
 	}
+
+	@Override
+	public void enabled() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void disabled() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

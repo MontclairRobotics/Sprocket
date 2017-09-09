@@ -31,6 +31,24 @@ public class PIDTuner extends PID
 			@Override
 			public void start() {
 				recalculatePIDs();
+			}
+
+			@Override
+			public void enabled() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void stop() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void disabled() {
+				// TODO Auto-generated method stub
+				
 			}});
 		
 		

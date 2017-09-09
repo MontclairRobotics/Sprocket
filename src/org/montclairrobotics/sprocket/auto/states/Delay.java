@@ -39,5 +39,11 @@ public class Delay extends AutoState{
 		Debug.num("Time in State", timeInState());
 		return false;
 	}
+
+	@Override
+	public void disabled() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

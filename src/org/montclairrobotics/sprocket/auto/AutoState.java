@@ -86,4 +86,13 @@ public abstract class AutoState implements State,DTInput {
 	{
 		this.TIMEOUT=t;
 	}
+	
+	public void enabled()
+	{
+		
+	}
+	public void disabled()
+	{
+		
+	}
 }

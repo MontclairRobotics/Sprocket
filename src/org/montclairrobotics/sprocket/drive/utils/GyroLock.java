@@ -51,6 +51,18 @@ public class GyroLock implements Updatable, Action {
 	public void setTargetAngle(Angle a) {
 		gyro.setTargetAngleRaw(a);
 	}
+
+	@Override
+	public void enabled() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void disabled() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

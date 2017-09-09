@@ -63,43 +63,55 @@ public class DriveEncoderGyro extends StateMachine{
 					}})
 				);
 	}
-	
-	public DriveEncoderGyro(Input<Double> dInput, Input<Double> a, boolean relative, Input<Double> speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro) {
-		super(
+
+	//Lets make it to States!
+	public static State[] makeStatesA(Distance d,Angle a,boolean relative,double speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro)
+	{
+		return {
 				new TurnGyro(a,driveGyro,relative),
 				new MultiState(0,
-						new DriveEncoders(dInput,speed, maxEncAccel, maxEncTicksPerSec),
+						new DriveEncoders(d,speed, maxEncAccel, maxEncTicksPerSec),
 						new State(){
 							@Override
 							public void start() {
-								driveGyro.setTargetAngle(new Degrees(a.get()),relative);
+								driveGyro.setTargetAngle(a,relative);
 							}
 							@Override
 							public void stop() {}
+
+							@Override
+							public void disabled() {
+							}
+
 							@Override
 							public void enabled() {
 								driveGyro.use();
 							}
+
 							@Override
 							public boolean isDone() {
 								// TODO Auto-generated method stub
 								return false;
 							}}
-						)
-				);
+				)};
 	}
-	
-	public DriveEncoderGyro(Input<Double> d, Input<Double> speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro) {
-		super(
-				new MultiState(0,
-						new DriveEncoders(d, speed, maxEncAccel, maxEncTicksPerSec),
-						new State(){
+	public static State[] makeStatesB(Distance d, double speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro)
+	{
+		return {new MultiState(0,
+				new DriveEncoders(d, speed, maxEncAccel, maxEncTicksPerSec),
+				new State(){
 					@Override
 					public void start() {
 						driveGyro.setTargetAngleRelative();
 					}
 					@Override
 					public void stop() {}
+
+					@Override
+					public void disabled() {
+
+					}
+
 					@Override
 					public void enabled() {
 						driveGyro.use();
@@ -109,8 +121,7 @@ public class DriveEncoderGyro extends StateMachine{
 					public boolean isDone() {
 						// TODO Auto-generated method stub
 						return false;
-					}})
-				);
+					}})};
+		);
 	}
-	
 }

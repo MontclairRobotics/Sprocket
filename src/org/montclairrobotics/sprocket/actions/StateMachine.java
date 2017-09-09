@@ -65,4 +65,9 @@ public class StateMachine implements State, Updatable{
 			enabled();
 		}
 	}
+	@Override
+	public void disabled() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -165,5 +165,15 @@ public class GyroCorrection implements Step<DTTarget>, Action {
 			setTargetAngleReset(a);
 		}
 	}
+	@Override
+	public void enabled() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void disabled() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
