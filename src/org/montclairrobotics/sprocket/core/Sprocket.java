@@ -44,7 +44,7 @@ public class Sprocket{
 	
 	public void initS()
 	{
-		robot.init();
+		robot.setup();
 	}
     public final void startS(MODE mode) 
     {

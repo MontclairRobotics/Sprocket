@@ -12,26 +12,33 @@ import org.montclairrobotics.sprocket.core.Sprocket.MODE;
  */
 public abstract class FTCMode extends OpMode {
 
-	public Sprocket sprocket;
-	public FTCRobot robot;
+	private static boolean FIRST=true;
+	public static Sprocket sprocket;
+	public static FTCRobot robot;
+
 	public MODE mode;
 	public Action action;
 	
 	public FTCMode()
 	{
 	}
-	public FTCMode(Sprocket sprocket,Action action)
+	public FTCMode(Action action)
 	{
-		this.sprocket=sprocket;
 		this.mode=MODE.AUTO;
 		this.action=action;
 	}
 	
 	//@Override
 	public void init() {
-        sprocket.initS();
-        if(robot!=null)
-        	robot.ftcSetup(hardwareMap,gamepad1,gamepad2,telemetry);
+        if(robot!=null) {
+			robot.ftcSetup(hardwareMap, gamepad1, gamepad2, telemetry);
+			if (FIRST) {
+				sprocket = new Sprocket(robot);
+				sprocket.initS();
+				FIRST = false;
+			}
+			sprocket.startS(MODE.DISABLED);
+		}
     }
 
     //@Override

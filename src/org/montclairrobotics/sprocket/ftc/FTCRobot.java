@@ -5,10 +5,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.montclairrobotics.sprocket.core.IRobot;
-import org.montclairrobotics.sprocket.core.Sprocket;
-import org.montclairrobotics.sprocket.core.Sprocket.MODE;
 
-public class FTCRobot extends FTCMode implements IRobot {
+public abstract class FTCRobot extends FTCMode implements IRobot {
+
+
 
 	public enum GAMEPAD {A,B};
 //public Sprocket sprocket; //Dont need this because FTCMode has it!
@@ -17,15 +17,15 @@ public class FTCRobot extends FTCMode implements IRobot {
 	public static Gamepad gamepad1;
 	public static Gamepad gamepad2;
 	public static Telemetry telemetry;
-	
-	public FTCRobot()
+
+	/*
+	public static void setRobot()
 	{
-		super();
-		sprocket=new Sprocket(this);
-		super.sprocket=sprocket;//Doesnt do anything; better to be safe than sorry
-		super.robot=this;
-		super.mode=MODE.TELEOP;
-	}
+		if(robot==null)
+		{
+			robot=new MyTeleopRobotClass();
+		}
+	}*/
 	
 	public void ftcSetup(HardwareMap hardwareMap,Gamepad gamepad1,Gamepad gamepad2,Telemetry telemetry)
 	{
