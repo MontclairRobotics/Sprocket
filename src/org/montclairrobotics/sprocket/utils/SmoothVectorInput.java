@@ -9,19 +9,20 @@ public class SmoothVectorInput implements Input<Vector>{
 	
 	public SmoothVectorInput(int len,Input<Vector> inp)
 	{
+		final Input<Vector> inpFinal=inp;
 		x=new SmoothInput(len,new Input<Double>(){
 
 			@Override
 			public Double get() {
 				// TODO Auto-generated method stub
-				return inp.get().getX();
+				return inpFinal.get().getX();
 			}});
 		y=new SmoothInput(len,new Input<Double>(){
 
 			@Override
 			public Double get() {
 				// TODO Auto-generated method stub
-				return inp.get().getY();
+				return inpFinal.get().getY();
 			}});
 	}
 

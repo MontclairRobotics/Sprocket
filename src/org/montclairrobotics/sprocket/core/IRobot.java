@@ -5,10 +5,10 @@ import org.montclairrobotics.sprocket.loop.Updatable;
 public interface IRobot extends Updatable{
 	
 	//Stuff user overrides	
-    public default void init(){}
-    public default void start(Sprocket.MODE mode){}
-    public default void stop(){}
-    public default void update(){}
-    public default void disabledUpdate(){}
-    public default void debugs(){}
+    public void init();
+    public void start(Sprocket.MODE mode);
+    public void stop();
+    public void update();
+    public void disabledUpdate();
+    public void debugs();
 }

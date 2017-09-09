@@ -14,18 +14,18 @@ public interface Action {
 	/**
 	 * Called once when the object is activated
 	 */
-	public default void start(){}
+	public void start();
 	/**
 	 * Called every loop the object is active, after it is activated
 	 */
-	public default void enabled(){}
+	public void enabled();
 	/**
 	 * Called once when the object is deactivated
 	 */
-	public default void stop(){}
+	public void stop();
 	/**
 	 * Called every loop when the object is deactivated
 	 * Note: this may not be called by every implementation
 	 */
-	public default void disabled(){}
+	public void disabled();
 }

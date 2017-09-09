@@ -79,7 +79,12 @@ public class DriveEncoders extends AutoState {
 		
 		//tgtDir = new XY(0, speed);
 	}
-	
+
+	@Override
+	public void disabled() {
+
+	}
+
 	@Override
 	public boolean userIsDone() {
 		Debug.msg("forwards", forwards?"YES":"NO");

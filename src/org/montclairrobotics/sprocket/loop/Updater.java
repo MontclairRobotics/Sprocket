@@ -1,6 +1,7 @@
 package org.montclairrobotics.sprocket.loop;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.TreeMap;
 
 public class Updater {
@@ -8,7 +9,9 @@ public class Updater {
 	private static double lastLoop=getTime();
 	private static double loopTime=1.0/50;
 	
-    private static TreeMap<Priority, ArrayList<Updatable>> updatables = new TreeMap<>((o1, o2) -> {
+    private static TreeMap<Priority, ArrayList<Updatable>> updatables = new TreeMap<>(new Comparator<Priority>() {
+        @Override
+        public int compare(Priority o1, Priority o2) {
             if(o1.getPriority() > o2.getPriority()) {
                 return -1;
             } else if(o1.getPriority() == o2.getPriority()) {
@@ -16,12 +19,12 @@ public class Updater {
             }
             return 1;
         }
-    );
+    });
 
 
 
     public static void add(Updatable updatable, Priority priority) {
-        if(!updatables.containsKey(priority)) updatables.put(priority, new ArrayList<>());
+        if(!updatables.containsKey(priority)) updatables.put(priority, new ArrayList<Updatable>());
         ArrayList<Updatable> priorities = updatables.get(priority);
         priorities.add(updatable);
     }
