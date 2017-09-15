@@ -16,7 +16,7 @@ import org.montclairrobotics.sprocket.loop.Updater;
  */
 public abstract class AutoState implements State,DTInput {
 	public Vector tgtDir = Vector.ZERO;
-	public Angle tgtTurn = Angle.ZERO;
+	public double tgtTurn = 0;
 	private double t;//time state was started
 	public double TIMEOUT=30;
 	
@@ -59,7 +59,7 @@ public abstract class AutoState implements State,DTInput {
 	 * @param v The direction
 	 * @param a The turning speed (units/sec)
 	 */
-	public void setTarget(Vector v, Angle a) {
+	public void setTarget(Vector v, double a) {
 		tgtDir = v;
 		tgtTurn = a;
 	}
@@ -70,7 +70,7 @@ public abstract class AutoState implements State,DTInput {
 	}
 
 	@Override
-	public Angle getTurn() {
+	public double getTurn() {
 		return tgtTurn;
 	}
 	

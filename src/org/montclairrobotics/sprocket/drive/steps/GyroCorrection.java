@@ -74,8 +74,7 @@ public class GyroCorrection implements Step<DTTarget>, Action {
 				tgt=pid.get();
 				tgt=Utils.constrain(tgt, minOut, maxOut);
 			}
-			Angle tgtAngle=new Radians(tgt);
-			out=new DTTarget(in.getDirection(),tgtAngle);
+			out=new DTTarget(in.getDirection(),tgt);
 		}
 		used=false;
 		Debug.msg("Gyro Enabled",enabled);

@@ -33,7 +33,7 @@ public class DriveTrain implements Updatable, Input<Distance> {
 		//DTInput input = auto ? this.autoInput : this.input;
 		
 		Vector tgtDir=input.getDir();
-		Angle tgtTurn=input.getTurn();
+		double tgtTurn=input.getTurn();
 		DTTarget target = new DTTarget(tgtDir,tgtTurn);
 		Debug.string("DriveTrain INPUT:",target.toString());
 		target=pipeline.get(target);

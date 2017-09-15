@@ -14,28 +14,24 @@ import org.montclairrobotics.sprocket.utils.Utils;
 
 public class AccelLimit implements Step<DTTarget>,Action{
 
-	private Distance maxAccel;
-	private Angle maxTurn;
+	private double maxAccel;
+	private double maxTurn;
 	
 	private Vector lastDir;
-	private Angle lastTurn;
+	private double lastTurn;
 	
 	private boolean enabled=true;
 	
 	public AccelLimit()
 	{
-		this(new Distance(4),new Degrees(180));
+		this(4,4);
 	}
-	public AccelLimit(double maxAccel,double maxTurn)
-	{
-		this(new Distance(maxAccel),new Radians(maxTurn));
-	}
-	public AccelLimit(Distance maxAccel,Angle maxTurn) 
+	public AccelLimit(double maxAccel,double maxTurn) 
 	{
 		this.maxAccel=maxAccel;
 		this.maxTurn=maxTurn;
 		lastDir=Vector.ZERO;
-		lastTurn=Angle.ZERO;
+		lastTurn=0;
 	}
 	
 	@Override
@@ -47,19 +43,19 @@ public class AccelLimit implements Step<DTTarget>,Action{
 			
 			//Debug.num("maxAccel", maxAccel.get()*Updater.getLoopTime());
 			//Debug.string("dDirBefore", dDir.toString());
-			if(dDir.getMagnitude()>maxAccel.get()*Updater.getLoopTime())
+			if(dDir.getMagnitude()>maxAccel*Updater.getLoopTime())
 			{
-				dDir=dDir.setMag(maxAccel.get()*Updater.getLoopTime());
+				dDir=dDir.setMag(maxAccel*Updater.getLoopTime());
 			}
 	
 			//Debug.string("dDirAfter", dDir.toString());
 			//Debug.string("lastDir", lastDir.toString());
 			//Debug.string("newDir", (lastDir.add(dDir)).toString());
 			
-			Angle dAng=in.getTurn().subtract(lastTurn);
-			dAng=new Degrees(Utils.constrain(dAng.toDegrees(),-maxTurn.toDegrees()*Updater.getLoopTime(),maxTurn.toDegrees()*Updater.getLoopTime()));
+			double dAng=in.getTurn()-lastTurn;
+			dAng=Utils.constrain(dAng,-maxTurn*Updater.getLoopTime(),maxTurn*Updater.getLoopTime());
 			
-			DTTarget tgt= new DTTarget(lastDir.add(dDir),lastTurn.add(dAng));
+			DTTarget tgt= new DTTarget(lastDir.add(dDir),lastTurn+dAng);
 			
 			lastDir=tgt.getDirection();
 			lastTurn=tgt.getTurn();

@@ -10,23 +10,23 @@ public class GenericMapper implements DTMapper{
 	@Override
 	public void map(DTTarget driveTarget, DriveModule[] driveModules) {
 		Vector tgtDir=driveTarget.getDirection();
-		Angle tgtTurn=driveTarget.getTurn();
+		double tgtTurn=driveTarget.getTurn();
 		for(DriveModule module:driveModules)
 		{
-			tgtTurn=tgtTurn.subtract(getTorque(module.getOffset(),module.getForce(),tgtDir));
+			tgtTurn-=getTorque(module.getOffset(),module.getForce(),tgtDir);
 		}
 		for(DriveModule module:driveModules)
 		{
 			module.set(inverseDot(module.getForce(),tgtDir.add(
-					new Polar(tgtTurn.toRadians()*module.getOffset().getMagnitude(),module.getOffset().getAngle().add(Angle.QUARTER)))));
+					new Polar(tgtTurn*module.getOffset().getMagnitude(),module.getOffset().getAngle().add(Angle.QUARTER)))));
 		}
 	}
 	
-	public static Angle getTorque(Vector offset,Vector force,Vector target)
+	public static double getTorque(Vector offset,Vector force,Vector target)
 	{
 		if(offset.getMagnitude()==0)
-			return Angle.ZERO;
-		return new Radians(inverseDot(force,target)/offset.getMagnitude());
+			return 0;
+		return inverseDot(force,target)/offset.getMagnitude();
 	}
 	/*
 	 * If a dot b = |c| and c is || to b,  given a and c returns b

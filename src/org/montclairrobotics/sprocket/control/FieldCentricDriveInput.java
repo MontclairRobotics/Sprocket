@@ -67,7 +67,7 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Action{
      * @return The calculated turning speed for the DriveTrain
      */
 	@Override
-    public Angle getTurn() {
+    public double getTurn() {
 
 		if(rotToVector&&field.getMagnitude()>0.1)
 		{
@@ -81,7 +81,7 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Action{
 			}
 			gyro.use();
 		}
-        return Angle.ZERO;
+        return 0;
     }
 	
 	@Override

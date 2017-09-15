@@ -10,7 +10,7 @@ public class MecanumMapper implements DTMapper {
 
     @Override
     public void map(DTTarget driveTarget, DriveModule[] driveModules) {
-        double turn = driveTarget.getTurn().toDegrees();
+        double turn = driveTarget.getTurn();
 
         for(DriveModule m : driveModules) {
             double power = getPower(driveTarget.getDirection(), m.getForceAngle());

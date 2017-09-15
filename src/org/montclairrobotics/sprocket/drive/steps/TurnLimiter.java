@@ -29,10 +29,10 @@ public class TurnLimiter implements Step<DTTarget>, Action{
 	@Override
 	public DTTarget get(DTTarget in) {
 		if(!enabled)return in;
-		Angle out=in.getTurn();
-		if(Math.abs(out.toRadians())>maxSpeed)
+		double out=in.getTurn();
+		if(Math.abs(out)>maxSpeed)
 		{
-			out=new Radians(maxSpeed*(out.toRadians()>0?1:-1));
+			out=maxSpeed*(out>0?1:-1);
 		}
 		return new DTTarget(in.getDirection(),out);
 	}

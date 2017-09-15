@@ -9,52 +9,33 @@ import org.montclairrobotics.sprocket.pipeline.Step;
 
 public class Deadzone implements Step<DTTarget>{
 
-	private Vector deadZone;
-	private Angle turnDeadZone;
-	
-	private boolean relative;
+	private double dirDeadZone;
+	private double turnDeadZone;
 	
 	public Deadzone()
 	{
 		this(.1,.1);
 	}
-	public Deadzone(double x,double y)
+	public Deadzone(double dirDZ,double turnDZ)
 	{
-		this(x,y,true);
-	}
-	public Deadzone(double x,double y,boolean relative)
-	{
-		this(new XY(0,y),new Radians(x),relative);
-	}
-	public Deadzone(Vector dz,Angle turnDZ)
-	{
-		this(dz,turnDZ,false);
-	}
-	public Deadzone(Vector dz,Angle turnDZ,boolean relative)
-	{
-		this.deadZone=dz;
+		this.dirDeadZone=dirDZ;
 		this.turnDeadZone=turnDZ;
-		this.relative=relative;
 	}
 	@Override
 	public DTTarget get(DTTarget in) {
-		if(relative)
-		{
-			relative=false;
-		}
 		Vector tgtDir=in.getDirection();
-		if(Math.abs(tgtDir.getX())<deadZone.getX())
+		if(Math.abs(tgtDir.getX())<dirDeadZone)
 		{
 			tgtDir=new XY(0,tgtDir.getY());
 		}
-		if(Math.abs(tgtDir.getY())<deadZone.getY())
+		if(Math.abs(tgtDir.getY())<dirDeadZone)
 		{
 			tgtDir=new XY(tgtDir.getX(),0);
 		}
-		Angle tgtTurn=in.getTurn();
-		if(Math.abs(tgtTurn.toDegrees())<turnDeadZone.toDegrees())
+		double tgtTurn=in.getTurn();
+		if(Math.abs(tgtTurn)<turnDeadZone)
 		{
-			tgtTurn=Angle.ZERO;
+			tgtTurn=0.0;
 		}
 
 		DTTarget output=new DTTarget(tgtDir,tgtTurn);

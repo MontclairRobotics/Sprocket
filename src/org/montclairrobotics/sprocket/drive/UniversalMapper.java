@@ -20,7 +20,7 @@ public class UniversalMapper implements DTMapper{
 			if(f>maxForce)
 				maxForce=f;
 		}
-		Angle tgtTurn=driveTarget.getTurn().subtract(new Radians(torque));
+		double tgtTurn=driveTarget.getTurn()-torque;
 		for(DriveModule module:driveModules)
 		{
 			double f=module.getForce().dotProduct(dir);

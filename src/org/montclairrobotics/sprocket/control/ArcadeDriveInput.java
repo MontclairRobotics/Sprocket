@@ -22,7 +22,7 @@ public class ArcadeDriveInput implements DTInput, Updatable {
     private IJoystick stick;
    
     private Vector dir;
-    private Angle turn;
+    private double turn;
     private Vector raw;
 
 	private double sensitivity = 1;
@@ -67,7 +67,7 @@ public class ArcadeDriveInput implements DTInput, Updatable {
     }
 
     public void update() {
-        turn = new Radians(getX()*turnSensitivity);
+        turn = getX()*turnSensitivity;
         dir = new XY(0, getY()*sensitivity*-1);
         raw=new XY(getX(),-getY());
     }
@@ -104,7 +104,7 @@ public class ArcadeDriveInput implements DTInput, Updatable {
     /**
      * @return The calculated turning speed for the DriveTrain
      */
-    public Angle getTurn() {
+    public double getTurn() {
         return turn;
     }
 }

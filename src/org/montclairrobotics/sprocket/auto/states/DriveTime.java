@@ -20,9 +20,9 @@ public class DriveTime extends Delay {
 	}
 	public DriveTime(double time,Vector tgtDir)
 	{
-		this(time,tgtDir,Angle.ZERO);
+		this(time,tgtDir,0);
 	}
-	public DriveTime(double time, Vector tgtDir, Angle tgtTurn)
+	public DriveTime(double time, Vector tgtDir, double tgtTurn)
 	{
 		super(time);
 		this.tgtDir = tgtDir;
@@ -31,7 +31,7 @@ public class DriveTime extends Delay {
 	public DriveTime(Input<Double> timeInput, double power) {
 		super(timeInput);
 		this.tgtDir = new XY(0, power);
-		this.tgtTurn = Angle.ZERO;
+		this.tgtTurn = 0;
 	}
 	
 	@Override
