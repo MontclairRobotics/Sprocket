@@ -20,7 +20,7 @@ public class AutoMode extends StateMachine{
 	/**
 	 * Creates an AutoMode based off of a pre-configured StateMachine
 	 * @param name The name of the AutoMode (for SmartDashboard)
-	 * @param m The StateMachine which contains AutoModes
+	 * @param states The StateMachine which contains AutoModes
 	 */
 	public AutoMode(String name, State... states)
 	{

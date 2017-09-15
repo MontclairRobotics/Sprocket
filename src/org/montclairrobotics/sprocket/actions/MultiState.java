@@ -16,7 +16,7 @@ public class MultiState extends MultiAction implements State {
 		this.done = done;
 	}
 	
-	public MultiState(int stateToStopAt, State... states) {
+	public MultiState(final int stateToStopAt, final State... states) {
 		super(states);
 		if(stateToStopAt < 0 || stateToStopAt > states.length) {
 			this.done = new Input<Boolean>() {

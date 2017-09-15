@@ -7,7 +7,7 @@ public class SmoothVectorInput implements Input<Vector>{
 	
 	private SmoothInput x,y;
 	
-	public SmoothVectorInput(int len,Input<Vector> inp)
+	public SmoothVectorInput(int len,final Input<Vector> inp)
 	{
 		x=new SmoothInput(len,new Input<Double>(){
 
