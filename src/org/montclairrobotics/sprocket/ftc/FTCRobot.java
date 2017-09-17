@@ -35,7 +35,7 @@ public abstract class FTCRobot extends OpMode implements IRobot {
 		}
 	}*/
 	
-	//@Override
+	@Override
 		public void init() {
 	        if(robot==null) {
 	        	robot=this;
@@ -49,24 +49,24 @@ public abstract class FTCRobot extends OpMode implements IRobot {
 			sprocket.startS(MODE.DISABLED);
 			this.mode=mode.TELEOP;
 	    }
-		//@Override
+		@Override
 	    public void init_loop() {
 	    	sprocket.disabledUpdateS();
 	    }
 
-	    //@Override
+	    @Override
 	    public void start() {
 	    	sprocket.currentAction=action;
 	    	sprocket.startS(mode);
 	    }
 
-	    //@Override
+	    @Override
 	    public void loop() {
 	    	sprocket.updateS();
 	       
 	    }
 
-	    //@Override
+	    @Override
 	    public void stop() {
 	    	sprocket.stopS();
 	    }
