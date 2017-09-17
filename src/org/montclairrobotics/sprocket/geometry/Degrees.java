@@ -66,7 +66,7 @@ public class Degrees implements Angle {
 	
 	public String toString()
 	{
-		return degrees+"°";
+		return degrees+"deg";
 	}
 
 	@Override

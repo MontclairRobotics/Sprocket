@@ -2,7 +2,6 @@ package org.montclairrobotics.sprocket.core;
 
 import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
-import org.montclairrobotics.sprocket.frc.DashboardDebug;
 import org.montclairrobotics.sprocket.loop.DisabledUpdater;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updater;
@@ -17,7 +16,7 @@ import org.montclairrobotics.sprocket.utils.Input;
 public class Sprocket{
 
 	public static DriveTrain driveTrain;
-	public static IDebugger debugger=new DashboardDebug();
+	public static IDebugger debugger;
 
 	private IRobot robot;
 	
