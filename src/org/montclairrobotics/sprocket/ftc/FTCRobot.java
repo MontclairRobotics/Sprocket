@@ -43,8 +43,8 @@ public abstract class FTCRobot extends OpMode implements IRobot {
 			robot.ftcSetup(hardwareMap, gamepad1, gamepad2, telemetry);
 			if (sprocket==null) {
 				sprocket = new Sprocket(robot);
-				sprocket.initS();
 				sprocket.debugger=new FTCDebug();
+				sprocket.initS();
 			}
 			sprocket.startS(MODE.DISABLED);
 			this.mode=mode.TELEOP;

@@ -1,12 +1,12 @@
 package org.montclairrobotics.sprocket.ftc;
 
-import org.montclairrobotics.sprocket.core.IDebugger;
+import org.montclairrobotics.sprocket.core.IDebug;
 
 /**
  * Created by Hymowitz on 9/16/2017.
  */
 
-public class FTCDebug implements IDebugger{
+public class FTCDebug implements IDebug{
 
 
     @Override

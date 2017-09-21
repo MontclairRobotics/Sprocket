@@ -16,7 +16,7 @@ import org.montclairrobotics.sprocket.utils.Input;
 public class Sprocket{
 
 	public static DriveTrain driveTrain;
-	public static IDebugger debugger;
+	public static IDebug debugger;
 
 	private IRobot robot;
 	

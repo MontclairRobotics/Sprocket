@@ -1,10 +1,10 @@
 package org.montclairrobotics.sprocket.frc;
 
-import org.montclairrobotics.sprocket.core.IDebugger;
+import org.montclairrobotics.sprocket.core.IDebug;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DashboardDebug implements IDebugger{
+public class DashboardDebug implements IDebug{
 
 	@Override
 	public void debugStr(String key, String val) {
