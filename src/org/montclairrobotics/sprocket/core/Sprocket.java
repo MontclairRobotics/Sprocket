@@ -5,6 +5,7 @@ import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.loop.DisabledUpdater;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updater;
+import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Input;
 
 
@@ -64,6 +65,7 @@ public class Sprocket{
 		default:
 			break;
     	}
+    	Debug.msg("MODE", mode);
     	curMode=mode;
     	if(currentAction!=null)
     	{

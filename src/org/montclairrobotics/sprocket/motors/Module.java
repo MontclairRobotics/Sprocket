@@ -74,7 +74,7 @@ public class Module {
     public void set(double val)
     {
     	power=val;
-    	Debug.msg("Modules running", "yay");
+    	//Debug.msg("Modules running", "yay");
     	if(inputType == MotorInputType.SPEED) 
     	{
     		Debug.msg("motordebug", "Using encoders");

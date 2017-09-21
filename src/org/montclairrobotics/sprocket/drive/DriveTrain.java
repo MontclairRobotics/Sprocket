@@ -37,7 +37,7 @@ public class DriveTrain implements Updatable, Input<Distance> {
 		DTTarget target = new DTTarget(tgtDir,tgtTurn);
 		Debug.string("DriveTrain INPUT:",target.toString());
 		target=pipeline.get(target);
-		Debug.string("DriveTrain PIPELINE OUTPUT:",target.toString());
+		Debug.string("DriveTrain OUTPUT:",target.toString());
 		mapper.map(target, modules);
 	}
 	
