@@ -11,11 +11,11 @@ public class FTCDebug implements IDebug{
 
     @Override
     public void debugStr(String key, String val) {
-        FTCRobot.telemetry.addData(key,val);
+        FTCRobot.ftcTelemetry.addData(key,val);
     }
 
     @Override
     public void debugNum(String key, double val) {
-        FTCRobot.telemetry.addData(key,val);
+        FTCRobot.ftcTelemetry.addData(key,val);
     }
 }

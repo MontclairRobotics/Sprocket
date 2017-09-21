@@ -7,7 +7,7 @@ public class LightSensor implements Input<Double>{
 	
 	public LightSensor(String sensorID)
 	{
-		sensor=FTCRobot.hardwareMap.lightSensor.get("lightGround");
+		sensor=FTCRobot.ftcHardwareMap.lightSensor.get("lightGround");
 	}
 	public void enableLed(boolean enable)
 	{

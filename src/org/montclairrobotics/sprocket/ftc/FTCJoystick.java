@@ -14,11 +14,11 @@ public class FTCJoystick implements IJoystick{
 	{
 		if(gamepad==GAMEPAD.A)
 		{
-			this.gamepad=FTCRobot.gamepad1;
+			this.gamepad=FTCRobot.ftcGamepad1;
 		}
 		else
 		{
-			this.gamepad=FTCRobot.gamepad2;
+			this.gamepad=FTCRobot.ftcGamepad2;
 		}
 		this.stick=stick;
 	}

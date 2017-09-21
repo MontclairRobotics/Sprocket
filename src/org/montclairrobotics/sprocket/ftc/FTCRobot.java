@@ -21,10 +21,10 @@ public abstract class FTCRobot extends OpMode implements IRobot {
 	public enum GAMEPAD {A,B};
 //public Sprocket sprocket; //Dont need this because FTCMode has it!
 
-	public static HardwareMap hardwareMap;
-	public static Gamepad gamepad1;
-	public static Gamepad gamepad2;
-	public static Telemetry telemetry;
+	public static HardwareMap ftcHardwareMap;
+	public static Gamepad ftcGamepad1;
+	public static Gamepad ftcGamepad2;
+	public static Telemetry ftcTelemetry;
 
 	/*
 	public static void setRobot()
@@ -73,9 +73,9 @@ public abstract class FTCRobot extends OpMode implements IRobot {
 	
 	public void ftcSetup(HardwareMap hardwareMap,Gamepad gamepad1,Gamepad gamepad2,Telemetry telemetry)
 	{
-		this.hardwareMap=hardwareMap;
-		this.gamepad1=gamepad1;
-		this.gamepad2=gamepad2;
-		this.telemetry=telemetry;
+		this.ftcHardwareMap=hardwareMap;
+		this.ftcGamepad1=gamepad1;
+		this.ftcGamepad2=gamepad2;
+		this.ftcTelemetry=telemetry;
 	}
 }

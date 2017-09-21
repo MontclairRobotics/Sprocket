@@ -6,7 +6,7 @@ import org.montclairrobotics.sprocket.core.Button;
 import org.montclairrobotics.sprocket.ftc.FTCRobot.GAMEPAD;
 
 public class FTCButton extends Button {
-	enum BUTTON {
+	public enum BUTTON {
 		a,
 		b,
 		x,
@@ -35,11 +35,11 @@ public class FTCButton extends Button {
 	{
 		if(gamepad==GAMEPAD.A)
 		{
-			this.gamepad=FTCRobot.gamepad1;
+			this.gamepad=FTCRobot.ftcGamepad1;
 		}
 		else
 		{
-			this.gamepad=FTCRobot.gamepad2;
+			this.gamepad=FTCRobot.ftcGamepad2;
 		}	
 		this.button=button;
 	}
