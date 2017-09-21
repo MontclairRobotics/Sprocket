@@ -2,10 +2,10 @@ package org.montclairrobotics.sprocket.ftc;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.montclairrobotics.sprocket.core.Button;
 import org.montclairrobotics.sprocket.ftc.FTCRobot.GAMEPAD;
-import org.montclairrobotics.sprocket.utils.Input;
 
-public class FTCButton implements Input<Boolean>{
+public class FTCButton extends Button {
 	enum BUTTON {
 		a,
 		b,
