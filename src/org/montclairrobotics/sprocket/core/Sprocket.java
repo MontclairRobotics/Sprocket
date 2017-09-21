@@ -71,7 +71,7 @@ public class Sprocket{
     	{
     		currentAction.start();
     	}
-    	robot.start(mode);
+    	robot.enable(mode);
     }
     public final void updateS()
     {
@@ -85,7 +85,7 @@ public class Sprocket{
     		currentAction.stop();
     	}
     	curMode=MODE.DISABLED;
-    	robot.stop();
+    	robot.disable();
     }
     public final void disabledUpdateS()
     {

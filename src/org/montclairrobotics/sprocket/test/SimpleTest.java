@@ -26,13 +26,13 @@ public class SimpleTest extends TestRobot{
 	}
 
 	@Override
-	public void start(MODE mode) {
+	public void enable(MODE mode) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void stop() {
+	public void disable() {
 		// TODO Auto-generated method stub
 		
 	}
