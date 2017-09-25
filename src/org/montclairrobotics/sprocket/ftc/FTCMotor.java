@@ -11,7 +11,7 @@ public class FTCMotor implements IMotor{
 	
 	public FTCMotor(String motorID)
 	{
-		DcMotor motor=FTCRobot.ftcHardwareMap.dcMotor.get(motorID);
+		motor=FTCRobot.ftcHardwareMap.dcMotor.get(motorID);
 		setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 	}
