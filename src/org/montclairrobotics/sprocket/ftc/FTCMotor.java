@@ -54,4 +54,10 @@ public class FTCMotor implements IMotor{
 	{
 		this.zeroPos=zeroPos;
 	}
+	public boolean isCloseTo(double pos, double tolerance){
+        return Math.abs(motor.getCurrentPosition() - pos) < tolerance;
+    }
+    public boolean isCloseTo(double pos){
+        return isCloseTo(pos, 30);
+    }
 }
