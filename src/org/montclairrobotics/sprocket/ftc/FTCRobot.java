@@ -74,7 +74,7 @@ public abstract class FTCRobot extends OpMode implements IRobot {
 				sprocket.initS();
 			}
 			sprocket.startS(MODE.DISABLED);
-			this.mode=mode.AUTONOMOUS;
+			this.mode=mode.AUTO;
 			autoInit();
 	    }
 	
