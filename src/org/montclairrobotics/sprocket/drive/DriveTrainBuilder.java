@@ -6,8 +6,11 @@ import org.montclairrobotics.sprocket.core.IMotor;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Polar;
 import org.montclairrobotics.sprocket.geometry.Vector;
+import org.montclairrobotics.sprocket.motors.Module;
+import org.montclairrobotics.sprocket.motors.SEncoder;
 import org.montclairrobotics.sprocket.pipeline.Pipeline;
 import org.montclairrobotics.sprocket.pipeline.Step;
+import org.montclairrobotics.sprocket.utils.PID;
 
 import java.util.ArrayList;
 
@@ -38,15 +41,15 @@ public class DriveTrainBuilder {
         modules.add(module);
         return this;
     }
-    /*
-    public DriveTrainBuilder addWheel(SpeedController motor, Vector offset, Angle force, SEncoder enc, PID pid) {
-        modules.add(new DriveModule(offset, new Polar(1, force),enc,pid,Module.MotorInputType.SPEED, new FRCMotor(motor)));
+    
+    public DriveTrainBuilder addWheel(IMotor motor, Vector offset, Angle force, SEncoder enc, PID pid) {
+        modules.add(new DriveModule(offset, new Polar(1, force),enc,pid,Module.MotorInputType.SPEED, motor));
         return this;
     }
 
-    public DriveTrainBuilder addWheel(SpeedController motor, Vector offset, Angle force) {
+    public DriveTrainBuilder addWheel(IMotor motor, Vector offset, Angle force) {
         return addWheel(motor, offset, force, null, null);
-    }*/
+    }
     
     
     public DriveTrainBuilder addWheels(Vector offset, Angle force, IMotor... motors) {
