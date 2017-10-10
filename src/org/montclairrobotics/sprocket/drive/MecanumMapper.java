@@ -31,7 +31,7 @@ public class MecanumMapper implements DTMapper {
     }
     
     private static double getPower(Vector vector, Angle forceAngle) {
-        // Power = t_y / sin(angle) + t_y / cos(angle)
+        // Power = t_y / sin(angle) + t_x / cos(angle)
         return (vector.getY() / Math.sin(forceAngle.toRadians())) + (vector.getX() / Math.cos(forceAngle.toRadians()));
     }
 
