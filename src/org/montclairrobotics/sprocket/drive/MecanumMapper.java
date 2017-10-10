@@ -1,10 +1,6 @@
+
 package org.montclairrobotics.sprocket.drive;
-
-
-import org.montclairrobotics.sprocket.geometry.Angle;
-import org.montclairrobotics.sprocket.geometry.Position;
-import org.montclairrobotics.sprocket.geometry.Vector;
-import org.montclairrobotics.sprocket.geometry.XY;
+import org.montclairrobotics.sprocket.geometry.*;
 
 public class MecanumMapper implements DTMapper {
 
