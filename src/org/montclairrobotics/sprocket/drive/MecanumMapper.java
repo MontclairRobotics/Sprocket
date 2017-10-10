@@ -7,39 +7,32 @@ public class MecanumMapper implements DTMapper {
     @Override
     public void map(DTTarget driveTarget, DriveModule[] driveModules) {
         double turn = driveTarget.getTurn().toDegrees();
-
-        for(DriveModule m : driveModules) {
-            double power = getPower(driveTarget.getDirection(), m.getForceAngle());
-
-            //Get vector for rotating
+        
+        for (DriveModule module : driveModules) {
+            // 1. Get vector for rotating
             Vector turnVector;
-            if(m.getOffset() == Position.FL) {
-                turnVector = new XY(1, 1);
-            } else if(m.getOffset() == Position.FR) {
-                turnVector = new XY(1, -1);
-            } else if(m.getOffset() == Position.BL) {
-                turnVector = new XY(-1, 1);
-            } else if(m.getOffset() == Position.BR) {
-                turnVector = new XY(-1, -1);
-            } else {
-                turnVector = new XY(0, 0);
+            switch (module.getOffset()) {
+                case Position.FL: turnVector = new XY(1, 1);   // Quadrant I
+                case Position.FR: turnVector = new XY(1, -1);  // Quadrant IV
+                case Position.BL: turnVector = new XY(-1, 1);  // Quadrant II
+                case Position.BR: turnVector = new XY(-1, -1); // Quadrant III
+                default:          turnVector = new XY(0, 0);   // Origin (0, 0)
             }
 
-            //Scale it to the appropriate turn speed
+            // 2. Scale it to the appropriate turn speed
             turnVector.scale(turn);
-            double turnPower = getPower(turnVector, m.getForceAngle());
+            
+            double power =
+                MecanumMapper.getPower(driveTarget.getDirection(), module.getForceAngle()) +
+                MecanumMapper.getPower(turnVector,                 module.getForceAngle());
 
-            power += turnPower;
-
-            //TODO: SCALING!!!!!!!
-            m.set(power);
+            module.set(power);
         }
     }
-
-
+    
     private static double getPower(Vector vector, Angle forceAngle) {
-        // Power = tY*csc(angle) + tX*sec(angle)
-        return vector.getY() * (1/Math.sin(forceAngle.toRadians())) + vector.getX() * (1/Math.sin(forceAngle.toRadians()));
+        // Power = t_y / sin(angle) + t_y / cos(angle)
+        return (vector.getY() / Math.sin(forceAngle.toRadians())) + (vector.getX() / Math.cos(forceAngle.toRadians()));
     }
 
 }
