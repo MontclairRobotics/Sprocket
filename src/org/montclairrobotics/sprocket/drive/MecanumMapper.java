@@ -12,25 +12,29 @@ public class MecanumMapper implements DTMapper {
             // 1. Get vector for rotating
             Vector turnVector;
             switch (module.getOffset()) {
-                case Position.FL: turnVector = new XY(1, 1);   // Quadrant I
-                case Position.FR: turnVector = new XY(1, -1);  // Quadrant IV
-                case Position.BL: turnVector = new XY(-1, 1);  // Quadrant II
-                case Position.BR: turnVector = new XY(-1, -1); // Quadrant III
-                default:          turnVector = new XY(0, 0);   // Origin (0, 0)
+                case Position.FL:
+                    turnVector = new XY(1, 1);   // Quadrant I
+                case Position.FR:
+                    turnVector = new XY(1, -1);  // Quadrant IV
+                case Position.BL:
+                    turnVector = new XY(-1, 1);  // Quadrant II
+                case Position.BR:
+                    turnVector = new XY(-1, -1); // Quadrant III
+                default:
+                    turnVector = new XY(0, 0);   // Origin (0, 0)
             }
 
-            // 2. Scale it to the appropriate turn speed
-            turnVector.scale(turn);
-            
+            // 2. Determine the power based on (a) direction and (b) rotation
             double power =
-                MecanumMapper.getPower(driveTarget.getDirection(), module.getForceAngle()) +
-                MecanumMapper.getPower(turnVector,                 module.getForceAngle());
-
+                getPower(driveTarget.getDirection(), module.getForceAngle()) +
+                getPower(turnVector.scale(turn),     module.getForceAngle());
+            
+            // 3. Set the power for this module
             module.set(power);
         }
     }
     
-    private static double getPower(Vector vector, Angle forceAngle) {
+    private double getPower(Vector vector, Angle forceAngle) {
         // Power = t_y / sin(angle) + t_x / cos(angle)
         return (vector.getY() / Math.sin(forceAngle.toRadians())) + (vector.getX() / Math.cos(forceAngle.toRadians()));
     }
