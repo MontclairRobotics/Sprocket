@@ -37,7 +37,7 @@ public class GenericMapper implements DTMapper {
 
 			Vector moduleVec = dir.add(torqueVector); //Adds the torque vector to the directional vector
 			moduleVec = moduleVec.normalize(); //Normalises the vector, magnitude of resultant vector cannot affect the dot product
-			double dot = moduleVec.dotProduct(module.getForce()); //Projects target vector onto the motor
+			double dot = moduleVec.dotProduct(module.getForce().normalize()); //Projects target vector onto the motor
 
 			//Searches for largest dot product
 			if(Math.abs(dot) > maxPower) {
