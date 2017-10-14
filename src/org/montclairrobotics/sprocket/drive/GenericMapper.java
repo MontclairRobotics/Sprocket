@@ -29,11 +29,21 @@ public class GenericMapper implements DTMapper {
 		//Storing the lowest motor force so the motor can scale appropriately
 		double lowestForce = Double.MAX_VALUE;
 
+		//Storing lowest offset for torque correction
+		double lowestOffset = Double.MAX_VALUE;
+
+		//Searching for lowest offset
+		for(int i = 0; i < driveModules.length; i++) {
+			if(driveModules[i].getOffset().getMagnitude() < lowestOffset) {
+				lowestOffset = driveModules[i].getOffset().getMagnitude();
+			}
+		}
+
 		//Calculating torque factor for each drive module, projecting that onto the motor
 		for(int i = 0; i < driveModules.length; i++) {
 			DriveModule module = driveModules[i]; //Gets drive module from array
 			Vector torqueVector = module.getOffset().rotate(Angle.QUARTER); //Finds the vector where force applied creates a CW turn
-			torqueVector = torqueVector.normalize().scale(turnWeight); //Scales it to the appropriate weighting
+			torqueVector = torqueVector.normalize().scale(turnWeight * (lowestOffset/driveModules[i].getOffset().getMagnitude())); //Scales it to the appropriate weighting and corrects for wheel torque
 
 			Vector moduleVec = dir.add(torqueVector); //Adds the torque vector to the directional vector
 			moduleVec = moduleVec.normalize(); //Normalises the vector, magnitude of resultant vector cannot affect the dot product
