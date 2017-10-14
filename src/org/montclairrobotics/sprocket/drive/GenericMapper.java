@@ -1,44 +1,52 @@
 package org.montclairrobotics.sprocket.drive;
 
+
 import org.montclairrobotics.sprocket.geometry.Angle;
-import org.montclairrobotics.sprocket.geometry.Polar;
-import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.geometry.Vector;
 
-public class GenericMapper implements DTMapper{
+public class GenericMapper implements DTMapper {
 
 	@Override
 	public void map(DTTarget driveTarget, DriveModule[] driveModules) {
-		Vector tgtDir=driveTarget.getDirection();
-		double tgtTurn=driveTarget.getTurn();
-		for(DriveModule module:driveModules)
-		{
-			tgtTurn-=getTorque(module.getOffset(),module.getForce(),tgtDir);
+		//Stores parts of target in local variables for convenience
+		Vector dir = driveTarget.getDirection();
+		double turn = driveTarget.getTurn();
+
+		//The motor power will be scaled to the highest of either the directional input or the turn input
+		double power = dir.getMagnitude() > Math.abs(turn) ? dir.getMagnitude() : Math.abs(turn);
+
+		//Calculates how much each component should be weighted in the final vector
+		double totalInput = dir.getMagnitude() + Math.abs(turn);
+		double dirWeight = dir.getMagnitude()/totalInput;
+		double turnWeight = Math.abs(turn)/totalInput;
+
+		dir = dir.normalize().scale(dirWeight); //Scales direction to appropriate weighting
+
+		//Creates variables for scaling the motor powers
+		double[] powers = new double[driveModules.length];
+		double maxPower = 0.0;
+		//Calculating torque factor for each drive module, projecting that onto the motor
+		for(int i = 0; i < driveModules.length; i++) {
+			DriveModule module = driveModules[i]; //Gets drive module from array
+			Vector torqueVector = module.getOffset().rotate(Angle.QUARTER); //Finds the vector where force applied creates a CW turn
+			torqueVector = torqueVector.normalize().scale(turnWeight); //Scales it to the appropriate weighting
+
+			Vector moduleVec = dir.add(torqueVector); //Adds the torque vector to the directional vector
+			moduleVec = moduleVec.normalize(); //Normalises the vector, magnitude of resultant vector cannot affect the dot product
+			double dot = moduleVec.dotProduct(module.getForce()); //Projects target vector onto the motor
+			//Searches for largest dot product
+			if(Math.abs(dot) > maxPower) {
+				maxPower = Math.abs(dot);
+				powers[i] = dot;
+			}
 		}
-		for(DriveModule module:driveModules)
-		{
-			module.set(inverseDot(module.getForce(),tgtDir.add(
-					new Polar(tgtTurn*module.getOffset().getMagnitude(),module.getOffset().getAngle().add(Angle.QUARTER)))));
+
+		//Scaling
+		for(int i = 0; i < driveModules.length; i++) {
+			powers[i] = (powers[i]/maxPower) * power; //Scales each power relative to the maximum power, and then to the desired maximum motor power
+			driveModules[i].set(powers[i]);
 		}
+
 	}
-	
-	public static double getTorque(Vector offset,Vector force,Vector target)
-	{
-		if(offset.getMagnitude()==0)
-			return 0;
-		return inverseDot(force,target)/offset.getMagnitude();
-	}
-	/*
-	 * If a dot b = |c| and c is || to b,  given a and c returns b
-	 */
-	public static double inverseDot(Vector force,Vector target)
-	{
-		Angle diff=force.angleBetween(target);
-		double degTo90=Math.abs(Math.abs(diff.toDegrees())-90);
-		if(degTo90<30)
-		{
-			return target.getMagnitude()*degTo90/15;
-		}
-		return target.getMagnitude()/diff.cos();
-	}
+
 }
