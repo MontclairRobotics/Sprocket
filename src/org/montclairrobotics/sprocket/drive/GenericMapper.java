@@ -25,6 +25,10 @@ public class GenericMapper implements DTMapper {
 		//Creates variables for scaling the motor powers
 		double[] powers = new double[driveModules.length];
 		double maxPower = 0.0;
+
+		//Storing the lowest motor force so the motor can scale appropriately
+		double lowestForce = Double.MAX_VALUE;
+
 		//Calculating torque factor for each drive module, projecting that onto the motor
 		for(int i = 0; i < driveModules.length; i++) {
 			DriveModule module = driveModules[i]; //Gets drive module from array
@@ -34,16 +38,23 @@ public class GenericMapper implements DTMapper {
 			Vector moduleVec = dir.add(torqueVector); //Adds the torque vector to the directional vector
 			moduleVec = moduleVec.normalize(); //Normalises the vector, magnitude of resultant vector cannot affect the dot product
 			double dot = moduleVec.dotProduct(module.getForce()); //Projects target vector onto the motor
+
 			//Searches for largest dot product
 			if(Math.abs(dot) > maxPower) {
 				maxPower = Math.abs(dot);
 				powers[i] = dot;
+			}
+
+			//Searches for least powerful motor for scaling
+			if(driveModules[i].getForce().getMagnitude() < lowestForce) {
+				lowestForce = driveModules[i].getForce().getMagnitude();
 			}
 		}
 
 		//Scaling
 		for(int i = 0; i < driveModules.length; i++) {
 			powers[i] = (powers[i]/maxPower) * power; //Scales each power relative to the maximum power, and then to the desired maximum motor power
+			powers[i] = powers[i] * (lowestForce/driveModules[i].getForce().getMagnitude()); //Scales to account for imbalanced motor powers
 			driveModules[i].set(powers[i]);
 		}
 
