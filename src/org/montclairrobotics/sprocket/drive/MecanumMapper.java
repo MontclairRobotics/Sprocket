@@ -11,12 +11,26 @@ public class MecanumMapper implements DTMapper {
         Vector dir = driveTarget.getDirection();
         double dirPower = dir.getMagnitude();
         double turn = driveTarget.getTurn();
+        double motorPowers[] = new double[driveModules.length];
 
-        for (DriveModule driveModule : driveModules) {
+        for (int i = 0; i < driveModules.length; i++) {
+            DriveModule driveModule = driveModules[i];
             Vector offset = driveModule.getOffset();
             Vector turnVec = offset.rotate(new Degrees(90)).normalize().scale(turn / (dirPower + Math.abs(turn)));
             Vector finalVec = dir.normalize().scale(dirPower / (dirPower + Math.abs(turn))).add(turnVec);
-            driveModule.set(finalVec.dotProduct(driveModule.getForce()));
+            motorPowers[i] = finalVec.dotProduct(driveModule.getForce());
+        }
+
+        double highestPower = Double.MIN_VALUE;
+        for(double p : motorPowers) {
+            if(Math.abs(p) > highestPower) {
+                highestPower = p;
+            }
+        }
+
+        for(int i = 0; i < driveModules.length; i++) {
+            motorPowers[i] = motorPowers[i] / highestPower;
+            driveModules[i].set(motorPowers[i]);
         }
     }
 
