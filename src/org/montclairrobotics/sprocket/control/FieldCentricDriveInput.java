@@ -3,14 +3,18 @@ package org.montclairrobotics.sprocket.control;
 import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.core.IJoystick;
 import org.montclairrobotics.sprocket.core.Sprocket;
+import org.montclairrobotics.sprocket.drive.DTInput;
 import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
+import org.montclairrobotics.sprocket.loop.Priority;
+import org.montclairrobotics.sprocket.loop.Updatable;
+import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.SmoothVectorInput;
 
 
-public class FieldCentricDriveInput extends ArcadeDriveInput implements Action{
+public class FieldCentricDriveInput implements DTInput,Action,Updatable{
 
 	private GyroCorrection gyro;
 	
@@ -19,30 +23,25 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Action{
 	private boolean forwards;
 
 	private boolean rotToVector;
+
+	private boolean enabled=false;
 	
 	private static final int SMOOTH_LEN=10;
 
-	public FieldCentricDriveInput(IJoystick stick,GyroCorrection gyro)
+	public FieldCentricDriveInput(Input<Vector> stick,GyroCorrection gyro)
 	{
-		this(stick,gyro,true);
+		this(stick,gyro,false);
 	}
-	public FieldCentricDriveInput(IJoystick stick,GyroCorrection gyro,boolean rotToVector)
+	public FieldCentricDriveInput(Input<Vector> stick,GyroCorrection gyro,boolean rotToVector)
 	{
-		super(stick);
 		this.gyro=gyro;
 		this.rotToVector=rotToVector;
-		fieldInput=new SmoothVectorInput(SMOOTH_LEN,new Input<Vector>(){
-
-			@Override
-			public Vector get() {
-				// TODO Auto-generated method stub
-				return getRaw();
-			}});
+		fieldInput=new SmoothVectorInput(SMOOTH_LEN,stick);
+		Updater.add(this, Priority.CONTROL);
 	}
 	@Override
 	public void update()
 	{
-		super.update();
 		field=fieldInput.get();
 		if(field.getMagnitude()>0.1)
 		{
@@ -60,7 +59,7 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Action{
      */
 	@Override
 	public Vector getDir() {
-		return robot.square();
+		return robot;
     }
 
     /**
@@ -69,7 +68,7 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Action{
 	@Override
     public double getTurn() {
 
-		if(rotToVector&&field.getMagnitude()>0.1)
+		if(enabled&&rotToVector&&field.getMagnitude()>0.1)
 		{
 			if(forwards)
 			{
@@ -87,10 +86,12 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Action{
 	@Override
 	public void start() {
 		Sprocket.getMainDriveTrain().setTempInput(this);
+		enabled=true;
 	}
 	@Override
 	public void stop() {
 		Sprocket.getMainDriveTrain().useDefaultInput();
+		enabled=false;
 	}
 	@Override
 	public void enabled() {
