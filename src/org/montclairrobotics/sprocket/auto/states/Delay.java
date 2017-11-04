@@ -6,16 +6,11 @@ import org.montclairrobotics.sprocket.utils.Input;
 
 public class Delay extends AutoState{
 
-	private Input<Double> timeInput;
-	private double time;
+	private Number time;
 
-	public Delay(double time)
+	public Delay(Number time)
 	{
 		this.time=time;
-	}
-	
-	public Delay(Input<Double> timeInput) {
-		this.timeInput = timeInput;
 	}
 	
 	
@@ -23,8 +18,7 @@ public class Delay extends AutoState{
 	@Override
 	public void userStart() {
 		super.userStart();
-		if(timeInput != null) time = timeInput.get();
-		super.TIMEOUT=time;
+		super.TIMEOUT=time.doubleValue();
 	}
 
 	@Override
@@ -35,7 +29,7 @@ public class Delay extends AutoState{
 
 	@Override
 	public boolean userIsDone() {
-		Debug.num("Time", time);
+		Debug.num("Time", super.TIMEOUT);
 		Debug.num("Time in State", timeInState());
 		return false;
 	}

@@ -2,6 +2,7 @@ package org.montclairrobotics.sprocket.core;
 
 import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
+import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
 import org.montclairrobotics.sprocket.loop.DisabledUpdater;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updater;
@@ -18,6 +19,7 @@ public class Sprocket{
 
 	public static DriveTrain driveTrain;
 	public static IDebug debugger;
+	public static GyroCorrection gyro;
 
 	private IRobot robot;
 	

@@ -28,11 +28,7 @@ public class DriveTime extends Delay {
 		this.tgtDir = tgtDir;
 		this.tgtTurn = tgtTurn;
 	}
-	public DriveTime(Input<Double> timeInput, double power) {
-		super(timeInput);
-		this.tgtDir = new XY(0, power);
-		this.tgtTurn = 0;
-	}
+	
 	
 	@Override
 	public void enabled() {

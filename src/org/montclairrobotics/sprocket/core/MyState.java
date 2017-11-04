@@ -9,6 +9,8 @@ import org.montclairrobotics.sprocket.utils.Input;
 
 public class MyState {
 
+	public static double maxAccel=0.0;
+	
 	public static Input<Vector> absVelocity,absPosition;
 	public static Input<Angle> absAngularVelocity,absAngle;
 	
@@ -42,6 +44,9 @@ public class MyState {
 	{
 		return zeroAngle.subtract(zeroAngle);
 	}
+	
+	
+	
 	
 	public class VelocityInput implements Input<Vector>
 	{
