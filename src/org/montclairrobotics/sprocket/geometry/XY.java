@@ -52,6 +52,10 @@ public class XY implements Vector {
     public double dotProduct(Vector v) {
         return x * v.getX() + y * v.getY();
     }
+    public double crossProduct(Vector v)
+    {
+    	return y * v.getX() - x * v.getY();//LEFT HANDED
+    }
 
 	@Override
 	public Vector rotate(Angle a) {

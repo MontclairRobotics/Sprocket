@@ -7,6 +7,7 @@ import org.montclairrobotics.sprocket.geometry.Polar;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.motors.Module;
 import org.montclairrobotics.sprocket.motors.SEncoder;
+import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.PID;
 
 /**
@@ -108,5 +109,9 @@ public class DriveModule extends Module{
     public String toString()
     {
     	return "("+offset.getX()+","+offset.getY()+"): "+(power*100)+"%";
+    }
+    public void debug()
+    {
+        Debug.msg("("+offset.getX()+","+offset.getY()+")",(power*100)+"%");
     }
 }

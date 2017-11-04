@@ -1,8 +1,11 @@
 package org.montclairrobotics.sprocket.ftc;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
+
 import org.montclairrobotics.sprocket.core.IJoystick;
 import org.montclairrobotics.sprocket.ftc.FTCRobot.GAMEPAD;
+import org.montclairrobotics.sprocket.geometry.Vector;
+import org.montclairrobotics.sprocket.geometry.XY;
 
 //This class kills me
 public class FTCJoystick implements IJoystick{
@@ -28,7 +31,6 @@ public class FTCJoystick implements IJoystick{
 		this.stick=stick;
 	}
 
-	@Override
 	public double getX() {
 		if(stick==STICK.LEFT)
 		{
@@ -43,19 +45,23 @@ public class FTCJoystick implements IJoystick{
 			return (gamepad.dpad_right?1:0)-(gamepad.dpad_left?1:0);
 		}
 	}
-	@Override
 	public double getY() {
 		if(stick==STICK.LEFT)
 		{
-			return gamepad.left_stick_y;
+			return -gamepad.left_stick_y;
 		}
 		else if(stick==STICK.RIGHT)
 		{
-			return gamepad.right_stick_y;
+			return -gamepad.right_stick_y;
 		}
 		else
 		{
 			return (gamepad.dpad_up?1:0)-(gamepad.dpad_down?1:0);
 		}
+	}
+	
+	public Vector get()
+	{
+		return new XY(getX(),getY());
 	}
 }

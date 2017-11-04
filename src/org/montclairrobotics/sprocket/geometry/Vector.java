@@ -13,6 +13,7 @@ public interface Vector {
     Vector setMag(double mag);
     Vector normalize();
     double dotProduct(Vector v);
+    double crossProduct(Vector v);//NOTE THAT THIS IS LEFT HANDED
 	Vector rotate(Angle angle);
 	Angle angleBetween(Vector c);
 	Vector square();

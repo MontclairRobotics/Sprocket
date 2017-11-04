@@ -26,7 +26,7 @@ public class JoystickXAxis implements Input<Double> {
 	 */
 	@Override
 	public Double get() {
-		return stick.getX();
+		return stick.get().getX();
 	}
 
 }
