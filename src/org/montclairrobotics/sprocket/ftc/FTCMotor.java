@@ -1,6 +1,7 @@
 package org.montclairrobotics.sprocket.ftc;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.montclairrobotics.sprocket.core.IMotor;
 
@@ -53,5 +54,10 @@ public class FTCMotor implements IMotor{
 	public void setZeroPos(double zeroPos)
 	{
 		this.zeroPos=zeroPos;
+	}
+
+	public void forward(boolean forward)
+	{
+		motor.setDirection(forward? DcMotorSimple.Direction.FORWARD: DcMotorSimple.Direction.REVERSE);
 	}
 }

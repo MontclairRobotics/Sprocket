@@ -1,7 +1,5 @@
 package org.montclairrobotics.sprocket.drive;
 
-import org.montclairrobotics.sprocket.geometry.Angle;
-import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.geometry.Vector;
 
 public class UniversalMapper implements DTMapper{
@@ -23,11 +21,12 @@ public class UniversalMapper implements DTMapper{
 			Vector offset=module.getOffset();
 			if(offset.getMagnitude()>0)
 			{
-				double t=offset.setMag(1/offset.getMagnitude()).crossProduct(module.getForce());
+				double t=Math.abs(offset.setMag(1/offset.getMagnitude()).crossProduct(module.getForce()));
 				if (t>maxTorque)
 					maxTorque=t;
 			}
 		}
+		//int i=0;
 		for(DriveModule module:driveModules)
 		{
 			double f=module.getForce().dotProduct(dir);
@@ -36,13 +35,18 @@ public class UniversalMapper implements DTMapper{
 			if(offset.getMagnitude()>0)
 			{
 				double t=offset.setMag(1/offset.getMagnitude()).crossProduct(module.getForce());
-				if(t>0)
-				{
-					Vector tVec=module.getOffset().rotate(Angle.QUARTER).setMag(t*turn/maxTorque);
-					fVec=fVec.add(tVec);
-				}
+				//if(Math.abs(t)>0)
+				//{
+					//Debug.msg("Module "+i+": offset",module.getOffset());
+					//Debug.msg("Module "+i+": t",t);
+					//Vector tVec=module.getOffset().rotate(Angle.QUARTER).setMag(turn*t/maxTorque);
+					//Debug.msg("Module "+i+": tVec",tVec);
+				fVec=fVec.setMag(fVec.getMagnitude()+turn*t/maxTorque);
+					//Debug.msg("Module "+i+": fVec",fVec);
+				//}
 			}
-			module.set(fVec.dotProduct(module.getForce())/module.getForce().getMagnitude());
+			module.set(fVec.dotProduct(module.getForce().normalize()));
+			//i++;
 		}
 	}
 

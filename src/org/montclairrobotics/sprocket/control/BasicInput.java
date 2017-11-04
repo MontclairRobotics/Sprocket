@@ -15,7 +15,7 @@ public class BasicInput implements DTInput{
 		this.dir=dir;
 		this.turn=turn;
 	}
-	public BasicInput(Input<Double> dirX,Input<Double> dirY,Input<Double> turn)
+	public BasicInput(final Input<Double> dirX,final Input<Double> dirY,Input<Double> turn)
 	{
 		this.dir=new Input<Vector>(){
 

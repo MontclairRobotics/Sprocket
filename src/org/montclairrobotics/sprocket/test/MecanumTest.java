@@ -25,7 +25,7 @@ public class MecanumTest extends TestRobot{
 				new DriveModule(new XY(-1,1),new XY(1,1),new TestMotor("FrontLeft")),
 				new DriveModule(new XY(1,1),new XY(-1,1),new TestMotor("FrontRight"))
 				);
-		dt.setDefaultInput(new BasicInput(new TestJoystick(TEST.ZERO),new Input<Double>(){
+		dt.setDefaultInput(new BasicInput(new TestJoystick(TEST.CIRCLE),new Input<Double>(){
 
 			@Override
 			public Double get() {

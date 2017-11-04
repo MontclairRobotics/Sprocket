@@ -85,7 +85,13 @@ public class Module {
     	{
     		motor.set(power);
     	}
-    	Debug.num("module-" + moduleId, power);
+    	//Debug.num("module-" + moduleId, power);
+        debug();
+    }
+
+    public void debug()
+    {
+        Debug.num("module-" + moduleId, power);
     }
     
     /**
