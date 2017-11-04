@@ -13,5 +13,6 @@ public class TestDebug implements IDebug{
 	public void debugNum(String key, double val) {
 		debugStr(key,""+val);
 	}
-
+	
+	public void update(){}
 }

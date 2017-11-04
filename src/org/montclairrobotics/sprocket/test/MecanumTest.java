@@ -36,7 +36,7 @@ public class MecanumTest extends TestRobot{
 	}
 
 	@Override
-	public void enable(MODE mode) {
+	public void enableMode(MODE mode) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -69,5 +69,23 @@ public class MecanumTest extends TestRobot{
 	public static void main(String[] args)
 	{
 		new MecanumTest();
+	}
+
+	@Override
+	public void teleopInit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void autoInit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void testInit() {
+		// TODO Auto-generated method stub
+		
 	}
 }

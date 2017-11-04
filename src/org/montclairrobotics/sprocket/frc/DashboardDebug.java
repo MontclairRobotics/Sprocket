@@ -17,4 +17,6 @@ public class DashboardDebug implements IDebug{
 		SmartDashboard.putNumber(key, val);
 		
 	}
+	
+	public void update() {}
 }

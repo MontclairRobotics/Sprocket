@@ -48,35 +48,46 @@ public class Sprocket{
 	}
     public final void startS(MODE mode) 
     {
+    	if(mode==MODE.DISABLED)
+    	{
+    		stopS();
+    		return;
+    	}
+
+    	Debug.msg("MODE", mode);
+    	curMode=mode;
+    	robot.enableMode(mode);
+    	
     	switch(mode)
     	{
     	case AUTO:
     		if(autoActionInput!=null)
     			currentAction=autoActionInput.get();
+    		robot.autoInit();
     		break;
     	case TELEOP:
 			if(teleopActionInput!=null)
 				currentAction=teleopActionInput.get();
+			robot.teleopInit();
 			break;
     	case TEST:
     		if(testActionInput!=null)
     			currentAction=testActionInput.get();
+    		robot.testInit();
     		break;
 		default:
 			break;
     	}
-    	Debug.msg("MODE", mode);
-    	curMode=mode;
     	if(currentAction!=null)
     	{
     		currentAction.start();
     	}
-    	robot.enable(mode);
     }
     public final void updateS()
     {
     	Updater.loop();
     	robot.debugs();
+    	debugger.update();
     }
     public final void stopS()
     {
@@ -85,11 +96,15 @@ public class Sprocket{
     		currentAction.stop();
     	}
     	curMode=MODE.DISABLED;
+    	Debug.msg("MODE", MODE.DISABLED);
+    	robot.enableMode(MODE.DISABLED);
     	robot.disable();
     }
     public final void disabledUpdateS()
     {
     	DisabledUpdater.loop();
     	robot.disabledUpdate();
+    	robot.debugs();
+    	debugger.update();
     }
 }
