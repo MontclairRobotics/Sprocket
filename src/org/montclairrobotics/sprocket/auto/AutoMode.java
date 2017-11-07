@@ -41,11 +41,4 @@ public class AutoMode extends StateMachine{
 	{
 		return name;
 	}
-	public void enabled()
-	{
-	}
-	public void disabled()
-	{
-		
-	}
 }
