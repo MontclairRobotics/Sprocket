@@ -18,7 +18,7 @@ public class DriveEncoderGyro extends StateMachine{
 		final Number angleFinal=angle;
 		final Comparable<Boolean> relativeFinal=relative;
 		State[] r={
-			new TurnGyro(angle,gyroCorrection,relative),
+			new TurnGyro(angle,relative),
 			new State()
 			{
 

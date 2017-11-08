@@ -9,7 +9,8 @@ public class FTCMotor implements IMotor{
 
 	private DcMotor motor;
 	private double zeroPos=0;
-	
+	private int direction=1;
+
 	public FTCMotor(String motorID)
 	{
 		motor=FTCRobot.ftcHardwareMap.dcMotor.get(motorID);
@@ -29,7 +30,7 @@ public class FTCMotor implements IMotor{
 	}
 	@Override
 	public void set(double power) {
-		motor.setPower(power);
+		motor.setPower(power * direction);
 	}
 	public void setTargetPosition(double pos)
 	{
@@ -56,8 +57,14 @@ public class FTCMotor implements IMotor{
 		this.zeroPos=zeroPos;
 	}
 
-	public void forward(boolean forward)
+	public enum DIRECTION{FORWARDS, BACKWARDS}
+
+	public void direction(DIRECTION direction)
 	{
-		motor.setDirection(forward? DcMotorSimple.Direction.FORWARD: DcMotorSimple.Direction.REVERSE);
+        if(direction == DIRECTION.BACKWARDS){
+            this.direction = -1;
+        }else {
+            this.direction = 1;
+        }
 	}
 }
