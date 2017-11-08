@@ -30,17 +30,14 @@ public class UniversalMapper implements DTMapper{
 		double maxPow=0.1;
 		for(DriveModule module:driveModules)
 		{
-			double f=module.getForce().normalize().dotProduct(dir.normalize());
+			double f=Math.abs(module.getForce().normalize().dotProduct(dir.normalize()));
 			if(f>maxForce)
 				maxForce=f;
 		}
 		for(DriveModule module:driveModules)
 		{
 			double d=0;
-			if(dir.getMagnitude()>0)
-			{
-				d=module.getForce().normalize().dotProduct(dir)/maxForce;
-			}
+			d=module.getForce().normalize().dotProduct(dir)/maxForce;
 			double t=module.getOffset().crossProduct(module.getForce())*turn/maxTurn;
 			module.temp=d+t;
 			double pow=Math.abs(module.temp);
