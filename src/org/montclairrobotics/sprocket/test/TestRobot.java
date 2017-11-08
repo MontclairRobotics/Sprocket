@@ -11,26 +11,36 @@ public abstract class TestRobot implements IRobot{
 	
 	public TestRobot(MODE mode, int time)
 	{
-		sprocket=new Sprocket(this);
-		sprocket.debugger=new TestDebug();
-		sprocket.initS();
-		sprocket.startS(MODE.DISABLED);
-		for(int i=0;i<time;i++)
+		try
 		{
-			Debug.msg("\nTIME", i);
-			sprocket.disabledUpdateS();
+			sprocket=new Sprocket(this);
+			sprocket.debugger=new TestDebug();
+			sprocket.initS();
+			sprocket.startS(MODE.DISABLED);
+			for(int i=0;i<time;i++)
+			{
+				Debug.msg("\nTIME", i);
+				sprocket.disabledUpdateS();
+				Thread.sleep(100);
+			}
+			sprocket.startS(mode);
+			for(int i=0;i<time;i++)
+			{
+				Debug.msg("\nTIME", i);
+				sprocket.updateS();
+				Thread.sleep(100);
+			}
+			sprocket.stopS();
+			for(int i=0;i<time;i++)
+			{
+				Debug.msg("\nTIME", i);
+				sprocket.disabledUpdateS();
+				Thread.sleep(100);
+			}
 		}
-		sprocket.startS(mode);
-		for(int i=0;i<time;i++)
+		catch (InterruptedException e)
 		{
-			Debug.msg("\nTIME", i);
-			sprocket.updateS();
-		}
-		sprocket.stopS();
-		for(int i=0;i<time;i++)
-		{
-			Debug.msg("\nTIME", i);
-			sprocket.disabledUpdateS();
+		
 		}
 	}
 

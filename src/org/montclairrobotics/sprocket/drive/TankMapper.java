@@ -62,5 +62,11 @@ public class TankMapper implements DTMapper {
 		}
 		return target.getMagnitude()/diff.cos();
 	}
+
+	@Override
+	public void setup(DriveModule[] driveModules) {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

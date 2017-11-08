@@ -24,10 +24,13 @@ public class DriveModule extends Module{
 
     private Vector offset;
     private Vector force;
-    private IMotor[] motors;
+    //private IMotor[] motors;
     
+    //public double tempDir,tempTurn;
     
     private double power;
+    
+	public double temp;
 
     /**
      * Creates a DriveModule with speed control enabled
@@ -44,12 +47,16 @@ public class DriveModule extends Module{
                        ) {
     	super(enc, pid, inputType, motors);
         this.offset = offset;
-        this.motors = motors;
+        //this.motors = motors;
         this.force = force;
     }
 
     public DriveModule(Vector offset, Vector force,IMotor... motors) {
 		this(offset,force,null,null,Module.MotorInputType.PERCENT,motors);
+	}
+    
+    public DriveModule(Vector offset, Vector force,SEncoder enc, IMotor... motors) {
+		this(offset,force,enc,null,Module.MotorInputType.PERCENT,motors);
 	}
     
     public DriveModule(Vector offset,
@@ -100,6 +107,7 @@ public class DriveModule extends Module{
      */
     public void set(double val)
     {
+    	this.power=val;
     	super.set(val);
     }
     
@@ -112,6 +120,6 @@ public class DriveModule extends Module{
     }
     public void debug()
     {
-        Debug.msg("("+offset.getX()+","+offset.getY()+")",(power*100)+"%");
+        Debug.msg("("+offset.getX()+","+offset.getY()+")",(power*100.0)+"%");
     }
 }

@@ -67,7 +67,7 @@ public class DriveTrain implements Updatable, Input<Distance> {
     	return this;
     }
     
-    public Vector getDistance() {
+    public Vector getPosition() {
     	if(modules.length==0)
     		return Vector.ZERO;
     	Vector totDist = Vector.ZERO;
@@ -75,6 +75,20 @@ public class DriveTrain implements Updatable, Input<Distance> {
     	for(DriveModule m : modules) {
     		if(!m.hasEncoder()) continue;
     		totDist=totDist.add(m.getForce().setMag(m.getDistance().get()));
+    		modulesWithEnc++;
+    	}
+    	Vector avgDist=totDist.scale(1.0/modulesWithEnc);
+    	return avgDist;
+    }
+    
+    public Vector getVelocity() {
+    	if(modules.length==0)
+    		return Vector.ZERO;
+    	Vector totDist = Vector.ZERO;
+    	int modulesWithEnc = 0;
+    	for(DriveModule m : modules) {
+    		if(!m.hasEncoder()) continue;
+    		totDist=totDist.add(m.getForce().setMag(m.getEnc().getSpeed().get()));
     		modulesWithEnc++;
     	}
     	Vector avgDist=totDist.scale(1.0/modulesWithEnc);
@@ -97,7 +111,7 @@ public class DriveTrain implements Updatable, Input<Distance> {
 
 	@Override
 	public Distance get() {
-		return new Distance(-this.getDistance().getY());
+		return new Distance(-this.getPosition().getY());
 	}
     
 }

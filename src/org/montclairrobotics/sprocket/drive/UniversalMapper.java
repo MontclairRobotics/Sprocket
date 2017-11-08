@@ -1,52 +1,61 @@
 package org.montclairrobotics.sprocket.drive;
 
+import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
 
 public class UniversalMapper implements DTMapper{
 
+	private double maxTurn=0.1;
+	
+	@Override
+	public void setup(DriveModule[] driveModules)
+	{
+		if(driveModules.length==0)return;
+		for(DriveModule module:driveModules)
+		{
+			
+			
+			double t=Math.abs(module.getOffset().crossProduct(module.getForce()));
+			if (t>maxTurn)
+				maxTurn=t;
+		}
+	}
+	
 	@Override
 	public void map(DTTarget driveTarget, DriveModule[] driveModules) {
 		if(driveModules.length==0) return;
 		Vector dir=driveTarget.getDirection();
-		Vector normDir=dir.normalize();
 		double turn=driveTarget.getTurn();
 		double maxForce=0.1;
-		double maxTorque=0.1;
-		//double torque=0;
+		double maxPow=0.1;
 		for(DriveModule module:driveModules)
 		{
-			double f=module.getForce().dotProduct(normDir);
+			double f=Math.abs(module.getForce().normalize().dotProduct(dir.normalize()));
 			if(f>maxForce)
 				maxForce=f;
-			Vector offset=module.getOffset();
-			if(offset.getMagnitude()>0)
-			{
-				double t=Math.abs(offset.setMag(1/offset.getMagnitude()).crossProduct(module.getForce()));
-				if (t>maxTorque)
-					maxTorque=t;
-			}
 		}
-		//int i=0;
 		for(DriveModule module:driveModules)
 		{
-			double f=module.getForce().dotProduct(dir);
-			Vector fVec=module.getForce().setMag(f/maxForce);
-			Vector offset=module.getOffset();
-			if(offset.getMagnitude()>0)
+			double d=0;
+			d=module.getForce().normalize().dotProduct(dir)/maxForce;
+			double t=module.getOffset().crossProduct(module.getForce())*turn/maxTurn;
+			module.temp=d+t;
+			double pow=Math.abs(module.temp);
+			if(pow>maxPow)
 			{
-				double t=offset.setMag(1/offset.getMagnitude()).crossProduct(module.getForce());
-				//if(Math.abs(t)>0)
-				//{
-					//Debug.msg("Module "+i+": offset",module.getOffset());
-					//Debug.msg("Module "+i+": t",t);
-					//Vector tVec=module.getOffset().rotate(Angle.QUARTER).setMag(turn*t/maxTorque);
-					//Debug.msg("Module "+i+": tVec",tVec);
-				fVec=fVec.setMag(fVec.getMagnitude()+turn*t/maxTorque);
-					//Debug.msg("Module "+i+": fVec",fVec);
-				//}
+				maxPow=pow;
 			}
-			module.set(fVec.dotProduct(module.getForce().normalize()));
-			//i++;
+		}
+		for(DriveModule module:driveModules)
+		{
+			if(maxPow>1)
+			{
+				module.set(module.temp/maxPow);
+			}
+			else
+			{
+				module.set(module.temp);
+			}
 		}
 	}
 

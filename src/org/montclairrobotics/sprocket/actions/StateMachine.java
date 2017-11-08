@@ -44,7 +44,11 @@ public class StateMachine implements State, Updatable{
 		{
 			states[index].stop();
 			index++;
-			if(isDone())return;
+			if(isDone())
+			{
+				stop();
+				return;
+			}
 			states[index].start();
 			states[index].enabled();
 		}

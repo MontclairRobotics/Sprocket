@@ -36,7 +36,7 @@ public class DriveEncoders extends AutoState {
 		distance=inDistance.doubleValue();
 		speed=inSpeed.doubleValue();
 		dt = Sprocket.getMainDriveTrain();
-		stopDist = dt.getDistance().getY()+distance;
+		stopDist = dt.getPosition().getY()+distance;
 		//forwards=distance>0;
 	}
 	
@@ -80,12 +80,12 @@ public class DriveEncoders extends AutoState {
 	@Override
 	public boolean userIsDone() {
 		Debug.msg("forwards", distance>0?"YES":"NO");
-		Debug.msg("DISTANCE", dt.getDistance().getY());
+		Debug.msg("DISTANCE", dt.getPosition().getY());
 		Debug.msg("StopDistance", stopDist);
 		if(distance>0)
-			return dt.getDistance().getY()>stopDist-1;
+			return dt.getPosition().getY()>stopDist-1;
 		else
-			return dt.getDistance().getY()<stopDist+1;
+			return dt.getPosition().getY()<stopDist+1;
 	}
 	
 	@Override
