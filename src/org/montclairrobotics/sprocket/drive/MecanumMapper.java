@@ -51,4 +51,10 @@ public class MecanumMapper implements DTMapper {
         }
     }
 
+	@Override
+	public void setup(DriveModule[] driveModules) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

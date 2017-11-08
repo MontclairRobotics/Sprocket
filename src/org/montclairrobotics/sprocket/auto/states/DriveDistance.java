@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.auto.states;
 
 import org.montclairrobotics.sprocket.auto.AutoState;
-import org.montclairrobotics.sprocket.core.MyState;
+import org.montclairrobotics.sprocket.drive.utils.MyState;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
 
