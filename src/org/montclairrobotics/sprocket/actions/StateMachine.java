@@ -3,6 +3,7 @@ package org.montclairrobotics.sprocket.actions;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
+import org.montclairrobotics.sprocket.utils.Debug;
 
 
 public class StateMachine implements State, Updatable{
@@ -22,6 +23,7 @@ public class StateMachine implements State, Updatable{
 		this.top=top;
 		index=0;
 		states[index].start();
+        Debug.msg("Auto Mode Running: stateMachine","");
 	}
 	@Override
 	public void start() {

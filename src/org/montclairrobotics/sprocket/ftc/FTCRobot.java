@@ -9,6 +9,7 @@ import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.core.IRobot;
 import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.core.Sprocket.MODE;
+import org.montclairrobotics.sprocket.utils.Debug;
 
 /**
 
@@ -91,6 +92,7 @@ public abstract class FTCRobot extends OpMode implements IRobot {
     public void start() {
     	sprocket.currentAction=action;
     	sprocket.startS(mode);
+        Debug.msg("Starting -FTCRobot",mode);
     }
 
     @Override

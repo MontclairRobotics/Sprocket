@@ -56,10 +56,7 @@ public class SimpleTest extends TestRobot{
 	}
 	
 	
-	public static void main(String[] args)
-	{
-		new SimpleTest();
-	}
+	
 
 	@Override
 	public void teleopInit() {

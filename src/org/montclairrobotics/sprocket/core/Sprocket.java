@@ -83,6 +83,7 @@ public class Sprocket{
     	if(currentAction!=null)
     	{
     		currentAction.start();
+            Debug.msg("Sprocket Starting",currentAction);
     	}
     }
     public final void updateS()
