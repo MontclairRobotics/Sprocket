@@ -79,7 +79,7 @@ public abstract class AutoState implements State,DTInput {
 	@Override
 	public final boolean isDone()
 	{
-		return timeInState()<TIMEOUT || userIsDone();
+		return timeInState()>TIMEOUT || userIsDone();
 	}
 	
 	public void setTimeout(double t)
