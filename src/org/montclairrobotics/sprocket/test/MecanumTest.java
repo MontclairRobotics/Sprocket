@@ -1,6 +1,7 @@
 package org.montclairrobotics.sprocket.test;
 
 import org.montclairrobotics.sprocket.actions.StateMachine;
+import org.montclairrobotics.sprocket.auto.states.DriveDistance;
 import org.montclairrobotics.sprocket.auto.states.DriveTime;
 import org.montclairrobotics.sprocket.control.BasicInput;
 import org.montclairrobotics.sprocket.core.IMotor;
@@ -13,6 +14,7 @@ import org.montclairrobotics.sprocket.drive.utils.MyState;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.test.TestJoystick.TEST;
+import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.ZeroInput;
 
@@ -22,6 +24,7 @@ public class MecanumTest extends TestRobot{
 		super(MODE.TELEOP, 8);
 	}
 	private StateMachine auto;
+	private DriveTrain dt;
 	
 	@Override
 	public void setup() {
@@ -38,7 +41,7 @@ public class MecanumTest extends TestRobot{
 				new DriveModule(new XY(1,1),new XY(1,-1),motors[3].getEncoder(),motors[3])
 		};
 		
-		final DriveTrain dt=new DriveTrain(driveModules);
+		dt=new DriveTrain(driveModules);
 		MyState.absVelocity=new Input<Vector>(){public Vector get(){return dt.getVelocity();}};
 		MyState.absPosition=new Input<Vector>(){public Vector get(){return dt.getPosition();}};
 		dt.setDefaultInput(new BasicInput(new TestJoystick(TEST.TINY),new Input<Double>(){
@@ -50,7 +53,7 @@ public class MecanumTest extends TestRobot{
 			}}));
 		dt.setMapper(new UniversalMapper());
 		
-		auto=new StateMachine(new DriveTime(0.2, new XY(0,1)));
+		auto=new StateMachine(new DriveDistance(new XY(0,.15),0.5));
 	}
 
 	@Override
@@ -80,7 +83,8 @@ public class MecanumTest extends TestRobot{
 	@Override
 	public void debugs() {
 		// TODO Auto-generated method stub
-		
+		Debug.msg("Position",dt.getPosition());
+		Debug.msg("Velocity",dt.getVelocity());
 	}
 	
 	

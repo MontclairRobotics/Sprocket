@@ -6,13 +6,14 @@ import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Input;
+import org.montclairrobotics.sprocket.utils.ZeroInput;
 
 public class MyState {
 
 	public static double maxAccel=0.0;
 	
-	public static Input<Vector> absVelocity,absPosition;
-	public static Input<Angle> absAngularVelocity,absAngle;
+	public static Input<Vector> absVelocity=ZeroInput.ZERO_VECTOR,absPosition=ZeroInput.ZERO_VECTOR;
+	public static Input<Angle> absAngularVelocity=ZeroInput.ZERO_ANGLE,absAngle=ZeroInput.ZERO_ANGLE;
 	
 	private Vector zeroPos;
 	private Angle zeroAngle;
