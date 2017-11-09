@@ -32,7 +32,7 @@ public class Delay extends AutoState{
 	public boolean userIsDone() {
 		Debug.num("Time", super.TIMEOUT);
 		Debug.num("Time in State", timeInState());
-        Debug.msg("IsDone",isDone()?"TRUE":"FALSE");
+        ////////////Debug.msg("IsDone",isDone()?"TRUE":"FALSE"); AAAAAAAAAAAAAAAAAAaaaaa
 		return false;
 	}
 
