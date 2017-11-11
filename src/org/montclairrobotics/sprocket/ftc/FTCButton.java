@@ -26,7 +26,7 @@ public class FTCButton extends Button {
 		right_trigger;//a float
 	}
 
-	private static final float THREASHOLD = 50;
+	private static final float THREASHOLD = .5f;
 	
 	private Gamepad gamepad;
 	private BUTTON button;

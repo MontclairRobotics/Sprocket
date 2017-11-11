@@ -4,18 +4,21 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.montclairrobotics.sprocket.core.IMotor;
+import org.montclairrobotics.sprocket.utils.Debug;
 
 public class FTCMotor implements IMotor{
 
 	private DcMotor motor;
 	private double zeroPos=0;
 	private int direction=1;
+	private String name;
 
 	public FTCMotor(String motorID)
 	{
 		motor=FTCRobot.ftcHardwareMap.dcMotor.get(motorID);
 		setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+		this.name=motorID;
 	}
 	public FTCMotor setMode(DcMotor.RunMode mode)
 	{
@@ -23,14 +26,22 @@ public class FTCMotor implements IMotor{
 		motor.setPower(0);
 		return this;
 	}
+
+
 	public FTCMotor setZeroPowerBehavior(DcMotor.ZeroPowerBehavior b)
 	{
 		motor.setZeroPowerBehavior(b);
 		return this;
 	}
+
+	public DcMotor getMotor()
+	{
+		return motor;
+	}
 	@Override
 	public void set(double power) {
 		motor.setPower(power * direction);
+		Debug.msg("motor "+name,power*direction);
 	}
 	public void setTargetPosition(double pos)
 	{
