@@ -12,6 +12,7 @@ import org.montclairrobotics.sprocket.utils.Input;
 public class JoystickYAxis implements Input<Double> {
 	
 	private IJoystick stick;
+	private int negation = 1;
 
 
 	/**
@@ -21,12 +22,17 @@ public class JoystickYAxis implements Input<Double> {
 		this.stick = stick;
 	}
 
+	public JoystickYAxis negate() {
+		negation = -1;
+		return this;
+	}
+
 	/**
 	 * @return The Joystick's Y-axis
 	 */
 	@Override
 	public Double get() {
-		return -stick.get().getY();
+		return -stick.get().getY()*negation;
 	}
 
 }
