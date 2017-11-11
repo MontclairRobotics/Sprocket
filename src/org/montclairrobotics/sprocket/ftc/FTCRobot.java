@@ -17,7 +17,7 @@ The main issue with this class is the way it has to interact with the FTC librar
 
 The correct usage should be to extend this class with a Robot class, which has an @Teleop annotation
 Then, auto modes should extend that, ovveride only the autoInit function, and have @Autonomous annotations
-In this method, "action" variable should be set with the proper AutoMode
+In this method, "action" variable should be set with the proper DefultAutoMode
 
 Potential issues arise because when different automodes are started, different objects are created. 
 This is solved by running sprocket functions through the Sprocket class.

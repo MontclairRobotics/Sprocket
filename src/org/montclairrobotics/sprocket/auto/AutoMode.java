@@ -7,8 +7,8 @@ import org.montclairrobotics.sprocket.utils.Debug;
 
 
 /**
- * The AutoMode class is the master class Sprocket's autonomous
- * framework. All AutoModes consist of an AutoMode class which contains several
+ * The DefultAutoMode class is the master class Sprocket's autonomous
+ * framework. All AutoModes consist of an DefultAutoMode class which contains several
  * AutoStates. These AutoModes contain a StateMachine which runs all
  * the AutoStates that it contains before ending. When instantiated, these modes
  * will automatically be sent to a SmartDashboard chooser.
@@ -18,8 +18,8 @@ public class AutoMode extends StateMachine{
 	private String name;
 
 	/**
-	 * Creates an AutoMode based off of a pre-configured StateMachine
-	 * @param name The name of the AutoMode (for SmartDashboard)
+	 * Creates an DefultAutoMode based off of a pre-configured StateMachine
+	 * @param name The name of the DefultAutoMode (for SmartDashboard)
 	 * @param states The StateMachine which contains AutoModes
 	 */
 	public AutoMode(String name, State... states)

@@ -30,6 +30,7 @@ public class FTCMotor implements IMotor{
 
 	public FTCMotor setZeroPowerBehavior(DcMotor.ZeroPowerBehavior b)
 	{
+		motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 		motor.setZeroPowerBehavior(b);
 		return this;
 	}

@@ -7,7 +7,12 @@ import org.montclairrobotics.sprocket.geometry.Vector;
  * Created by MHS Robotics on 11/11/2017.
  */
 
-public class NewMecanum {
+public class NewMecanum implements DTMapper {
+    @Override
+    public void setup(DriveModule[] driveModules) {
+
+    }
+
     public void map(DTTarget driveTarget, DriveModule[] driveModules) {
         //Setting up variables
         double x = driveTarget.getDirection().getX();
