@@ -24,17 +24,17 @@ public class TestAuto extends TestRobot{
     }
 
     @Override
-    public void teleopInit() {
+    public void userTeleopInit() {
 
     }
 
     @Override
-    public void autoInit() {
+    public void userAutoInit() {
 
     }
 
     @Override
-    public void testInit() {
+    public void userTestInit() {
 
     }
 

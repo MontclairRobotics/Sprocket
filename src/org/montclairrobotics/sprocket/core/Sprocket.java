@@ -1,10 +1,12 @@
 package org.montclairrobotics.sprocket.core;
 
 import org.montclairrobotics.sprocket.actions.Action;
+import org.montclairrobotics.sprocket.auto.AutoMode;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
 import org.montclairrobotics.sprocket.loop.DisabledUpdater;
 import org.montclairrobotics.sprocket.loop.Priority;
+import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Input;
@@ -25,7 +27,7 @@ public class Sprocket{
 	
 	public enum MODE {AUTO,TELEOP,TEST,DISABLED};
 	public MODE curMode;
-	public Input<Action> 
+	public IAutoSelector
 		autoActionInput,
 		teleopActionInput,
 		testActionInput;
@@ -65,17 +67,17 @@ public class Sprocket{
     	case AUTO:
     		if(autoActionInput!=null)
     			currentAction=autoActionInput.get();
-    		robot.autoInit();
+    		robot.userAutoInit();
     		break;
     	case TELEOP:
 			if(teleopActionInput!=null)
 				currentAction=teleopActionInput.get();
-			robot.teleopInit();
+			robot.userTeleopInit();
 			break;
     	case TEST:
     		if(testActionInput!=null)
     			currentAction=testActionInput.get();
-    		robot.testInit();
+    		robot.userTestInit();
     		break;
 		default:
 			break;
@@ -90,7 +92,7 @@ public class Sprocket{
     {
     	Updater.loop();
     	robot.debugs();
-    	debugger.update();
+    	notNullUpdate(debugger);
     }
     public final void stopS()
     {
@@ -108,6 +110,30 @@ public class Sprocket{
     	DisabledUpdater.loop();
     	robot.disabledUpdate();
     	robot.debugs();
-    	debugger.update();
+    	notNullUpdate(debugger);
+    	notNullUpdate(autoActionInput);
+    	notNullUpdate(teleopActionInput);
+    	notNullUpdate(testActionInput);
+    }
+    public void notNullUpdate(Updatable u)
+    {
+    	if(u!=null)
+    	{
+    		u.update();
+    	}
+    }
+    public final void addAutoMode(AutoMode mode)
+    {
+    	if(autoActionInput!=null)
+    	{
+    		autoActionInput.addAutoMode(mode);
+    	}
+    }
+    public final void setAutoModes(AutoMode[] modes)
+    {
+    	if(autoActionInput!=null)
+    	{
+    		autoActionInput.setAutoModes(modes);
+    	}
     }
 }

@@ -20,6 +20,7 @@ public abstract class FRCRobot extends IterativeRobot implements IRobot,Updatabl
 	public FRCRobot()
 	{
 		sprocket=new Sprocket(this);
+		sprocket.autoActionInput=new DashboardAutoSelector();
         sprocket.debugger=new DashboardDebug();
 	}
 	
@@ -71,4 +72,5 @@ public abstract class FRCRobot extends IterativeRobot implements IRobot,Updatabl
     public final void disabledPeriodic() {
         sprocket.disabledUpdateS();
     }
+
 }

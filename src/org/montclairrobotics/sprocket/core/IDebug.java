@@ -1,8 +1,8 @@
 package org.montclairrobotics.sprocket.core;
 
-public interface IDebug {
+import org.montclairrobotics.sprocket.loop.Updatable;
+
+public interface IDebug extends Updatable{
 	public void debugStr(String key,String val);
 	public void debugNum(String key,double val);
-	
-	public void update();
 }

@@ -59,19 +59,19 @@ public class SimpleTest extends TestRobot{
 	
 
 	@Override
-	public void teleopInit() {
+	public void userTeleopInit() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void autoInit() {
+	public void userAutoInit() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void testInit() {
+	public void userTestInit() {
 		// TODO Auto-generated method stub
 		
 	}
