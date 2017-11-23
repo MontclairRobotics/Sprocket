@@ -1,7 +1,6 @@
 package org.montclairrobotics.sprocket.control;
 
 import org.montclairrobotics.sprocket.actions.Action;
-import org.montclairrobotics.sprocket.core.IJoystick;
 import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.drive.DTInput;
 import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;

@@ -1,9 +1,9 @@
 package org.montclairrobotics.sprocket.ftc;
 
-import com.qualcomm.robotcore.hardware.Gamepad;
-
 import org.montclairrobotics.sprocket.core.Button;
 import org.montclairrobotics.sprocket.ftc.FTCRobot.GAMEPAD;
+
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 public class FTCButton extends Button {
 	public enum BUTTON {

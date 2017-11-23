@@ -1,10 +1,9 @@
 package org.montclairrobotics.sprocket.ftc;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
 import org.montclairrobotics.sprocket.core.IMotor;
 import org.montclairrobotics.sprocket.utils.Debug;
+
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class FTCMotor implements IMotor{
 

@@ -1,11 +1,11 @@
 package org.montclairrobotics.sprocket.ftc;
 
-import com.qualcomm.robotcore.hardware.Gamepad;
-
 import org.montclairrobotics.sprocket.core.IJoystick;
 import org.montclairrobotics.sprocket.ftc.FTCRobot.GAMEPAD;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
+
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 //This class kills me
 public class FTCJoystick implements IJoystick{

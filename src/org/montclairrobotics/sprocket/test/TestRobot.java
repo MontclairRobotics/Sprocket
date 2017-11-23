@@ -14,7 +14,7 @@ public abstract class TestRobot implements IRobot{
 		try
 		{
 			sprocket=new Sprocket(this);
-			sprocket.debugger=new TestDebug();
+			Sprocket.debugger=new TestDebug();
 			sprocket.initS();
 			sprocket.startS(MODE.DISABLED);
 			for(int i=0;i<time;i++)

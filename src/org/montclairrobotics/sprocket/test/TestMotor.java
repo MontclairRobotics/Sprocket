@@ -4,7 +4,6 @@ import org.montclairrobotics.sprocket.core.IEncoder;
 import org.montclairrobotics.sprocket.core.IMotor;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.motors.SEncoder;
-import org.montclairrobotics.sprocket.utils.Debug;
 
 public class TestMotor implements IMotor{
 

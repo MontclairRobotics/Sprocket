@@ -1,7 +1,6 @@
 package org.montclairrobotics.sprocket.frc;
 
 import org.montclairrobotics.sprocket.core.Button;
-import org.montclairrobotics.sprocket.utils.Input;
 
 import edu.wpi.first.wpilibj.Joystick;
 

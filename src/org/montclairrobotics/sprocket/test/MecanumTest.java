@@ -2,13 +2,10 @@ package org.montclairrobotics.sprocket.test;
 
 import org.montclairrobotics.sprocket.actions.StateMachine;
 import org.montclairrobotics.sprocket.auto.states.DriveDistance;
-import org.montclairrobotics.sprocket.auto.states.DriveTime;
 import org.montclairrobotics.sprocket.control.BasicInput;
-import org.montclairrobotics.sprocket.core.IMotor;
 import org.montclairrobotics.sprocket.core.Sprocket.MODE;
 import org.montclairrobotics.sprocket.drive.DriveModule;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
-import org.montclairrobotics.sprocket.drive.TankMapper;
 import org.montclairrobotics.sprocket.drive.UniversalMapper;
 import org.montclairrobotics.sprocket.drive.utils.MyState;
 import org.montclairrobotics.sprocket.geometry.Vector;
@@ -16,7 +13,6 @@ import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.test.TestJoystick.TEST;
 import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Input;
-import org.montclairrobotics.sprocket.utils.ZeroInput;
 
 public class MecanumTest extends TestRobot{
 	public MecanumTest()

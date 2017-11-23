@@ -1,13 +1,12 @@
 package org.montclairrobotics.sprocket.ftc;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-
 import org.montclairrobotics.sprocket.core.IEncoder;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
-import org.montclairrobotics.sprocket.motors.SEncoder;
 import org.montclairrobotics.sprocket.utils.Debug;
+
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Created by MHS Robotics on 11/8/2017.

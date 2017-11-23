@@ -1,7 +1,5 @@
 package org.montclairrobotics.sprocket.drive;
 
-import org.montclairrobotics.sprocket.geometry.Degrees;
-import org.montclairrobotics.sprocket.geometry.Vector;
 
 /**
  * Created by MHS Robotics on 11/11/2017.

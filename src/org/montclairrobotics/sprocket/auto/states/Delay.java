@@ -2,7 +2,6 @@ package org.montclairrobotics.sprocket.auto.states;
 
 import org.montclairrobotics.sprocket.auto.AutoState;
 import org.montclairrobotics.sprocket.utils.Debug;
-import org.montclairrobotics.sprocket.utils.Input;
 
 public class Delay extends AutoState{
 

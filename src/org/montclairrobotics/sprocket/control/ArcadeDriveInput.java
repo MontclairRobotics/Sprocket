@@ -1,16 +1,8 @@
 package org.montclairrobotics.sprocket.control;
 
 import org.montclairrobotics.sprocket.core.IJoystick;
-import org.montclairrobotics.sprocket.drive.DTInput;
-import org.montclairrobotics.sprocket.geometry.Angle;
-import org.montclairrobotics.sprocket.geometry.Radians;
-import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.VectorInputX;
 import org.montclairrobotics.sprocket.geometry.VectorInputY;
-import org.montclairrobotics.sprocket.geometry.XY;
-import org.montclairrobotics.sprocket.loop.Priority;
-import org.montclairrobotics.sprocket.loop.Updatable;
-import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.ZeroInput;
 
 
