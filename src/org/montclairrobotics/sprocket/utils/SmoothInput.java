@@ -1,16 +1,17 @@
 package org.montclairrobotics.sprocket.utils;
 
-public class SmoothInput extends SmoothData implements Input<Double>{
+public class SmoothInput extends SmoothData implements Input<Double> {
 
-	private Input<Double> inp;
+	private Input<Double> input;
 	
-	public SmoothInput(int len,Input<Double> inp) {
-		super(len);
-		this.inp=inp;
+	public SmoothInput(int n, Input<Double> i) {
+		super(n);
+		this.input = i;
 	}
 
+	@Override
 	public Double get()
 	{
-		return smooth(inp.get());
+		return smooth(input.get());
 	}
 }

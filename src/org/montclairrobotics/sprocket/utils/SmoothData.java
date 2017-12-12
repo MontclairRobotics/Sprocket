@@ -1,32 +1,41 @@
 package org.montclairrobotics.sprocket.utils;
 
 public class SmoothData {
-	private int len;
-	private double[]data;
+	/** The number of data values. */
+	private int length;
+	/** An array of data values. */
+	private double[] data;
+	/** The p index in the array of data. */
 	private int i;
+	/** ... */
 	private double sum;
 	
-	public SmoothData(int len)
-	{
-		this.len=len;
-		data=new double[len];
-		i=0;
-		sum=0;
+	public SmoothData(int n) {
+		this.length = n;
+		data = new double[length];
+		i = 0;
+		sum = 0;
 	}
-	
-	public double smooth(double in)
-	{
-		sum+=in;
-		if(i<len)
-		{
-			data[i]=in;
+
+	/**
+	 * ...
+	 * @param in
+	 * @return
+	 */
+	public double smooth(double in) {
+		sum += in;
+
+		if (i < length) {
+			data[i] = in;
 			i++;
-			return sum/i;
+
+			return sum / i;
+		} else {
+			sum -= data[i % length];
+			data[i % length] = in;
+			i++;
+
+			return sum / length;
 		}
-		else
-		sum-=data[i%len];
-		data[i%len]=in;
-		i++;
-		return sum/len;
 	}
 }
