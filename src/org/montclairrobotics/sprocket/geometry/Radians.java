@@ -42,17 +42,18 @@ public class Radians implements Angle{
 		return new Radians(toRadians()*x);
 	}
 
-
-	public double sin()
-	{
+	@Override
+	public double sin() {
 		return Math.sin(toRadians());
 	}
-	public double cos()
-	{
+	
+	@Override
+	public double cos() {
 		return Math.cos(toRadians());
 	}
-	public double tan()
-	{
+	
+	@Override
+	public double tan() {
 		return Math.tan(toRadians());
 	}
 
@@ -65,13 +66,14 @@ public class Radians implements Angle{
 	public double divide(Angle x) {
 		return radians/x.toRadians();
 	}
-	public String toString()
-	{
-		return toDegrees()+"deg";
-	}
 	
 	@Override
 	public Angle wrap() {
 		return new WrappedRadians(radians);
+	}
+	
+	@Override
+	public String toString() {
+		return toDegrees() + "deg";
 	}
 }

@@ -49,12 +49,12 @@ public class Polar implements Vector {
     }
 
     @Override
-    public double dotProduct(Vector v) {
+    public double dot(Vector v) {
         return getX() * v.getX() + getY() * v.getY();
     }
-    public double crossProduct(Vector v)
-    {
-    	return getY() * v.getX() - getX() * v.getY();
+    
+    public double cross(Vector v){
+    		return getY() * v.getX() - getX() * v.getY();
     }
 
 	@Override
@@ -69,21 +69,21 @@ public class Polar implements Vector {
 	}
 	@Override
 	public Vector setMag(double mag) {
-		return new Polar(mag,angle);
+		return new Polar(mag, angle);
 	}
 	@Override
 	public Vector normalize() {
 		return setMag(1);
 	}
-	
 
-	public String toString()
-	{
-		return "("+getX()+","+getY()+")";
-	}
 	@Override
 	public Vector square() {
 		// TODO Auto-generated method stub
-		return new XY(getX()*Math.abs(getX()),getY()*Math.abs(getY()));
+		return new XY(getX() * Math.abs(getX()), getY() * Math.abs(getY()));
+	}
+	
+	@Override
+	public String toString() {
+		return magnitude + " @ " + angle;
 	}
 }

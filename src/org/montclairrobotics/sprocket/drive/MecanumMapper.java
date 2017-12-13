@@ -30,7 +30,7 @@ public class MecanumMapper implements DTMapper {
             //Scaling the directional vector, then adding it to the turn vector calculated
             Vector finalVec = dir.normalize().scale(dirPower / (dirPower + Math.abs(turn))).add(turnVec);
             //Dotting it with the force vector of the motor to get the final power
-            motorPowers[i] = finalVec.dotProduct(driveModule.getForce());
+            motorPowers[i] = finalVec.dot(driveModule.getForce());
         }
 
         //Finding the highest power calculated

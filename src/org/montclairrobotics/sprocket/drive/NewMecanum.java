@@ -22,7 +22,7 @@ public class NewMecanum implements DTMapper {
         {
             double xSign=module.getOffset().getX()>0?1:-1;
             double ySign=module.getOffset().getY()>0?1:-1;
-            double dirSign=module.getOffset().crossProduct(module.getForce())>0?1:-1;
+            double dirSign=module.getOffset().cross(module.getForce()) > 0 ? 1 : -1;
             module.temp=(y*xSign*-1+x*ySign+turn)*dirSign;
             if(module.temp>maxPower)
             {

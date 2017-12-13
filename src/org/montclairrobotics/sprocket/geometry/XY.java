@@ -1,13 +1,15 @@
 package org.montclairrobotics.sprocket.geometry;
 
 public class XY implements Vector {
-
+	/** The x component of this vector. */
     private double x;
+    /** The y component of this vector. */
     private double y;
-    public XY(double x,double y,Distance scale)
-	{
+    
+    public XY(double x,double y, Distance scale) {
 		this(x*scale.get(),y*scale.get());
 	}
+    
     public XY(double x, double y) {
         this.x = x;
         this.y = y;
@@ -49,28 +51,27 @@ public class XY implements Vector {
     }
 
     @Override
-    public double dotProduct(Vector v) {
+    public double dot(Vector v) {
         return x * v.getX() + y * v.getY();
     }
-    public double crossProduct(Vector v)
-    {
-    	return y * v.getX() - x * v.getY();//LEFT HANDED
+    
+    public double cross(Vector v) {
+    		return y * v.getX() - x * v.getY();//LEFT HANDED
     }
 
 	@Override
 	public Vector rotate(Angle a) {
-		return new Polar(getMagnitude(),getAngle().add(a));
+		return new Polar(getMagnitude(), getAngle().add(a));
 	}
 
 	@Override
-	public Angle angleBetween(Vector a)
-	{
+	public Angle angleBetween(Vector a) {
 		return getAngle().subtract(a.getAngle());
 	}
 	
 	@Override
 	public Vector setMag(double mag) {
-		return new Polar(mag,getAngle());
+		return new Polar(mag, getAngle());
 	}
 	
 	@Override
@@ -78,13 +79,14 @@ public class XY implements Vector {
 		return setMag(1);
 	}
 	
-	public String toString()
-	{
-		return "("+x+","+y+")";
-	}
 	@Override
 	public Vector square() {
 		// TODO Auto-generated method stub
 		return new XY(x*Math.abs(x),y*Math.abs(y));
+	}
+
+	@Override
+	public String toString() {
+		return "<" + x + ", " + y + ">";
 	}
 }
