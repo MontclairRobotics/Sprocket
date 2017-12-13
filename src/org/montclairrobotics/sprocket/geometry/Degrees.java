@@ -15,7 +15,7 @@ public class Degrees implements Angle {
 
     @Override
     public double toRadians() {
-        return degrees*(Math.PI/180);
+        return degrees * (Math.PI / 180);
     }
 
     @Override
@@ -56,17 +56,17 @@ public class Degrees implements Angle {
 	}
 	
 	public Angle divide(double x) {
-		return new Degrees(degrees/x);
+		return new Degrees(degrees / x);
 	}
 
 	@Override
 	public double divide(Angle x) {
-		return degrees/x.toDegrees();
+		return degrees / x.toDegrees();
 	}
 	
 	public String toString()
 	{
-		return degrees+"deg";
+		return degrees + "deg";
 	}
 
 	@Override
