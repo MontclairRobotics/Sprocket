@@ -25,44 +25,38 @@ public class FRCMotor implements IMotor{
 	
 
     public FRCMotor(SpeedController motor) {
-        if(motor == null) {
+        if (motor == null) {
             throw new IllegalArgumentException("SpeedController argument was null when instantiating Motor object");
         }
 
-
         this.motor = motor;
-        if(motor instanceof CANTalon) {
+        if (motor instanceof CANTalon) {
             motorType = MotorType.CANTALON;
-        } else if(motor instanceof Talon) {
+        } else if (motor instanceof Talon) {
             motorType = MotorType.TALON;
         } else {
             motorType = MotorType.UNKNOWN;
         }
 
-
-
-        switch(motorType) {
+        switch (motorType) {
             case CANTALON:
                 CANTalon cMotor = (CANTalon) motor;
                 cMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
                 cMotor.enableBrakeMode(true);
-            break;
+                break;
             default:
-            break;
+            		break;
         }
 
     }
     
     
     public void set(double power) {
-    	if(brakeMode&&Math.abs(power)<0.05)
-    	{
-    		motor.stopMotor();
-    	}
-    	else
-    	{
-    		motor.set(Utils.constrain(power, minPower, maxPower));
-    	}
+	    	if (brakeMode && Math.abs(power) < 0.05)	{
+	    		motor.stopMotor();
+	    	} else {
+	    		motor.set(Utils.constrain(power, minPower, maxPower));
+	    	}
     }
 
     public boolean getInverted() {

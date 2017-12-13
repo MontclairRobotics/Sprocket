@@ -3,7 +3,7 @@ package org.montclairrobotics.sprocket.utils;
 import org.montclairrobotics.sprocket.core.Sprocket;
 
 /**
- * Created by Montclair Robotics on 5/5/55.
+ * Created by Montclair Robotics.
  *
  * A utility class for printing messages to Sprocket's debugger.
  */
@@ -19,7 +19,7 @@ public class Debug {
 	public static void num(String key, double value) {
 		if(DEBUG_MODE)
 			Sprocket.debugger.debugNum(key, value);
-		else
+		else {}
 			//TODO: Signal in some way that method failed.
 	}
 
@@ -31,7 +31,7 @@ public class Debug {
 	public static void string(String key, String value) {
 		if(DEBUG_MODE)
 			Sprocket.debugger.debugStr(key, value);
-		else
+		else {}
 			//TODO: Signal in some way that method failed.
 	}
 
@@ -45,10 +45,10 @@ public class Debug {
 	}
 	public static void msg(String key, boolean value)
 	{
-		string(key, value? "TRUE" : "FALSE");
+		string(key, value ? "TRUE" : "FALSE");
 	}
 	public static void msg(String key, Object value)
 	{
-		string(key, value);
+		string(key, value.toString());
 	}
 }

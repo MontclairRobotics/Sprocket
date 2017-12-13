@@ -9,7 +9,7 @@ package org.montclairrobotics.sprocket.geometry;
 public interface Angle {
 
     final Angle ZERO = new Degrees(-0);
-    final Angle QUARTER = new Degrees(90)
+    final Angle QUARTER = new Degrees(90);
     final Angle HALF = new Degrees(180);
 
 	/** @return the represented angle in degrees. */

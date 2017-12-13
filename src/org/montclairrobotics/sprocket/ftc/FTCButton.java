@@ -7,52 +7,36 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 public class FTCButton extends Button {
 	public enum BUTTON {
-		a,
-		b,
-		x,
-		y,
-		start,
-		back,
-		right_bumper,
-		left_bumper,
-		dpad_up,
-		dpad_down,
-		dpad_left,
-		dpad_right,
-		guide,//middle button, might not work
-		left_stick_button,
-		right_stick_button,
-		left_trigger,//a float
-		right_trigger;//a float
+		a, b, x, y,
+		start, back, guide,
+		right_bumper, left_bumper,
+		dpad_up, dpad_down, dpad_left, dpad_right,
+		left_stick_button, right_stick_button,
+		left_trigger, right_trigger;
 	}
 
-	private static final float THREASHOLD = .5f;
+	private static final float THREASHOLD = 0.5f;
 	
 	private Gamepad gamepad;
 	private BUTTON button;
 	
-	public FTCButton(GAMEPAD gamepad,BUTTON button)
-	{
-		if(gamepad==GAMEPAD.A)
-		{
-			this.gamepad=FTCRobot.ftcGamepad1;
-		}
-		else
-		{
-			this.gamepad=FTCRobot.ftcGamepad2;
+	public FTCButton(GAMEPAD gamepad, BUTTON button) {
+		if (gamepad == GAMEPAD.A) {
+			this.gamepad = FTCRobot.ftcGamepad1;
+		} else {
+			this.gamepad = FTCRobot.ftcGamepad2;
 		}	
-		this.button=button;
-	}
-	public FTCButton(Gamepad gamepad, BUTTON button)
-	{
-		this.gamepad=gamepad;
-		this.button=button;
+		
+		this.button = button;
 	}
 	
-	public Boolean get()
-	{
-		switch(button)
-		{
+	public FTCButton(Gamepad gamepad, BUTTON button) {
+		this.gamepad = gamepad;
+		this.button = button;
+	}
+	
+	public Boolean get() {
+		switch (button) {
 		case a:
 			return gamepad.a;
 
