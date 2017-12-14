@@ -2,8 +2,7 @@ package org.montclairrobotics.sprocket.ftc;
 
 import org.montclairrobotics.sprocket.core.Button;
 import org.montclairrobotics.sprocket.ftc.FTCRobot.GAMEPAD;
-//import com.qualcomm.;
-
+import com.qualcomm.robotcore.hardware.*;
 public class FTCButton extends Button {
 	public enum BUTTON {
 		a, b, x, y,
@@ -34,6 +33,7 @@ public class FTCButton extends Button {
 		this.button = button;
 	}
 	
+	@Override
 	public Boolean get() {
 		switch (button) {
 		case a:
@@ -86,6 +86,9 @@ public class FTCButton extends Button {
 
 		case right_trigger:
 			return gamepad.right_trigger>THREASHOLD;
+			
+		default:
+			return false;
 		}
 	}
 }

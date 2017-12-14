@@ -15,52 +15,48 @@ import org.montclairrobotics.sprocket.utils.Input;
  * the Sprocket control loop and calling anonymous functions passed in by
  * developers. This system makes defining button behaviors incredibly simple.
  */
-public class Button implements Updatable,Togglable,Input<Boolean> {
+public class Button implements Updatable,Togglable, Input<Boolean> {
 
 	private Action action;
 	private boolean wasPressed=false;
 	private Input<Boolean> button;
 	public boolean enabled=true;;
 	
-	public Button()
-	{
+	public Button() {
 		Updater.add(this,Priority.CONTROL);
 	}
-	public Button(Input<Boolean> button)
-	{
+	
+	public Button(Input<Boolean> button) {
 		this.button=button;
 		Updater.add(this, Priority.CONTROL);
 	}
 	
-	public Button setButton(Input<Boolean> button)
-	{
+	public Button setButton(Input<Boolean> button) {
 		this.button=button;
 		return this;
 	}
-	public Button setAction(Action action)
-	{
+	
+	public Button setAction(Action action) {
 		this.action=action;
 		return this;
 	}
-	public Action getAction()
-	{
+	
+	public Action getAction() {
 		return action;
 	}
 	
 	@Override
 	public void update() {
-		if(enabled)
-		{
+		if(enabled) {
 			boolean pressed = get();
-			if(action!=null)
-			{
-				if(pressed && !wasPressed) {
+			if(action!=null) {
+				if (pressed && !wasPressed) {
 					action.start();
 				}
-				if(!pressed && wasPressed) {
+				if (!pressed && wasPressed) {
 					action.stop();
 				}
-				if(pressed) {
+				if (pressed) {
 					action.enabled();
 				} else {
 					action.disabled();
@@ -69,6 +65,7 @@ public class Button implements Updatable,Togglable,Input<Boolean> {
 			wasPressed = pressed;
 		}
 	}
+	
 	@Override
 	public void enable() {
 		enabled=true;
@@ -77,6 +74,7 @@ public class Button implements Updatable,Togglable,Input<Boolean> {
 	public void disable() {
 		enabled=false;
 	}
+	
 	@Override
 	public Boolean get() {
 		return button.get();
