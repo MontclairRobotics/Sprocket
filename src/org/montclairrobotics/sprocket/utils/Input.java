@@ -9,7 +9,6 @@ package org.montclairrobotics.sprocket.utils;
  * @see ZeroInput
  * @see OppositeInput
  */
-
 public interface Input<T> {
     /** @return the object held by this. */
     public T get();
