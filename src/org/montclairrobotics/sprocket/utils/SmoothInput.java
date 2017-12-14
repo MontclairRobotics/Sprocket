@@ -10,8 +10,7 @@ public class SmoothInput extends SmoothData implements Input<Double> {
 	}
 
 	@Override
-	public Double get()
-	{
+	public Double get() {
 		return smooth(input.get());
 	}
 }

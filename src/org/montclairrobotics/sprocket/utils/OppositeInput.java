@@ -6,17 +6,20 @@ package org.montclairrobotics.sprocket.utils;
  */
 
 public class OppositeInput implements Input<Double> {
+	
     /** The original input value. */
-    private Input<Double> inp;
+    private Input<Double> input;
 
-    public OppositeInput(Input<Double> inp)
-    {
-        this.inp = inp;
+    public OppositeInput(Input<Double> input) {
+        this.input = input;
     }
 
     /** @return the opposite (negative) of the original value. */
-    public Double get()
-    {
-        return -inp.get();
+    public Double get() {
+        return -input.get();
+    }
+    
+    public Double opposite() {
+    		return -input.get();
     }
 }

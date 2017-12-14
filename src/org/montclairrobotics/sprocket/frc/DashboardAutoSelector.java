@@ -6,7 +6,7 @@ import org.montclairrobotics.sprocket.core.IAutoSelector;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DashboardAutoSelector extends SendableChooser<AutoMode> implements IAutoSelector{
+public class DashboardAutoSelector extends SendableChooser implements IAutoSelector {
 
 	@Override
 	public void addAutoMode(AutoMode mode) {
@@ -15,20 +15,19 @@ public class DashboardAutoSelector extends SendableChooser<AutoMode> implements 
 
 	@Override
 	public void setAutoModes(AutoMode[] modes) {
-		for(AutoMode mode:modes)
-		{
+		for (AutoMode mode : modes) {
 			addAutoMode(mode);
 		}
 	}
 
 	@Override
 	public AutoMode get() {
-		return super.getSelected();
+		return (AutoMode) super.getSelected();
 	}
 
 	@Override
 	public void update() {
-		SmartDashboard.putData("Auto Chooser",this);
+		SmartDashboard.putData("Auto Chooser", this);
 	}
 
 }

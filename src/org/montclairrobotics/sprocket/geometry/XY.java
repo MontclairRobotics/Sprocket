@@ -1,15 +1,31 @@
 package org.montclairrobotics.sprocket.geometry;
-
+/**
+ * Created by Montclair Robotics.
+ * 
+ * A vector represented with linear components, <x, y>.
+ * @see Vector
+ */
 public class XY implements Vector {
 	/** The x component of this vector. */
     private double x;
     /** The y component of this vector. */
     private double y;
     
-    public XY(double x,double y, Distance scale) {
-		this(x*scale.get(),y*scale.get());
+    /**
+     * Creates a XY object.
+     * @param x the x component
+     * @param y the y component 
+     * @param scale a scaling factor
+     */
+    public XY(double x, double y, Distance scale) {
+		this(x * scale.get(), y * scale.get());
 	}
     
+    /**
+     * Creates a XY object.
+     * @param x the x component
+     * @param y the y component 
+     */
     public XY(double x, double y) {
         this.x = x;
         this.y = y;

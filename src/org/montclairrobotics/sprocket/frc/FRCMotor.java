@@ -3,27 +3,23 @@ package org.montclairrobotics.sprocket.frc;
 import org.montclairrobotics.sprocket.core.IMotor;
 import org.montclairrobotics.sprocket.utils.Utils;
 
-import com.ctre.CANTalon;
+//import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.CANTalon;
 
 public class FRCMotor implements IMotor{
 
-    public enum MotorType {
-        CANTALON,
-        TALON,
-        UNKNOWN
-    }
+    public enum MotorType { CANTALON, TALON, UNKNOWN }
 
     private SpeedController motor;
     private MotorType motorType;
     
     private double minPower = -1.0;
 	private double maxPower = 1.0;
-	private boolean brakeMode=true;
+	private boolean brakeMode = true;
 	
-
     public FRCMotor(SpeedController motor) {
         if (motor == null) {
             throw new IllegalArgumentException("SpeedController argument was null when instantiating Motor object");
@@ -47,9 +43,7 @@ public class FRCMotor implements IMotor{
             default:
             		break;
         }
-
     }
-    
     
     public void set(double power) {
 	    	if (brakeMode && Math.abs(power) < 0.05)	{

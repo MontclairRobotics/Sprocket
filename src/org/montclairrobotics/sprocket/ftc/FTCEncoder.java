@@ -9,7 +9,7 @@ import org.montclairrobotics.sprocket.motors.SEncoder;
 public class FTCEncoder extends SEncoder {
 
     private double lastPos;
-    private double zeroPos=0;
+    private double zeroPos = 0;
 
     public FTCEncoder(final FTCMotor m, double ticksPerInch) {
         super(new FTCIEncoder(m), ticksPerInch);

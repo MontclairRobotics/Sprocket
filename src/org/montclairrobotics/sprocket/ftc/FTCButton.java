@@ -54,6 +54,9 @@ public class FTCButton extends Button {
 		case back:
 			return gamepad.back;
 
+		case guide:
+			return gamepad.guide;
+
 		case right_bumper:
 			return gamepad.right_bumper;
 
@@ -72,9 +75,6 @@ public class FTCButton extends Button {
 		case dpad_right:
 			return gamepad.dpad_right;
 
-		case guide:
-			return gamepad.guide;
-
 		case left_stick_button:
 			return gamepad.left_stick_button;
 
@@ -86,9 +86,6 @@ public class FTCButton extends Button {
 
 		case right_trigger:
 			return gamepad.right_trigger>THREASHOLD;
-		
-		default:
-			return false;
 		}
 	}
 }

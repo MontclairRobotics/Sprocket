@@ -1,15 +1,33 @@
 package org.montclairrobotics.sprocket.geometry;
 
+/**
+ * Created by Montclair Robotics.
+ * 
+ * A vector represented with magnitude and direction, mag @ angle.
+ * @see Vector
+ */
 public class Polar implements Vector {
-
+	/** The magnitude of this vector. */
     private double magnitude;
+    /** The angle between this vector and the positive x-axis. */
     private Angle angle;
-    public Polar(Distance mag,Angle ang)
-	{
-		this(mag.get(),ang);
+    
+    /**
+     * Creates a Polar object.
+     * @param r the magnitude.
+     * @param ang the angle.
+     */
+    public Polar(Distance r, Angle ang) {
+		this(r.get(), ang);
 	}
-    public Polar(double mag, Angle a) {
-        magnitude = mag;
+    
+    /**
+     * Creates a Polar object.
+     * @param r the magnitude.
+     * @param ang the angle.
+     */
+    public Polar(double r, Angle a) {
+        magnitude = r;
         angle = a;
     }
 
@@ -63,14 +81,15 @@ public class Polar implements Vector {
 	}
 	
 	@Override
-	public Angle angleBetween(Vector a)
-	{
+	public Angle angleBetween(Vector a) {
 		return angle.subtract(a.getAngle());
 	}
+	
 	@Override
 	public Vector setMag(double mag) {
 		return new Polar(mag, angle);
 	}
+	
 	@Override
 	public Vector normalize() {
 		return setMag(1);

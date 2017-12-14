@@ -15,7 +15,7 @@ import org.montclairrobotics.sprocket.loop.Updater;
  * @see PIDController
  */
 
-public class PID implements Updatable, Input<Double>{
+public class PID implements Updatable, Input<Double> {
 
 	private Input<Double> input;
 	private double P, I, D;
@@ -94,13 +94,11 @@ public class PID implements Updatable, Input<Double>{
 		return new PID(P, I, D).setInput(input).setMinMax(minIn, maxIn, minOut, maxOut);
 	}
 	
-	public PID setTarget()
-	{
-		return setTarget(0.0,false);
+	public PID setTarget() {
+		return setTarget(0.0, false);
 	}
-	public PID setTarget(double t)
-	{
-		return setTarget(t,false);
+	public PID setTarget(double t) {
+		return setTarget(t, false);
 	}
 	/**
 	 * Sets the setpoint
@@ -124,6 +122,7 @@ public class PID implements Updatable, Input<Double>{
 	 * Get the output value
 	 * @return the output
 	 */
+	@Override
 	public Double get() {
 		//out = calculate(input.get());
 		return out;
@@ -132,16 +131,16 @@ public class PID implements Updatable, Input<Double>{
 	private double calculate(double val) {
 		double loopTime = (System.currentTimeMillis() - lastUpdateTime) / 1000.0;
 		lastUpdateTime = System.currentTimeMillis();
-		error = target-val;
+		error = target - val;
 		
 		double dVal = val - prevVal;
 		
 		if(minIn != 0 && maxIn != 0)
 		{
 			double diff=maxIn-minIn;
-			error=((error-minIn)%diff+diff)%diff+minIn;
-			dVal=((dVal-minIn)%diff+diff)%diff+minIn;
-			Debug.msg("dVal",dVal);
+			error = ((error - minIn) % diff + diff) % diff + minIn;
+			dVal = ((dVal - minIn) % diff + diff) % diff + minIn;
+			Debug.msg("dVal", dVal);
 		}
 		totalError += error * loopTime;
 		if (I != 0.0) 
@@ -172,45 +171,40 @@ public class PID implements Updatable, Input<Double>{
 		return out;
 	}
 	
-	public void setOut(double out)
-	{
-		this.out=out;
+	public void setOut(double out) {
+		this.out = out;
 	}
 	
-	public double getCurInput()
-	{
+	public double getCurInput() {
 		return input.get();
 	}
-	public Input<Double> getInput()
-	{
+	
+	public Input<Double> getInput() {
 		return input;
 	}
-	public double getError(){
+	
+	public double getError() {
 		return error;
 	}
 
 	public void update() {
 		if (input == null || input.get() == null) { return; }
-		out=calculate(input.get());
+		out = calculate(input.get());
 	}
 	
-	public double getTarget()
-	{
+	public double getTarget() {
 		return target;
 	}
 	
-	public double getP()
-	{
+	public double getP() {
 		return P;
 	}
 	
-	public double getI()
-	{
+	public double getI() {
 		return I;
 	}
 	
-	public double getD()
-	{
+	public double getD() {
 		return D;
 	}
 }

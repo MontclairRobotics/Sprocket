@@ -7,6 +7,8 @@ package org.montclairrobotics.sprocket.geometry;
  * Vector is implemented in two ways:
  * - XY: component values
  * - Polar: magnitude and direction
+ * @see XY
+ * @see Polar
  */
 public interface Vector {
 	/** An instance of Vector with a magnitude of 0. */

@@ -14,42 +14,40 @@ import org.montclairrobotics.sprocket.test.TestJoystick.TEST;
 import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Input;
 
-public class MecanumTest extends TestRobot{
-	public MecanumTest()
-	{
+public class MecanumTest extends TestRobot {
+	public MecanumTest() {
 		super(MODE.TELEOP, 8);
 	}
+	
 	private StateMachine auto;
 	private DriveTrain dt;
 	
 	@Override
 	public void setup() {
-		TestMotor motors[]={
+		TestMotor motors[] = {
 				new TestMotor("BackRight"),
 				new TestMotor("BackLeft"),
 				new TestMotor("FrontRight"),
 				new TestMotor("FrontLeft")
 		};
-		DriveModule[] driveModules={
-				new DriveModule(new XY(-1,-1),new XY(-1,1),motors[0].getEncoder(),motors[0]),
-				new DriveModule(new XY(1,-1),new XY(-1,-1),motors[1].getEncoder(),motors[1]),
-				new DriveModule(new XY(-1,1),new XY(1,1),motors[2].getEncoder(),motors[2]),
-				new DriveModule(new XY(1,1),new XY(1,-1),motors[3].getEncoder(),motors[3])
+		
+		DriveModule[] driveModules = {
+				new DriveModule(new XY(-1, -1), new XY(-1, 1), motors[0].getEncoder(), motors[0]),
+				new DriveModule(new XY(1, -1), new XY(-1, -1), motors[1].getEncoder(), motors[1]),
+				new DriveModule(new XY(-1, 1), new XY(1, 1), motors[2].getEncoder(), motors[2]),
+				new DriveModule(new XY(1, 1), new XY(1, -1), motors[3].getEncoder(), motors[3])
 		};
 		
-		dt=new DriveTrain(driveModules);
-		MyState.absVelocity=new Input<Vector>(){public Vector get(){return dt.getVelocity();}};
-		MyState.absPosition=new Input<Vector>(){public Vector get(){return dt.getPosition();}};
-		dt.setDefaultInput(new BasicInput(new TestJoystick(TEST.TINY),new Input<Double>(){
-
-			@Override
-			public Double get() {
-				// TODO Auto-generated method stub
-				return 0.0;
-			}}));
+		dt = new DriveTrain(driveModules);
+		MyState.absVelocity = new Input<Vector>() { public Vector get(){ return dt.getVelocity(); }};
+		MyState.absPosition = new Input<Vector>() { public Vector get(){ return dt.getPosition(); }};
+		dt.setDefaultInput(new BasicInput(new TestJoystick(TEST.TINY), new Input<Double>() {
+			public Double get() { return 0.0; }
+		}));
+		
 		dt.setMapper(new UniversalMapper());
 		
-		auto=new StateMachine(new DriveDistance(new XY(0,.15),0.5));
+		auto = new StateMachine(new DriveDistance(new XY(0, 0.15), 0.5));
 	}
 
 	@Override
@@ -79,13 +77,11 @@ public class MecanumTest extends TestRobot{
 	@Override
 	public void debugs() {
 		// TODO Auto-generated method stub
-		Debug.msg("Position",dt.getPosition());
-		Debug.msg("Velocity",dt.getVelocity());
+		Debug.msg("Position", dt.getPosition());
+		Debug.msg("Velocity", dt.getVelocity());
 	}
 	
-	
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		new MecanumTest();
 	}
 

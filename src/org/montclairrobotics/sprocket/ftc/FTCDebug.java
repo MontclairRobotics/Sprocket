@@ -10,9 +10,8 @@ public class FTCDebug implements IDebug{
 
 	private FTCRobot robot;
 	
-	public FTCDebug(FTCRobot r)
-	{
-		robot=r;
+	public FTCDebug(FTCRobot r) {
+		robot = r;
 	}
 	
     @Override
@@ -25,8 +24,7 @@ public class FTCDebug implements IDebug{
         FTCRobot.ftcTelemetry.addData(key,val);
     }
     
-    public void update()
-    {
-    	robot.sendTelemetry();
+    public void update() {
+    		robot.sendTelemetry();
     }
 }
