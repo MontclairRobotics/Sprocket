@@ -6,18 +6,15 @@ package org.montclairrobotics.sprocket.actions;
  */
 
 public class MultiAction implements Action {
-	
 	private Action[] actions;
 	
-	public MultiAction(Action... actions) 
-	{
-		this.actions=actions;
+	public MultiAction(Action... actions) {
+		this.actions = actions;
 	}
-		
 	
 	@Override
 	public void start() {
-		for(Action a : actions) {
+		for (Action a : actions) {
 			a.start();
 		}
 	}

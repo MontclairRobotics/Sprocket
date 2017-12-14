@@ -17,10 +17,8 @@ public class Debug {
 	 * @param value the numeric value to print.
 	 */
 	public static void num(String key, double value) {
-		if(DEBUG_MODE)
+		if (DEBUG_MODE)
 			Sprocket.debugger.debugNum(key, value);
-		else {}
-			//TODO: Signal in some way that method failed.
 	}
 
 	/**
@@ -29,26 +27,23 @@ public class Debug {
 	 * @param value the message to print.
 	 */
 	public static void string(String key, String value) {
-		if(DEBUG_MODE)
+		if (DEBUG_MODE)
 			Sprocket.debugger.debugStr(key, value);
-		else {}
-			//TODO: Signal in some way that method failed.
 	}
 
-	public static void msg(String key, double value)
-	{
+	public static void msg(String key, double value) {
 		num(key, value);
 	}
-	public static void msg(String key, String value)
-	{
+	
+	public static void msg(String key, String value) {
 		string(key, value);
 	}
-	public static void msg(String key, boolean value)
-	{
+	
+	public static void msg(String key, boolean value) {
 		string(key, value ? "TRUE" : "FALSE");
 	}
-	public static void msg(String key, Object value)
-	{
+	
+	public static void msg(String key, Object value) {
 		string(key, value.toString());
 	}
 }

@@ -1,28 +1,26 @@
 package org.montclairrobotics.sprocket.actions;
 
-public class Reverse implements Action{
+public class Reverse implements Action {
 
 	private Action a;
 	
-	public Reverse(Action a)
-	{
-		this.a=a;
+	public Reverse(Action a) {
+		this.a = a;
 	}
 	
-	public void start()
-	{
+	public void start() {
 		a.stop();
 	}
-	public void enabled()
-	{
+	
+	public void enabled() {
 		a.disabled();
 	}
-	public void stop()
-	{
+	
+	public void stop() {
 		a.start();
 	}
-	public void disabled()
-	{
+	
+	public void disabled() {
 		a.enabled();
 	}
 }

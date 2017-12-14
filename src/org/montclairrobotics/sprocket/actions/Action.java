@@ -11,18 +11,13 @@ package org.montclairrobotics.sprocket.actions;
  */
 
 public interface Action {
-	/**
-	 * Called once when the object is activated
-	 */
+	/** Called once when the object is activated. */
 	public void start();
-	/**
-	 * Called every loop the object is active, after it is activated
-	 */
+	/** Called every loop the object is active, after it is activated. */
 	public void enabled();
-	/**
-	 * Called once when the object is deactivated
-	 */
+	/** Called once when the object is deactivated. */
 	public void stop();
+	
 	/**
 	 * Called every loop when the object is deactivated
 	 * Note: this may not be called by every implementation

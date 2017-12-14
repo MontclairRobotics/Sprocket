@@ -18,7 +18,8 @@ public class MultiState extends MultiAction implements State {
 	
 	public MultiState(final int stateToStopAt, final State... states) {
 		super(states);
-		if(stateToStopAt < 0 || stateToStopAt > states.length) {
+		
+		if (stateToStopAt < 0 || stateToStopAt > states.length) {
 			this.done = new Input<Boolean>() {
 				@Override
 				public Boolean get() {
@@ -32,10 +33,7 @@ public class MultiState extends MultiAction implements State {
 			};
 		} else {
 			this.done = new Input<Boolean>() {
-				@Override
-				public Boolean get() {
-					return states[stateToStopAt].isDone();
-				}
+				@Override public Boolean get() { return states[stateToStopAt].isDone(); }
 			};
 		}
 	}
