@@ -2,7 +2,6 @@ package org.montclairrobotics.sprocket.auto.states;
 
 import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.auto.AutoState;
-import org.montclairrobotics.sprocket.control.DashboardInput;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.XY;

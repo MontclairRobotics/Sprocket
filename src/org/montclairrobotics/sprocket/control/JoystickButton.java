@@ -1,8 +1,5 @@
 package org.montclairrobotics.sprocket.control;
 
-import org.montclairrobotics.sprocket.loop.Priority;
-import org.montclairrobotics.sprocket.loop.Updater;
-
 import edu.wpi.first.wpilibj.Joystick;
 
 public class JoystickButton extends Button{

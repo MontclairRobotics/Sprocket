@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.montclairrobotics.sprocket.control.ArcadeDriveInput;
 import org.montclairrobotics.sprocket.geometry.Angle;
-import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.Polar;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.motors.Module;
@@ -12,7 +11,6 @@ import org.montclairrobotics.sprocket.motors.Motor;
 import org.montclairrobotics.sprocket.motors.SEncoder;
 import org.montclairrobotics.sprocket.pipeline.Pipeline;
 import org.montclairrobotics.sprocket.pipeline.Step;
-import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.PID;
 
 import edu.wpi.first.wpilibj.Joystick;

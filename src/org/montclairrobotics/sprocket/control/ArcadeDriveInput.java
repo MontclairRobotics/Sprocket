@@ -2,7 +2,6 @@ package org.montclairrobotics.sprocket.control;
 
 import org.montclairrobotics.sprocket.drive.DTInput;
 import org.montclairrobotics.sprocket.geometry.Angle;
-import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
