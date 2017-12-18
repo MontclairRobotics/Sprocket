@@ -4,6 +4,7 @@ import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Input;
+import org.montclairrobotics.sprocket.control.ButtonAction;
 
 import edu.wpi.first.wpilibj.Joystick;
 
