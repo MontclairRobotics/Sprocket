@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public abstract class SprocketRobot extends IterativeRobot implements Updatable{
 
-	private SendableChooser<AutoMode> chooser;
+	private SendableChooser chooser;
 	private AutoMode[] autoModes;
 	private AutoMode selectedAutoMode;
 	private AutoState runState;
@@ -69,7 +69,7 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
 
     @Override
     public final void autonomousInit() {
-    	selectedAutoMode = chooser.getSelected();
+    	selectedAutoMode = (AutoMode)chooser.getSelected();
     	selectedAutoMode.start();
     	start();
         userAutonomousInit();
@@ -101,7 +101,7 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     @Override
     public final void disabledPeriodic() {
         super.disabledPeriodic();
-    	SmartDashboard.putData("AUTO:",chooser);
+//    	SmartDashboard.putData("AUTO:",chooser);
     }
 
     @Override
@@ -133,7 +133,7 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     
     public void sendAutoModes()
     {
-    	chooser=new SendableChooser<AutoMode>();
+    	chooser=new SendableChooser();
     	for(AutoMode mode:autoModes)
     	{
     		chooser.addObject(mode+"", mode);

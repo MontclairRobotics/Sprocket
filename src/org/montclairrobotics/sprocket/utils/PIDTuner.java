@@ -36,9 +36,6 @@ public class PIDTuner extends PID
 		
 	}
 	
-	public PIDTuner(Button runButton) {
-		this(new DashboardInput("Temp P"), new DashboardInput("Cycles/10sec"), new DashboardButton("Test"), new DashboardButton("Apply"), runButton);
-	}
 	
 	public void recalculatePIDs() {
 		if(cyclesPer10Sec.get()==0.0)
