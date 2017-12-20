@@ -7,14 +7,14 @@ import org.montclairrobotics.sprocket.geometry.Vector;
 public class GenericMapper implements DTMapper{
 
 	@Override
-	public void map(DTTarget driveTarget, DriveModule[] driveModules) {
+	public void map(DTTarget driveTarget, DTModule[] driveModules) {
 		Vector tgtDir=driveTarget.getDirection();
 		double tgtTurn=driveTarget.getTurn();
-		for(DriveModule module:driveModules)
+		for(DTModule module:driveModules)
 		{
 			tgtTurn-=getTorque(module.getOffset(),module.getForce(),tgtDir);
 		}
-		for(DriveModule module:driveModules)
+		for(DTModule module:driveModules)
 		{
 			module.set(inverseDot(module.getForce(),tgtDir.add(
 					new Polar(tgtTurn*module.getOffset().getMagnitude(),module.getOffset().getAngle().add(Angle.QUARTER)))));
@@ -42,7 +42,7 @@ public class GenericMapper implements DTMapper{
 	}
 
 	@Override
-	public void setup(DriveModule[] driveModules) {
+	public void setup(DTModule[] driveModules) {
 		// TODO Auto-generated method stub
 		
 	}

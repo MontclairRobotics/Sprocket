@@ -11,16 +11,20 @@ import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.PID;
 
 /**
- * DriveModule is a class that extends Motor which provides additional behaviors
+ * DriveModule is a class that extends Module which provides additional behaviors
  * when compared to a vanilla motor. DriveModules are aware of the angle in which
- * they provide force, where they are relative to the robot's geometrical center,
+ * they provide force, where they are relative to the robot's geometric center,
  * and it's maximum size. This information makes drive train calculations easier
  * without needing to have the developer enter Motors in any specific order, while
  * also making generic power mappers possible.
  * @author MHS Robotics
  *
+ * It is a class to hold a list of motors used together in the drivetrain.
+ * In many drivetrains, this may only contain one motor.
+ * However, in a tank drive the left motors must run together, and so must the right
+ * That robot will have one module for the left motors, and one for the right.
  */
-public class DriveModule extends Module{
+public class DTModule extends Module{
 
     private Vector offset;
     private Vector force;
@@ -38,7 +42,7 @@ public class DriveModule extends Module{
      * @param force The vector on which the module applies force
      * @param motors All the motors which are a part of this module
      */
-    public DriveModule(Vector offset,
+    public DTModule(Vector offset,
                        Vector force,
                        SEncoder enc,
                        PID pid,
@@ -51,15 +55,15 @@ public class DriveModule extends Module{
         this.force = force;
     }
 
-    public DriveModule(Vector offset, Vector force,IMotor... motors) {
+    public DTModule(Vector offset, Vector force,IMotor... motors) {
 		this(offset,force,null,null,Module.MotorInputType.PERCENT,motors);
 	}
     
-    public DriveModule(Vector offset, Vector force,SEncoder enc, IMotor... motors) {
+    public DTModule(Vector offset, Vector force,SEncoder enc, IMotor... motors) {
 		this(offset,force,enc,null,Module.MotorInputType.PERCENT,motors);
 	}
     
-    public DriveModule(Vector offset,
+    public DTModule(Vector offset,
 	            Angle force,
 	            SEncoder enc,
 	            PID pid,
@@ -69,7 +73,7 @@ public class DriveModule extends Module{
     	this(offset,new Polar(1,force),enc,pid,inputType,motors);
 	}
 	
-	public DriveModule(Vector offset, Angle force, IMotor... motors) {
+	public DTModule(Vector offset, Angle force, IMotor... motors) {
 		this(offset,new Polar(1,force),null,null,Module.MotorInputType.PERCENT,motors);
 	}
 

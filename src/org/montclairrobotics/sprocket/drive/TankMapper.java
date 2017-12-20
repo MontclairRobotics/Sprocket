@@ -7,7 +7,7 @@ import org.montclairrobotics.sprocket.utils.Debug;
 public class TankMapper implements DTMapper {
 
     @Override
-    public void map(DTTarget driveTarget, DriveModule[] driveModules) {
+    public void map(DTTarget driveTarget, DTModule[] driveModules) {
         double power = driveTarget.getDirection().getY();
         double turn = driveTarget.getTurn();
 
@@ -24,7 +24,7 @@ public class TankMapper implements DTMapper {
         double leftPower = (power + turn)/max;
         double rightPower = (power - turn)/max;
 
-        for(DriveModule m : driveModules) {
+        for(DTModule m : driveModules) {
             if(m.getOffset().getX() < 0) {
             	setWheel(m,leftPower);
             } else if(m.getOffset().getX() > 0){
@@ -37,7 +37,7 @@ public class TankMapper implements DTMapper {
         
     }
     
-    public static void setWheel(DriveModule m,double power)
+    public static void setWheel(DTModule m,double power)
     {
     	if(m.getForce().getY()>0)
     	{
@@ -64,7 +64,7 @@ public class TankMapper implements DTMapper {
 	}
 
 	@Override
-	public void setup(DriveModule[] driveModules) {
+	public void setup(DTModule[] driveModules) {
 		// TODO Auto-generated method stub
 		
 	}

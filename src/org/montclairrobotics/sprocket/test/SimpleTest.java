@@ -2,7 +2,7 @@ package org.montclairrobotics.sprocket.test;
 
 import org.montclairrobotics.sprocket.control.ArcadeDriveInput;
 import org.montclairrobotics.sprocket.core.Sprocket.MODE;
-import org.montclairrobotics.sprocket.drive.DriveModule;
+import org.montclairrobotics.sprocket.drive.DTModule;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.drive.TankMapper;
 import org.montclairrobotics.sprocket.geometry.XY;
@@ -18,8 +18,8 @@ public class SimpleTest extends TestRobot{
 	@Override
 	public void setup() {
 		DriveTrain dt=new DriveTrain(
-				new DriveModule(new XY(-1,0),new XY(0,-1),new TestMotor("Left")),
-				new DriveModule(new XY( 1,0),new XY(0, 1),new TestMotor("Right"))
+				new DTModule(new XY(-1,0),new XY(0,-1),new TestMotor("Left")),
+				new DTModule(new XY( 1,0),new XY(0, 1),new TestMotor("Right"))
 				);
 		dt.setDefaultInput(new ArcadeDriveInput(new TestJoystick(TEST.CIRCLE)));
 		dt.setMapper(new TankMapper());

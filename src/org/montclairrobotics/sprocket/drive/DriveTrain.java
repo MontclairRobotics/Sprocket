@@ -15,11 +15,11 @@ public class DriveTrain implements Updatable, Input<Distance> {
 	private DTInput input;
 	private DTInput defaultInput;
 	private Pipeline<DTTarget> pipeline;
-	private DriveModule[] modules;
+	private DTModule[] modules;
     private DTMapper mapper;
 
 
-    public DriveTrain(DriveModule... modules) {
+    public DriveTrain(DTModule... modules) {
     	this.modules = modules;
     	input=new ZeroDTInput();
     	pipeline=new ZeroPipeline();
@@ -71,7 +71,7 @@ public class DriveTrain implements Updatable, Input<Distance> {
     		return Vector.ZERO;
     	Vector totDist = Vector.ZERO;
     	int modulesWithEnc = 0;
-    	for(DriveModule m : modules) {
+    	for(DTModule m : modules) {
     		if(!m.hasEncoder()) continue;
     		totDist=totDist.add(m.getForce().setMag(m.getDistance().get()));
     		modulesWithEnc++;
@@ -85,7 +85,7 @@ public class DriveTrain implements Updatable, Input<Distance> {
     		return Vector.ZERO;
     	Vector totDist = Vector.ZERO;
     	int modulesWithEnc = 0;
-    	for(DriveModule m : modules) {
+    	for(DTModule m : modules) {
     		if(!m.hasEncoder()) continue;
     		totDist=totDist.add(m.getForce().setMag(m.getEnc().getSpeed().get()));
     		modulesWithEnc++;
@@ -94,7 +94,7 @@ public class DriveTrain implements Updatable, Input<Distance> {
     	return avgDist;
     }
     
-    public DriveModule[] getModules()
+    public DTModule[] getModules()
     {
     	return modules;
     }

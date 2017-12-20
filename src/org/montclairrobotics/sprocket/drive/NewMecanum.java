@@ -7,18 +7,18 @@ package org.montclairrobotics.sprocket.drive;
 
 public class NewMecanum implements DTMapper {
     @Override
-    public void setup(DriveModule[] driveModules) {
+    public void setup(DTModule[] driveModules) {
 
     }
 
-    public void map(DTTarget driveTarget, DriveModule[] driveModules) {
+    public void map(DTTarget driveTarget, DTModule[] driveModules) {
         //Setting up variables
         double x = driveTarget.getDirection().getX();
         double y = driveTarget.getDirection().getY();
         double turn = driveTarget.getTurn();
         double maxPower=1;
 
-        for(DriveModule module:driveModules)
+        for(DTModule module:driveModules)
         {
             double xSign=module.getOffset().getX()>0?1:-1;
             double ySign=module.getOffset().getY()>0?1:-1;
@@ -29,7 +29,7 @@ public class NewMecanum implements DTMapper {
                 maxPower=module.temp;
             }
         }
-        for(DriveModule module:driveModules) {
+        for(DTModule module:driveModules) {
             module.set(module.temp/maxPower);
         }
     }

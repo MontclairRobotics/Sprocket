@@ -25,7 +25,7 @@ import org.montclairrobotics.sprocket.utils.PID;
  */
 public class DriveTrainBuilder {
 
-    private ArrayList<DriveModule> modules;
+    private ArrayList<DTModule> modules;
     private DTInput input;
     private DriveTrainType driveTrainType;
     private ArrayList<Step<DTTarget>> pipelineSteps;
@@ -37,13 +37,13 @@ public class DriveTrainBuilder {
     }
 
 
-    public DriveTrainBuilder addDriveModule(DriveModule module) {
+    public DriveTrainBuilder addDriveModule(DTModule module) {
         modules.add(module);
         return this;
     }
     
     public DriveTrainBuilder addWheel(IMotor motor, Vector offset, Angle force, SEncoder enc, PID pid) {
-        modules.add(new DriveModule(offset, new Polar(1, force),enc,pid,Module.MotorInputType.SPEED, motor));
+        modules.add(new DTModule(offset, new Polar(1, force),enc,pid,Module.MotorInputType.SPEED, motor));
         return this;
     }
 
@@ -53,7 +53,7 @@ public class DriveTrainBuilder {
     
     
     public DriveTrainBuilder addWheels(Vector offset, Angle force, IMotor... motors) {
-    	modules.add(new DriveModule(offset, new Polar(1, force), motors));
+    	modules.add(new DTModule(offset, new Polar(1, force), motors));
     	return this;
     }
     
@@ -122,7 +122,7 @@ public class DriveTrainBuilder {
         	mapper = new TankMapper();
         }
 
-        DriveTrain dt = new DriveTrain(modules.toArray(new DriveModule[]{}));
+        DriveTrain dt = new DriveTrain(modules.toArray(new DTModule[]{}));
 
         dt.setDefaultInput(input);
         dt.setMapper(mapper);

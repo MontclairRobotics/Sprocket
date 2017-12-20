@@ -2,7 +2,7 @@ package org.montclairrobotics.sprocket.auto.states;
 
 import org.montclairrobotics.sprocket.auto.AutoState;
 import org.montclairrobotics.sprocket.core.Sprocket;
-import org.montclairrobotics.sprocket.drive.DriveModule;
+import org.montclairrobotics.sprocket.drive.DTModule;
 import org.montclairrobotics.sprocket.geometry.Angle;
 
 public class TurnEncoders extends AutoState {
@@ -10,7 +10,7 @@ public class TurnEncoders extends AutoState {
 	private Angle turn;
 	private double turnSpeed;
 	private double finalPos;
-	private DriveModule module;
+	private DTModule module;
 	
 	public TurnEncoders(Angle turn, double turnSpeed) {
 		this.turn = turn;

@@ -13,7 +13,7 @@ of a mecanum drivetrain can vary).
 public class MecanumMapper implements DTMapper {
 
     @Override
-    public void map(DTTarget driveTarget, DriveModule[] driveModules) {
+    public void map(DTTarget driveTarget, DTModule[] driveModules) {
         //Setting up variables
         Vector dir = driveTarget.getDirection();
         double dirPower = dir.getMagnitude();
@@ -22,7 +22,7 @@ public class MecanumMapper implements DTMapper {
 
         //Finding initial motor powers
         for (int i = 0; i < driveModules.length; i++) {
-            DriveModule driveModule = driveModules[i];
+            DTModule driveModule = driveModules[i];
             Vector offset = driveModule.getOffset(); //Storing the motor offset
             //Rotating the offset 90 degrees to find the vector along which torque should be applied,
             //then scaling the turn vector appropriately
@@ -52,7 +52,7 @@ public class MecanumMapper implements DTMapper {
     }
 
 	@Override
-	public void setup(DriveModule[] driveModules) {
+	public void setup(DTModule[] driveModules) {
 		// TODO Auto-generated method stub
 		
 	}

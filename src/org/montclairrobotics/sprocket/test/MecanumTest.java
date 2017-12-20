@@ -4,7 +4,7 @@ import org.montclairrobotics.sprocket.actions.StateMachine;
 import org.montclairrobotics.sprocket.auto.states.DriveDistance;
 import org.montclairrobotics.sprocket.control.BasicInput;
 import org.montclairrobotics.sprocket.core.Sprocket.MODE;
-import org.montclairrobotics.sprocket.drive.DriveModule;
+import org.montclairrobotics.sprocket.drive.DTModule;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.drive.UniversalMapper;
 import org.montclairrobotics.sprocket.drive.utils.MyState;
@@ -31,11 +31,11 @@ public class MecanumTest extends TestRobot {
 				new TestMotor("FrontLeft")
 		};
 		
-		DriveModule[] driveModules = {
-				new DriveModule(new XY(-1, -1), new XY(-1, 1), motors[0].getEncoder(), motors[0]),
-				new DriveModule(new XY(1, -1), new XY(-1, -1), motors[1].getEncoder(), motors[1]),
-				new DriveModule(new XY(-1, 1), new XY(1, 1), motors[2].getEncoder(), motors[2]),
-				new DriveModule(new XY(1, 1), new XY(1, -1), motors[3].getEncoder(), motors[3])
+		DTModule[] driveModules = {
+				new DTModule(new XY(-1, -1), new XY(-1, 1), motors[0].getEncoder(), motors[0]),
+				new DTModule(new XY(1, -1), new XY(-1, -1), motors[1].getEncoder(), motors[1]),
+				new DTModule(new XY(-1, 1), new XY(1, 1), motors[2].getEncoder(), motors[2]),
+				new DTModule(new XY(1, 1), new XY(1, -1), motors[3].getEncoder(), motors[3])
 		};
 		
 		dt = new DriveTrain(driveModules);
