@@ -1,5 +1,6 @@
 package org.montclairrobotics.sprocket.motors;
 
+import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Utils;
 
 import com.ctre.CANTalon;
@@ -15,7 +16,8 @@ public class Motor {
         UNKNOWN
     }
     
-    
+    private String name;
+    private CurrentMonitor monitor;
 
     private SpeedController motor;
     private MotorType motorType;
@@ -25,11 +27,18 @@ public class Motor {
 	private boolean brakeMode=true;
 	
 
-    public Motor(SpeedController motor) {
+	public Motor(SpeedController motor,String name)
+	{
+		this(motor,name,null);
+	}
+	
+    public Motor(SpeedController motor,String name,CurrentMonitor monitor) {
         if(motor == null) {
             throw new IllegalArgumentException("SpeedController argument was null when instantiating Motor object");
         }
-
+        	
+        this.name=name;
+        this.monitor=monitor;
 
         this.motor = motor;
         if(motor instanceof CANTalon) {
@@ -63,6 +72,11 @@ public class Motor {
     	else
     	{
     		motor.set(Utils.constrain(power, minPower, maxPower));
+    	}
+    	Debug.msg("Motor: "+name+" Power",power);
+    	if(monitor!=null)
+    	{
+    		Debug.msg("Motor: "+name+" Current", monitor);
     	}
     }
 
