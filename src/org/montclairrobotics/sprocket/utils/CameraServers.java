@@ -27,14 +27,12 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 import com.ni.vision.NIVision;
-import com.ni.vision.NIVision.Image;
-import com.ni.vision.NIVision.RawData;
 import com.ni.vision.VisionException;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.vision.USBCamera;
 
+import com.ni.vision.NIVision.*;
 // replicates CameraServer.cpp in java lib
 
 public class CameraServers {

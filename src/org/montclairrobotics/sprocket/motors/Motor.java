@@ -1,8 +1,8 @@
 package org.montclairrobotics.sprocket.motors;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import org.montclairrobotics.sprocket.utils.Utils;
-
-import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -32,7 +32,7 @@ public class Motor {
 
 
         this.motor = motor;
-        if(motor instanceof CANTalon) {
+        if(motor instanceof WPI_TalonSRX) {
             motorType = MotorType.CANTALON;
         } else if(motor instanceof Talon) {
             motorType = MotorType.TALON;
@@ -44,9 +44,9 @@ public class Motor {
 
         switch(motorType) {
             case CANTALON:
-                CANTalon cMotor = (CANTalon) motor;
-                cMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-                cMotor.enableBrakeMode(true);
+                WPI_TalonSRX cMotor = (WPI_TalonSRX) motor;
+                //cMotor.changeControlMode(WPI_TalonSRX.TalonControlMode.PercentVbus);
+                cMotor.setNeutralMode(NeutralMode.Brake);
             break;
             default:
             break;
