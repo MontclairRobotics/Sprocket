@@ -37,7 +37,7 @@ public class ExponentDriveInput extends ArcadeDriveInput
 	public double getX()
     {
     	double x=super.getX();
-    	return p*Math.pow(x, 3)+(1-p)*x;
+    	return p * Math.pow(x, 3) + (1 - p) * x;
     }
 
 	/**

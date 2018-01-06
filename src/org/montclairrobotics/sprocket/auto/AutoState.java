@@ -27,6 +27,10 @@ public abstract class AutoState extends AutoDTInput implements State {
 	 * Run when the AutoState beigns
 	 */
 	public void userStart(){}
+	
+	/**
+	 * When the state is done, run the user defined stop method and reset the drive train input to the default
+	 */
 	public final void stop()
 	{
 		userStop();

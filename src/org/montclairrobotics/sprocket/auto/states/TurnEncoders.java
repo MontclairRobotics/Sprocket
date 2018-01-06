@@ -5,11 +5,27 @@ import org.montclairrobotics.sprocket.auto.AutoState;
 import org.montclairrobotics.sprocket.drive.DriveModule;
 import org.montclairrobotics.sprocket.geometry.Angle;
 
+/**
+ * Turn encoders is a state that turns the robot a certain number of degrees
+ * using the encoders. It also regulates the motors using specified caps on
+ * turning speed.
+ */
 public class TurnEncoders extends AutoState {
 	
+	/**
+	 * The angle to turn
+	 */
 	private Angle turn;
+	
+	/**
+	 * The speed to turn at
+	 */
 	private Angle turnSpeed;
 	private double finalPos;
+	
+	/**
+	 *
+	 */
 	private DriveModule module;
 	
 	public TurnEncoders(Angle turn, Angle turnSpeed) {

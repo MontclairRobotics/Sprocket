@@ -14,28 +14,44 @@ import org.montclairrobotics.sprocket.utils.Debug;
  */
 public class AutoMode extends StateMachine{
 	
+	/**
+	 * Name of the AutoMode (for smart dashboard)
+	 */
 	private String name;
 
 	/**
 	 * Creates an AutoMode based off of a pre-configured StateMachine
 	 * @param name The name of the AutoMode (for SmartDashboard)
-	 * @param m The StateMachine which contains AutoModes
+	 * @param states The states that will be added to the state machine
 	 */
 	public AutoMode(String name, State... states)
 	{
 		super(states);
 		this.name = name;
 	}
+	
+	/**
+	 * Set the starting state to 0 and debug the auto mode info
+	 */
 	public void start()
 	{
 		super.start(true);
 		Debug.msg("Auto Mode Running:",name);
 	}
+	
+	/**
+	 * Stop the state machine and set reset the drive train input to the default
+	 * this is in preparation for teleop
+	 */
 	public void stop()
 	{
 		super.stop();
 		SprocketRobot.getDriveTrain().useDefaultInput();
 	}
+	
+	/**
+	 * @return the name of the auto mode
+	 */
 	public String toString()
 	{
 		return name;
