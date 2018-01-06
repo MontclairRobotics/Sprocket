@@ -4,6 +4,9 @@ import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.utils.Debug;
 
+/**
+ * Takes a DTInput and calculates the module powers for a tank drive train
+ */
 public class TankMapper implements DTMapper {
 
     @Override

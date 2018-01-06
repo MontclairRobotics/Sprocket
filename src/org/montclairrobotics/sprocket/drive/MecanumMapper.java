@@ -6,6 +6,9 @@ import org.montclairrobotics.sprocket.geometry.Position;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
 
+/**
+ * Takes a DTInput and calculates the module powers for a mecanum drive train
+ */
 public class MecanumMapper implements DTMapper {
 
     @Override

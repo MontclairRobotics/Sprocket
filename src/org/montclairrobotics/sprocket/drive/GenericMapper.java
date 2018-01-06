@@ -5,6 +5,12 @@ import org.montclairrobotics.sprocket.geometry.Polar;
 import org.montclairrobotics.sprocket.geometry.Radians;
 import org.montclairrobotics.sprocket.geometry.Vector;
 
+/**
+ * GenericMapper takes a DTInput and calculates the motor powers for
+ * the modules in the drive train
+ * Generic mapper is able to map module power for any drive train
+ * not just one in specific like TankMapper
+ */
 public class GenericMapper implements DTMapper{
 
 	@Override
