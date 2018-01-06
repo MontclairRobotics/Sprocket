@@ -12,6 +12,12 @@ import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Togglable;
 import org.montclairrobotics.sprocket.utils.Utils;
 
+/**
+ * AccelLimit is a DriveTrain pipeline step which limits the acceleration the drivetrain
+ * can undergo by limiting how much the joystick's input can change each second. This is
+ * meant to avoid large changes to velocity which could destabilise the robot to the point of
+ * capsizing.
+ */
 public class AccelLimit implements Step<DTTarget>,Togglable{
 
 	private Distance maxAccel;
@@ -21,15 +27,30 @@ public class AccelLimit implements Step<DTTarget>,Togglable{
 	private Angle lastTurn;
 	
 	private boolean enabled=true;
-	
+
+	/**
+	 * Creates a default acceleration limiter which limits it to 4 inches a second squared and 180 degrees/sec squared.
+	 */
 	public AccelLimit()
 	{
 		this(new Distance(4),new Degrees(180));
 	}
+
+	/**
+	 * Creates an acceleration limiter.
+	 * @param maxAccel Maximum acceleration in inches per second squared.
+	 * @param maxTurn Maximum turning acceleration in radians per second squared.
+	 */
 	public AccelLimit(double maxAccel,double maxTurn)
 	{
 		this(new Distance(maxAccel),new Radians(maxTurn));
 	}
+
+	/**
+	 * Creates an acceleration limiter.
+	 * @param maxAccel Maximum acceleration.
+	 * @param maxTurn Maximum turning acceleration.
+	 */
 	public AccelLimit(Distance maxAccel,Angle maxTurn) 
 	{
 		this.maxAccel=maxAccel;
@@ -37,7 +58,11 @@ public class AccelLimit implements Step<DTTarget>,Togglable{
 		lastDir=Vector.ZERO;
 		lastTurn=Angle.ZERO;
 	}
-	
+
+	/**
+	 * @param in The DTTarget from the previous pipeline step.
+	 * @return The acceleration-limited DTTarget.
+	 */
 	@Override
 	public DTTarget get(DTTarget in) {
 		Debug.msg("AccelLimit", enabled?"ENABLED":"DISABLED");
@@ -70,10 +95,18 @@ public class AccelLimit implements Step<DTTarget>,Togglable{
 			return in;
 		}
 	}
+
+	/**
+	 * Enables this step.
+	 */
 	@Override
 	public void enable() {
 		enabled=true;
 	}
+
+	/**
+	 * Disables this step.
+	 */
 	@Override
 	public void disable() {
 		enabled=false;
