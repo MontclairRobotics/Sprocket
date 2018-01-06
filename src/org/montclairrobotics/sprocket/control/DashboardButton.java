@@ -3,7 +3,11 @@ package org.montclairrobotics.sprocket.control;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DashboardButton extends Button{
+/**
+ * Unfinished class which is supposed to hook into SmartDashboard to work with buttons
+ * on the dashboard.
+ */
+public class DashboardButton extends Button {
 
 	Command c;
 	

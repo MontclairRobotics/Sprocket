@@ -72,10 +72,17 @@ public class ArcadeDriveInput implements DTInput, Updatable {
         raw=new XY(getX(),-getY());
     }
 
+    /**
+     * @return The X axis coordinate of the joystick
+     */
     public double getX()
     {
     	return stick.getX();
     }
+
+    /**
+     * @return The Y axis coordinate of the joystick
+     */
     public double getY()
     {
     	return stick.getY();

@@ -2,6 +2,10 @@ package org.montclairrobotics.sprocket.control;
 
 import edu.wpi.first.wpilibj.Joystick;
 
+/**
+ * JoystickButton represents a button on a standard WPILib joystick. This class can be used
+ * to define behaviours when a button is pressed/released.
+ */
 public class JoystickButton extends Button{
 
 	private Joystick stick;
@@ -27,6 +31,10 @@ public class JoystickButton extends Button{
 	public JoystickButton(int stick, int buttonId) {
 		this(new Joystick(stick), buttonId);
 	}
+
+	/**
+	 * @return Whether the specified button is pressed or not.
+	 */
 	@Override
 	public Boolean get() {
 		return stick.getRawButton(id);

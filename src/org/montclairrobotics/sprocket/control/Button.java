@@ -17,7 +17,12 @@ public abstract class Button implements Updatable, Input<Boolean> {
 	private boolean wasPressed=false;
 	
 	private ButtonAction pressAction, releaseAction, heldAction, offAction;
-	
+
+	/**
+	 * This constructor instantiates the object simply by adding it to the Updater
+	 * with Priority CONTROL. This class must be overriden and this constructor
+	 * must be called with all buttons.
+	 */
 	public Button()
 	{
 		Updater.add(this, Priority.CONTROL);

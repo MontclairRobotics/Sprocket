@@ -10,6 +10,17 @@ import org.montclairrobotics.sprocket.utils.Togglable;
 
 import edu.wpi.first.wpilibj.Joystick;
 
+/**
+ * Standard robot control schemes interpret a forward joystick input to mean that the robot
+ * should drive forward relative to its own heading (robot-centric). This makes sense for tank
+ * drivetrains which can only move forwards and backwards. For drivetrains which can also strafe,
+ * it may make more sense to implement a field-centric drive system where a forward joystick
+ * input represents a forward robot movement relative to the direction the robot driver is
+ * facing. This scheme is a bit more intuitive for humans when strafing actions are involved
+ * and it's recommended to use this field-centric input when using drivetrains which can strafe.
+ * This is an extention of ArcadeDriveInput. The only difference is whether the inputs are
+ * field-centric or robot-centric.
+ */
 public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglable{
 
 	private GyroCorrection gyro;
@@ -22,10 +33,23 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
 	
 	private static final int SMOOTH_LEN=10;
 
+	/**
+	 * Creates a standard FieldCentricDriveInput which will rotate in the direction the joystick
+	 * is pushed.
+	 * @param stick The joystick the class will use.
+	 * @param gyro The gyroscope to use to obtain the robot's current heading.
+	 */
 	public FieldCentricDriveInput(Joystick stick,GyroCorrection gyro)
 	{
 		this(stick,gyro,true);
 	}
+
+	/**
+	 * Creates a FieldCentricDriveInput.
+	 * @param stick The joystick the class will use.
+	 * @param gyro The gyroscope to use to obtain the robot's current heading.
+	 * @param rotToVector Indicates whether or not the robot will rotate to match the direction of the joystick.
+	 */
 	public FieldCentricDriveInput(Joystick stick,GyroCorrection gyro,boolean rotToVector)
 	{
 		super(stick);
@@ -39,6 +63,10 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
 				return getRaw();
 			}});
 	}
+
+	/**
+	 * Performs the per-loop calculations of the input.
+	 */
 	@Override
 	public void update()
 	{
@@ -83,11 +111,18 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
 		}
         return Angle.ZERO;
     }
-	
+
+	/**
+	 * Sets this class as the active drivetrain input.
+	 */
 	@Override
 	public void enable() {
 		SprocketRobot.getDriveTrain().setTempInput(this);
 	}
+
+	/**
+	 * Switches the active drivetrain input back to the default.
+	 */
 	@Override
 	public void disable() {
 		SprocketRobot.getDriveTrain().useDefaultInput();
