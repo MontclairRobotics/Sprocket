@@ -45,7 +45,6 @@ public class Motor {
         switch(motorType) {
             case CANTALON:
                 WPI_TalonSRX cMotor = (WPI_TalonSRX) motor;
-                //cMotor.changeControlMode(WPI_TalonSRX.TalonControlMode.PercentVbus);
                 cMotor.setNeutralMode(NeutralMode.Brake);
             break;
             default:
