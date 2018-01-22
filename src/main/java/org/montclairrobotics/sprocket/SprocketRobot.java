@@ -57,6 +57,9 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     public void userAutonomousInit(){}
     public void userTestInit(){}
     public void update(){}
+    public AutoMode autoModeOverride() {
+	    return null;
+    }
 
     @Override
     public final void disabledInit() {
@@ -68,6 +71,8 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
 
     @Override
     public final void autonomousInit() {
+	    AutoMode override = autoModeOverride();
+	    if(override != null) { selectedAutoMode = override; }
     	selectedAutoMode = (AutoMode) chooser.getSelected();
     	selectedAutoMode.start();
     	start();
