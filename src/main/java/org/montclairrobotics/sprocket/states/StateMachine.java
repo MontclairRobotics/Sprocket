@@ -78,4 +78,8 @@ public class StateMachine implements State, Updatable{
 		}
 		SmartDashboard.putString("I hope it gets here","It does!");
 	}
+
+	public void setStates(State ... states){
+		this.states = states;
+	}
 }
