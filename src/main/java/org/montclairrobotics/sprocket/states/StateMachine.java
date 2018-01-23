@@ -16,7 +16,10 @@ public class StateMachine implements State, Updatable{
 	{
 		this.states=s;
 		index=-1;
-		Updater.add(this, Priority.AUTO);
+		if(top)
+		{
+			Updater.add(this, Priority.AUTO);
+		}
 	}
 	public void start(boolean top)
 	{
