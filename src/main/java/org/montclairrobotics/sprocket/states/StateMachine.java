@@ -11,13 +11,16 @@ public class StateMachine implements State, Updatable{
 	private State[] states;
 	private int index;
 	private boolean top;
-	
-	public StateMachine(State...s)
+
+	public StateMachine(State... s)
+	{
+		this(true,s);
+	}
+	public StateMachine(boolean add,State...s)
 	{
 		this.states=s;
 		index=-1;
-		if(top)
-		{
+		if(add) {
 			Updater.add(this, Priority.AUTO);
 		}
 	}

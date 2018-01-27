@@ -13,16 +13,16 @@ public class DriveEncoderGyro extends StateMachine{
 	
 	
 	
-	public DriveEncoderGyro(Distance d,Angle a,boolean relative,double speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro)
+	public DriveEncoderGyro(double distance,double speed,Angle angle,boolean relative, GyroCorrection driveGyro)
 	{
 		super(
-			new TurnGyro(a,driveGyro,relative),
+			new TurnGyro(angle,driveGyro,relative),
 			new MultiState(0,
-					new DriveEncoders(d,speed, maxEncAccel, maxEncTicksPerSec),
+					new DriveEncoders(distance,speed),
 					new State(){
 						@Override
 						public void start() {
-							driveGyro.setTargetAngle(a,relative);
+							driveGyro.setTargetAngle(angle,relative);
 						}
 						@Override
 						public void stop() {}
@@ -39,11 +39,11 @@ public class DriveEncoderGyro extends StateMachine{
 					)
 			);
 	}
-	
-	public DriveEncoderGyro(Distance d, double speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro) {
+	/*
+	public DriveEncoderGyro(double d, double speed, GyroCorrection driveGyro) {
 		super(
 				new MultiState(0,
-						new DriveEncoders(d, speed, maxEncAccel, maxEncTicksPerSec),
+						new DriveEncoders(d, speed),
 						new State(){
 					@Override
 					public void start() {
@@ -63,8 +63,8 @@ public class DriveEncoderGyro extends StateMachine{
 					}})
 				);
 	}
-	
-	public DriveEncoderGyro(Input<Double> dInput, Input<Double> a, boolean relative, Input<Double> speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro) {
+	*/
+	/*public DriveEncoderGyro(Input<Double> dInput, Input<Double> a, boolean relative, Input<Double> speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro) {
 		super(
 				new TurnGyro(a,driveGyro,relative),
 				new MultiState(0,
@@ -87,12 +87,12 @@ public class DriveEncoderGyro extends StateMachine{
 							}}
 						)
 				);
-	}
+	}*/
 	
-	public DriveEncoderGyro(Input<Double> d, Input<Double> speed, double maxEncAccel, double maxEncTicksPerSec, GyroCorrection driveGyro) {
+	/*public DriveEncoderGyro(Input<Double> d, Input<Double> speed, GyroCorrection driveGyro) {
 		super(
 				new MultiState(0,
-						new DriveEncoders(d, speed, maxEncAccel, maxEncTicksPerSec),
+						new DriveEncoders(d, speed),
 						new State(){
 					@Override
 					public void start() {
@@ -111,6 +111,6 @@ public class DriveEncoderGyro extends StateMachine{
 						return false;
 					}})
 				);
-	}
+	}*/
 	
 }

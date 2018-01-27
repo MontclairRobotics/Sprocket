@@ -12,7 +12,7 @@ apply plugin: 'java-library'
 // In this section you declare where to find the dependencies of your project
 repositories {
     maven {
-    	url "http://first.wpi.edu/FRC/roborio/maven/release/"
+        url "http://first.wpi.edu/FRC/roborio/maven/release/"
     }
 
     maven {
@@ -33,8 +33,8 @@ dependencies {
 }
 
 jar {
-	manifest {
-		attributes('Implementation-Title': project.name, 
-			'Implemntation-Version': project.version)
-	}
+    manifest {
+        attributes('Implementation-Title': project.name,
+                'Implemntation-Version': project.version)
+    }
 }
