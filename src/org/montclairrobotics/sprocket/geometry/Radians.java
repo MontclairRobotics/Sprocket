@@ -1,5 +1,7 @@
 package org.montclairrobotics.sprocket.geometry;
 
+import org.montclairrobotics.sprocket.utils.Range;
+
 public class Radians implements Angle{
 
     private double radians;
@@ -10,7 +12,7 @@ public class Radians implements Angle{
 
     @Override
     public double toDegrees() {
-        return radians*(180/Math.PI);
+        return radians*(180 / Math.PI);
     }
 
     @Override
@@ -20,41 +22,41 @@ public class Radians implements Angle{
 
     @Override
     public Angle add(Angle a) {
-        return new Radians(toRadians() + a.toRadians());
+        return new Radians(radians + a.toRadians());
     }
 
     @Override
     public Angle subtract(Angle a) {
-        return new Radians(toRadians() - a.toRadians());
+        return new Radians(radians - a.toRadians());
     }
 
-    public Angle opposite()
-    {
-    	return new Radians(2*Math.PI+toRadians());
+    public Angle opposite() {
+    		return new Radians(2*Math.PI + radians);
     }
+    
     @Override
     public Angle negative() {
-        return new Radians(-toRadians());
+        return new Radians(-radians);
     }
 
 	@Override
 	public Angle times(double x) {
-		return new Radians(toRadians()*x);
+		return new Radians(radians*x);
 	}
 
 	@Override
 	public double sin() {
-		return Math.sin(toRadians());
+		return Math.sin(radians);
 	}
 	
 	@Override
 	public double cos() {
-		return Math.cos(toRadians());
+		return Math.cos(radians);
 	}
 	
 	@Override
 	public double tan() {
-		return Math.tan(toRadians());
+		return Math.tan(radians);
 	}
 
 	@Override
@@ -69,7 +71,7 @@ public class Radians implements Angle{
 	
 	@Override
 	public Angle wrap() {
-		return new WrappedRadians(radians);
+		return new Radians(Range.angleInRadians().wrap(radians));
 	}
 	
 	@Override

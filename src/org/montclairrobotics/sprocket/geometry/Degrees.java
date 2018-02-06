@@ -1,5 +1,7 @@
 package org.montclairrobotics.sprocket.geometry;
 
+import org.montclairrobotics.sprocket.utils.Range;
+
 public class Degrees implements Angle {
 
     private double degrees;
@@ -71,6 +73,6 @@ public class Degrees implements Angle {
 
 	@Override
 	public Angle wrap() {
-		return new WrappedDegrees(degrees);
+		return new Degrees(Range.angleInDegrees().wrap(degrees));
 	}
 }

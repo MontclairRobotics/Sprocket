@@ -26,7 +26,7 @@ public class XY implements Vector {
      * @param x the x component
      * @param y the y component 
      */
-    public XY(double x, double y) {
+    protected XY(double x, double y) {
         this.x = x;
         this.y = y;
     }
@@ -96,13 +96,12 @@ public class XY implements Vector {
 	}
 	
 	@Override
-	public Vector square() {
-		// TODO Auto-generated method stub
-		return new XY(x*Math.abs(x),y*Math.abs(y));
+	public String toString() {
+		return "<" + x + ", " + y + ">";
 	}
 
 	@Override
-	public String toString() {
-		return "<" + x + ", " + y + ">";
+	public Vector square() {
+		return new XY(x * Math.abs(x), y * Math.abs(y));
 	}
 }

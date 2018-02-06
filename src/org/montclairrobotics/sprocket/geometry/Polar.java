@@ -26,7 +26,7 @@ public class Polar implements Vector {
      * @param r the magnitude.
      * @param ang the angle.
      */
-    public Polar(double r, Angle a) {
+    protected Polar(double r, Angle a) {
         magnitude = r;
         angle = a;
     }
@@ -91,18 +91,17 @@ public class Polar implements Vector {
 	}
 	
 	@Override
+	public String toString() {
+		return magnitude + " @ " + angle;
+	}
+
+	@Override
 	public Vector normalize() {
 		return setMag(1);
 	}
 
 	@Override
 	public Vector square() {
-		// TODO Auto-generated method stub
 		return new XY(getX() * Math.abs(getX()), getY() * Math.abs(getY()));
-	}
-	
-	@Override
-	public String toString() {
-		return magnitude + " @ " + angle;
 	}
 }

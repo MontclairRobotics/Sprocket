@@ -20,6 +20,6 @@ public class ZeroInput implements Input<Double> {
 
 	@Override
 	public Double get() {
-		return 0.0;
+		return +0.0;
 	}
 }

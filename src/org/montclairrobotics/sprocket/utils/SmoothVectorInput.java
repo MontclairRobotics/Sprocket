@@ -1,7 +1,6 @@
 package org.montclairrobotics.sprocket.utils;
 
 import org.montclairrobotics.sprocket.geometry.Vector;
-import org.montclairrobotics.sprocket.geometry.XY;
 
 public class SmoothVectorInput implements Input<Vector> {
 	
@@ -19,6 +18,6 @@ public class SmoothVectorInput implements Input<Vector> {
 
 	@Override
 	public Vector get() {
-		return new XY(x.get(), y.get());
+		return Vector.xy(x.get(), y.get());
 	}
 }

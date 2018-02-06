@@ -12,4 +12,7 @@ package org.montclairrobotics.sprocket.utils;
 public interface Input<T> {
     /** @return the object held by this. */
     public T get();
+    
+//    /** @return the opposite value of the object held by this. */
+//    public T opposite();
 }

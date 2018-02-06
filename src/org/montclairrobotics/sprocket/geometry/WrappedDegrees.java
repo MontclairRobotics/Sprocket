@@ -2,6 +2,7 @@ package org.montclairrobotics.sprocket.geometry;
 
 import org.montclairrobotics.sprocket.utils.Utils;
 
+@Deprecated
 public class WrappedDegrees extends Degrees{
 
 	public WrappedDegrees(double angle) {

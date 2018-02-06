@@ -31,19 +31,39 @@ public class Debug {
 			Sprocket.debugger.debugStr(key, value);
 	}
 
+	@Deprecated
 	public static void msg(String key, double value) {
 		num(key, value);
 	}
 	
+	@Deprecated
 	public static void msg(String key, String value) {
 		string(key, value);
 	}
 	
+	@Deprecated
 	public static void msg(String key, boolean value) {
-		string(key, value ? "TRUE" : "FALSE");
+		string(key, value + "");
 	}
 	
+	@Deprecated
 	public static void msg(String key, Object value) {
+		string(key, value.toString());
+	}
+	
+	public static void print(String key, double value) {
+		num(key, value);
+	}
+	
+	public static void print(String key, String value) {
+		string(key, value);
+	}
+	
+	public static void print(String key, boolean value) {
+		string(key, value + "");
+	}
+	
+	public static void print(String key, Object value) {
 		string(key, value.toString());
 	}
 }

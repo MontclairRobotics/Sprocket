@@ -16,13 +16,11 @@ import org.montclairrobotics.sprocket.loop.Updater;
  */
 
 public class PID implements Updatable, Input<Double> {
-
 	private Input<Double> input;
 	private double P, I, D;
-	protected double minIn;
-	protected double maxIn;
-	protected double minOut;
-	protected double maxOut;
+	
+	protected Range inRange;
+	protected Range outRange;
 	
 	//private boolean calculated=false;
 	private double out;
@@ -39,31 +37,27 @@ public class PID implements Updatable, Input<Double> {
 		this.P = 0.0;
 		this.I = 0.0;
 		this.D = 0.0;
-		this.minOut = 0.0;
-		this.maxOut = 0.0;
-		this.minIn = 0.0;
-		this.maxIn = 0.0;
+		this.inRange = new Range();
+		this.outRange = new Range();
 		this.lastUpdateTime = System.currentTimeMillis();
-		setTarget();
+		resetTarget();
 		Updater.add(this, Priority.INPUT_PID);
 	}
 	
 	/**
 	 * @param P the Propotional Constant
 	 * @param I the Integral Constant
-	 * @param D the Derivitive Constant
+	 * @param D the Derivative Constant
 	 */
 	public PID(double P,double I,double D) {
 		this.input = null;
 		this.P = P;
 		this.I = I;
 		this.D = D;
-		this.minOut = 0.0;
-		this.maxOut = 0.0;
-		this.minIn = 0.0;
-		this.maxIn = 0.0;
+		this.inRange = new Range();
+		this.outRange = new Range();
 		this.lastUpdateTime = System.currentTimeMillis();
-		setTarget();
+		resetTarget();
 		Updater.add(this, Priority.INPUT_PID);
 	}
 	
@@ -72,31 +66,57 @@ public class PID implements Updatable, Input<Double> {
 		return this;
 	}
 	
-	public PID setPID(double P, double I, double D){
+	public PID setPID(double P, double I, double D) {
 		this.P = P;
 		this.I = I;
 		this.D = D;
 		return this;
 	}
 
+	@Deprecated
 	public PID setMinMax(double minIn, double maxIn, double minOut, double maxOut) {
-		this.minOut = minOut;
-		this.maxOut = maxOut;
-		this.minIn = minIn;
-		this.maxIn = maxIn;
+		this.inRange = new Range(minIn, maxIn);
+		this.outRange = new Range(minOut, maxOut);
 		return this;
 	}
+	
+	public PID setInRange(double a, double b) {
+		this.inRange = new Range(a, b);
+		return this;
+	}
+	
+	public PID setOutRange(double a, double b) {
+		this.inRange = new Range(a, b);
+		return this;
+	}
+	
+	public PID setInRange(Range r) {
+		this.inRange = r;
+		return this;
+	}
+	
+	public PID setOutRange(Range r) {
+		this.inRange = r;
+		return this;
+	}
+	
 	/**
 	 * Copy constructor so you can copy PID controllers
 	 * @return a copy of this PID controller
 	 */
 	public PID copy() {
-		return new PID(P, I, D).setInput(input).setMinMax(minIn, maxIn, minOut, maxOut);
+		return new PID(P, I, D).setInput(input).setInRange(inRange.copy()).setOutRange(outRange.copy());
 	}
 	
+	@Deprecated
 	public PID setTarget() {
 		return setTarget(0.0, false);
 	}
+	
+	public PID resetTarget() {
+		return setTarget(0.0, false);
+	}
+	
 	public PID setTarget(double t) {
 		return setTarget(t, false);
 	}
@@ -105,11 +125,11 @@ public class PID implements Updatable, Input<Double> {
 	 * @param t the target/setpoint
 	 * @param reset true if the PID should reset, false otherwise
 	 */
-	public PID setTarget(double t,boolean reset)
+	public PID setTarget(double t, boolean reset)
 	{
-		target=t;
+		this.target = t;
 
-		if(reset) {
+		if (reset) {
 			error = 0.0;
 			prevVal = 0.0;
 			totalError = 0.0;
@@ -135,25 +155,24 @@ public class PID implements Updatable, Input<Double> {
 		
 		double dVal = val - prevVal;
 		
-		if(minIn != 0 && maxIn != 0)
-		{
-			double diff=maxIn-minIn;
-			error = ((error - minIn) % diff + diff) % diff + minIn;
-			dVal = ((dVal - minIn) % diff + diff) % diff + minIn;
-			Debug.msg("dVal", dVal);
+		if(inRange.min != 0 && inRange.max != 0) {
+			error = inRange.wrap(error);
+			dVal =  inRange.wrap(dVal);
+			Debug.print("dVal", dVal);
 		}
+		
 		totalError += error * loopTime;
-		if (I != 0.0) 
-		{
+		
+		if (I != 0.0) {
 			double potentialIGain = (error+totalError) * I;
-			if (potentialIGain < maxOut) {
-				if (potentialIGain > minOut) {
+			if (potentialIGain < outRange.max) {
+				if (potentialIGain > outRange.min) {
 					totalError += error;
 				} else {
-					totalError = minOut / I;
+					totalError = outRange.min / I;
 				}
 			} else {
-				totalError = maxOut / I;
+				totalError = outRange.max / I;
 			}
 		}
 	
@@ -161,21 +180,24 @@ public class PID implements Updatable, Input<Double> {
 
 		prevVal = val;
 		
-		if(minOut!=0 || maxOut!=0) {
-			if (out > maxOut)
-				out = maxOut;
-			else if (out < minOut)
-				out = minOut;
+		if(outRange.min != 0 || outRange.max != 0) {
+			out = outRange.constrain(out);
 		}
 
 		return out;
 	}
 	
+	@Deprecated
 	public void setOut(double out) {
 		this.out = out;
 	}
 	
+	@Deprecated
 	public double getCurInput() {
+		return input.get();
+	}
+	
+	public double getCurrentInput() {
 		return input.get();
 	}
 	
@@ -189,6 +211,7 @@ public class PID implements Updatable, Input<Double> {
 
 	public void update() {
 		if (input == null || input.get() == null) { return; }
+		
 		out = calculate(input.get());
 	}
 	
@@ -200,9 +223,11 @@ public class PID implements Updatable, Input<Double> {
 		return P;
 	}
 	
+	
 	public double getI() {
 		return I;
 	}
+	
 	
 	public double getD() {
 		return D;

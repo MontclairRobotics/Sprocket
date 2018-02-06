@@ -9,26 +9,23 @@ public class Distance {
 	
     private double inches;
 	
-	public Distance(double i)
-	{
-		this.inches=i;
-	}
-	public Distance(double d,Distance unit)
-	{
-		this(d*unit.get());
+	public Distance(double i) {
+		this.inches = i;
 	}
 	
-	public double get()
-	{
+	public Distance(double d, Distance unit) {
+		this(d * unit.get());
+	}
+	
+	public double get() {
 		return inches;
 	}
-	public double get(Distance unit)
-	{
-		return inches/unit.get();
+	
+	public double get(Distance unit) {
+		return inches / unit.get();
 	}
 	
-	public String toString()
-	{
-		return inches+" IN";
+	public String toString() {
+		return inches + "in.";
 	}
 }

@@ -4,7 +4,7 @@ package org.montclairrobotics.sprocket.utils;
  * Created by Montclair Robotics on 9/8/2017.
  * @author Hymowitz
  */
-
+@Deprecated
 public class OppositeInput implements Input<Double> {
 	
     /** The original input value. */
