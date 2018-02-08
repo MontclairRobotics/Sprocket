@@ -4,6 +4,7 @@ import org.montclairrobotics.sprocket.SprocketRobot;
 import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
+import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.SmoothVectorInput;
 import org.montclairrobotics.sprocket.utils.Togglable;
@@ -11,6 +12,8 @@ import org.montclairrobotics.sprocket.utils.Togglable;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglable{
+
+	public static double TURN_POWER=0.4;
 
 	private GyroCorrection gyro;
 	
@@ -47,7 +50,7 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
 		if(field.getMagnitude()>0.1)
 		{
 			robot=field.rotate(gyro.getCurrentAngleReset().negative());
-			forwards=Math.abs(robot.getAngle().toDegrees())<90;
+			forwards=Math.abs(robot.getAngle().wrap().toDegrees())<90;
 		}
 		else
 		{
@@ -60,6 +63,10 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
      */
 	@Override
 	public Vector getDir() {
+		if(rotToVector)
+		{
+			return new XY(0,robot.getMagnitude()*Math.abs(robot.getMagnitude()));
+		}
 		return robot.square();
     }
 
@@ -87,9 +94,11 @@ public class FieldCentricDriveInput extends ArcadeDriveInput implements Togglabl
 	@Override
 	public void enable() {
 		SprocketRobot.getDriveTrain().setTempInput(this);
+		gyro.setMinMaxOut(-TURN_POWER,TURN_POWER);
 	}
 	@Override
 	public void disable() {
 		SprocketRobot.getDriveTrain().useDefaultInput();
+		gyro.resetMinMaxOut();
 	}
 }
