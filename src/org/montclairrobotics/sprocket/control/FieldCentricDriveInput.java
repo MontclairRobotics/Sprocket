@@ -13,7 +13,7 @@ import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.SmoothVectorInput;
 
 
-public class FieldCentricDriveInput implements DTInput,Action,Updatable{
+public class FieldCentricDriveInput implements DTInput, Action, Updatable {
 
 	private GyroCorrection gyro;
 	
@@ -23,15 +23,15 @@ public class FieldCentricDriveInput implements DTInput,Action,Updatable{
 
 	private boolean rotToVector;
 
-	private boolean enabled=false;
+	private boolean enabled = false;
 	
-	private static final int SMOOTH_LEN=10;
+	private static final int SMOOTH_LEN = 10;
 
-	public FieldCentricDriveInput(Input<Vector> stick,GyroCorrection gyro)
-	{
-		this(stick,gyro,false);
+	public FieldCentricDriveInput(Input<Vector> stick,GyroCorrection gyro) {
+		this(stick, gyro, false);
 	}
-	public FieldCentricDriveInput(Input<Vector> stick,GyroCorrection gyro,boolean rotToVector)
+	
+	public FieldCentricDriveInput(Input<Vector> stick,GyroCorrection gyro, boolean rotToVector)
 	{
 		this.gyro=gyro;
 		this.rotToVector=rotToVector;
@@ -41,16 +41,13 @@ public class FieldCentricDriveInput implements DTInput,Action,Updatable{
 	@Override
 	public void update()
 	{
-		field=fieldInput.get();
-		if(field.getMagnitude()>0.1)
-		{
-			robot=field.rotate(gyro.getCurrentAngleReset().negative());
-			forwards=Math.abs(robot.getAngle().toDegrees())<90;
-		}
-		else
-		{
-			robot=Vector.ZERO;
-			forwards=true;
+		field = fieldInput.get();
+		if (field.getMagnitude() > 0.1) {
+			robot = field.rotate(gyro.getCurrentAngleReset().negative());
+			forwards = Math.abs(robot.getAngle().toDegrees()) < 90;
+		} else {
+			robot = Vector.ZERO;
+			forwards = true;
 		}
 	}
 	/**
@@ -67,14 +64,10 @@ public class FieldCentricDriveInput implements DTInput,Action,Updatable{
 	@Override
     public double getTurn() {
 
-		if(enabled&&rotToVector&&field.getMagnitude()>0.1)
-		{
-			if(forwards)
-			{
+		if (enabled && rotToVector && field.getMagnitude() > 0.1) {
+			if (forwards) {
 				gyro.setTargetAngleReset(field.getAngle());
-			}
-			else
-			{
+			} else {
 				gyro.setTargetAngleReset(field.getAngle().add(Angle.HALF));
 			}
 			gyro.use();
@@ -85,13 +78,15 @@ public class FieldCentricDriveInput implements DTInput,Action,Updatable{
 	@Override
 	public void start() {
 		Sprocket.getMainDriveTrain().setTempInput(this);
-		enabled=true;
+		enabled = true;
 	}
+	
 	@Override
 	public void stop() {
 		Sprocket.getMainDriveTrain().useDefaultInput();
-		enabled=false;
+		enabled = false;
 	}
+	
 	@Override
 	public void enabled() {
 		// TODO Auto-generated method stub

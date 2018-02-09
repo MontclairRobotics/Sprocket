@@ -8,7 +8,7 @@ import org.montclairrobotics.sprocket.pipeline.Step;
 import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Utils;
 
-public class AccelLimit implements Step<DTTarget>,Action{
+public class AccelLimit implements Step<DTTarget>, Action {
 
 	private double maxAccel;
 	private double maxTurn;
@@ -22,17 +22,17 @@ public class AccelLimit implements Step<DTTarget>,Action{
 	{
 		this(4,4);
 	}
-	public AccelLimit(double maxAccel,double maxTurn) 
+	public AccelLimit(double maxAccel, double maxTurn) 
 	{
-		this.maxAccel=maxAccel;
-		this.maxTurn=maxTurn;
-		lastDir=Vector.ZERO;
-		lastTurn=0;
+		this.maxAccel = maxAccel;
+		this.maxTurn = maxTurn;
+		lastDir = Vector.ZERO;
+		lastTurn = 0;
 	}
 	
 	@Override
 	public DTTarget get(DTTarget in) {
-		Debug.msg("AccelLimit", enabled?"ENABLED":"DISABLED");
+		Debug.print("AccelLimit", enabled?"ENABLED":"DISABLED");
 		if(enabled)
 		{
 			Vector dDir=in.getDirection().subtract(lastDir);
@@ -49,12 +49,12 @@ public class AccelLimit implements Step<DTTarget>,Action{
 			//Debug.string("newDir", (lastDir.add(dDir)).toString());
 			
 			double dAng=in.getTurn()-lastTurn;
-			dAng=Utils.constrain(dAng,-maxTurn*Updater.getLoopTime(),maxTurn*Updater.getLoopTime());
+			dAng = Utils.constrain(dAng, -maxTurn*Updater.getLoopTime(), maxTurn*Updater.getLoopTime());
 			
 			DTTarget tgt= new DTTarget(lastDir.add(dDir),lastTurn+dAng);
 			
-			lastDir=tgt.getDirection();
-			lastTurn=tgt.getTurn();
+			lastDir = tgt.getDirection();
+			lastTurn = tgt.getTurn();
 			return tgt;
 		}
 		else
@@ -64,11 +64,11 @@ public class AccelLimit implements Step<DTTarget>,Action{
 	}
 	@Override
 	public void start() {
-		enabled=true;
+		enabled = true;
 	}
 	@Override
 	public void stop() {
-		enabled=false;
+		enabled = false;
 	}
 	@Override
 	public void enabled() {

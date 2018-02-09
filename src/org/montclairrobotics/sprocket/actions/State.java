@@ -6,6 +6,6 @@ package org.montclairrobotics.sprocket.actions;
  * Consequently, state machines can be made which move from state to state when each one is finished.
  *
  */
-public interface State extends Action{
+public interface State extends Action {
 	boolean isDone();
 }

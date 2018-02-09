@@ -92,7 +92,7 @@ public class Polar implements Vector {
 	
 	@Override
 	public String toString() {
-		return magnitude + " @ " + angle;
+		return magnitude + " @ " + angle.toString();
 	}
 
 	@Override

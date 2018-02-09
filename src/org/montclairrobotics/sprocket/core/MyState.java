@@ -10,47 +10,43 @@ import org.montclairrobotics.sprocket.utils.ZeroInput;
 
 public class MyState {
 
-	public static double maxAccel=0.0;
+	public static double maxAccel = 0.0;
 	
-	public static Input<Vector> absVelocity=ZeroInput.ZERO_VECTOR,absPosition=ZeroInput.ZERO_VECTOR;
-	public static Input<Angle> absAngularVelocity=ZeroInput.ZERO_ANGLE,absAngle=ZeroInput.ZERO_ANGLE;
+	public static Input<Vector> absVelocity = ZeroInput.ZERO_VECTOR, absPosition = ZeroInput.ZERO_VECTOR;
+	public static Input<Angle> absAngularVelocity = ZeroInput.ZERO_ANGLE, absAngle = ZeroInput.ZERO_ANGLE;
 	
 	private Vector zeroPos;
 	private Angle zeroAngle;
 	
-	public MyState()
-	{
-		this(absPosition.get(),absAngle.get());
+	public MyState() {
+		this(absPosition.get(), absAngle.get());
 	}
 	
-	public MyState(Vector zeroPos,Angle zeroAngle)
-	{
-		this.zeroPos=zeroPos;
-		this.zeroAngle=zeroAngle;
+	public MyState(Vector zeroPos, Angle zeroAngle) {
+		this.zeroPos = zeroPos;
+		this.zeroAngle = zeroAngle;
 	}
 	
-	public Vector getRelVelocity()
-	{
+	public Vector getRelVelocity() {
 		return absVelocity.get().rotate(zeroAngle.negative());
 	}
-	public Vector getRelPos()
-	{
+	
+	public Vector getRelPos() {
 		return absPosition.get().subtract(zeroPos).rotate(zeroAngle.negative());
 	}
-	public Angle getAngularVelocity()
-	{
+	
+	public Angle getAngularVelocity() {
 		return absAngularVelocity.get();
 	}
-	public Angle getAngle()
-	{
+	
+	public Angle getAngle() {
 		return zeroAngle.subtract(zeroAngle);
 	}
 	
 	
 	
 	
-	public class VelocityInput implements Input<Vector>
-	{
+	public class VelocityInput implements Input<Vector> {
 		private Input<Vector> local;
 		public VelocityInput(Input<Vector> local)
 		{
@@ -63,31 +59,32 @@ public class MyState {
 			return local.get().rotate(absAngle.get());
 		}
 	}
-	public class PosIntegrator implements Updatable,Input<Vector>
-	{
+	
+	public class PosIntegrator implements Updatable, Input<Vector> {
 		private Vector pos;
-		public PosIntegrator()
-		{
+		public PosIntegrator() {
 			Updater.add(this, Priority.INPUT);
 			pos=Vector.ZERO;
 		}
-		public void update()
-		{
+		
+		public void update() {
 			pos=pos.add(absVelocity.get().scale(Updater.getLoopTime()));
 		}
+		
 		@Override
 		public Vector get() {
 			return pos;
 		}
 		
 	}
+	
 	public class AngleIntegrator implements Updatable,Input<Angle>
 	{
 		private Angle ang;
 		public AngleIntegrator()
 		{
 			Updater.add(this, Priority.INPUT);
-			ang=Angle.ZERO;
+			ang = Angle.ZERO;
 		}
 		@Override
 		public Angle get() {
@@ -96,7 +93,7 @@ public class MyState {
 
 		@Override
 		public void update() {
-			ang=ang.add(absAngularVelocity.get().times(Updater.getLoopTime()));
+			ang = ang.add(absAngularVelocity.get().times(Updater.getLoopTime()));
 		}
 	}
 }

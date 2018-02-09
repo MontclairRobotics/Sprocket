@@ -2,7 +2,7 @@ package org.montclairrobotics.sprocket.pipeline;
 
 import java.util.ArrayList;
 
-public class Pipeline <T> {
+public class Pipeline<T> {
 
 	private ArrayList<Step<T>> steps;
 	

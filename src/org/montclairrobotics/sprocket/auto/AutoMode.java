@@ -22,23 +22,22 @@ public class AutoMode extends StateMachine{
 	 * @param name The name of the DefultAutoMode (for SmartDashboard)
 	 * @param states The StateMachine which contains AutoModes
 	 */
-	public AutoMode(String name, State... states)
-	{
+	public AutoMode(String name, State... states) {
 		super(states);
 		this.name = name;
 	}
-	public void start()
-	{
+	
+	public void start() {
 		super.start(true);
-		Debug.msg("Auto Mode Running - Auto Mode",name);
+		Debug.print("Auto Mode Running - Auto Mode", name);
 	}
-	public void stop()
-	{
+	
+	public void stop() {
 		super.stop();
 		Sprocket.getMainDriveTrain().useDefaultInput();
 	}
-	public String toString()
-	{
+	
+	public String toString() {
 		return name;
 	}
 }

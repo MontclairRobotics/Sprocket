@@ -17,8 +17,7 @@ public abstract class FRCRobot extends IterativeRobot implements IRobot,Updatabl
 
 	public Sprocket sprocket;
 	
-	public FRCRobot()
-	{
+	public FRCRobot() {
 		sprocket=new Sprocket(this);
 		sprocket.autoActionInput=new DashboardAutoSelector();
         Sprocket.debugger=new DashboardDebug();

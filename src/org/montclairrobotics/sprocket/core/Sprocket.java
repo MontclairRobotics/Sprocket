@@ -34,7 +34,7 @@ public class Sprocket {
 	
 	public Sprocket(IRobot robot) {
 		this.robot = robot;
-		Updater.add(robot,Priority.NORMAL);
+		Updater.add(robot,Priority.NONE);
 	}
 	
     //OUR STUFF HERE
@@ -56,7 +56,7 @@ public class Sprocket {
 	    		return;
 	    	}
 	
-	    	Debug.msg("MODE", mode);
+	    	Debug.print("MODE", mode);
 	    	curMode = mode;
 	    	robot.enableMode(mode);
 	    	
@@ -77,12 +77,12 @@ public class Sprocket {
 	    		robot.userTestInit();
 	    		break;
 		default:
-				break;
+			break;
 	    	}
 	    	
 	    	if (currentAction != null) {
 	    		currentAction.start();
-	        Debug.msg("Sprocket Starting", currentAction);
+	        Debug.print("Sprocket Starting", currentAction);
 	    	}
     }
     
@@ -97,7 +97,7 @@ public class Sprocket {
 	    		currentAction.stop();
 	    	}
 	    	curMode = MODE.DISABLED;
-	    	Debug.msg("MODE", MODE.DISABLED);
+	    	Debug.print("MODE", MODE.DISABLED);
 	    	robot.enableMode(MODE.DISABLED);
 	    	robot.disable();
     }
