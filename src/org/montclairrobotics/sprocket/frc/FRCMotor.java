@@ -1,9 +1,7 @@
 package org.montclairrobotics.sprocket.frc;
 
 import org.montclairrobotics.sprocket.core.IMotor;
-import org.montclairrobotics.sprocket.utils.Utils;
-
-//import com.ctre.CANTalon;
+import org.montclairrobotics.sprocket.utils.Range;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -16,8 +14,7 @@ public class FRCMotor implements IMotor{
     private SpeedController motor;
     private MotorType motorType;
     
-    private double minPower = -1.0;
-	private double maxPower = 1.0;
+    private Range range = Range.power();
 	private boolean brakeMode = true;
 	
     public FRCMotor(SpeedController motor) {
@@ -45,11 +42,11 @@ public class FRCMotor implements IMotor{
         }
     }
     
-    public void set(double power) {
-	    	if (brakeMode && Math.abs(power) < 0.05)	{
+    public void setPower(double p) {
+	    	if (brakeMode && Math.abs(p) < 0.05)	{
 	    		motor.stopMotor();
 	    	} else {
-	    		motor.set(Utils.constrain(power, minPower, maxPower));
+	    		motor.set(range.constrain(p));
 	    	}
     }
 
@@ -70,9 +67,13 @@ public class FRCMotor implements IMotor{
     }
     
     public IMotor constrain(double min, double max) {
-		this.minPower = min;
-		this.maxPower = max;
+		this.range = new Range(min, max);
 		return this;
+	}
+
+	@Override
+	public void stop() {
+		motor.stopMotor();
 	}
 
 }

@@ -1,7 +1,10 @@
 package org.montclairrobotics.sprocket.core;
 
+import org.montclairrobotics.sprocket.utils.Range;
+
 public interface IMotor {
-
-	void set(double power);
-
+	Range range = Range.power();
+	
+	void setPower(double p);
+	void stop();
 }

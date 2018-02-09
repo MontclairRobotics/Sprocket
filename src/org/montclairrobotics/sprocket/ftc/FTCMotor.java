@@ -5,7 +5,7 @@ import org.montclairrobotics.sprocket.utils.Debug;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-public class FTCMotor implements IMotor{
+public class FTCMotor implements IMotor {
 
 	private DcMotor motor;
 	private double zeroPos = 0;
@@ -36,14 +36,8 @@ public class FTCMotor implements IMotor{
 		return motor;
 	}
 	
-	@Override
-	public void set(double power) {
-		motor.setPower(power * direction);
-		Debug.msg("motor " + name, power * direction);
-	}
-	
 	public void setTargetPosition(double pos) {
-		motor.setTargetPosition((int)(pos + 0.5 - zeroPos));
+		motor.setTargetPosition((int) (pos + 0.5 - zeroPos));
 	}
 	
 	public void resetZeroPos() {
@@ -74,5 +68,16 @@ public class FTCMotor implements IMotor{
         } else {
             this.direction = 1;
         }
+	}
+
+	@Override
+	public void setPower(double p) {
+		motor.setPower(p * direction);
+		Debug.print("motor " + name, p * direction);
+	}
+
+	@Override
+	public void stop() {
+		motor.setPower(0);
 	}
 }
