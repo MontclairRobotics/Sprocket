@@ -4,6 +4,7 @@ public interface Vector {
 
     Vector ZERO = new XY(0,0);
 	double getMagnitude();
+	double getSquaredMagnitude();
     Angle getAngle();
     double getX();
     double getY();
