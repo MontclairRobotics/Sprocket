@@ -71,13 +71,25 @@ public class FTCMotor implements IMotor {
 	}
 
 	@Override
-	public void setPower(double p) {
-		motor.setPower(p * direction);
-		Debug.print("motor " + name, p * direction);
+	public void set(double power) {
+		motor.setPower(power * direction);
+		Debug.print("motor " + name, power * direction);
 	}
 
 	@Override
 	public void stop() {
 		motor.setPower(0);
 	}
+
+	@Override
+	public String getName() {
+		return "{ FTC | DC Motor }";
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

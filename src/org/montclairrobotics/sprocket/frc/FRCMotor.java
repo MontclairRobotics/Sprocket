@@ -7,9 +7,19 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.CANTalon;
 
-public class FRCMotor implements IMotor{
+public class FRCMotor implements IMotor {
 
-    public enum MotorType { CANTALON, TALON, UNKNOWN }
+    public enum MotorType {
+    		CANTALON, TALON, UNKNOWN;
+    		
+    		public String toString() {
+    			switch (this) {
+    			case CANTALON: return "CANTalon";
+    			case TALON: return "Talon";
+    			default: return "Unknown";
+    			}
+    		}
+    }
 
     private SpeedController motor;
     private MotorType motorType;
@@ -42,11 +52,12 @@ public class FRCMotor implements IMotor{
         }
     }
     
-    public void setPower(double p) {
-	    	if (brakeMode && Math.abs(p) < 0.05)	{
+    @Override
+    public void set(double power) {
+	    	if (brakeMode && Math.abs(power) < 0.05)	{
 	    		motor.stopMotor();
 	    	} else {
-	    		motor.set(range.constrain(p));
+	    		motor.set(range.constrain(power));
 	    	}
     }
 
@@ -66,7 +77,13 @@ public class FRCMotor implements IMotor{
         return motorType;
     }
     
+    @Deprecated
     public IMotor constrain(double min, double max) {
+		this.range = new Range(min, max);
+		return this;
+	}
+    
+    public IMotor setRange(double min, double max) {
 		this.range = new Range(min, max);
 		return this;
 	}
@@ -74,6 +91,17 @@ public class FRCMotor implements IMotor{
 	@Override
 	public void stop() {
 		motor.stopMotor();
+	}
+
+	@Override
+	public String getName() {
+		return "{ FRC | " + motorType.toString() + " Motor }";
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

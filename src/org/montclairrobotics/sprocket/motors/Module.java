@@ -77,13 +77,13 @@ public class Module {
     	//Debug.msg("Modules running", "yay");
     	if(inputType == MotorInputType.SPEED) 
     	{
-    		Debug.msg("motordebug", "Using encoders");
+    		Debug.print("motordebug", "Using encoders");
             pid.setTarget(power);
             power=(power+pid.get())/maxSpeed.get();
     	}
     	for(IMotor motor:motors)
     	{
-    		motor.set(power);
+    		motor.setPower(power);
     	}
     	//Debug.num("module-" + moduleId, power);
         debug();

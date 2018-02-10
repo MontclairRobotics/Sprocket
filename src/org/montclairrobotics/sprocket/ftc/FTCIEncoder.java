@@ -12,21 +12,21 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Created by MHS Robotics on 11/8/2017.
  */
 
-public class FTCIEncoder implements Updatable, IEncoder {
+public class FTCIEncoder implements IEncoder {
 
     private double lastPos = 0;
     private double zeroPos = 0;
 
-    private DcMotor m;
+    private DcMotor motor;
 
     public FTCIEncoder(FTCMotor m) {
-        this.m = m.getMotor();
+        this.motor = m.getMotor();
         Updater.add(this,Priority.INPUT);
     }
 
     @Override
     public void update() {
-        Debug.msg(m.getDeviceName() + " Encoder", getDistance());
+        Debug.print(motor.getDeviceName() + " Encoder", getDistance());
         lastPos = getDistance();
     }
 
@@ -37,11 +37,16 @@ public class FTCIEncoder implements Updatable, IEncoder {
 
     @Override
     public double getDistance() {
-        return m.getCurrentPosition() - zeroPos;
+        return motor.getCurrentPosition() - zeroPos;
     }
 
     @Override
     public void reset() {
-        zeroPos = m.getCurrentPosition();
+        zeroPos = motor.getCurrentPosition();
     }
+
+	@Override
+	public String getName() {
+		return "{ FTC | Encoder }";
+	}
 }
