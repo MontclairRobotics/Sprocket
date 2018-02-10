@@ -20,7 +20,7 @@ import org.montclairrobotics.sprocket.utils.PID;
  * @author MHS Robotics
  *
  */
-public class DriveModule extends Module{
+public class DriveModule extends Module {
 
     private Vector offset;
     private Vector force;
@@ -38,39 +38,27 @@ public class DriveModule extends Module{
      * @param force The vector on which the module applies force
      * @param motors All the motors which are a part of this module
      */
-    public DriveModule(Vector offset,
-                       Vector force,
-                       SEncoder enc,
-                       PID pid,
-                       Module.MotorInputType inputType,
-                       IMotor... motors
-                       ) {
-    	super(enc, pid, inputType, motors);
+    public DriveModule(Vector offset, Vector force, SEncoder enc, PID pid, Module.MotorInputType inputType, IMotor... motors ) {
+    		super(enc, pid, inputType, motors);
         this.offset = offset;
         //this.motors = motors;
         this.force = force;
     }
 
     public DriveModule(Vector offset, Vector force,IMotor... motors) {
-		this(offset,force,null,null,Module.MotorInputType.PERCENT,motors);
+		this(offset, force, null, null, Module.MotorInputType.PERCENT, motors);
 	}
     
     public DriveModule(Vector offset, Vector force,SEncoder enc, IMotor... motors) {
-		this(offset,force,enc,null,Module.MotorInputType.PERCENT,motors);
+		this(offset, force, enc, null, Module.MotorInputType.PERCENT, motors);
 	}
     
-    public DriveModule(Vector offset,
-	            Angle force,
-	            SEncoder enc,
-	            PID pid,
-	            Module.MotorInputType inputType,
-	            IMotor... motors
-	            ) {
-    	this(offset,new Polar(1,force),enc,pid,inputType,motors);
+    public DriveModule(Vector offset, Angle force, SEncoder enc, PID pid, Module.MotorInputType inputType, IMotor... motors ) {
+    		this(offset, new Polar(1,force), enc, pid, inputType, motors);
 	}
 	
 	public DriveModule(Vector offset, Angle force, IMotor... motors) {
-		this(offset,new Polar(1,force),null,null,Module.MotorInputType.PERCENT,motors);
+		this(offset, new Polar(1, force), null, null, Module.MotorInputType.PERCENT, motors);
 	}
 
 	/**
@@ -97,29 +85,26 @@ public class DriveModule extends Module{
     /**
      * @return The vector on which the wheel applies force
      */
-    public Vector getForce()
-    {
-    	return force;
+    public Vector getForce() {
+    		return force;
     }
 
     /**
      * @param val The power at which to run the DriveModule from 0 to 1 as a percent of the maximum force.
      */
-    public void set(double val)
-    {
-    	this.power=val;
-    	super.set(val);
+    public void set(double val) {
+    		this.power=val;
+    		super.set(val);
     }
     
     /**
      * @return (offestX,offsetY): Percent Power
      */
-    public String toString()
-    {
-    	return "("+offset.getX()+","+offset.getY()+"): "+(power*100)+"%";
+    public String toString() {
+    		return "("+offset.getX()+","+offset.getY()+"): " + (power * 100) + "%";
     }
-    public void debug()
-    {
-        Debug.msg("("+offset.getX()+","+offset.getY()+")",(power*100.0)+"%");
+    
+    public void debug() {
+        Debug.print("(" + offset.getX() + "," + offset.getY() + ")", (power*100.0) + "%");
     }
 }

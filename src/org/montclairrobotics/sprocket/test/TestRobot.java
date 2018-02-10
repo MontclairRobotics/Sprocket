@@ -19,21 +19,21 @@ public abstract class TestRobot implements IRobot{
 			sprocket.startS(MODE.DISABLED);
 			for(int i=0;i<time;i++)
 			{
-				Debug.msg("\nTIME", i);
+				Debug.print("\nTIME", i);
 				sprocket.disabledUpdateS();
 				Thread.sleep(100);
 			}
 			sprocket.startS(mode);
 			for(int i=0;i<time;i++)
 			{
-				Debug.msg("\nTIME", i);
+				Debug.print("\nTIME", i);
 				sprocket.updateS();
 				Thread.sleep(100);
 			}
 			sprocket.stopS();
 			for(int i=0;i<time;i++)
 			{
-				Debug.msg("\nTIME", i);
+				Debug.print("\nTIME", i);
 				sprocket.disabledUpdateS();
 				Thread.sleep(100);
 			}

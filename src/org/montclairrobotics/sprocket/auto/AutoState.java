@@ -13,14 +13,13 @@ import org.montclairrobotics.sprocket.loop.Updater;
  * Sprocket comes with some basic AutoStates built in, but you will need to make
  * at least some of them on your own by extending this class.
  */
-public abstract class AutoState implements State,DTInput {
+public abstract class AutoState implements State, DTInput {
 	public Vector tgtDir = Vector.ZERO;
 	public double tgtTurn = 0;
 	private double t;//time state was started
-	public double TIMEOUT=30;
+	public double TIMEOUT = 30;
 	
-	public final void start()
-	{
+	public final void start() {
 		t = Updater.getTimeSec();
 		Sprocket.getMainDriveTrain().setTempInput(this);
 		userStart();
@@ -29,9 +28,8 @@ public abstract class AutoState implements State,DTInput {
 	/**
 	 * Run when the AutoState beigns
 	 */
-	public void userStart(){}
-	public final void stop()
-	{
+	public abstract void userStart();
+	public final void stop() {
 		userStop();
 		/*tgtDir=Vector.ZERO;
 		tgtTurn=Angle.ZERO;*/
@@ -42,7 +40,7 @@ public abstract class AutoState implements State,DTInput {
 	/**
 	 * Run when the AutoState ends
 	 */
-	public void userStop(){}
+	public abstract void userStop();
 
 	/**
 	 * @return The running time of this state in seconds
@@ -76,22 +74,18 @@ public abstract class AutoState implements State,DTInput {
 	public abstract boolean userIsDone();
 	
 	@Override
-	public final boolean isDone()
-	{
-		return timeInState()>TIMEOUT || userIsDone();
+	public final boolean isDone() {
+		return timeInState() > TIMEOUT || userIsDone();
 	}
 	
-	public void setTimeout(double t)
-	{
-		this.TIMEOUT=t;
+	public void setTimeout(double t) {
+		this.TIMEOUT = t;
 	}
 	
-	public void enabled()
-	{
+	public void enabled() {
 		
 	}
-	public void disabled()
-	{
+	public void disabled() {
 		
 	}
 }

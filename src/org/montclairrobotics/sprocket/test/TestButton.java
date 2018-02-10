@@ -20,7 +20,7 @@ public class TestButton extends Button{
 	public Boolean get()
 	{
 		boolean res=getNext();
-		Debug.msg("Button "+name, res);
+		Debug.print("Button "+name, res);
 		return res;
 	}
 	private boolean getNext()

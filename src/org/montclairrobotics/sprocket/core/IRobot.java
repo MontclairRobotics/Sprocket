@@ -2,7 +2,7 @@ package org.montclairrobotics.sprocket.core;
 
 import org.montclairrobotics.sprocket.loop.Updatable;
 
-public interface IRobot extends Updatable{
+public interface IRobot extends Updatable {
 	
 	//Stuff user overrides	
     public void setup();//Called ONCE when object is first created
@@ -11,6 +11,7 @@ public interface IRobot extends Updatable{
     public void userAutoInit();//Called when Auto is enabled
     public void userTestInit();//Called when Test is enabled
     public void disable();//Called when Disabled (right after setup is called, and every time you disable
+    @Override
     public void update();//Called every enabled update loop
     public void disabledUpdate();//Called every disabled update loop
     public void debugs();//Called at the end of every loop

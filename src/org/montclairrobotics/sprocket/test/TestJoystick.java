@@ -19,11 +19,11 @@ public class TestJoystick implements IJoystick {
 		i++;
 		switch(test) {
 		case CIRCLE:
-			return new XY(Math.sin(i * Math.PI / 4), Math.cos(i * Math.PI / 4));
+			return Vector.xy(Math.sin(i * Math.PI / 4), Math.cos(i * Math.PI / 4));
 		case RANDOM:
-			return new XY(2 * Math.random() - 1, 2 * Math.random() - 1);
+			return Vector.xy(2 * Math.random() - 1, 2 * Math.random() - 1);
 		case TINY:
-			return new XY(0.01, 0.01);
+			return Vector.xy(0.01, 0.01);
 		default:
 			return Vector.ZERO;
 		}

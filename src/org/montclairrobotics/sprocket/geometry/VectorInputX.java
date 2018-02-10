@@ -3,6 +3,7 @@ package org.montclairrobotics.sprocket.geometry;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.InputDouble;
 
+@Deprecated
 public class VectorInputX extends InputDouble{
 
 	private Input<Vector> vec;
