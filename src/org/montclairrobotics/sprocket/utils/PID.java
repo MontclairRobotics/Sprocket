@@ -1,6 +1,5 @@
 package org.montclairrobotics.sprocket.utils;
 
-
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
@@ -22,10 +21,10 @@ public class PID implements Updatable, Input<Double> {
 	protected Range inRange;
 	protected Range outRange;
 	
-	//private boolean calculated=false;
-	private double out;
+	private double output;
 	private double target;
-	private double totalError, prevVal, error;
+	private double totalError, error;
+	private double prevInput;
 	
 	private long lastUpdateTime;
 	
@@ -33,15 +32,7 @@ public class PID implements Updatable, Input<Double> {
 	 * PID default constructor.
 	 */
 	public PID() {
-		this.input = null;
-		this.P = 0.0;
-		this.I = 0.0;
-		this.D = 0.0;
-		this.inRange = new Range();
-		this.outRange = new Range();
-		this.lastUpdateTime = System.currentTimeMillis();
-		resetTarget();
-		Updater.add(this, Priority.INPUT_PID);
+		this(0.0, 0.0, 0.0);
 	}
 	
 	/**
@@ -49,7 +40,7 @@ public class PID implements Updatable, Input<Double> {
 	 * @param I the Integral Constant
 	 * @param D the Derivative Constant
 	 */
-	public PID(double P,double I,double D) {
+	public PID(double P, double I, double D) {
 		this.input = null;
 		this.P = P;
 		this.I = I;
@@ -58,6 +49,7 @@ public class PID implements Updatable, Input<Double> {
 		this.outRange = new Range();
 		this.lastUpdateTime = System.currentTimeMillis();
 		resetTarget();
+		
 		Updater.add(this, Priority.INPUT_PID);
 	}
 	
@@ -80,13 +72,13 @@ public class PID implements Updatable, Input<Double> {
 		return this;
 	}
 	
-	public PID setInRange(double a, double b) {
-		this.inRange = new Range(a, b);
+	public PID setInRange(double min, double max) {
+		this.inRange = new Range(min, max);
 		return this;
 	}
 	
-	public PID setOutRange(double a, double b) {
-		this.inRange = new Range(a, b);
+	public PID setOutRange(double min, double max) {
+		this.outRange = new Range(min, max);
 		return this;
 	}
 	
@@ -114,24 +106,23 @@ public class PID implements Updatable, Input<Double> {
 	}
 	
 	public PID resetTarget() {
-		return setTarget(0.0, false);
+		return setTarget(0.0, true);
 	}
 	
 	public PID setTarget(double t) {
 		return setTarget(t, false);
 	}
 	/**
-	 * Sets the setpoint
-	 * @param t the target/setpoint
+	 * Sets the target value.
+	 * @param t the new value of target
 	 * @param reset true if the PID should reset, false otherwise
 	 */
-	public PID setTarget(double t, boolean reset)
-	{
+	public PID setTarget(double t, boolean reset) {
 		this.target = t;
 
 		if (reset) {
 			error = 0.0;
-			prevVal = 0.0;
+			prevInput = 0.0;
 			totalError = 0.0;
 		}
 
@@ -145,42 +136,41 @@ public class PID implements Updatable, Input<Double> {
 	@Override
 	public Double get() {
 		//out = calculate(input.get());
-		return out;
+		return output;
 	}
 	
-	private double calculate(double val) {
+	private double calculate() {
+		double curInput = input.get();
+		
 		double loopTime = (System.currentTimeMillis() - lastUpdateTime) / 1000.0;
 		lastUpdateTime = System.currentTimeMillis();
-		error = target - val;
 		
-		double dVal = val - prevVal;
+		error = target - curInput;
+		double dVal = curInput - prevInput;
+		prevInput = curInput;
 		
-		if(inRange.min != 0 && inRange.max != 0) {
+		if (!inRange.isZero()) {
 			error = inRange.wrap(error);
 			dVal =  inRange.wrap(dVal);
+			
 			Debug.print("dVal", dVal);
 		}
 		
 		totalError += error * loopTime;
 		
 		if (I != 0.0) {
-			double potentialIGain = (error+totalError) * I;
-			if (potentialIGain < outRange.max) {
-				if (potentialIGain > outRange.min) {
-					totalError += error;
-				} else {
-					totalError = outRange.min / I;
-				}
+			double potentialIGain = (error + totalError) * I;
+			
+			if (outRange.contains(potentialIGain)) {
+				totalError += error;
 			} else {
-				totalError = outRange.max / I;
+				totalError = outRange.constrain(potentialIGain) / I;
 			}
 		}
 	
-		double out = (P * error * loopTime) + (I * totalError) + (D * -dVal/loopTime); //+ calculateFeedForward();
+		double out = P*(error * loopTime) + I*(totalError) + D*(-dVal / loopTime); //+ calculateFeedForward();
 
-		prevVal = val;
-		
-		if(outRange.min != 0 || outRange.max != 0) {
+		if (!outRange.isZero()) {
 			out = outRange.constrain(out);
 		}
 
@@ -189,7 +179,7 @@ public class PID implements Updatable, Input<Double> {
 	
 	@Deprecated
 	public void setOut(double out) {
-		this.out = out;
+		this.output = out;
 	}
 	
 	@Deprecated
@@ -209,10 +199,13 @@ public class PID implements Updatable, Input<Double> {
 		return error;
 	}
 
+	@Override
 	public void update() {
-		if (input == null || input.get() == null) { return; }
+		if (input == null || input.get() == null) {
+			return;
+		}
 		
-		out = calculate(input.get());
+		output = calculate();
 	}
 	
 	public double getTarget() {
@@ -223,11 +216,9 @@ public class PID implements Updatable, Input<Double> {
 		return P;
 	}
 	
-	
 	public double getI() {
 		return I;
 	}
-	
 	
 	public double getD() {
 		return D;
