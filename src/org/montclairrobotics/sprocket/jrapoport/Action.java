@@ -64,9 +64,7 @@ public abstract class Action implements Completable, Togglable, Updatable {
 			}
 
 			@Override
-			public void stop() {
-				 for (Action a : actions) { a.stop(); } 
-			}
+			public void stop() { for (Action a : actions) { a.stop(); } }
 		};
 	}
 	
@@ -102,32 +100,48 @@ public abstract class Action implements Completable, Togglable, Updatable {
 		};
 	}
 	
-	//NOTE: Not Implemented
-	static Action waitForEvent(Event e, long t) {
+	/**
+	 * Tells the item running <tt>this</tt> to wait for a specific action to finish.
+	 * @param a the action being monitored.
+	 * @return an action that tells the item running <tt>this</tt> to wait for completion.
+	 */
+	static Action waitForCompletion(Action a) {
 		return new Action() {
 			@Override
-			public void start() {
-				// TODO Auto-generated method stub
-				
-			}
+			public void start() {}
 
 			@Override
-			public void update() {
-				// TODO Auto-generated method stub
-				
-			}
+			public void update() {}
 
 			@Override
-			public boolean isComplete() {
-				// TODO Auto-generated method stub
-				return false;
-			}
+			public boolean isComplete() { return a.isComplete(); }
 			
 			@Override
-			public void stop() {
-				// TODO Auto-generated method stub
-				
-			}
+			public void stop() {}
+		};
+	}
+	
+	/**
+	 * Tells the item running <tt>this</tt> to wait for a specific action to finish, or until time runs out.
+	 * @param a the action being monitored.
+	 * @param t the maximum amount of time to wait (in milliseconds).
+	 * @return an action that tells the item running <tt>this</tt> to wait for completion, or until time runs out.
+	 */
+	static Action waitForCompletion(Action a, long t) {
+		return new Action() {
+			Action wait = Action.waitMilis(t);
+			
+			@Override
+			public void start() { wait.start(); }
+
+			@Override
+			public void update() { wait.update(); }
+
+			@Override
+			public boolean isComplete() { return a.isComplete() || wait.isComplete(); }
+			
+			@Override
+			public void stop() { wait.stop(); }
 		};
 	}
 }
