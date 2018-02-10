@@ -17,7 +17,7 @@ public class XY implements Vector {
      * @param y the y component 
      * @param scale a scaling factor
      */
-    public XY(double x, double y, Distance scale) {
+    protected XY(double x, double y, Distance scale) {
 		this(x * scale.get(), y * scale.get());
 	}
     
@@ -38,7 +38,7 @@ public class XY implements Vector {
 
     @Override
     public Angle getAngle() {
-    	return new Radians(Math.atan2(x, y));
+    		return new Radians(Math.atan2(x, y));
     }
 
     @Override

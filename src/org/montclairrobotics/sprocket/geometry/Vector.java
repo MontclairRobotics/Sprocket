@@ -11,11 +11,11 @@ package org.montclairrobotics.sprocket.geometry;
  * @see Polar
  */
 public interface Vector {
-	static Vector I = new XY(1, 0);
-	static Vector J = new XY(0, 1);
+	static Vector I = Vector.xy(1, 0);
+	static Vector J = Vector.xy(0, 1);
 	
 	/** An instance of Vector with a magnitude of 0. */
-    static Vector ZERO = new XY(0, 0);
+    static Vector ZERO = Vector.xy(0, 0);
     
     /** @return the magnitude or size of this Vector. */
 	double getMagnitude();
@@ -69,8 +69,6 @@ public interface Vector {
 	static Vector xy(double x, double y) {
 		return new XY(x, y);
 	}
-	
-	
 	
 	static Vector polar(double r, Angle theta) {
 		return new Polar(r, theta);

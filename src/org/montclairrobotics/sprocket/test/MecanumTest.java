@@ -32,10 +32,10 @@ public class MecanumTest extends TestRobot {
 		};
 		
 		DriveModule[] driveModules = {
-				new DriveModule(new XY(-1, -1), new XY(-1, 1), motors[0].getEncoder(), motors[0]),
-				new DriveModule(new XY(1, -1), new XY(-1, -1), motors[1].getEncoder(), motors[1]),
-				new DriveModule(new XY(-1, 1), new XY(1, 1), motors[2].getEncoder(), motors[2]),
-				new DriveModule(new XY(1, 1), new XY(1, -1), motors[3].getEncoder(), motors[3])
+				new DriveModule(Vector.xy(-1, -1), Vector.xy(-1, 1), motors[0].getEncoder(), motors[0]),
+				new DriveModule(Vector.xy(1, -1), Vector.xy(-1, -1), motors[1].getEncoder(), motors[1]),
+				new DriveModule(Vector.xy(-1, 1), Vector.xy(1, 1), motors[2].getEncoder(), motors[2]),
+				new DriveModule(Vector.xy(1, 1), Vector.xy(1, -1), motors[3].getEncoder(), motors[3])
 		};
 		
 		dt = new DriveTrain(driveModules);
@@ -47,7 +47,7 @@ public class MecanumTest extends TestRobot {
 		
 		dt.setMapper(new UniversalMapper());
 		
-		auto = new StateMachine(new DriveDistance(new XY(0, 0.15), 0.5));
+		auto = new StateMachine(new DriveDistance(Vector.xy(0, 0.15), 0.5));
 	}
 
 	@Override
@@ -77,8 +77,8 @@ public class MecanumTest extends TestRobot {
 	@Override
 	public void debugs() {
 		// TODO Auto-generated method stub
-		Debug.msg("Position", dt.getPosition());
-		Debug.msg("Velocity", dt.getVelocity());
+		Debug.print("Position", dt.getPosition());
+		Debug.print("Velocity", dt.getVelocity());
 	}
 	
 	public static void main(String[] args) {

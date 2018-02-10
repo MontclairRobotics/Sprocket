@@ -17,7 +17,7 @@ public class Polar implements Vector {
      * @param r the magnitude.
      * @param ang the angle.
      */
-    public Polar(Distance r, Angle ang) {
+    protected Polar(Distance r, Angle ang) {
 		this(r.get(), ang);
 	}
     
