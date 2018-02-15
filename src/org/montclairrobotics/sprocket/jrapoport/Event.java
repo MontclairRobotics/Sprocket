@@ -29,19 +29,27 @@ public class Event extends Action {
 	@Override
 	public void stop() {}
 	
-	public final static Event equalsTarget(double t, Input<Double> in) {
-		return new Event(new Range(t - 1e-10, t + 1e+10), in);
+	public final static Event inRange(Range range, Input<Double> input) {
+		return new Event(range, input);
 	}
 	
-	public final static Event equalsTargetWithError(double t, double e, Input<Double> in) {
-		return new Event(new Range(t - e, t + e), in);
+	public final static Event inRange(double min, double max, Input<Double> input) {
+		return new Event(new Range(min, max), input);
 	}
 	
-	public final static Event aboveTarget(double t, Input<Double> in) {
-		return new Event(new Range(t, Double.MAX_VALUE), in);
+	public final static Event equalsTarget(double target, Input<Double> input) {
+		return new Event(new Range(target - 1e-10, target + 1e+10), input);
 	}
 	
-	public final static Event belowTarget(double t, Input<Double> in) {
-		return new Event(new Range(-Double.MAX_VALUE, t), in);
+	public final static Event equalsTargetWithError(double target, double error, Input<Double> input) {
+		return new Event(new Range(target - error, target + error), input);
+	}
+	
+	public final static Event aboveTarget(double target, Input<Double> input) {
+		return new Event(new Range(target, Double.MAX_VALUE), input);
+	}
+	
+	public final static Event belowTarget(double target, Input<Double> input) {
+		return new Event(new Range(-Double.MAX_VALUE, target), input);
 	}
 }

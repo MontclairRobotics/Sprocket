@@ -1,8 +1,8 @@
 package org.montclairrobotics.sprocket.utils;
 
 public class Range implements Comparable<Number>{
-	final double min;
-	final double max;
+	public final double min;
+	public final double max;
 	
 	public Range(double a, double b) {
 		if (a <= b) {
