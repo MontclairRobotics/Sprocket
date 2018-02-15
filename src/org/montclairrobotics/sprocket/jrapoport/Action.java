@@ -20,6 +20,7 @@ public abstract class Action implements Completable, Togglable, Updatable {
 	 * @return an action that tells the item running <tt>this</tt> to wait for a specified amount of time.
 	 */
 	public static Action waitMilis(double t) {
+		
 		return new Action() {
 			long tInit, tElapsed;
 			
@@ -57,8 +58,9 @@ public abstract class Action implements Completable, Togglable, Updatable {
 			public boolean isComplete() {
 				boolean complete = false;
 				
-				for (Action a : actions)
+				for (Action a : actions) {
 					complete = complete && a.isComplete();
+				}
 				
 				return complete;
 			}
@@ -86,17 +88,15 @@ public abstract class Action implements Completable, Togglable, Updatable {
 			@Override
 			public boolean isComplete() {
 				if (actions[i].isComplete()) {
-//					actions[i].stop();
+					actions[i].stop();
 					i++;
 				}
 				
-				return i > actions.length - 1;
+				return i >= actions.length;
 			}
 
 			@Override
-			public void stop() {
-				 for (Action a : actions) { a.stop(); } 
-			}
+			public void stop() {}
 		};
 	}
 	
