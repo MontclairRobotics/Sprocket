@@ -15,10 +15,10 @@ public class Pipeline<T> {
 	}
 	
 	public T get(T res) {
-		for(Step<T> step:steps){
-			res=step.get(res);
-
+		for(Step<T> step : steps){
+			res = step.get(res);
 		}
+		
 		return res;
 	}
 }

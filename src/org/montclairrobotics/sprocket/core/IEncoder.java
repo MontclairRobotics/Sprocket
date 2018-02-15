@@ -1,11 +1,9 @@
 package org.montclairrobotics.sprocket.core;
 
 import org.montclairrobotics.sprocket.jrapoport.Component;
+import org.montclairrobotics.sprocket.jrapoport.Updatable;
 
-public interface IEncoder extends Component {
-	@Override
-	String getName();
-	
+public interface IEncoder extends Updatable {
 	@Override
 	void update();
 	

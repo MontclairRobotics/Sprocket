@@ -36,7 +36,7 @@ public class PID implements Updatable, Input<Double> {
 	}
 	
 	/**
-	 * @param P the Propotional Constant
+	 * @param P the Proportional Constant
 	 * @param I the Integral Constant
 	 * @param D the Derivative Constant
 	 */
@@ -135,7 +135,6 @@ public class PID implements Updatable, Input<Double> {
 	 */
 	@Override
 	public Double get() {
-		//out = calculate(input.get());
 		return output;
 	}
 	

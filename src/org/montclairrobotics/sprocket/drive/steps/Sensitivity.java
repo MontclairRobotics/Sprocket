@@ -4,20 +4,19 @@ import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.pipeline.Step;
 
-public class Sensitivity implements Step<DTTarget>, Action{
+public class Sensitivity implements Step<DTTarget>, Action {
 
 	public double dirScale,turnScale;
-	private boolean enabled=true;
+	private boolean enabled = true;
 	
-	public Sensitivity(double dir,double turn)
-	{
-		this.dirScale=dir;
-		this.turnScale=turn;
+	public Sensitivity(double dir, double turn) {
+		this.dirScale = dir;
+		this.turnScale = turn;
 	}
+	
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
-		enabled=true;
+		enabled = true;
 	}
 
 	@Override
@@ -28,8 +27,7 @@ public class Sensitivity implements Step<DTTarget>, Action{
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
-		enabled=false;
+		enabled = false;
 	}
 
 	@Override
@@ -40,8 +38,10 @@ public class Sensitivity implements Step<DTTarget>, Action{
 
 	@Override
 	public DTTarget get(DTTarget in) {
-		if(!enabled)return in;
-		return new DTTarget(in.getDirection().scale(dirScale),in.getTurn()*turnScale);
+		if (!enabled)
+			return in;
+		
+		return new DTTarget(in.getDirection().scale(dirScale), in.getTurn() * turnScale);
 	}
 
 }

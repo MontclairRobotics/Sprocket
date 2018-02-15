@@ -24,8 +24,8 @@ public class Sprocket {
 
 	private IRobot robot;
 	
-	public enum MODE { AUTO, TELEOP, TEST, DISABLED };
-	public MODE curMode;
+	public enum Mode { AUTO, TELEOP, TEST, DISABLED };
+	public Mode curMode;
 	public IAutoSelector
 		autoActionInput,
 		teleopActionInput,
@@ -34,7 +34,7 @@ public class Sprocket {
 	
 	public Sprocket(IRobot robot) {
 		this.robot = robot;
-		Updater.add(robot,Priority.NONE);
+		Updater.add(robot, Priority.NONE);
 	}
 	
     //OUR STUFF HERE
@@ -50,8 +50,8 @@ public class Sprocket {
 		robot.setup();
 	}
 	
-    public final void startS(MODE mode) {
-	    	if (mode == MODE.DISABLED) {
+    public final void startS(Mode mode) {
+	    	if (mode == Mode.DISABLED) {
 	    		stopS();
 	    		return;
 	    	}
@@ -96,9 +96,9 @@ public class Sprocket {
 	    	if (currentAction != null) {
 	    		currentAction.stop();
 	    	}
-	    	curMode = MODE.DISABLED;
-	    	Debug.print("MODE", MODE.DISABLED);
-	    	robot.enableMode(MODE.DISABLED);
+	    	curMode = Mode.DISABLED;
+	    	Debug.print("MODE", Mode.DISABLED);
+	    	robot.enableMode(Mode.DISABLED);
 	    	robot.disable();
     }
     

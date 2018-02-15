@@ -18,12 +18,11 @@ public class AccelLimit implements Step<DTTarget>, Action {
 	
 	private boolean enabled=true;
 	
-	public AccelLimit()
-	{
+	public AccelLimit() {
 		this(4,4);
 	}
-	public AccelLimit(double maxAccel, double maxTurn) 
-	{
+	
+	public AccelLimit(double maxAccel, double maxTurn) {
 		this.maxAccel = maxAccel;
 		this.maxTurn = maxTurn;
 		lastDir = Vector.ZERO;
@@ -33,8 +32,7 @@ public class AccelLimit implements Step<DTTarget>, Action {
 	@Override
 	public DTTarget get(DTTarget in) {
 		Debug.print("AccelLimit", enabled?"ENABLED":"DISABLED");
-		if(enabled)
-		{
+		if(enabled) {
 			Vector dDir=in.getDirection().subtract(lastDir);
 			
 			//Debug.num("maxAccel", maxAccel.get()*Updater.getLoopTime());
@@ -48,17 +46,15 @@ public class AccelLimit implements Step<DTTarget>, Action {
 			//Debug.string("lastDir", lastDir.toString());
 			//Debug.string("newDir", (lastDir.add(dDir)).toString());
 			
-			double dAng=in.getTurn()-lastTurn;
+			double dAng = in.getTurn() - lastTurn;
 			dAng = Utils.constrain(dAng, -maxTurn*Updater.getLoopTime(), maxTurn*Updater.getLoopTime());
 			
-			DTTarget tgt= new DTTarget(lastDir.add(dDir),lastTurn+dAng);
+			DTTarget tgt = new DTTarget(lastDir.add(dDir), lastTurn + dAng);
 			
 			lastDir = tgt.getDirection();
 			lastTurn = tgt.getTurn();
 			return tgt;
-		}
-		else
-		{
+		} else {
 			return in;
 		}
 	}
@@ -78,7 +74,6 @@ public class AccelLimit implements Step<DTTarget>, Action {
 	@Override
 	public void disabled() {
 		// TODO Auto-generated method stub
-		
 	}
 
 }

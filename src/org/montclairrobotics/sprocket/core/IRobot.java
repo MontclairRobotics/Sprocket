@@ -6,7 +6,7 @@ public interface IRobot extends Updatable {
 	
 	//Stuff user overrides	
     public void setup();//Called ONCE when object is first created
-    public void enableMode(Sprocket.MODE mode);//Called at any init, not including Disabled
+    public void enableMode(Sprocket.Mode mode);//Called at any init, not including Disabled
     public void userTeleopInit();//Called when Teleop is enabled
     public void userAutoInit();//Called when Auto is enabled
     public void userTestInit();//Called when Test is enabled

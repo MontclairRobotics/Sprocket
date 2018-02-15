@@ -1,13 +1,10 @@
 package org.montclairrobotics.sprocket.core;
 
-import org.montclairrobotics.sprocket.jrapoport.Component;
+import org.montclairrobotics.sprocket.jrapoport.Updatable;
 import org.montclairrobotics.sprocket.utils.Range;
 
-public interface IMotor extends Component {
+public interface IMotor extends Updatable {
 	Range range = Range.power();
-	
-	@Override
-	String getName();
 	
 	@Override
 	void update();

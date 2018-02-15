@@ -8,161 +8,157 @@ import org.montclairrobotics.sprocket.pipeline.Step;
 import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
+import org.montclairrobotics.sprocket.utils.Range;
 import org.montclairrobotics.sprocket.utils.Utils;
 
 public class GyroCorrection implements Step<DTTarget>, Action {
-
 	private PID pid;
-	private boolean enabled=true;
+	private boolean enabled = true;
 	private boolean used;
-	private Angle reset=Angle.ZERO;
+	private Angle reset = Angle.ZERO;
 	
-	private double minOut=-1;
-	private double maxOut=1;
+	private Range outRange = Range.power();
+	@Deprecated
+	private double minOut = -1;
+	@Deprecated
+	private double maxOut = 1;
 	private double maxError;
 	private double farP;
 	
-	public GyroCorrection(Input<Double> gyro,PID pid,double maxError,double farP)
-	{
+	public GyroCorrection(Input<Double> gyro, PID pid, double maxError, double farP) {
 		this(pid);
 		this.pid.setInput(gyro);
 		this.maxError=maxError;
 		this.farP=farP;
 	}
-	public GyroCorrection(PID pid,double maxError,double powIfMaxError)
-	{
+	
+	public GyroCorrection(PID pid, double maxError, double powIfMaxError) {
 		this.pid=pid.copy();
-		this.pid.setMinMax(-180, 179, -1, 1);
+		this.pid.setInRange(Range.angleInDegrees());
+		this.pid.setOutRange(outRange);
 
-		this.maxError=maxError;
-		this.farP=powIfMaxError;
+		this.maxError = maxError;
+		this.farP = powIfMaxError;
 	}
-	public GyroCorrection(PID pid)
-	{
+	
+	public GyroCorrection(PID pid) {
 		this(pid,180,1);
 	}
 	
-	public void use()
-	{
-		used=true;
+	public void use() {
+		used = true;
 	}
 	
-	
-	public void setMinMaxOut(double min,double max)
-	{
-		this.minOut=min;
-		this.maxOut=max;
+	@Deprecated
+	public void setMinMaxOut(double min, double max) {
+		this.outRange = new Range(min, max);
 	}
-	public void resetMinMaxOut()
-	{
-		setMinMaxOut(-1,1);
+	
+	public void setOutRange(double min, double max) {
+		this.outRange = new Range(min, max);
+	}
+	
+	public void setOutRange(Range r) {
+		this.outRange = r;
+	}
+	
+	public void resetMinMaxOut() {
+		this.outRange = Range.power();
 	}
 	
 	@Override
 	public DTTarget get(DTTarget in) {
-		DTTarget out=in;
-		if(enabled&&used)
-		{
-			double tgt;
-			if(Math.abs(pid.getError())>maxError)
-			{
-				tgt=farP*pid.getError()*(pid.getP()>0?1:-1);
+		DTTarget out = in;
+		if (enabled && used) {
+			double target;
+			if(Math.abs(pid.getError()) > maxError) {
+				target = farP * pid.getError() * (pid.getP() > 0 ? 1 : -1);
+			} else {
+				target = pid.get();
+				target = outRange.constrain(target);
 			}
-			else
-			{
-				tgt=pid.get();
-				tgt=Utils.constrain(tgt, minOut, maxOut);
-			}
-			out=new DTTarget(in.getDirection(),tgt);
+			out = new DTTarget(in.getDirection(), target);
 		}
-		used=false;
-		Debug.msg("Gyro Enabled",enabled);
-		Debug.msg("Gyro Error", pid.getError());
+		used = false;
+		Debug.print("Gyro Enabled",enabled);
+		Debug.print("Gyro Error", pid.getError());
 		return out;
 	}
 	
-	public Angle getError()
-	{
+	public Angle getError() {
 		return new Degrees(pid.getError());
 	}
 	
-	public void reset()
-	{
+	public void reset() {
 		resetRaw(getCurrentAngleRaw());
 	}
-	public void resetRaw(Angle r)
-	{
-		this.reset=r;
+	
+	public void resetRaw(Angle r) {
+		this.reset = r;
 	}
-	public void resetRelative(Angle r)
-	{
+	
+	public void resetRelative(Angle r) {
 		resetRaw(r.add(getCurrentAngleRaw()));
 	}
 	
-	public Angle getTargetAngle() 
-	{
+	public Angle getTargetAngle() {
 		return new Degrees(pid.getTarget());
 	}
-	public Angle getCurrentAngleRaw()
-	{
-		return new Degrees(pid.getCurInput());
+	
+	public Angle getCurrentAngleRaw() {
+		return new Degrees(pid.getCurrentInput());
 	}
-	public Angle getCurrentAngleReset()
-	{
+	
+	public Angle getCurrentAngleReset() {
 		return getCurrentAngleRaw().subtract(reset);
 	}
 	
-	public void setTargetAngleRaw(Angle a) 
-	{
+	public void setTargetAngleRaw(Angle a) {
 		pid.setTarget(a.toDegrees());
 	}
-	public void setTargetAngleReset(Angle a)
-	{
+	
+	public void setTargetAngleReset(Angle a) {
 		pid.setTarget(reset.add(a).toDegrees());
 	}
-	public void setTargetAngleRelative(Angle a)
-	{
+	
+	public void setTargetAngleRelative(Angle a) {
 		pid.setTarget(getCurrentAngleRaw().add(a).toDegrees());
 	}
 	
-	public void setTargetAngleRaw()
-	{
+	public void setTargetAngleRaw() {
 		pid.setTarget(0);
 	}
-	public void setTargetAngleRelative()
-	{
+	
+	public void setTargetAngleRelative() {
 		pid.setTarget(pid.getInput().get());
 	}
-	public void setTargetAngleReset()
-	{
+	
+	public void setTargetAngleReset() {
 		pid.setTarget(reset.toDegrees());
 	}
 	
-	public PID getPID()
-	{
+	public PID getPID() {
 		return pid;
 	}
 
 	@Override
 	public void start() {
-		enabled=true;
+		enabled = true;
 	}
 
 	@Override
 	public void stop() {
-		enabled=false;
+		enabled = false;
 	}
-	public void setTargetAngle(Angle a,boolean relative) {
-		// TODO Auto-generated method stub
-		if(relative)
-		{
+	
+	public void setTargetAngle(Angle a, boolean relative) {
+		if (relative) {
 			setTargetAngleRelative(a);
-		}
-		else
-		{
+		} else {
 			setTargetAngleReset(a);
 		}
 	}
+	
 	@Override
 	public void enabled() {
 		// TODO Auto-generated method stub

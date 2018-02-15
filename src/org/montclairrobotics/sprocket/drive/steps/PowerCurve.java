@@ -5,19 +5,17 @@ import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.pipeline.Step;
 
-public class PowerCurve implements Step<DTTarget>, Action{
+public class PowerCurve implements Step<DTTarget>, Action {
 	private double p;
 	private boolean enabled;
 	
-	public PowerCurve(double p)
-	{
-		this.p=p;
+	public PowerCurve(double p) {
+		this.p = p;
 	}
 	
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
-		enabled=true;
+		enabled = true;
 	}
 
 	@Override
@@ -28,8 +26,7 @@ public class PowerCurve implements Step<DTTarget>, Action{
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
-		enabled=false;
+		enabled = false;
 	}
 
 	@Override
@@ -40,9 +37,11 @@ public class PowerCurve implements Step<DTTarget>, Action{
 
 	@Override
 	public DTTarget get(DTTarget in) {
-		if(!enabled) return in;
-		Vector dir=in.getDirection();
-		return new DTTarget(dir.scale(p*Math.pow(dir.getMagnitude(),2)+1-p),in.getTurn());
+		if (!enabled)
+			return in;
+		
+		Vector dir = in.getDirection();
+		return new DTTarget(dir.scale(p * Math.pow(dir.getMagnitude(), 2) + 1 - p), in.getTurn());
 	}
 
 }
