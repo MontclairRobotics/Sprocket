@@ -6,7 +6,6 @@ import org.montclairrobotics.sprocket.drive.DriveModule;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.drive.TankMapper;
 import org.montclairrobotics.sprocket.geometry.Vector;
-import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.test.TestJoystick.TEST;
 
 public class SimpleTest extends TestRobot{

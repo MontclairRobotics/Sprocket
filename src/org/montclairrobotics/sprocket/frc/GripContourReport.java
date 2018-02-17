@@ -20,13 +20,13 @@ public class GripContourReport {
 			height = table.getNumberArray("height", new double[0]);
 			centerX = table.getNumberArray("centerX", new double[0]);
 			centerY = table.getNumberArray("centerY", new double[0]);
-			Debug.msg("GRIP", "FOUND");
+			Debug.print("GRIP", "FOUND");
 		} else {
 			width =  new double[0];
 			height = new double[0];
 			centerX = new double[0];
 			centerY = new double[0];
-			Debug.msg("GRIP", "NOT FOUND");
+			Debug.print("GRIP", "NOT FOUND");
 		}
 		double maxArea = -1.0;
 		int max = -1;

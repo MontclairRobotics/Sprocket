@@ -1,7 +1,6 @@
 package org.montclairrobotics.sprocket.auto.states;
 
 import org.montclairrobotics.sprocket.geometry.Vector;
-import org.montclairrobotics.sprocket.geometry.XY;
 
 
 /**
@@ -12,16 +11,15 @@ import org.montclairrobotics.sprocket.geometry.XY;
  */
 public class DriveTime extends Delay {
 	
-	public DriveTime(double time,double power)
-	{
+	public DriveTime(double time,double power) {
 		this(time, Vector.xy(0, power));
 	}
-	public DriveTime(double time,Vector tgtDir)
-	{
+	
+	public DriveTime(double time,Vector tgtDir) {
 		this(time,tgtDir,0);
 	}
-	public DriveTime(double time, Vector tgtDir, double tgtTurn)
-	{
+	
+	public DriveTime(double time, Vector tgtDir, double tgtTurn) {
 		super(time);
 		this.tgtDir = tgtDir;
 		this.tgtTurn = tgtTurn;

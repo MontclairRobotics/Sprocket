@@ -3,7 +3,6 @@ package org.montclairrobotics.sprocket.ftc;
 import org.montclairrobotics.sprocket.core.IJoystick;
 import org.montclairrobotics.sprocket.ftc.FTCRobot.GAMEPAD;
 import org.montclairrobotics.sprocket.geometry.Vector;
-import org.montclairrobotics.sprocket.geometry.XY;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 

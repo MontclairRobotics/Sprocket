@@ -37,7 +37,7 @@ public class TurnGyro extends AutoState {
 			Sprocket.gyro.setTargetAngleReset(tgt);
 		}
 		Sprocket.gyro.setMinMaxOut(-0.5, 0.5);
-		incorrectTime=Updater.getTime()-timeAtTarget+0.1;
+		incorrectTime=Updater.getTimeSec() - timeAtTarget + 0.1;
 	}
 	
 	@Override
@@ -45,13 +45,13 @@ public class TurnGyro extends AutoState {
 		Sprocket.gyro.use();
 		if(Math.abs(Sprocket.gyro.getError().toDegrees())>tolerance.toDegrees())
 		{
-			incorrectTime=Updater.getTime();
+			incorrectTime = Updater.getTimeSec();
 		}
-		Debug.msg("gyroError", Sprocket.gyro.getError().toDegrees());
-		Debug.msg("incorrectTime", incorrectTime);
-		Debug.msg("cur-time", Updater.getTime());
-		Debug.msg("timeCorrect", Updater.getTime()-incorrectTime);
-		Debug.msg("IS-DONE",isDone());
+		Debug.print("gyroError", Sprocket.gyro.getError().toDegrees());
+		Debug.print("incorrectTime", incorrectTime);
+		Debug.print("cur-time", Updater.getTimeSec());
+		Debug.print("timeCorrect", Updater.getTimeSec() - incorrectTime);
+		Debug.print("IS-DONE",isDone());
 	}
 	
 	@Override
@@ -62,7 +62,7 @@ public class TurnGyro extends AutoState {
 
 	@Override
 	public boolean userIsDone() {
-		return (Updater.getTime()-incorrectTime>timeAtTarget);
+		return (Updater.getTimeSec()-incorrectTime>timeAtTarget);
 	}
 	
 

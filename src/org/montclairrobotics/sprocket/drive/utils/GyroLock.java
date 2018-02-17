@@ -41,7 +41,7 @@ public class GyroLock implements Updatable, Action {
 			gyro.use();
 		}
 		lastLock=enabled;
-		Debug.msg("Gyro Lock Enabled",enabled);
+		Debug.print("Gyro Lock Enabled", enabled);
 	}
 	
 	public Angle getTargetAngle() {

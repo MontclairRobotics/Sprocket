@@ -70,7 +70,7 @@ public abstract class FTCRobot extends OpMode implements IRobot {
 			robot.ftcSetup(hardwareMap, gamepad1, gamepad2, telemetry);
 			if (sprocket == null) {
 				sprocket = new Sprocket(robot);
-				sprocket.debugger=new FTCDebug(robot);
+				Sprocket.debugger=new FTCDebug(robot);
 				sprocket.initS();
 			}
 			sprocket.startS(Mode.DISABLED);
@@ -108,9 +108,9 @@ public abstract class FTCRobot extends OpMode implements IRobot {
     }
 	
 	public void ftcSetup(HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry) {
-		this.ftcHardwareMap = hardwareMap;
-		this.ftcGamepad1 = gamepad1;
-		this.ftcGamepad2 = gamepad2;
-		this.ftcTelemetry = telemetry;
+		FTCRobot.ftcHardwareMap = hardwareMap;
+		FTCRobot.ftcGamepad1 = gamepad1;
+		FTCRobot.ftcGamepad2 = gamepad2;
+		FTCRobot.ftcTelemetry = telemetry;
 	}
 }

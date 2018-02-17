@@ -2,7 +2,6 @@ package org.montclairrobotics.sprocket.drive.steps;
 
 import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.geometry.Vector;
-import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.pipeline.Step;
 
 public class Deadzone implements Step<DTTarget> {

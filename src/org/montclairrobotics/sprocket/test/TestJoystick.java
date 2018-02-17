@@ -2,7 +2,6 @@ package org.montclairrobotics.sprocket.test;
 
 import org.montclairrobotics.sprocket.core.IJoystick;
 import org.montclairrobotics.sprocket.geometry.Vector;
-import org.montclairrobotics.sprocket.geometry.XY;
 
 public class TestJoystick implements IJoystick {
 	enum TEST { ZERO, CIRCLE, RANDOM, TINY };

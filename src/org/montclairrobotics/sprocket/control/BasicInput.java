@@ -2,7 +2,6 @@ package org.montclairrobotics.sprocket.control;
 
 import org.montclairrobotics.sprocket.drive.DTInput;
 import org.montclairrobotics.sprocket.geometry.Vector;
-import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.utils.Input;
 
 public class BasicInput implements DTInput{

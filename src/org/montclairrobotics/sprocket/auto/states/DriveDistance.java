@@ -3,7 +3,6 @@ package org.montclairrobotics.sprocket.auto.states;
 import org.montclairrobotics.sprocket.auto.AutoState;
 import org.montclairrobotics.sprocket.core.MyState;
 import org.montclairrobotics.sprocket.geometry.Vector;
-import org.montclairrobotics.sprocket.geometry.XY;
 
 public class DriveDistance extends AutoState{
 	public static double TOLERENCE=0.5;
