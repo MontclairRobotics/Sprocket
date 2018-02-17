@@ -3,6 +3,7 @@ package org.montclairrobotics.sprocket.auto.states;
 import org.montclairrobotics.sprocket.auto.AutoState;
 import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
+import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Utils;
@@ -65,7 +66,7 @@ public class DriveEncoders extends AutoState {
 		{
 			tgtV=speed*(distance>0?1:0);
 		}
-		tgtDir = new XY(0,tgtV);
+		tgtDir = Vector.xy(0,tgtV);
 		
 		//tgtDir = new XY(0, speed);
 	}
@@ -77,9 +78,9 @@ public class DriveEncoders extends AutoState {
 
 	@Override
 	public boolean userIsDone() {
-		Debug.msg("forwards", distance>0?"YES":"NO");
-		Debug.msg("DISTANCE", dt.getPosition().getY());
-		Debug.msg("StopDistance", stopDist);
+		Debug.print("forwards", distance>0?"YES":"NO");
+		Debug.print("DISTANCE", dt.getPosition().getY());
+		Debug.print("StopDistance", stopDist);
 		if(distance>0)
 			return dt.getPosition().getY()>stopDist-1;
 		else
@@ -88,7 +89,7 @@ public class DriveEncoders extends AutoState {
 	
 	@Override
 	public void userStop() {
-		tgtDir = new XY(0, 0);
+		tgtDir = Vector.ZERO;
 		this.dt = null;
 	}
 

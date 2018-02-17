@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Created by MHS Robotics on 11/8/2017.
  */
 
-public class FTCIEncoder implements IEncoder {
+public class FTCIEncoder implements IEncoder, Updatable {
 
     private double lastPos = 0;
     private double zeroPos = 0;
@@ -45,8 +45,4 @@ public class FTCIEncoder implements IEncoder {
         zeroPos = motor.getCurrentPosition();
     }
 
-	@Override
-	public String getName() {
-		return "{ FTC | Encoder }";
-	}
 }

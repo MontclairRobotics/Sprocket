@@ -48,6 +48,6 @@ public class FTCJoystick implements IJoystick {
 	}
 	
 	public Vector get() {
-		return new XY(getX(), getY());
+		return Vector.xy(getX(), getY());
 	}
 }

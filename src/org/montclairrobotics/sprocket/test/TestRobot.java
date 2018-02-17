@@ -2,23 +2,20 @@ package org.montclairrobotics.sprocket.test;
 
 import org.montclairrobotics.sprocket.core.IRobot;
 import org.montclairrobotics.sprocket.core.Sprocket;
-import org.montclairrobotics.sprocket.core.Sprocket.MODE;
+import org.montclairrobotics.sprocket.core.Sprocket.Mode;
 import org.montclairrobotics.sprocket.utils.Debug;
 
-public abstract class TestRobot implements IRobot{
+public abstract class TestRobot implements IRobot {
 
 	Sprocket sprocket;
 	
-	public TestRobot(MODE mode, int time)
-	{
-		try
-		{
+	public TestRobot(Mode mode, int time) {
+		try {
 			sprocket=new Sprocket(this);
 			Sprocket.debugger=new TestDebug();
 			sprocket.initS();
-			sprocket.startS(MODE.DISABLED);
-			for(int i=0;i<time;i++)
-			{
+			sprocket.startS(Mode.DISABLED);
+			for(int i=0;i<time;i++) {
 				Debug.print("\nTIME", i);
 				sprocket.disabledUpdateS();
 				Thread.sleep(100);

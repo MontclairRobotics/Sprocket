@@ -3,20 +3,19 @@ package org.montclairrobotics.sprocket.test;
 import org.montclairrobotics.sprocket.actions.StateMachine;
 import org.montclairrobotics.sprocket.auto.states.DriveDistance;
 import org.montclairrobotics.sprocket.control.BasicInput;
-import org.montclairrobotics.sprocket.core.Sprocket.MODE;
+import org.montclairrobotics.sprocket.core.Sprocket.Mode;
 import org.montclairrobotics.sprocket.drive.DriveModule;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.drive.UniversalMapper;
 import org.montclairrobotics.sprocket.drive.utils.MyState;
 import org.montclairrobotics.sprocket.geometry.Vector;
-import org.montclairrobotics.sprocket.geometry.XY;
 import org.montclairrobotics.sprocket.test.TestJoystick.TEST;
 import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Input;
 
 public class MecanumTest extends TestRobot {
 	public MecanumTest() {
-		super(MODE.TELEOP, 8);
+		super(Mode.TELEOP, 8);
 	}
 	
 	private StateMachine auto;
@@ -51,7 +50,7 @@ public class MecanumTest extends TestRobot {
 	}
 
 	@Override
-	public void enableMode(MODE mode) {
+	public void enableMode(Mode mode) {
 		// TODO Auto-generated method stub
 		
 	}

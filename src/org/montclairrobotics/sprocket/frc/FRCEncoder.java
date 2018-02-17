@@ -18,11 +18,6 @@ public class FRCEncoder extends edu.wpi.first.wpilibj.Encoder implements org.mon
 	}
 
 	@Override
-	public String getName() {
-		return "{ FRC | (" + channelA + ", " + channelB + ") Encoder }";
-	}
-
-	@Override
 	public void update() {
 		// TODO Auto-generated method stub
 		

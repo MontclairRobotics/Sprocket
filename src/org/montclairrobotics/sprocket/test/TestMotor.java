@@ -15,7 +15,7 @@ public class TestMotor implements IMotor{
 		this.name=name;
 	}
 	@Override
-	public void setPower(double power) {
+	public void set(double power) {
 		//Debug.msg("Motor "+name, power);
 		this.power=power;
 		this.distance+=power*Updater.getLoopTime();
@@ -37,12 +37,23 @@ public class TestMotor implements IMotor{
 			@Override
 			public void reset() {
 				distance=0;
+			}
+
+			@Override
+			public void update() {
+				// TODO Auto-generated method stub
+				
 			}},1);
 	}
 	
 	@Override
 	public void stop() {
-		setPower(0.0);
+		set(0.0);
+	}
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

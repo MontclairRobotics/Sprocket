@@ -16,9 +16,9 @@ public class Delay extends AutoState{
 	
 	@Override
 	public void userStart() {
-		super.userStart();
+//		super.userStart();
 		super.TIMEOUT=time.doubleValue();
-        Debug.msg("It reached the Delay","");
+        Debug.print("It reached the Delay","");
 	}
 
 	@Override
@@ -31,12 +31,20 @@ public class Delay extends AutoState{
 	public boolean userIsDone() {
 		Debug.num("Time", super.TIMEOUT);
 		Debug.num("Time in State", timeInState());
-        ////////////Debug.msg("IsDone",isDone()?"TRUE":"FALSE"); AAAAAAAAAAAAAAAAAAaaaaa
+        //Debug.msg("IsDone",isDone()?"TRUE":"FALSE");
 		return false;
 	}
 
 	@Override
 	public void disabled() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void userStop() {
 		// TODO Auto-generated method stub
 		
 	}

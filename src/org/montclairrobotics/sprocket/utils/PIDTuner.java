@@ -64,7 +64,7 @@ public class PIDTuner extends PID {
 		realD.set(period/8);*/
 	}
 	public PIDTuner copy() {
-		return (PIDTuner) new PIDTuner(TempP, cyclesPer10Sec, test, apply, run).setInput(getInput()).setMinMax(minIn, maxIn, minOut, maxOut);
+		return (PIDTuner) new PIDTuner(TempP, cyclesPer10Sec, test, apply, run).setInput(getInput()).setInRange(inRange).setOutRange(outRange);
 	}
 
 	public void update()
@@ -78,8 +78,8 @@ public class PIDTuner extends PID {
 		}
 
 		super.update();
-		Debug.msg("PID Tuner Test Mode", test.get()? "Enabled" : "Disabled");
-		Debug.msg("PID Tuner Active", run.get() ? "Enabled" : "Disabled");
-		Debug.msg("PID Tuner Test P", TempP.get());
+		Debug.print("PID Tuner Test Mode", test.get()? "Enabled" : "Disabled");
+		Debug.print("PID Tuner Active", run.get() ? "Enabled" : "Disabled");
+		Debug.print("PID Tuner Test P", TempP.get());
 	}
 }

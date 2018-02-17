@@ -14,7 +14,7 @@ public class DriveTime extends Delay {
 	
 	public DriveTime(double time,double power)
 	{
-		this(time,new XY(0,power));
+		this(time, Vector.xy(0, power));
 	}
 	public DriveTime(double time,Vector tgtDir)
 	{

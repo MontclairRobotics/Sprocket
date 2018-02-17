@@ -7,8 +7,7 @@ public class FRCJoystick extends edu.wpi.first.wpilibj.Joystick implements org.m
 	public FRCJoystick(int port) {
 		super(port);
 	}
-	public Vector get()
-	{
-		return new XY(getX(),getY());
+	public Vector get() {
+		return Vector.xy(this.getX(), this.getY());
 	}
 }

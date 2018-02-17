@@ -82,14 +82,8 @@ public class FTCMotor implements IMotor {
 	}
 
 	@Override
-	public String getName() {
-		return "{ FTC | DC Motor }";
-	}
-
-	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		
 	}
 
 }

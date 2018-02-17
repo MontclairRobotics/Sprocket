@@ -2,7 +2,7 @@ package org.montclairrobotics.sprocket.frc;
 
 import org.montclairrobotics.sprocket.core.IRobot;
 import org.montclairrobotics.sprocket.core.Sprocket;
-import org.montclairrobotics.sprocket.core.Sprocket.MODE;
+import org.montclairrobotics.sprocket.core.Sprocket.Mode;
 import org.montclairrobotics.sprocket.loop.Updatable;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -28,28 +28,28 @@ public abstract class FRCRobot extends IterativeRobot implements IRobot,Updatabl
         super.startCompetition();
     }
     @Override
-    public void robotInit()
-    {
-    	sprocket.initS();
+    public void robotInit() {
+    		sprocket.initS();
     }
+    
     @Override
     public final void autonomousInit() {
-    	sprocket.startS(MODE.AUTO);
+    		sprocket.startS(Mode.AUTO);
     }
 
     @Override
     public final void teleopInit() {
-    	sprocket.startS(MODE.TELEOP);
+    		sprocket.startS(Mode.TELEOP);
     }
 
     @Override
     public final void testInit() {
-        sprocket.startS(MODE.TEST);
+        sprocket.startS(Mode.TEST);
     }
     
     @Override
     public final void disabledInit() {
-    	sprocket.stopS();
+    		sprocket.stopS();
     }
     
     @Override

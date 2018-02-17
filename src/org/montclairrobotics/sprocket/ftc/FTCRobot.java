@@ -4,7 +4,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.core.IRobot;
 import org.montclairrobotics.sprocket.core.Sprocket;
-import org.montclairrobotics.sprocket.core.Sprocket.MODE;
+import org.montclairrobotics.sprocket.core.Sprocket.Mode;
 import org.montclairrobotics.sprocket.utils.Debug;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -42,7 +42,7 @@ public abstract class FTCRobot extends OpMode implements IRobot {
 	public static Sprocket sprocket;
 	public static FTCRobot robot;
 	
-	public MODE mode;
+	public Mode mode;
 	public Action action;
 
 	public enum GAMEPAD {A,B};
@@ -73,13 +73,13 @@ public abstract class FTCRobot extends OpMode implements IRobot {
 				sprocket.debugger=new FTCDebug(robot);
 				sprocket.initS();
 			}
-			sprocket.startS(MODE.DISABLED);
-			this.mode = mode.AUTO;
+			sprocket.startS(Mode.DISABLED);
+			this.mode = Mode.AUTO;
 			autoSetup();
 	    }
 	
 	public void autoSetup() {
-		this.mode = mode.TELEOP;
+		this.mode = Mode.TELEOP;
 	}
 	
 	@Override
@@ -91,7 +91,7 @@ public abstract class FTCRobot extends OpMode implements IRobot {
     public void start() {
     		sprocket.currentAction=action;
     		sprocket.startS(mode);
-        Debug.msg("Starting -FTCRobot",mode);
+        Debug.print("Starting -FTCRobot",mode);
     }
 
     @Override

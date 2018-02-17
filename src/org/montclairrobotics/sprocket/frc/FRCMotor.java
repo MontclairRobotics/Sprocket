@@ -94,11 +94,6 @@ public class FRCMotor implements IMotor {
 	}
 
 	@Override
-	public String getName() {
-		return "{ FRC | " + motorType.toString() + " Motor }";
-	}
-
-	@Override
 	public void update() {
 		// TODO Auto-generated method stub
 		

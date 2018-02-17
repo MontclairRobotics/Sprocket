@@ -54,11 +54,11 @@ public class DriveModule extends Module {
 	}
     
     public DriveModule(Vector offset, Angle force, SEncoder enc, PID pid, Module.MotorInputType inputType, IMotor... motors ) {
-    		this(offset, new Polar(1,force), enc, pid, inputType, motors);
+    		this(offset, Vector.polar(1,force), enc, pid, inputType, motors);
 	}
 	
 	public DriveModule(Vector offset, Angle force, IMotor... motors) {
-		this(offset, new Polar(1, force), null, null, Module.MotorInputType.PERCENT, motors);
+		this(offset, Vector.polar(1, force), null, null, Module.MotorInputType.PERCENT, motors);
 	}
 
 	/**

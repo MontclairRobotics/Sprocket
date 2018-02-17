@@ -13,7 +13,7 @@ public class DriveDistance extends AutoState{
 	MyState myState;
 	public DriveDistance(double dist,double power)
 	{
-		this(new XY(0,dist),power);
+		this(Vector.xy(0,dist),power);
 	}
 	public DriveDistance(Vector distance,double power)
 	{
@@ -49,5 +49,10 @@ public class DriveDistance extends AutoState{
 	public boolean userIsDone() {
 		// TODO Auto-generated method stub
 		return myState.getRelPos().subtract(distance).getMagnitude()<TOLERENCE;
+	}
+	@Override
+	public void userStop() {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -43,7 +43,7 @@ public class DriveTrainBuilder {
     }
     
     public DriveTrainBuilder addWheel(IMotor motor, Vector offset, Angle force, SEncoder enc, PID pid) {
-        modules.add(new DriveModule(offset, new Polar(1, force),enc,pid,Module.MotorInputType.SPEED, motor));
+        modules.add(new DriveModule(offset, Vector.polar(1, force),enc,pid,Module.MotorInputType.SPEED, motor));
         return this;
     }
 
@@ -53,7 +53,7 @@ public class DriveTrainBuilder {
     
     
     public DriveTrainBuilder addWheels(Vector offset, Angle force, IMotor... motors) {
-    	modules.add(new DriveModule(offset, new Polar(1, force), motors));
+    	modules.add(new DriveModule(offset, Vector.polar(1, force), motors));
     	return this;
     }
     

@@ -10,7 +10,7 @@ import org.montclairrobotics.sprocket.core.Sprocket;
 
 public class TestAuto extends TestRobot{
     public TestAuto() {
-        super(Sprocket.MODE.AUTO, 7);
+        super(Sprocket.Mode.AUTO, 7);
     }
 
     @Override
@@ -19,7 +19,7 @@ public class TestAuto extends TestRobot{
     }
 
     @Override
-    public void enableMode(Sprocket.MODE mode) {
+    public void enableMode(Sprocket.Mode mode) {
 
     }
 

@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.test;
 
 import org.montclairrobotics.sprocket.control.ArcadeDriveInput;
-import org.montclairrobotics.sprocket.core.Sprocket.MODE;
+import org.montclairrobotics.sprocket.core.Sprocket.Mode;
 import org.montclairrobotics.sprocket.drive.DriveModule;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.drive.TankMapper;
@@ -13,7 +13,7 @@ public class SimpleTest extends TestRobot{
 
 	public SimpleTest()
 	{
-		super(MODE.TELEOP, 8);
+		super(Mode.TELEOP, 8);
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class SimpleTest extends TestRobot{
 	}
 
 	@Override
-	public void enableMode(MODE mode) {
+	public void enableMode(Mode mode) {
 		// TODO Auto-generated method stub
 		
 	}
