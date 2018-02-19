@@ -1,6 +1,8 @@
 package org.montclairrobotics.sprocket.jrapoport;
 
 public interface Togglable {
-	void start();
-	void stop();
+	void enable();
+	void disable();
+	
+	boolean isEnabled();
 }

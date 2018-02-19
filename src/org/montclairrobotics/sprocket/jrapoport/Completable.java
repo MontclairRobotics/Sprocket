@@ -1,11 +1,9 @@
 package org.montclairrobotics.sprocket.jrapoport;
 
-public interface Completable extends Togglable {
-	@Override
+public interface Completable {
 	void start();
 	
 	boolean isComplete();
 	
-	@Override
 	void stop();
 }
