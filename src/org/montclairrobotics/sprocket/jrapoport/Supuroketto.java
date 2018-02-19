@@ -16,6 +16,6 @@ public final class Supuroketto {
 	
 	/** @return the refresh rate of the robot (in loops per second). */
 	public static double getFPS() {
-		return 1 / (Supuroketto.loopTimeMillis() / 1000.0);
+		return 1 / (loopTimeMillis() / 1000.0);
 	}
 }
