@@ -3,11 +3,11 @@ package org.montclairrobotics.sprocket.jrapoport;
 import java.util.ArrayList;
 
 public abstract class Entity extends Component implements Updatable {
-	private final String name;
 	private ArrayList<Component> components;
 	
 	Entity(String name, Component... components) {
-		this.name = name;
+		super(name);
+		
 		this.components = new ArrayList<Component>();
 		
 		for (Component c : components) {
@@ -16,7 +16,8 @@ public abstract class Entity extends Component implements Updatable {
 	}
 	
 	Entity(Component... components) {
-		this.name = "";
+		super();
+		
 		this.components = new ArrayList<Component>();
 		
 		for (Component c : components) {
@@ -25,12 +26,13 @@ public abstract class Entity extends Component implements Updatable {
 	}
 	
 	@Override
-	public String toString() {
-		return name;
+	public void enable() {
+		super.enable();
 	}
 	
-	public ArrayList<Component> getComponents() {
-		return components;
+	@Override
+	public void disable() {
+		super.disable();
 	}
 	
 	/**
@@ -39,26 +41,24 @@ public abstract class Entity extends Component implements Updatable {
 	 */
 	@Override
 	public void update() {
+		super.update();
+		
 		for (Component c : components) {
 			c.update();
 		}
 	}
 	
-	public int length() { return components.size(); }
+	public ArrayList<Component> getComponents() { return components; }
 	
-	public boolean isEmpty() { return components.isEmpty(); }
+	public boolean addComponent(Component component) { return components.add(component); }
 
-	public boolean contains(Component component) { return components.contains(component); }
-
-	public boolean add(Component component) { return components.add(component); }
-
-	public boolean remove(Component component) { return components.remove(component); }
+	public boolean removeComponent(Component component) { return components.remove(component); }
 	
 	public void clearComponents() { components.clear(); }
 
 	public Component getComponent(String name) {
 		for (Component c : components ) {
-			if (false) //TODO implement Identifiable
+			if (name.equals(c.name))
 				return c;
 		}
 		
@@ -67,7 +67,7 @@ public abstract class Entity extends Component implements Updatable {
 	
 	public boolean removeComponent(String name) {
 		for (Component c : components ) {
-			if (false) //TODO implement Identifiable
+			if (name.equals(c.name))
 				return components.remove(c);
 		}
 		

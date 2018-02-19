@@ -2,33 +2,41 @@ package org.montclairrobotics.sprocket.jrapoport;
 
 import java.util.ArrayList;
 
-/**
- * 
- * @author Joshua Rapoport
- * @version 2/15/18
- *
- */
-
-public abstract class Component implements Updatable {
+public abstract class Component implements Updatable, Togglable {
+	protected final String name;
+	
 	private ArrayList<Action> queuedActions = new ArrayList<Action>();
 	
 	private Action currentAction = null;
 	
 	private ArrayList<Action> completedActions = new ArrayList<Action>();
 	
+	public Component(String name) {
+		this.name = name;
+	}
+	
+	public Component() {
+		this.name = super.toString();
+	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
+	
 	/** @return the list of elements of type <tt>Action</tt> that are queued for execution. */
-	Action[] getQueuedActions() {
-		return queuedActions.toArray(new Action[queuedActions.size()]);
+	public final Action[] getQueuedActions() {
+		return (Action[]) queuedActions.toArray();
 	}
 
 	/** @return the instance of type <tt>Action</tt> that is currently running. */
-	Action getCurrentAction() {
+	public final Action getCurrentAction() {
 		return currentAction;
 	}
 
 	/** @return the list of elements of type <tt>Action</tt> that have already been completed. */
-	Action[] getCompletedActions() {
-		return completedActions.toArray(new Action[completedActions.size()]);
+	public final Action[] getCompletedActions() {
+		return (Action[]) completedActions.toArray();
 	}
 
 	/**
@@ -36,7 +44,7 @@ public abstract class Component implements Updatable {
 	 * @param action the action to be added
 	 * @return the success of the operation.
 	 */
-	boolean queueAction(Action action) {
+	public final boolean queueAction(Action action) {
 		return queuedActions.add(action);
 	}
 
@@ -46,31 +54,48 @@ public abstract class Component implements Updatable {
 	 * @param action the action to be added
 	 * @return the success of the operation.
 	 */
-	void queueAction(int index, Action action) {
+	public final void queueAction(int index, Action action) {
 		queuedActions.add(index, action);
 	}
 	
 	/** Clears all actions, both queued and completed. */
-	void clearAllActions() {
+	public final void clearAllActions() {
 		clearQueuedActions();
 	}
 	
 	/** Clears all actions that are queued to run. */
-	void clearQueuedActions() {
+	public final void clearQueuedActions() {
 		queuedActions.clear();
 	}
 	
 	/** Clears all actions that have been completed (frees up memory). */
-	void clearCompletedActions() {
+	public final void clearCompletedActions() {
 		completedActions.clear();
 	}
+	
+	private void nextAction() {
+		currentAction = queuedActions.remove(0);
+		currentAction.start();
+	}
 
-	// TODO easily breakable
+	@Override
+	public void enable() {
+		nextAction();
+	}
+	
+	@Override
+	public void disable() {
+		queueAction(0, currentAction);
+		currentAction = null;
+	}
+	
 	@Override
 	public void update() {
-		if (currentAction != null) {
-			currentAction.update();
+		if (currentAction == null) {
+			return;
 		}
+		
+		currentAction.update();
 		
 		if (currentAction.isComplete()) {
 			currentAction.stop();
@@ -79,8 +104,7 @@ public abstract class Component implements Updatable {
 			if (queuedActions.isEmpty()) {
 				currentAction = null;
 			} else {
-				currentAction = queuedActions.remove(0);
-				currentAction.start();
+				nextAction();
 			}
 		}
 	}
