@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.jrapoport;
 
-public abstract class Action implements Completable, Togglable, Updatable {
+public abstract class Action implements Completable, Updatable {
 
 	@Override
 	public abstract void start();
@@ -20,7 +20,6 @@ public abstract class Action implements Completable, Togglable, Updatable {
 	 * @return an action that tells the item running <tt>this</tt> to wait for a specified amount of time.
 	 */
 	public static Action waitMilis(double t) {
-		
 		return new Action() {
 			long tInit, tElapsed;
 			
