@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.auto;
 
-import org.montclairrobotics.sprocket.actions.State;
+import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.actions.StateMachine;
 import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.utils.Debug;
@@ -13,7 +13,7 @@ import org.montclairrobotics.sprocket.utils.Debug;
  * the AutoStates that it contains before ending. When instantiated, these modes
  * will automatically be sent to a SmartDashboard chooser.
  */
-public class AutoMode extends StateMachine{
+public class AutoMode{
 	
 	private String name;
 
@@ -22,19 +22,31 @@ public class AutoMode extends StateMachine{
 	 * @param name The name of the DefultAutoMode (for SmartDashboard)
 	 * @param states The StateMachine which contains AutoModes
 	 */
-	public AutoMode(String name, State... states)
+	
+	StateMachine m;
+	
+	public AutoMode(String name, Action... states)
 	{
-		super(states);
+		this(name, new StateMachine(states));
+	}
+	
+	public AutoMode(String name, StateMachine states)
+	{
+		m=states;
 		this.name = name;
 	}
 	public void start()
 	{
-		super.start(true);
+		m.start();
 		Debug.msg("Auto Mode Running - Auto Mode",name);
+	}
+	public void enabled()
+	{
+		m.enabled();
 	}
 	public void stop()
 	{
-		super.stop();
+		m.stop();
 		Sprocket.getMainDriveTrain().useDefaultInput();
 	}
 	public String toString()

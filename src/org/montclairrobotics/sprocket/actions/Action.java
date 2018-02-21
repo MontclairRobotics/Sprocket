@@ -17,10 +17,13 @@ public interface Action {
 	public void enabled();
 	/** Called once when the object is deactivated. */
 	public void stop();
-	
 	/**
 	 * Called every loop when the object is deactivated
 	 * Note: this may not be called by every implementation
 	 */
 	public void disabled();
+	public default boolean isDone()
+	{
+		return false;
+	}
 }

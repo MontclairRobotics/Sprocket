@@ -3,11 +3,12 @@ package org.montclairrobotics.sprocket.frc;
 import org.montclairrobotics.sprocket.core.IMotor;
 import org.montclairrobotics.sprocket.utils.Utils;
 
+import edu.wpi.first.wpilibj.CANTalon;
+
 //import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.CANTalon;
 
 public class FRCMotor implements IMotor{
 

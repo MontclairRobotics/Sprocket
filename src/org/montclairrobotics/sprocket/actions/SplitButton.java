@@ -3,6 +3,16 @@ package org.montclairrobotics.sprocket.actions;
 import org.montclairrobotics.sprocket.core.Button;
 import org.montclairrobotics.sprocket.utils.Input;
 
+/**
+ * 
+ * Rather than an action directly connected to a button, 
+ * activated when it is pressed and deactivated when it is released,
+ * this action will be enabled when one button is pushed
+ * and removed when another one is.
+ * @author Montclair Robotics
+ *
+ */
+
 public class SplitButton extends Button {
 	
 	private Input<Boolean> onButton;
@@ -46,7 +56,6 @@ public class SplitButton extends Button {
 		super.update();
 	}
 	
-	@Override
 	public Boolean get() {
 		return active;
 	}

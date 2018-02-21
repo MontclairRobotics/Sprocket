@@ -5,6 +5,8 @@ import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 
+import edu.wpi.first.wpilibj.PIDController;
+
 /**
  * A PID controller
  * Create with P,I,D values

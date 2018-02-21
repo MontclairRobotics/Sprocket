@@ -59,4 +59,13 @@ public class Updater {
 		return loopTime;
 	}
 
+	public static void addAuto(Updatable u,Priority p)
+	{
+		
+	}
+	public static void addTeleop(Updatable u, Priority p) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

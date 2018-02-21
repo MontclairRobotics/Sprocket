@@ -1,41 +1,38 @@
 package org.montclairrobotics.sprocket.actions;
 
-import org.montclairrobotics.sprocket.loop.Priority;
-import org.montclairrobotics.sprocket.loop.Updatable;
-import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Debug;
 
 
-public class StateMachine implements State, Updatable{
+public class StateMachine implements Action{
 
-	private State[] states;
+	private Action[] states;
 	private int index;
-	private boolean top;
+	//private boolean top;
 	
-	public StateMachine(State...s)
+	public StateMachine(Action...s)
 	{
 		this.states=s;
 		index=-1;
-		Updater.add(this, Priority.AUTO);
+		//Updater.add(this, Priority.AUTO);
 	}
-	public void start(boolean top)
+	public void start(/*boolean top*/)
 	{
-		this.top=top;
+		//this.top=top;
 		index=0;
 		states[index].start();
         Debug.msg("Auto Mode Running: stateMachine","");
 	}
-	@Override
+	/*@Override
 	public void start() {
 		start(false);
-	}
+	}*/
 
 	@Override
 	public void stop() {
 		if(isDone())return;
 		states[index].stop();
 		index=-1;
-		top=false;
+		//top=false;
 	}
 
 	@Override
@@ -60,17 +57,17 @@ public class StateMachine implements State, Updatable{
 	public boolean isDone() {
 		return index<0||index>=states.length;
 	}
-	public State[] getStates()
+	public Action[] getStates()
 	{
 		return states;
 	}
-	@Override
+	/*@Override
 	public void update() {
 		if(top)
 		{
 			enabled();
 		}
-	}
+	}*/
 	@Override
 	public void disabled() {
 		// TODO Auto-generated method stub

@@ -3,27 +3,27 @@ package org.montclairrobotics.sprocket.actions;
 import org.montclairrobotics.sprocket.utils.Input;
 
 /**
- * Can perform multiple actions at once
+ * Multiple states at once
  *
  */
 
-public class MultiState extends MultiAction implements State {
+public class MultiState extends MultiAction {
 	
 	private Input<Boolean> done;
 	
-	public MultiState(Input<Boolean> done, State... states) {
+	public MultiState(Input<Boolean> done, Action... states) {
 		super(states);
 		this.done = done;
 	}
 	
-	public MultiState(final int stateToStopAt, final State... states) {
+	public MultiState(final int stateToStopAt, final Action... states) {
 		super(states);
 		
 		if (stateToStopAt < 0 || stateToStopAt > states.length) {
 			this.done = new Input<Boolean>() {
 				@Override
 				public Boolean get() {
-					for(State s : states) {
+					for(Action s : states) {
 						if(!s.isDone()) {
 							return false;
 						}
@@ -38,7 +38,7 @@ public class MultiState extends MultiAction implements State {
 		}
 	}
 	
-	public MultiState(State... states) {
+	public MultiState(Action... states) {
 		this(-1, states);
 	}
 

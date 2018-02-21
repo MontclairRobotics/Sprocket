@@ -1,8 +1,7 @@
 package org.montclairrobotics.sprocket.actions;
 
 /**
- * One can perform multiple actions with the same trigger with this utility object
- *
+ * Multiple actions at once
  */
 
 public class MultiAction implements Action {

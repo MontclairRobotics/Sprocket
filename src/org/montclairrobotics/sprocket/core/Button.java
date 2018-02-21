@@ -1,7 +1,6 @@
 package org.montclairrobotics.sprocket.core;
 
 import org.montclairrobotics.sprocket.actions.Action;
-import org.montclairrobotics.sprocket.actions.Togglable;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
@@ -15,7 +14,7 @@ import org.montclairrobotics.sprocket.utils.Input;
  * the Sprocket control loop and calling anonymous functions passed in by
  * developers. This system makes defining button behaviors incredibly simple.
  */
-public class Button implements Updatable,Togglable, Input<Boolean> {
+public class Button implements Updatable, Input<Boolean> {
 
 	private Action action;
 	private boolean wasPressed=false;
@@ -23,12 +22,12 @@ public class Button implements Updatable,Togglable, Input<Boolean> {
 	public boolean enabled=true;;
 	
 	public Button() {
-		Updater.add(this,Priority.CONTROL);
+		Updater.addTeleop(this,Priority.CONTROL);
 	}
 	
 	public Button(Input<Boolean> button) {
 		this.button=button;
-		Updater.add(this, Priority.CONTROL);
+		Updater.addTeleop(this, Priority.CONTROL);
 	}
 	
 	public Button setButton(Input<Boolean> button) {
@@ -47,36 +46,26 @@ public class Button implements Updatable,Togglable, Input<Boolean> {
 	
 	@Override
 	public void update() {
-		if(enabled) {
-			boolean pressed = get();
-			if(action!=null) {
-				if (pressed && !wasPressed) {
-					action.start();
-				}
-				if (!pressed && wasPressed) {
-					action.stop();
-				}
-				if (pressed) {
-					action.enabled();
-				} else {
-					action.disabled();
-				}
+		boolean pressed = get();
+		if(action!=null) {
+			if (pressed && !wasPressed) {
+				action.start();
 			}
-			wasPressed = pressed;
+			if (!pressed && wasPressed) {
+				action.stop();
+			}
+			if (pressed) {
+				action.enabled();
+			} else {
+				action.disabled();
+			}
 		}
-	}
-	
-	@Override
-	public void enable() {
-		enabled=true;
-	}
-	@Override
-	public void disable() {
-		enabled=false;
+		wasPressed = pressed;
 	}
 	
 	@Override
 	public Boolean get() {
 		return button.get();
 	}
+
 }

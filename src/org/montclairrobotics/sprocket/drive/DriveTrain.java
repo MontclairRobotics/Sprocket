@@ -12,54 +12,37 @@ import org.montclairrobotics.sprocket.utils.Input;
 
 public class DriveTrain implements Updatable, Input<Distance> {
 		
-	private DTInput input;
-	private DTInput defaultInput;
-	private Pipeline<DTTarget> pipeline;
 	private DTModule[] modules;
+	private DTStep[] steps;
     private DTMapper mapper;
 
+    
+    public DTRequest request;
 
     public DriveTrain(DTModule... modules) {
     	this.modules = modules;
-    	input=new ZeroDTInput();
-    	pipeline=new ZeroPipeline();
     	Sprocket.setMainDriveTrain(this);
     	Updater.add(this, Priority.DRIVE_CALC);
     }
 
+    public void setSteps(DTStep... steps) {
+    	this.steps=steps;
+    }
+    
+    public void setRequest(DTRequest request)
+    {
+    	this.request=request;
+    }
 	@Override
 	public void update() {
 		//DTInput input = auto ? this.autoInput : this.input;
-		
-		Vector tgtDir=input.getDir();
-		double tgtTurn=input.getTurn();
-		DTTarget target = new DTTarget(tgtDir,tgtTurn);
-		Debug.string("DriveTrain INPUT:",target.toString());
-		target=pipeline.get(target);
-		Debug.string("DriveTrain OUTPUT:",target.toString());
-		mapper.map(target, modules);
+		for(int i=0;i<steps.length;i++)
+		{
+			steps[i].doStep(request);
+		}
+		mapper.map(request, modules);
 	}
 	
-	//======================GETTERS AND SETTERS======================
-	public DriveTrain setDefaultInput(DTInput input)
-	{
-		this.input=input;
-		this.defaultInput = input;
-		return this;
-	}
-	public DTInput getInput()
-	{
-		return input;
-	}
-	public DriveTrain setPipeline(Pipeline<DTTarget> pipeline)
-    {
-    	this.pipeline=pipeline;
-    	return this;
-    }
-    public Pipeline<DTTarget> getPipeline()
-    {
-    	return pipeline;
-    }
     public DriveTrain setMapper(DTMapper mapper)
     {
     	this.mapper=mapper;
@@ -99,18 +82,9 @@ public class DriveTrain implements Updatable, Input<Distance> {
     	return modules;
     }
     
-    public DriveTrain setTempInput(DTInput tempInput) {
-    	input = tempInput;
-    	return this;
-    }
-    
-    public void useDefaultInput() {
-    	input = defaultInput;
-    }
-
 	@Override
 	public Distance get() {
-		return new Distance(-this.getPosition().getY());
+		return new Distance(this.getPosition().getY());
 	}
     
 }
