@@ -11,12 +11,18 @@ public class StateMachine implements State, Updatable{
 	private State[] states;
 	private int index;
 	private boolean top;
-	
-	public StateMachine(State...s)
+
+	public StateMachine(State... s)
+	{
+		this(true,s);
+	}
+	public StateMachine(boolean add,State...s)
 	{
 		this.states=s;
 		index=-1;
-		Updater.add(this, Priority.AUTO);
+		if(add) {
+			Updater.add(this, Priority.AUTO);
+		}
 	}
 	public void start(boolean top)
 	{
@@ -77,5 +83,9 @@ public class StateMachine implements State, Updatable{
 			states[index].start();
 		}
 		SmartDashboard.putString("I hope it gets here","It does!");
+	}
+
+	public void setStates(State ... states){
+		this.states = states;
 	}
 }

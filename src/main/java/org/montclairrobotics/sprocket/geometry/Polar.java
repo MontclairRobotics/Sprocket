@@ -17,6 +17,11 @@ public class Polar implements Vector {
     public double getMagnitude() {
         return magnitude;
     }
+    
+    public double getSquaredMagnitude()
+    {
+    	return magnitude*magnitude;
+    }
 
     @Override
     public Angle getAngle() {

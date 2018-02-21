@@ -17,6 +17,11 @@ public class XY implements Vector {
     public double getMagnitude() {
         return Math.sqrt(x*x + y*y);
     }
+    
+    public double getSquaredMagnitude()
+    {
+    	return x*x+y*y;
+    }
 
     @Override
     public Angle getAngle() {

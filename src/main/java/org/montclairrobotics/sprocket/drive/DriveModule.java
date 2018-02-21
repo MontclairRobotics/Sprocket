@@ -109,4 +109,8 @@ public class DriveModule extends Module{
     {
     	return "("+offset.getX()+","+offset.getY()+"): "+(power*100)+"%";
     }
+
+    public void resetEncoders(){
+        getEnc().reset();
+    }
 }
