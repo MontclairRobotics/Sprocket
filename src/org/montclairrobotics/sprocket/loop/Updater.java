@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.TreeMap;
 
+import org.montclairrobotics.sprocket.jrapoport.Updatable;
+
 public class Updater {
 	
 	private static double lastLoop = getTimeSec();

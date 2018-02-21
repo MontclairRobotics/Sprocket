@@ -3,7 +3,7 @@ package org.montclairrobotics.sprocket.frc;
 import org.montclairrobotics.sprocket.core.IRobot;
 import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.core.Sprocket.Mode;
-import org.montclairrobotics.sprocket.loop.Updatable;
+import org.montclairrobotics.sprocket.jrapoport.Updatable;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 
@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  * This class is basically just a wrapper around iterative robot which all Sprocket
  * robots must extend.
  */
-public abstract class FRCRobot extends IterativeRobot implements IRobot,Updatable{
+public abstract class FRCRobot extends IterativeRobot implements IRobot, Updatable {
 
 	public Sprocket sprocket;
 	

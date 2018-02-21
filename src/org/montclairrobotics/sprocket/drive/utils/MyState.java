@@ -3,7 +3,7 @@ package org.montclairrobotics.sprocket.drive.utils;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.loop.Priority;
-import org.montclairrobotics.sprocket.loop.Updatable;
+import org.montclairrobotics.sprocket.jrapoport.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Input;
 
@@ -17,39 +17,35 @@ public class MyState {
 	private Vector zeroPos;
 	private Angle zeroAngle;
 	
-	public MyState()
-	{
+	public MyState() {
 		this(absPosition.get(),absAngle.get());
 	}
 	
-	public MyState(Vector zeroPos,Angle zeroAngle)
-	{
+	public MyState(Vector zeroPos,Angle zeroAngle) {
 		this.zeroPos=zeroPos;
 		this.zeroAngle=zeroAngle;
 	}
 	
-	public Vector getRelVelocity()
-	{
+	public Vector getRelVelocity() {
 		return absVelocity.get().rotate(zeroAngle.negative());
 	}
-	public Vector getRelPos()
-	{
+	
+	public Vector getRelPos() {
 		return absPosition.get().subtract(zeroPos).rotate(zeroAngle.negative());
 	}
-	public Angle getAngularVelocity()
-	{
+	
+	public Angle getAngularVelocity() {
 		return absAngularVelocity.get();
 	}
-	public Angle getAngle()
-	{
+	
+	public Angle getAngle() {
 		return zeroAngle.subtract(zeroAngle);
 	}
 	
 	
 	
 	
-	public class VelocityInput implements Input<Vector>
-	{
+	public class VelocityInput implements Input<Vector> {
 		private Input<Vector> local;
 		public VelocityInput(Input<Vector> local)
 		{
@@ -62,8 +58,8 @@ public class MyState {
 			return local.get().rotate(absAngle.get());
 		}
 	}
-	public class PosIntegrator implements Updatable,Input<Vector>
-	{
+	
+	public class PosIntegrator implements Updatable, Input<Vector> {
 		private Vector pos;
 		public PosIntegrator()
 		{
@@ -80,8 +76,8 @@ public class MyState {
 		}
 		
 	}
-	public class AngleIntegrator implements Updatable,Input<Angle>
-	{
+	
+	public class AngleIntegrator implements Updatable, Input<Angle> {
 		private Angle ang;
 		public AngleIntegrator()
 		{

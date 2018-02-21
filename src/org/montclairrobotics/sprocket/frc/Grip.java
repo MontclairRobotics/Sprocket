@@ -1,13 +1,13 @@
 package org.montclairrobotics.sprocket.frc;
 
 import org.montclairrobotics.sprocket.loop.Priority;
-import org.montclairrobotics.sprocket.loop.Updatable;
+import org.montclairrobotics.sprocket.jrapoport.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Debug;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
-public class Grip implements Updatable{
+public class Grip implements Updatable {
 	NetworkTable table;
 	GripContourReport report;
 	

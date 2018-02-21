@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.core;
 
-import org.montclairrobotics.sprocket.loop.Updatable;
+import org.montclairrobotics.sprocket.jrapoport.Updatable;
 
 public interface IRobot extends Updatable {
 	

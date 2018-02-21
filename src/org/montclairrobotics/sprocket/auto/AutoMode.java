@@ -13,7 +13,7 @@ import org.montclairrobotics.sprocket.utils.Debug;
  * the AutoStates that it contains before ending. When instantiated, these modes
  * will automatically be sent to a SmartDashboard chooser.
  */
-public class AutoMode extends StateMachine{
+public class AutoMode extends StateMachine {
 	
 	private String name;
 

@@ -3,7 +3,7 @@ package org.montclairrobotics.sprocket.drive;
 import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.core.IMotor;
 import org.montclairrobotics.sprocket.loop.Priority;
-import org.montclairrobotics.sprocket.loop.Updatable;
+import org.montclairrobotics.sprocket.jrapoport.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Input;
 
@@ -17,7 +17,7 @@ import org.montclairrobotics.sprocket.utils.Input;
  * using Joystick inputs. If you're using button pairs, you could also use
  * ControlledMotor to run a shooter forward and backward using the button pair.
  */
-public class ControlledMotor implements Updatable,Action {
+public class ControlledMotor implements Updatable, Action {
 	
 	private IMotor output;
 	private Input<Double> input;

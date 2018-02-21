@@ -3,7 +3,7 @@ package org.montclairrobotics.sprocket.core;
 import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.actions.Togglable;
 import org.montclairrobotics.sprocket.loop.Priority;
-import org.montclairrobotics.sprocket.loop.Updatable;
+import org.montclairrobotics.sprocket.jrapoport.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Input;
 
@@ -15,7 +15,7 @@ import org.montclairrobotics.sprocket.utils.Input;
  * the Sprocket control loop and calling anonymous functions passed in by
  * developers. This system makes defining button behaviors incredibly simple.
  */
-public class Button implements Updatable,Togglable, Input<Boolean> {
+public class Button implements Updatable, Togglable, Input<Boolean> {
 
 	private Action action;
 	private boolean wasPressed=false;
@@ -27,7 +27,7 @@ public class Button implements Updatable,Togglable, Input<Boolean> {
 	}
 	
 	public Button(Input<Boolean> button) {
-		this.button=button;
+		this.button = button;
 		Updater.add(this, Priority.CONTROL);
 	}
 	
@@ -56,11 +56,12 @@ public class Button implements Updatable,Togglable, Input<Boolean> {
 				if (!pressed && wasPressed) {
 					action.stop();
 				}
-				if (pressed) {
-					action.enabled();
-				} else {
-					action.disabled();
-				}
+				
+//				if (pressed) {
+//					action.enabled();
+//				} else {
+//					action.disabled();
+//				}
 			}
 			wasPressed = pressed;
 		}

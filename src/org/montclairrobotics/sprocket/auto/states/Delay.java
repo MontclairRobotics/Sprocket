@@ -3,7 +3,7 @@ package org.montclairrobotics.sprocket.auto.states;
 import org.montclairrobotics.sprocket.auto.AutoState;
 import org.montclairrobotics.sprocket.utils.Debug;
 
-public class Delay extends AutoState{
+public class Delay extends AutoState {
 
 	private Number time;
 
