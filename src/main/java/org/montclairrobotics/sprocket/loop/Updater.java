@@ -19,7 +19,6 @@ public class Updater {
     );
 
 
-
     public static void add(Updatable updatable, Priority priority) {
         if(!updatables.containsKey(priority)) updatables.put(priority, new ArrayList<>());
         ArrayList<Updatable> priorities = updatables.get(priority);

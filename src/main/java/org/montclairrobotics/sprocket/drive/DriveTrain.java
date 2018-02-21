@@ -99,5 +99,11 @@ public class DriveTrain implements Updatable, Input<Distance> {
 	public Distance get() {
 		return new Distance(-this.getDistance().getY());
 	}
+
+	public void resetEncoders(){
+    	for(DriveModule module : modules){
+    		module.resetEncoders();
+		}
+	}
     
 }
