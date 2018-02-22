@@ -7,6 +7,7 @@ import org.montclairrobotics.sprocket.geometry.Vector;
  * Created by Montclair Robotics.
  */
 
+@Deprecated
 public class ZeroInput implements Input<Double> {
 	public static final ZeroInput ZERO_INPUT = new ZeroInput();
 
