@@ -1,8 +1,8 @@
-package org.montclairrobotics.sprocket.mode;
+package org.montclairrobotics.sprocket.modes;
 
 public abstract class TeleopMode extends RobotMode {
 	public TeleopMode(String name) {
-		super(name);
+		super("Teleop: " + name);
 	}
 	
 	public TeleopMode() {
@@ -16,7 +16,9 @@ public abstract class TeleopMode extends RobotMode {
 	public void update() {}
 
 	@Override
-	public boolean isComplete() { return false; }
+	public final boolean isComplete() {
+		return false;
+	}
 
 	@Override
 	public void stop() {}

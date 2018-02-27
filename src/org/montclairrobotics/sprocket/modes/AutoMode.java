@@ -1,8 +1,8 @@
-package org.montclairrobotics.sprocket.mode;
+package org.montclairrobotics.sprocket.modes;
 
 public abstract class AutoMode extends RobotMode {
 	public AutoMode(String name/*, States... states*/) {
-		super(name);
+		super("Auto: " + name);
 	}
 	
 	public AutoMode(/* States... states*/) {
