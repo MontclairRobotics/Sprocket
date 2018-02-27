@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.frc;
 
 import org.montclairrobotics.sprocket.loop.Priority;
-import org.montclairrobotics.sprocket.jrapoport.Updatable;
+import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Debug;
 
@@ -11,29 +11,28 @@ public class Grip implements Updatable {
 	NetworkTable table;
 	GripContourReport report;
 	
-	public Grip(String key)
-	{
+	public Grip(String key) {
 		table=NetworkTable.getTable(key);
-		Updater.add(this, Priority.INPUT);
+		Updater.add(this, Priority.HIGH);
 	}
-	public void update()
-	{
+	
+	public void update() {
 		report=new GripContourReport(table);
 	}
-	public int getX()
-	{
+	
+	public int getX() {
 		if(report==null)return -1;
 		Debug.num("grip_x",report.maxCenterX);
 		return report.maxCenterX;
 	}
-	public int getY()
-	{
-		if(report==null)return -1;
-		Debug.num("grip_y",report.maxCenterY);
+	
+	public int getY() {
+		if(report == null) return -1;
+		Debug.num("grip_y", report.maxCenterY);
 		return report.maxCenterY;
 	}
-	public GripContourReport getReport()
-	{
+	
+	public GripContourReport getReport() {
 		return report;
 	}
 }

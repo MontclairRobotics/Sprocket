@@ -2,14 +2,13 @@ package org.montclairrobotics.sprocket.jrapoport;
 
 import java.util.ArrayList;
 
+import org.montclairrobotics.sprocket.loop.Updatable;
+
 public abstract class Component implements Updatable, Togglable {
 	protected final String name;
 	
 	private ArrayList<Action> queuedActions = new ArrayList<Action>();
-	
 	private Action currentAction = null;
-	
-	private ArrayList<Action> completedActions = new ArrayList<Action>();
 	
 	public Component(String name) {
 		this.name = name;
@@ -34,11 +33,6 @@ public abstract class Component implements Updatable, Togglable {
 		return currentAction;
 	}
 
-	/** @return the list of elements of type <tt>Action</tt> that have already been completed. */
-	public final Action[] getCompletedActions() {
-		return (Action[]) completedActions.toArray();
-	}
-
 	/**
 	 * Adds an action to the end of the list of queued actions.
 	 * @param action the action to be added
@@ -58,19 +52,15 @@ public abstract class Component implements Updatable, Togglable {
 		queuedActions.add(index, action);
 	}
 	
-	/** Clears all actions, both queued and completed. */
+	/** Clears all actions, both queued and current. */
 	public final void clearAllActions() {
 		clearQueuedActions();
+		currentAction = null;
 	}
 	
 	/** Clears all actions that are queued to run. */
 	public final void clearQueuedActions() {
 		queuedActions.clear();
-	}
-	
-	/** Clears all actions that have been completed (frees up memory). */
-	public final void clearCompletedActions() {
-		completedActions.clear();
 	}
 	
 	private void nextAction() {
@@ -79,19 +69,29 @@ public abstract class Component implements Updatable, Togglable {
 	}
 
 	@Override
-	public void enable() {
+	public final void enable() {
 		nextAction();
+		
+		if (currentAction != null)
+			currentAction.start();
 	}
 	
 	@Override
-	public void disable() {
+	public final void disable() {
+		if (currentAction != null)
+			currentAction.stop();
+		
 		queueAction(0, currentAction);
 		currentAction = null;
 	}
 	
+	public final boolean isEnabled() {
+		return currentAction != null;
+	}
+	
 	@Override
 	public void update() {
-		if (currentAction == null) {
+		if (!this.isEnabled()) {
 			return;
 		}
 		
@@ -99,7 +99,6 @@ public abstract class Component implements Updatable, Togglable {
 		
 		if (currentAction.isComplete()) {
 			currentAction.stop();
-			completedActions.add(currentAction);
 			
 			if (queuedActions.isEmpty()) {
 				currentAction = null;

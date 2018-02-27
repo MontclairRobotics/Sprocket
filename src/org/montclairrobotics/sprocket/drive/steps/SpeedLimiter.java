@@ -1,11 +1,11 @@
 package org.montclairrobotics.sprocket.drive.steps;
 
-import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.geometry.Vector;
+import org.montclairrobotics.sprocket.jrapoport.Togglable;
 import org.montclairrobotics.sprocket.pipeline.Step;
 
-public class SpeedLimiter implements Step<DTTarget>, Action {
+public class SpeedLimiter implements Step<DTTarget>, Togglable {
 	private double maxSpeed;
 	private boolean enabled = true;
 
@@ -14,12 +14,12 @@ public class SpeedLimiter implements Step<DTTarget>, Action {
 	}
 
 	@Override
-	public void start() {
+	public void enable() {
 		enabled = true;
 	}
 
 	@Override
-	public void stop() {
+	public void disable() {
 		enabled = false;
 	}
 
@@ -38,14 +38,7 @@ public class SpeedLimiter implements Step<DTTarget>, Action {
 	}
 
 	@Override
-	public void enabled() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void disabled() {
-		// TODO Auto-generated method stub
-		
+	public boolean isEnabled() {
+		return enabled;
 	}
 }

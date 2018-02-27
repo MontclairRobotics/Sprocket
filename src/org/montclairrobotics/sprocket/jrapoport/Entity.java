@@ -2,6 +2,8 @@ package org.montclairrobotics.sprocket.jrapoport;
 
 import java.util.ArrayList;
 
+import org.montclairrobotics.sprocket.loop.Updatable;
+
 public abstract class Entity extends Component implements Updatable {
 	private ArrayList<Component> components;
 	
@@ -25,16 +27,6 @@ public abstract class Entity extends Component implements Updatable {
 		}
 	}
 	
-	@Override
-	public void enable() {
-		super.enable();
-	}
-	
-	@Override
-	public void disable() {
-		super.disable();
-	}
-	
 	/**
 	 * This is where this entity updates its components.
 	 * Override this class to perform updates specific to this entity.
@@ -48,15 +40,21 @@ public abstract class Entity extends Component implements Updatable {
 		}
 	}
 	
-	public ArrayList<Component> getComponents() { return components; }
+	public Component[] getComponents() {
+		return (Component[]) components.toArray();
+	}
 	
-	public boolean addComponent(Component component) { return components.add(component); }
+	public boolean add(Component component) {
+		return components.add(component);
+	}
 
-	public boolean removeComponent(Component component) { return components.remove(component); }
+	public boolean remove(Component component) {
+		return components.remove(component);
+	}
 	
-	public void clearComponents() { components.clear(); }
+	public void clear() { components.clear(); }
 
-	public Component getComponent(String name) {
+	public Component get(String name) {
 		for (Component c : components ) {
 			if (name.equals(c.name))
 				return c;
@@ -65,7 +63,7 @@ public abstract class Entity extends Component implements Updatable {
 		return null;
 	}
 	
-	public boolean removeComponent(String name) {
+	public boolean remove(String name) {
 		for (Component c : components ) {
 			if (name.equals(c.name))
 				return components.remove(c);

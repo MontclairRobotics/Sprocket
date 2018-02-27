@@ -1,7 +1,6 @@
 package org.montclairrobotics.sprocket.core;
 
-import org.montclairrobotics.sprocket.jrapoport.Component;
-import org.montclairrobotics.sprocket.jrapoport.Updatable;
+import org.montclairrobotics.sprocket.loop.Updatable;
 
 public interface IEncoder extends Updatable {
 	@Override

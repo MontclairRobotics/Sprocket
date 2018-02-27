@@ -45,8 +45,7 @@ public abstract class AutoState implements State, DTInput {
 	/**
 	 * @return The running time of this state in seconds
 	 */
-	public double timeInState()
-	{
+	public double timeInState() {
 		return Updater.getTimeSec() - t;
 	}
 
@@ -83,9 +82,6 @@ public abstract class AutoState implements State, DTInput {
 	}
 	
 	public void enabled() {
-		
-	}
-	public void disabled() {
 		
 	}
 }

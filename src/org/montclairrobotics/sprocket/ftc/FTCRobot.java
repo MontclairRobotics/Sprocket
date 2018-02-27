@@ -1,10 +1,10 @@
 package org.montclairrobotics.sprocket.ftc;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.core.IRobot;
 import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.core.Sprocket.Mode;
+import org.montclairrobotics.sprocket.jrapoport.Action;
 import org.montclairrobotics.sprocket.utils.Debug;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -63,20 +63,20 @@ public abstract class FTCRobot extends OpMode implements IRobot {
 	}*/
 	
 	@Override
-		public void init() {
-	        if (robot == null) {
-	        		robot = this;
-	        }
-			robot.ftcSetup(hardwareMap, gamepad1, gamepad2, telemetry);
-			if (sprocket == null) {
-				sprocket = new Sprocket(robot);
-				Sprocket.debugger=new FTCDebug(robot);
-				sprocket.initS();
-			}
-			sprocket.startS(Mode.DISABLED);
-			this.mode = Mode.AUTO;
-			autoSetup();
+	public void init() {
+	    if (robot == null) {
+    		robot = this;
 	    }
+		robot.ftcSetup(hardwareMap, gamepad1, gamepad2, telemetry);
+		if (sprocket == null) {
+			sprocket = new Sprocket(robot);
+			Sprocket.debugger=new FTCDebug(robot);
+			sprocket.initS();
+		}
+		sprocket.startS(Mode.DISABLED);
+		this.mode = Mode.AUTO;
+		autoSetup();
+	}
 	
 	public void autoSetup() {
 		this.mode = Mode.TELEOP;

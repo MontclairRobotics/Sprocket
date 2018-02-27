@@ -1,18 +1,29 @@
 package org.montclairrobotics.sprocket.jrapoport;
 
-public abstract class Action implements Completable, Updatable {
+import org.montclairrobotics.sprocket.loop.Updatable;
+
+/**
+ * This is designed to be the main base for every "thing" or action the robot can do
+ * This is extended by States, and consequently Auto Modes, 
+ * 		so things that can be activated by entering "auto" mode, or "test" mode
+ * Also, buttons should take these as their actions, 
+ * 		so that you can make something happen if you press a button.
+ * This hopefully should make it simple to implement routines, both in autonomous and during teleop
+ *
+ */
+
+public interface Action extends Completable, Updatable {
+	@Override
+	public void start();
 
 	@Override
-	public abstract void start();
+	public void update();
 
 	@Override
-	public abstract void update();
+	public boolean isComplete();
 
 	@Override
-	public abstract boolean isComplete();
-
-	@Override
-	public abstract void stop();
+	public void stop();
 	
 	/**
 	 * Tells the item running <tt>this</tt> to wait for a specified amount of time.
@@ -28,18 +39,14 @@ public abstract class Action implements Completable, Updatable {
 				tElapsed = 0;
 			}
 
-			public void update() {
-				tElapsed = System.currentTimeMillis() - tInit;
-			}
+			public void update() { tElapsed = System.currentTimeMillis() - tInit; }
 
-			public boolean isComplete() {
-				return tElapsed > t;
-			}
+			public boolean isComplete() { return tElapsed > t; }
 
 			public void stop() {}
 		};
 	}
-	
+
 	/**
 	 * Runs a list of actions in parallel (at the same time).
 	 * @param actions the list of actions to be performed.
@@ -47,13 +54,10 @@ public abstract class Action implements Completable, Updatable {
 	 */
 	public static Action inParallel(Action... actions) {
 		return new Action() {
-			@Override
 			public void start() { for (Action a : actions) { a.start(); } }
 
-			@Override
 			public void update() { for (Action a : actions) { if (!a.isComplete()) { a.update(); } } }
 
-			@Override
 			public boolean isComplete() {
 				boolean complete = false;
 				
@@ -64,7 +68,6 @@ public abstract class Action implements Completable, Updatable {
 				return complete;
 			}
 
-			@Override
 			public void stop() { for (Action a : actions) { a.stop(); } }
 		};
 	}
@@ -77,14 +80,11 @@ public abstract class Action implements Completable, Updatable {
 	public static Action inSeries(Action... actions) {
 		return new Action() {
 			int i = 0;
-			
-			@Override
+
 			public void start() { if (actions.length > 0) { actions[0].start(); } }
 
-			@Override
 			public void update() { actions[i].update(); }
 
-			@Override
 			public boolean isComplete() {
 				if (actions[i].isComplete()) {
 					actions[i].stop();
@@ -94,7 +94,6 @@ public abstract class Action implements Completable, Updatable {
 				return i >= actions.length;
 			}
 
-			@Override
 			public void stop() {}
 		};
 	}
@@ -106,16 +105,12 @@ public abstract class Action implements Completable, Updatable {
 	 */
 	static Action waitForCompletion(Action a) {
 		return new Action() {
-			@Override
 			public void start() {}
 
-			@Override
 			public void update() {}
 
-			@Override
 			public boolean isComplete() { return a.isComplete(); }
-			
-			@Override
+
 			public void stop() {}
 		};
 	}
@@ -130,17 +125,30 @@ public abstract class Action implements Completable, Updatable {
 		return new Action() {
 			Action wait = Action.waitMilis(t);
 			
-			@Override
 			public void start() { wait.start(); }
 
-			@Override
 			public void update() { wait.update(); }
 
-			@Override
 			public boolean isComplete() { return a.isComplete() || wait.isComplete(); }
-			
-			@Override
+
 			public void stop() { wait.stop(); }
+		};
+	}
+	
+	static Action toggle(Togglable t) {
+		return new Action() {
+			public void start() {}
+
+			public void update() {
+				if (t.isEnabled())
+					t.disable();
+				else
+					t.enable();
+			}
+
+			public boolean isComplete() { return true; }
+
+			public void stop() {}
 		};
 	}
 }

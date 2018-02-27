@@ -1,5 +1,6 @@
 package org.montclairrobotics.sprocket.utils;
 
+import org.montclairrobotics.sprocket.jrapoport.Supuroketto;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
@@ -26,8 +27,6 @@ public class PID implements Updatable, Input<Double> {
 	private double totalError, error;
 	private double prevInput;
 	
-	private long lastUpdateTime;
-	
 	/**
 	 * PID default constructor.
 	 */
@@ -47,10 +46,9 @@ public class PID implements Updatable, Input<Double> {
 		this.D = D;
 		this.inRange = new Range();
 		this.outRange = new Range();
-		this.lastUpdateTime = System.currentTimeMillis();
 		resetTarget();
 		
-		Updater.add(this, Priority.INPUT_PID);
+		Updater.add(this, Priority.HIGH);
 	}
 	
 	public PID setInput(Input<Double> i) {
@@ -141,8 +139,7 @@ public class PID implements Updatable, Input<Double> {
 	private double calculate() {
 		double curInput = input.get();
 		
-		double loopTime = (System.currentTimeMillis() - lastUpdateTime) / 1000.0;
-		lastUpdateTime = System.currentTimeMillis();
+		double dt = Supuroketto.loopTimeMillis() / 1000.0;
 		
 		error = target - curInput;
 		double dVal = curInput - prevInput;
@@ -155,7 +152,7 @@ public class PID implements Updatable, Input<Double> {
 			Debug.print("dVal", dVal);
 		}
 		
-		totalError += error * loopTime;
+		totalError += error * dt;
 		
 		if (I != 0.0) {
 			double potentialIGain = (error + totalError) * I;
@@ -167,7 +164,7 @@ public class PID implements Updatable, Input<Double> {
 			}
 		}
 	
-		double out = P*(error * loopTime) + I*(totalError) + D*(-dVal / loopTime); //+ calculateFeedForward();
+		double out = P * (error * dt) + I * (totalError) + D * (-dVal / dt); //+ calculateFeedForward();
 
 		if (!outRange.isZero()) {
 			out = outRange.constrain(out);

@@ -1,12 +1,11 @@
 package org.montclairrobotics.sprocket.drive;
 
-import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.core.IMotor;
 import org.montclairrobotics.sprocket.loop.Priority;
-import org.montclairrobotics.sprocket.jrapoport.Updatable;
+import org.montclairrobotics.sprocket.loop.Updatable;
+import org.montclairrobotics.sprocket.jrapoport.Togglable;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Input;
-
 
 /**
  * ControlledMotor is a wrapper class for Motors which allows a motor to be
@@ -17,7 +16,7 @@ import org.montclairrobotics.sprocket.utils.Input;
  * using Joystick inputs. If you're using button pairs, you could also use
  * ControlledMotor to run a shooter forward and backward using the button pair.
  */
-public class ControlledMotor implements Updatable, Action {
+public class ControlledMotor implements Updatable, Togglable {
 	
 	private IMotor output;
 	private Input<Double> input;
@@ -32,7 +31,7 @@ public class ControlledMotor implements Updatable, Action {
 	public ControlledMotor(IMotor motor, Input<Double> input) {
 		this.output=motor;
 		this.input = input;
-		Updater.add(this, Priority.OUTPUT);
+		Updater.add(this, Priority.NORMAL);
 	}
 	
 	/**
@@ -47,7 +46,7 @@ public class ControlledMotor implements Updatable, Action {
 	public ControlledMotor(IMotor motor, Input<Boolean> forwardInput, Input<Boolean> reverseInput, double speed) {
 		this.output=motor;
 		this.input = new ButtonPairInput(forwardInput, reverseInput, speed);
-		Updater.add(this, Priority.OUTPUT);
+		Updater.add(this, Priority.NORMAL);
 	}
 	
 	/**
@@ -64,36 +63,29 @@ public class ControlledMotor implements Updatable, Action {
 	
 	@Override
 	public void update() {
-		if(enabled)
+		if (enabled)
 			output.set(input.get());
 	}
 
 	@Override
-	public void start() {
-		enabled=true;
-	}
-
-	@Override
-	public void stop() {
-		enabled=false;
-	}
-
-	@Override
-	public void enabled() {
-		// TODO Auto-generated method stub
+	public void enable() {
+		enabled = true;
 		
 	}
 
 	@Override
-	public void disabled() {
-		// TODO Auto-generated method stub
-		
+	public void disable() {
+		enabled = true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return enabled;
 	}
 
 }
 
 class ButtonPairInput implements Input<Double> {
-	
 	private Input<Boolean> forward;
 	private Input<Boolean> reverse;
 	private double speed;

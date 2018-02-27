@@ -1,19 +1,19 @@
 package org.montclairrobotics.sprocket.core;
 
 import org.montclairrobotics.sprocket.geometry.Angle;
+import org.montclairrobotics.sprocket.geometry.Degrees;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.loop.Priority;
-import org.montclairrobotics.sprocket.jrapoport.Updatable;
+import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Input;
-import org.montclairrobotics.sprocket.utils.ZeroInput;
+import org.montclairrobotics.sprocket.utils.VectorInput;
 
 public class MyState {
-
 	public static double maxAccel = 0.0;
 	
-	public static Input<Vector> absVelocity = ZeroInput.ZERO_VECTOR, absPosition = ZeroInput.ZERO_VECTOR;
-	public static Input<Angle> absAngularVelocity = ZeroInput.ZERO_ANGLE, absAngle = ZeroInput.ZERO_ANGLE;
+	public static Input<Vector> absVelocity = VectorInput.ZERO, absPosition = VectorInput.ZERO;
+	public static Input<Angle> absAngularVelocity = new Input<Angle>() { public Angle get() { return new Degrees(0); } }, absAngle = absAngularVelocity;
 	
 	private Vector zeroPos;
 	private Angle zeroAngle;
@@ -43,19 +43,14 @@ public class MyState {
 		return zeroAngle.subtract(zeroAngle);
 	}
 	
-	
-	
-	
 	public class VelocityInput implements Input<Vector> {
 		private Input<Vector> local;
-		public VelocityInput(Input<Vector> local)
-		{
+		public VelocityInput(Input<Vector> local) {
 			this.local=local;
 		}
 
 		@Override
 		public Vector get() {
-			// TODO Auto-generated method stub
 			return local.get().rotate(absAngle.get());
 		}
 	}
@@ -63,29 +58,28 @@ public class MyState {
 	public class PosIntegrator implements Updatable, Input<Vector> {
 		private Vector pos;
 		public PosIntegrator() {
-			Updater.add(this, Priority.INPUT);
+			Updater.add(this, Priority.NORMAL);
 			pos=Vector.ZERO;
 		}
 		
 		public void update() {
-			pos=pos.add(absVelocity.get().scale(Updater.getLoopTime()));
+			pos = pos.add(absVelocity.get().scale(Updater.getLoopTime()));
 		}
 		
 		@Override
 		public Vector get() {
 			return pos;
 		}
-		
 	}
 	
-	public class AngleIntegrator implements Updatable,Input<Angle>
-	{
+	public class AngleIntegrator implements Updatable, Input<Angle> {
 		private Angle ang;
-		public AngleIntegrator()
-		{
-			Updater.add(this, Priority.INPUT);
+		
+		public AngleIntegrator() {
+			Updater.add(this, Priority.NORMAL);
 			ang = Angle.ZERO;
 		}
+		
 		@Override
 		public Angle get() {
 			return ang;

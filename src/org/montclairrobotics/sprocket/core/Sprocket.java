@@ -1,12 +1,11 @@
 package org.montclairrobotics.sprocket.core;
 
-import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.auto.AutoMode;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
-import org.montclairrobotics.sprocket.loop.DisabledUpdater;
 import org.montclairrobotics.sprocket.loop.Priority;
-import org.montclairrobotics.sprocket.jrapoport.Updatable;
+import org.montclairrobotics.sprocket.loop.Updatable;
+import org.montclairrobotics.sprocket.jrapoport.Action;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Debug;
 
@@ -34,7 +33,7 @@ public class Sprocket {
 	
 	public Sprocket(IRobot robot) {
 		this.robot = robot;
-		Updater.add(robot, Priority.NONE);
+		Updater.add(robot, Priority.NORMAL);
 	}
 	
     //OUR STUFF HERE
@@ -103,7 +102,6 @@ public class Sprocket {
     }
     
     public final void disabledUpdateS()	{
-	    	DisabledUpdater.loop();
 	    	robot.disabledUpdate();
 	    	robot.debugs();
 	    	notNullUpdate(debugger);

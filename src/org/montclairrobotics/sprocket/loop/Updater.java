@@ -4,29 +4,23 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.TreeMap;
 
-import org.montclairrobotics.sprocket.jrapoport.Updatable;
-
 public class Updater {
 	
 	private static double lastLoop = getTimeSec();
 	private static double loopTime = 1.0 / 50.0;
 	
-    private static TreeMap<Priority, ArrayList<Updatable>> updatables = new TreeMap<>(new Comparator<Priority>() {
+    private static TreeMap<Integer, ArrayList<Updatable>> updatables = new TreeMap<>(new Comparator<Integer>() {
         @Override
-        public int compare(Priority p1, Priority p2) {
-            if(p1.getLevel() > p2.getLevel()) {
-                return -1;
-            } else if(p1.getLevel() == p2.getLevel()) {
-                return 0;
-            }
-            return 1;
+        public int compare(Integer p1, Integer p2) {
+        		return p1.compareTo(p2);
         }
     });
 
-
-
-    public static void add(Updatable updatable, Priority priority) {
-        if(!updatables.containsKey(priority)) { updatables.put(priority, new ArrayList<Updatable>()); }
+    public static void add(Updatable updatable, Integer priority) {
+        if (!updatables.containsKey(priority)) {
+        		updatables.put(priority, new ArrayList<Updatable>());
+        	}
+        
         	ArrayList<Updatable> priorities = updatables.get(priority);
         priorities.add(updatable);
     }
@@ -40,6 +34,7 @@ public class Updater {
     public static void loop() {
 	    	loopTime = getTimeSec() - lastLoop;
 	    	lastLoop = getTimeSec();
+	    	
         for(ArrayList<Updatable> us : updatables.values()) {
             for(Updatable u : us) {
                 u.update();

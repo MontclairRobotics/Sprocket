@@ -1,10 +1,10 @@
 package org.montclairrobotics.sprocket.drive.steps;
 
-import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.drive.DTTarget;
+import org.montclairrobotics.sprocket.jrapoport.Togglable;
 import org.montclairrobotics.sprocket.pipeline.Step;
 
-public class Sensitivity implements Step<DTTarget>, Action {
+public class Sensitivity implements Step<DTTarget>, Togglable {
 
 	public double dirScale,turnScale;
 	private boolean enabled = true;
@@ -15,25 +15,13 @@ public class Sensitivity implements Step<DTTarget>, Action {
 	}
 	
 	@Override
-	public void start() {
+	public void enable() {
 		enabled = true;
 	}
 
 	@Override
-	public void enabled() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void stop() {
+	public void disable() {
 		enabled = false;
-	}
-
-	@Override
-	public void disabled() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -44,4 +32,8 @@ public class Sensitivity implements Step<DTTarget>, Action {
 		return new DTTarget(in.getDirection().scale(dirScale), in.getTurn() * turnScale);
 	}
 
+	@Override
+	public boolean isEnabled() {
+		return enabled;
+	}
 }

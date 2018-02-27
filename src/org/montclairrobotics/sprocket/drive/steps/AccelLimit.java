@@ -1,14 +1,15 @@
 package org.montclairrobotics.sprocket.drive.steps;
 
-import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.geometry.Vector;
+import org.montclairrobotics.sprocket.jrapoport.Supuroketto;
+import org.montclairrobotics.sprocket.jrapoport.Togglable;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.pipeline.Step;
 import org.montclairrobotics.sprocket.utils.Debug;
-import org.montclairrobotics.sprocket.utils.Utils;
+import org.montclairrobotics.sprocket.utils.Range;
 
-public class AccelLimit implements Step<DTTarget>, Action {
+public class AccelLimit implements Step<DTTarget>, Togglable {
 
 	private double maxAccel;
 	private double maxTurn;
@@ -16,7 +17,7 @@ public class AccelLimit implements Step<DTTarget>, Action {
 	private Vector lastDir;
 	private double lastTurn;
 	
-	private boolean enabled=true;
+	private boolean enabled = true;
 	
 	public AccelLimit() {
 		this(4,4);
@@ -47,7 +48,7 @@ public class AccelLimit implements Step<DTTarget>, Action {
 			//Debug.string("newDir", (lastDir.add(dDir)).toString());
 			
 			double dAng = in.getTurn() - lastTurn;
-			dAng = Utils.constrain(dAng, -maxTurn*Updater.getLoopTime(), maxTurn*Updater.getLoopTime());
+			dAng = new Range(maxTurn*Supuroketto.loopTimeSec()).constrain(dAng);
 			
 			DTTarget tgt = new DTTarget(lastDir.add(dDir), lastTurn + dAng);
 			
@@ -58,22 +59,19 @@ public class AccelLimit implements Step<DTTarget>, Action {
 			return in;
 		}
 	}
+	
 	@Override
-	public void start() {
+	public void enable() {
 		enabled = true;
 	}
+	
 	@Override
-	public void stop() {
+	public void disable() {
 		enabled = false;
 	}
-	@Override
-	public void enabled() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void disabled() {
-		// TODO Auto-generated method stub
-	}
 
+	@Override
+	public boolean isEnabled() {
+		return enabled;
+	}
 }

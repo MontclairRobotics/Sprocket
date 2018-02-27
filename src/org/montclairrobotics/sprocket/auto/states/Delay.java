@@ -7,25 +7,19 @@ public class Delay extends AutoState {
 
 	private Number time;
 
-	public Delay(Number time)
-	{
-		this.time=time;
+	public Delay(Number time) {
+		this.time =time;
 	}
-	
-	
 	
 	@Override
 	public void userStart() {
 //		super.userStart();
-		super.TIMEOUT=time.doubleValue();
+		super.TIMEOUT = time.doubleValue();
         Debug.print("It reached the Delay","");
 	}
 
 	@Override
-	public void enabled() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void update() {}
 
 	@Override
 	public boolean userIsDone() {
@@ -36,13 +30,10 @@ public class Delay extends AutoState {
 	}
 
 	@Override
-	public void disabled() {
-		// TODO Auto-generated method stub
-		
+	public boolean isComplete() {
+		return isDone();
 	}
-
-
-
+	
 	@Override
 	public void userStop() {
 		// TODO Auto-generated method stub

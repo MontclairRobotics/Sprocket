@@ -1,10 +1,9 @@
 package org.montclairrobotics.sprocket.core;
 
-import org.montclairrobotics.sprocket.jrapoport.Updatable;
+import org.montclairrobotics.sprocket.loop.Updatable;
 
 public interface IRobot extends Updatable {
 	
-	//Stuff user overrides	
     public void setup();//Called ONCE when object is first created
     public void enableMode(Sprocket.Mode mode);//Called at any init, not including Disabled
     public void userTeleopInit();//Called when Teleop is enabled

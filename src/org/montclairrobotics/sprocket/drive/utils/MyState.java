@@ -3,7 +3,7 @@ package org.montclairrobotics.sprocket.drive.utils;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.loop.Priority;
-import org.montclairrobotics.sprocket.jrapoport.Updatable;
+import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Input;
 
@@ -63,7 +63,7 @@ public class MyState {
 		private Vector pos;
 		public PosIntegrator()
 		{
-			Updater.add(this, Priority.INPUT);
+			Updater.add(this, Priority.NORMAL);
 			pos=Vector.ZERO;
 		}
 		public void update()
@@ -81,7 +81,7 @@ public class MyState {
 		private Angle ang;
 		public AngleIntegrator()
 		{
-			Updater.add(this, Priority.INPUT);
+			Updater.add(this, Priority.NORMAL);
 			ang=Angle.ZERO;
 		}
 		@Override

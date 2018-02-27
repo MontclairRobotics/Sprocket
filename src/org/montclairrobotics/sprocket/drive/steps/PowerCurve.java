@@ -1,11 +1,11 @@
 package org.montclairrobotics.sprocket.drive.steps;
 
-import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.geometry.Vector;
+import org.montclairrobotics.sprocket.jrapoport.Togglable;
 import org.montclairrobotics.sprocket.pipeline.Step;
 
-public class PowerCurve implements Step<DTTarget>, Action {
+public class PowerCurve implements Step<DTTarget>, Togglable {
 	private double p;
 	private boolean enabled;
 	
@@ -14,27 +14,15 @@ public class PowerCurve implements Step<DTTarget>, Action {
 	}
 	
 	@Override
-	public void start() {
+	public void enable() {
 		enabled = true;
 	}
 
 	@Override
-	public void enabled() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void stop() {
+	public void disable() {
 		enabled = false;
 	}
-
-	@Override
-	public void disabled() {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	@Override
 	public DTTarget get(DTTarget in) {
 		if (!enabled)
@@ -42,6 +30,11 @@ public class PowerCurve implements Step<DTTarget>, Action {
 		
 		Vector dir = in.getDirection();
 		return new DTTarget(dir.scale(p * Math.pow(dir.getMagnitude(), 2) + 1 - p), in.getTurn());
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return enabled;
 	}
 
 }

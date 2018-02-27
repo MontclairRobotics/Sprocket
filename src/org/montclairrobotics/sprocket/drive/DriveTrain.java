@@ -4,7 +4,7 @@ import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.loop.Priority;
-import org.montclairrobotics.sprocket.jrapoport.Updatable;
+import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.pipeline.Pipeline;
 import org.montclairrobotics.sprocket.utils.Debug;
@@ -24,7 +24,7 @@ public class DriveTrain implements Updatable, Input<Distance> {
     	input=new ZeroDTInput();
     	pipeline=new ZeroPipeline();
     	Sprocket.setMainDriveTrain(this);
-    	Updater.add(this, Priority.DRIVE_CALC);
+    	Updater.add(this, Priority.NORMAL);
     }
 
 	@Override

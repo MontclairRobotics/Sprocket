@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.actions;
 
 import org.montclairrobotics.sprocket.loop.Priority;
-import org.montclairrobotics.sprocket.jrapoport.Updatable;
+import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Debug;
 
@@ -15,7 +15,7 @@ public class StateMachine implements State, Updatable {
 	public StateMachine(State...s) {
 		this.states = s;
 		index = -1;
-		Updater.add(this, Priority.AUTO);
+		Updater.add(this, Priority.NORMAL);
 	}
 	
 	public void start(boolean top) {
@@ -31,21 +31,11 @@ public class StateMachine implements State, Updatable {
 	}
 
 	@Override
-	public void stop() {
-		if (isDone())
+	public void update() {
+		if (!top || isDone())
 			return;
 		
-		states[index].stop();
-		index = -1;
-		top=false;
-	}
-
-	@Override
-	public void enabled() {
-		if (isDone())
-			return;
-		
-		states[index].enabled();
+		states[index].update();
 		
 		while(states[index].isDone()) {
 			states[index].stop();
@@ -57,8 +47,23 @@ public class StateMachine implements State, Updatable {
 			}
 			
 			states[index].start();
-			states[index].enabled();
+			states[index].update();
 		}
+	}
+	
+	@Override
+	public boolean isComplete() {
+		return (index < 0) || (index >= states.length);
+	}
+	
+	@Override
+	public void stop() {
+		if (isDone())
+			return;
+		
+		states[index].stop();
+		index = -1;
+		top = false;
 	}
 
 	@Override
@@ -68,18 +73,5 @@ public class StateMachine implements State, Updatable {
 	
 	public State[] getStates() {
 		return states;
-	}
-	
-	@Override
-	public void update() {
-		if (top) {
-			enabled();
-		}
-	}
-	
-	@Override
-	public void disabled() {
-		// TODO Auto-generated method stub
-		
 	}
 }

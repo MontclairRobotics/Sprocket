@@ -3,7 +3,7 @@ package org.montclairrobotics.sprocket.frc;
 import org.montclairrobotics.sprocket.core.IRobot;
 import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.core.Sprocket.Mode;
-import org.montclairrobotics.sprocket.jrapoport.Updatable;
+import org.montclairrobotics.sprocket.loop.Updatable;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 

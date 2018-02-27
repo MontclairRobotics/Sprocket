@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.utils;
 
-import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.core.Button;
+import org.montclairrobotics.sprocket.jrapoport.Action;
 
 public class PIDTuner extends PID {
 	private Input<Double> TempP;
@@ -10,9 +10,9 @@ public class PIDTuner extends PID {
 	private Input<Boolean> run;
 	private Input<Double> cyclesPer10Sec;
 
-	public PIDTuner(Input<Double> TempP,Input<Double> cyclesPer10Sec,Input<Boolean> test,Input<Boolean> apply,Input<Boolean> run)
-	{
+	public PIDTuner(Input<Double> TempP,Input<Double> cyclesPer10Sec,Input<Boolean> test,Input<Boolean> apply,Input<Boolean> run) {
 		super();
+		
 		this.TempP = TempP;
 		this.test = test;
 		this.apply = apply;
@@ -24,27 +24,13 @@ public class PIDTuner extends PID {
 		realD=new DashboardInput("PID Tuner D");*/
 		
 		new Button(apply).setAction(new Action() {
-			@Override
-			public void start() {
-				recalculatePIDs();
-			}
+			public void start() { recalculatePIDs(); }
 
-			@Override
-			public void enabled() {
-				// TODO Auto-generated method stub
-			}
+			public void update() {}
+			
+			public boolean isComplete() { return true; }
 
-			@Override
-			public void stop() {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void disabled() {
-				// TODO Auto-generated method stub
-				
-			}
+			public void stop() {}
 		});
 	}
 	
@@ -53,22 +39,22 @@ public class PIDTuner extends PID {
 	}*/
 	
 	public void recalculatePIDs() {
-		if(cyclesPer10Sec.get()==0.0)
-		{
+		if (cyclesPer10Sec.get() == 0.0) {
 			return;
 		}
-		double period=0.1/cyclesPer10Sec.get();
+		
+		double period = 0.1/cyclesPer10Sec.get();
 /*
 		realP.set(0.6*TempP.get());
 		realI.set(2/period);
 		realD.set(period/8);*/
 	}
+	
 	public PIDTuner copy() {
 		return (PIDTuner) new PIDTuner(TempP, cyclesPer10Sec, test, apply, run).setInput(getInput()).setInRange(inRange).setOutRange(outRange);
 	}
 
-	public void update()
-	{
+	public void update() {
 		if(test.get()) {
 			super.setPID(TempP.get(),0,0);
 		} else if(run.get()) {

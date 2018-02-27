@@ -14,6 +14,10 @@ public class Range implements Comparable<Number>{
 		}
 	}
 	
+	public Range(double a) {
+		this(-a, a);
+	}
+	
 	public Range() {
 		this(0.0, 0.0);
 	}
@@ -84,14 +88,14 @@ public class Range implements Comparable<Number>{
 	/* Class Methods */
 	
 	public static Range power() {
-		return new Range(-1.0, +1.0);
+		return new Range(1.0);
 	}
 	
 	public static Range angleInDegrees() {
-		return new Range(-180.0, +180.0);
+		return new Range(180.0);
 	}
 	
 	public static Range angleInRadians() {
-		return new Range(-Math.PI, +Math.PI);
+		return new Range(Math.PI);
 	}
 }

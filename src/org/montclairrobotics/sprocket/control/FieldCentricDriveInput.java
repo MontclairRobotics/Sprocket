@@ -1,20 +1,18 @@
 package org.montclairrobotics.sprocket.control;
 
-import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.drive.DTInput;
 import org.montclairrobotics.sprocket.drive.steps.GyroCorrection;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.loop.Priority;
-import org.montclairrobotics.sprocket.jrapoport.Updatable;
+import org.montclairrobotics.sprocket.loop.Updatable;
+import org.montclairrobotics.sprocket.jrapoport.Togglable;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.SmoothVectorInput;
 
-
-public class FieldCentricDriveInput implements DTInput, Action, Updatable {
-
+public class FieldCentricDriveInput implements DTInput, Togglable, Updatable {
 	private GyroCorrection gyro;
 	
 	private Vector field,robot;
@@ -27,20 +25,19 @@ public class FieldCentricDriveInput implements DTInput, Action, Updatable {
 	
 	private static final int SMOOTH_LEN = 10;
 
-	public FieldCentricDriveInput(Input<Vector> stick,GyroCorrection gyro) {
+	public FieldCentricDriveInput(Input<Vector> stick, GyroCorrection gyro) {
 		this(stick, gyro, false);
 	}
 	
-	public FieldCentricDriveInput(Input<Vector> stick,GyroCorrection gyro, boolean rotToVector)
-	{
-		this.gyro=gyro;
-		this.rotToVector=rotToVector;
+	public FieldCentricDriveInput(Input<Vector> stick, GyroCorrection gyro, boolean rotToVector) {
+		this.gyro = gyro;
+		this.rotToVector = rotToVector;
 		fieldInput=new SmoothVectorInput(SMOOTH_LEN,stick);
-		Updater.add(this, Priority.CONTROL);
+		Updater.add(this, Priority.NORMAL);
 	}
+	
 	@Override
-	public void update()
-	{
+	public void update() {
 		field = fieldInput.get();
 		if (field.getMagnitude() > 0.1) {
 			robot = field.rotate(gyro.getCurrentAngleReset().negative());
@@ -76,25 +73,17 @@ public class FieldCentricDriveInput implements DTInput, Action, Updatable {
     }
 	
 	@Override
-	public void start() {
+	public void enable() {
 		Sprocket.getMainDriveTrain().setTempInput(this);
-		enabled = true;
 	}
-	
+
 	@Override
-	public void stop() {
+	public void disable() {
 		Sprocket.getMainDriveTrain().useDefaultInput();
-		enabled = false;
 	}
-	
+
 	@Override
-	public void enabled() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void disabled() {
-		// TODO Auto-generated method stub
-		
+	public boolean isEnabled() {
+		return (this == Sprocket.getMainDriveTrain().getInput());
 	}
 }

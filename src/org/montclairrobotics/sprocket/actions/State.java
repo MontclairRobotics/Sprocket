@@ -1,5 +1,7 @@
 package org.montclairrobotics.sprocket.actions;
 
+import org.montclairrobotics.sprocket.jrapoport.Action;
+
 /**
  * The basic unit of a State Machine, very similar to Action, 
  * 		except States also know when they are finished.

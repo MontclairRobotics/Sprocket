@@ -3,7 +3,7 @@ package org.montclairrobotics.sprocket.jrapoport;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.Range;
 
-public class Event extends Action {
+public class Event implements Action {
 	private Input<Double> input;
 	private double lastInput;
 	private Range range;

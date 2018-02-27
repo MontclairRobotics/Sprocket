@@ -1,27 +1,22 @@
 package org.montclairrobotics.sprocket.drive.steps;
 
-import org.montclairrobotics.sprocket.actions.Action;
 import org.montclairrobotics.sprocket.drive.DTTarget;
 import org.montclairrobotics.sprocket.geometry.Angle;
 import org.montclairrobotics.sprocket.geometry.Degrees;
+import org.montclairrobotics.sprocket.jrapoport.Togglable;
 import org.montclairrobotics.sprocket.pipeline.Step;
 import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 import org.montclairrobotics.sprocket.utils.Range;
-import org.montclairrobotics.sprocket.utils.Utils;
 
-public class GyroCorrection implements Step<DTTarget>, Action {
+public class GyroCorrection implements Step<DTTarget>, Togglable {
 	private PID pid;
 	private boolean enabled = true;
 	private boolean used;
 	private Angle reset = Angle.ZERO;
 	
 	private Range outRange = Range.power();
-	@Deprecated
-	private double minOut = -1;
-	@Deprecated
-	private double maxOut = 1;
 	private double maxError;
 	private double farP;
 	
@@ -33,7 +28,7 @@ public class GyroCorrection implements Step<DTTarget>, Action {
 	}
 	
 	public GyroCorrection(PID pid, double maxError, double powIfMaxError) {
-		this.pid=pid.copy();
+		this.pid = pid.copy();
 		this.pid.setInRange(Range.angleInDegrees());
 		this.pid.setOutRange(outRange);
 
@@ -42,16 +37,11 @@ public class GyroCorrection implements Step<DTTarget>, Action {
 	}
 	
 	public GyroCorrection(PID pid) {
-		this(pid,180,1);
+		this(pid, 180, 1);
 	}
 	
 	public void use() {
 		used = true;
-	}
-	
-	@Deprecated
-	public void setMinMaxOut(double min, double max) {
-		this.outRange = new Range(min, max);
 	}
 	
 	public void setOutRange(double min, double max) {
@@ -62,7 +52,7 @@ public class GyroCorrection implements Step<DTTarget>, Action {
 		this.outRange = r;
 	}
 	
-	public void resetMinMaxOut() {
+	public void resetOutRange() {
 		this.outRange = Range.power();
 	}
 	
@@ -141,16 +131,6 @@ public class GyroCorrection implements Step<DTTarget>, Action {
 		return pid;
 	}
 
-	@Override
-	public void start() {
-		enabled = true;
-	}
-
-	@Override
-	public void stop() {
-		enabled = false;
-	}
-	
 	public void setTargetAngle(Angle a, boolean relative) {
 		if (relative) {
 			setTargetAngleRelative(a);
@@ -160,14 +140,18 @@ public class GyroCorrection implements Step<DTTarget>, Action {
 	}
 	
 	@Override
-	public void enabled() {
-		// TODO Auto-generated method stub
-		
+	public void enable() {
+		enabled = true;
 	}
+	
 	@Override
-	public void disabled() {
-		// TODO Auto-generated method stub
-		
+	public void disable() {
+		enabled = false;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return enabled;
 	}
 
 }
