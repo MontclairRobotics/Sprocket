@@ -37,30 +37,27 @@ public class TankMapper implements DTMapper {
         
     }
     
-    public static void setWheel(DriveModule m,double power)
-    {
-    	if(m.getForce().getY()>0)
-    	{
-    		m.set(power);
-    	}
-    	else
-    	{
-    		m.set(-power);
-    	}
+    public static void setWheel(DriveModule m, double power) {
+	    	if (m.getForce().getY() > 0) {
+	    		m.set(power);
+	    	} else {
+	    		m.set(-power);
+	    	}
     }
     
     /*
 	 * If a dot b = |c| and c is || to b,  given a and c returns b
 	 */
-	public static double inverseDot(Vector force,Vector target)
-	{
-		Angle diff=force.angleBetween(target);
-		double degTo90=Math.abs(Math.abs(diff.toDegrees())-90);
-		if(degTo90<30)
-		{
-			return target.getMagnitude()*degTo90/15;
+	public static double inverseDot(Vector force, Vector target) {
+		Angle diff = force.angleBetween(target);
+		
+		double degTo90 = Math.abs(Math.abs(diff.toDegrees()) - 90);
+		
+		if (degTo90 < 30) {
+			return target.getMagnitude() * degTo90 / 15;
 		}
-		return target.getMagnitude()/diff.cos();
+		
+		return target.getMagnitude() / diff.cos();
 	}
 
 	@Override

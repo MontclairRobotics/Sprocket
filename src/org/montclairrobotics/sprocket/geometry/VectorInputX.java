@@ -8,8 +8,7 @@ public class VectorInputX extends DoubleInput {
 
 	private Input<Vector> vec;
 	
-	public VectorInputX(Input<Vector> vec)
-	{
+	public VectorInputX(Input<Vector> vec) {
 		this.vec=vec;
 	}
 	

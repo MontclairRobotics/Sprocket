@@ -29,6 +29,7 @@ public abstract class AutoState implements State, DTInput {
 	 * Run when the AutoState beigns
 	 */
 	public abstract void userStart();
+	
 	public final void stop() {
 		userStop();
 		/*tgtDir=Vector.ZERO;
@@ -48,7 +49,6 @@ public abstract class AutoState implements State, DTInput {
 	public double timeInState() {
 		return Updater.getTimeSec() - t;
 	}
-
 
 	/**
 	 * Sets the direction and turn speed that the DriveTrain should run at

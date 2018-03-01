@@ -3,7 +3,7 @@ package org.montclairrobotics.sprocket.control;
 import org.montclairrobotics.sprocket.core.IJoystick;
 import org.montclairrobotics.sprocket.geometry.VectorInputX;
 import org.montclairrobotics.sprocket.geometry.VectorInputY;
-import org.montclairrobotics.sprocket.utils.ZeroInput;
+import org.montclairrobotics.sprocket.utils.DoubleInput;
 
 
 /**
@@ -13,9 +13,7 @@ import org.montclairrobotics.sprocket.utils.ZeroInput;
  * making this mapper unsuitable for any robot which translates on the X axis.
  */
 public class ArcadeDriveInput extends BasicInput {
-
-    public ArcadeDriveInput(IJoystick joystick)
-    {
-    	super(ZeroInput.ZERO_INPUT,new VectorInputY(joystick),new VectorInputX(joystick));
+    public ArcadeDriveInput(IJoystick joystick) {
+    		super(DoubleInput.ZERO, new VectorInputY(joystick), new VectorInputX(joystick));
     }
 }

@@ -43,7 +43,7 @@ public class PIDTuner extends PID {
 			return;
 		}
 		
-		double period = 0.1/cyclesPer10Sec.get();
+//		double period = 0.1/cyclesPer10Sec.get();
 /*
 		realP.set(0.6*TempP.get());
 		realI.set(2/period);

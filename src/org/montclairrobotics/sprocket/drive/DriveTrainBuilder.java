@@ -52,8 +52,8 @@ public class DriveTrainBuilder {
     
     
     public DriveTrainBuilder addWheels(Vector offset, Angle force, IMotor... motors) {
-    	modules.add(new DriveModule(offset, Vector.polar(1, force), motors));
-    	return this;
+    		modules.add(new DriveModule(offset, Vector.polar(1, force), motors));
+    		return this;
     }
     
     
@@ -64,36 +64,36 @@ public class DriveTrainBuilder {
     }
     
     public DriveTrainBuilder setDriveTrainType(DriveTrainType type) {
-    	driveTrainType = type;
-    	return this;
+	    	driveTrainType = type;
+	    	return this;
     }
     
     public DriveTrainBuilder setDefaultPipeline() {
-    	pipelineSteps.clear();
-    	//pipelineSteps.add(new Deadzone());
-    	return this;
+	    	pipelineSteps.clear();
+	    	//pipelineSteps.add(new Deadzone());
+	    	return this;
     }
     
     public DriveTrainBuilder setPipeline(Pipeline<DTTarget> pipeline) {
-    	pipelineSteps = pipeline.getSteps();
-    	return this;
+	    	pipelineSteps = pipeline.getSteps();
+	    	return this;
     }
     
     public DriveTrainBuilder clearPipeline() {
-    	pipelineSteps.clear();
-    	return this;
+	    	pipelineSteps.clear();
+	    	return this;
     }
     
     public DriveTrainBuilder addStep(Step<DTTarget> step) {
-    	pipelineSteps.add(step);
-    	return this;
+	    	pipelineSteps.add(step);
+	    	return this;
     }
     
     public DriveTrainBuilder addSteps(Step<DTTarget>... steps) {
-    	for(Step<DTTarget> step : steps) {
-    		pipelineSteps.add(step);
-    	}
-    	return this;
+    		for(Step<DTTarget> step : steps) {
+	    		pipelineSteps.add(step);
+	    	}
+    		return this;
     }
     
     public DriveTrainBuilder setArcadeDriveInput(IJoystick stick) {
@@ -101,27 +101,27 @@ public class DriveTrainBuilder {
     }
 
     public DriveTrain build() throws InvalidDriveTrainException {
-        if(modules.size() == 0) {
+        if (modules.size() == 0) {
             throw new InvalidDriveTrainException("DriveTrain requires at least one drive module to be defined.");
         }
         
-        if(input == null) {
-        	throw new InvalidDriveTrainException("DriveTrain needs an input source");
+        if (input == null) {
+        		throw new InvalidDriveTrainException("DriveTrain needs an input source");
         }
         
         DTMapper mapper;
-        if(driveTrainType == null) {
-        	driveTrainType = DriveTrainType.TANK;
+        if (driveTrainType == null) {
+        		driveTrainType = DriveTrainType.TANK;
         }
-        switch(driveTrainType) {
+        switch (driveTrainType) {
         case MECANUM:
-        	mapper = new MecanumMapper();
-        break;
+	        	mapper = new MecanumMapper();
+	        break;
         default:
-        	mapper = new TankMapper();
+        		mapper = new TankMapper();
         }
 
-        DriveTrain dt = new DriveTrain(modules.toArray(new DriveModule[]{}));
+        DriveTrain dt = new DriveTrain(modules.toArray(new DriveModule[] {}));
 
         dt.setDefaultInput(input);
         dt.setMapper(mapper);

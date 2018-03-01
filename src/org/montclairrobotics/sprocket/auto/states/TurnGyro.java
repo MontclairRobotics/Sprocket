@@ -15,49 +15,46 @@ public class TurnGyro extends AutoState {
 	private double incorrectTime;
 	private Comparable<Boolean> relative;
 	
-	public static Angle tolerance=new Degrees(4);
-	public static double timeAtTarget=0.5;
+	public static Angle tolerance = new Degrees(4);
+	public static double timeAtTarget = 0.5;
 	
-	public TurnGyro(Number tgtDeg,Comparable<Boolean> relative) 
-	{
+	public TurnGyro(Number tgtDeg, Comparable<Boolean> relative) {
 		this.tgtInDeg=tgtDeg;
 		this.relative=relative;
 	}
 	
 	@Override
-	public void userStart()
-	{
+	public void userStart() {
 		tgt = new Degrees(tgtInDeg.doubleValue());
-		if(relative.compareTo(true)==0)
-		{
+		
+		if (relative.compareTo(true) == 0) {
 			Sprocket.gyro.setTargetAngleRelative(tgt);
-		}
-		else
-		{
+		} else {
 			Sprocket.gyro.setTargetAngleReset(tgt);
 		}
-		Sprocket.gyro.setMinMaxOut(-0.5, 0.5);
-		incorrectTime=Updater.getTimeSec() - timeAtTarget + 0.1;
+		
+		Sprocket.gyro.setOutRange(-0.5, 0.5);
+		incorrectTime = Updater.getTimeSec() - timeAtTarget + 0.1;
 	}
 	
 	@Override
-	public void enabled() {
+	public void update() {
 		Sprocket.gyro.use();
-		if(Math.abs(Sprocket.gyro.getError().toDegrees())>tolerance.toDegrees())
-		{
+		
+		if (Math.abs(Sprocket.gyro.getError().toDegrees()) > tolerance.toDegrees()) {
 			incorrectTime = Updater.getTimeSec();
 		}
+		
 		Debug.print("gyroError", Sprocket.gyro.getError().toDegrees());
 		Debug.print("incorrectTime", incorrectTime);
 		Debug.print("cur-time", Updater.getTimeSec());
 		Debug.print("timeCorrect", Updater.getTimeSec() - incorrectTime);
-		Debug.print("IS-DONE",isDone());
+		Debug.print("FINISHED", isComplete());
 	}
 	
 	@Override
-	public void userStop()
-	{
-		Sprocket.gyro.resetMinMaxOut();
+	public void userStop() {
+		Sprocket.gyro.resetOutRange();
 	}
 
 	@Override
@@ -65,7 +62,6 @@ public class TurnGyro extends AutoState {
 		return (Updater.getTimeSec()-incorrectTime>timeAtTarget);
 	}
 	
-
 	public Angle getTgt() {
 		return tgt;
 	}
@@ -73,5 +69,4 @@ public class TurnGyro extends AutoState {
 	public void setTgt(Angle tgt) {
 		this.tgt = tgt;
 	}
-
 }

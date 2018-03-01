@@ -3,7 +3,7 @@ package org.montclairrobotics.sprocket.test;
 import org.montclairrobotics.sprocket.core.Button;
 import org.montclairrobotics.sprocket.utils.Debug;
 
-public class TestButton extends Button{
+public class TestButton extends Button {
 	enum TEST {OFF,ON,PULSE,RANDOM};
 	int i=0;
 	

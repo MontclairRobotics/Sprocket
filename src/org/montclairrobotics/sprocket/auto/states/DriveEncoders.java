@@ -5,12 +5,11 @@ import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.drive.DriveTrain;
 import org.montclairrobotics.sprocket.geometry.Vector;
 import org.montclairrobotics.sprocket.utils.Debug;
-import org.montclairrobotics.sprocket.utils.Utils;
+import org.montclairrobotics.sprocket.utils.Range;
 
 public class DriveEncoders extends AutoState {
-	
-	public static double MAX_ENC_ACCEL=0;
-	public static double MAX_ENC_TICKS_PER_SEC=0;
+	public static double MAX_ENC_ACCEL = 0;
+	public static double MAX_ENC_TICKS_PER_SEC = 0;
 	
 	private DriveTrain dt;
 	private double distance;

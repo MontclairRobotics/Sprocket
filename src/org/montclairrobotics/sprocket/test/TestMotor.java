@@ -5,15 +5,16 @@ import org.montclairrobotics.sprocket.core.IMotor;
 import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.motors.SEncoder;
 
-public class TestMotor implements IMotor{
+public class TestMotor implements IMotor {
 
 	private String name;
 	private double power=0;
 	private double distance=0;
-	public TestMotor(String name)
-	{
-		this.name=name;
+	
+	public TestMotor(String name) {
+		this.name = name;
 	}
+	
 	@Override
 	public void set(double power) {
 		//Debug.msg("Motor "+name, power);
@@ -50,6 +51,7 @@ public class TestMotor implements IMotor{
 	public void stop() {
 		set(0.0);
 	}
+	
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub

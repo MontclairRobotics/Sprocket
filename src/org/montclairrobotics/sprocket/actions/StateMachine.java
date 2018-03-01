@@ -7,7 +7,6 @@ import org.montclairrobotics.sprocket.utils.Debug;
 
 
 public class StateMachine implements State, Updatable {
-
 	private State[] states;
 	private int index;
 	private boolean top;

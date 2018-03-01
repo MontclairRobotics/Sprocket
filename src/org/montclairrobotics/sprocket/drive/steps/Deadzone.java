@@ -10,7 +10,7 @@ public class Deadzone implements Step<DTTarget> {
 	private double turnDeadZone;
 	
 	public Deadzone() {
-		this(.1,.1);
+		this(0.1, 0.1);
 	}
 	
 	public Deadzone(double dirDZ, double turnDZ) {

@@ -8,14 +8,14 @@ import org.montclairrobotics.sprocket.core.Sprocket;
  * Created by thegb on 11/8/2017.
  */
 
-public class TestAuto extends TestRobot{
+public class TestAuto extends TestRobot {
     public TestAuto() {
         super(Sprocket.Mode.AUTO, 7);
     }
 
     @Override
     public void setup() {
-        sprocket.currentAction=new AutoMode("Delay",new Delay(0.5));
+        sprocket.currentAction= new AutoMode("Delay", new Delay(0.5));
     }
 
     @Override
