@@ -39,6 +39,13 @@ public class DriveEncoderGyro extends StateMachine{
 					)
 			);
 	}
+	
+	public DriveEncoderGyro(double distance, double speed, Angle angle, boolean relative){
+		this(distance, speed, angle, relative, GyroCorrection.globalGyroCorrection);
+		if(GyroCorrection.globalGyroCorrection == null){
+			throw new RuntimeException("Global gyro correction has not been set, use GyroCorrection.setGlobalGyroCorrection(GyroCorrection gyroCorrection)");
+		}
+	}
 	/*
 	public DriveEncoderGyro(double d, double speed, GyroCorrection driveGyro) {
 		super(
