@@ -58,6 +58,7 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
     public void userTestInit(){}
     public void update(){}
     public void userAutonomousSetup(){}
+    public void userDisabledPeriodic(){}
 
     @Override
     public final void disabledInit() {
@@ -111,6 +112,8 @@ public abstract class SprocketRobot extends IterativeRobot implements Updatable{
             sendAutoModes();
             SmartDashboard.putData("AUTO:", chooser);
         }
+
+        userDisabledPeriodic();
     }
 
     @Override
