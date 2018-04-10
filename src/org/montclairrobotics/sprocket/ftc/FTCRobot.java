@@ -4,7 +4,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.montclairrobotics.sprocket.core.IRobot;
 import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.core.Sprocket.Mode;
-import org.montclairrobotics.sprocket.jrapoport.Action;
+import org.montclairrobotics.sprocket.jrapoport.State;
 import org.montclairrobotics.sprocket.utils.Debug;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -43,7 +43,7 @@ public abstract class FTCRobot extends OpMode implements IRobot {
 	public static FTCRobot robot;
 	
 	public Mode mode;
-	public Action action;
+	public State action;
 
 	public enum GAMEPAD {A,B};
 //public Sprocket sprocket; //Dont need this because FTCMode has it!

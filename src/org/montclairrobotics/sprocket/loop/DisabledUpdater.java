@@ -2,8 +2,7 @@ package org.montclairrobotics.sprocket.loop;
 
 import java.util.ArrayList;
 
-import org.montclairrobotics.sprocket.jrapoport.Updatable;
-
+@Deprecated
 public class DisabledUpdater {
 	public static ArrayList<Updatable> updatables = new ArrayList<Updatable>();
 	

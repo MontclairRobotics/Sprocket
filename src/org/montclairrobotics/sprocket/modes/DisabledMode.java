@@ -2,11 +2,16 @@ package org.montclairrobotics.sprocket.modes;
 
 public abstract class DisabledMode extends RobotMode {
 	public DisabledMode(String name) {
-		super("Disabled: " + name);
+		super(name);
 	}
 	
 	public DisabledMode() {
-		super("Robot Mode: Disabled");
+		super("");
+	}
+	
+	@Override
+	public String toString() {
+		return "Disabled Mode" + ((name.isEmpty()) ? "" :  ": " + name);
 	}
 	
 	@Override

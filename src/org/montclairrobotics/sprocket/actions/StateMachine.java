@@ -1,5 +1,6 @@
 package org.montclairrobotics.sprocket.actions;
 
+import org.montclairrobotics.sprocket.jrapoport.State;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
 import org.montclairrobotics.sprocket.loop.Updater;
@@ -31,16 +32,16 @@ public class StateMachine implements State, Updatable {
 
 	@Override
 	public void update() {
-		if (!top || isDone())
+		if (!top || isComplete())
 			return;
 		
 		states[index].update();
 		
-		while(states[index].isDone()) {
+		while(states[index].isComplete()) {
 			states[index].stop();
 			index++;
 			
-			if(isDone()) {
+			if(isComplete()) {
 				stop();
 				return;
 			}
@@ -57,7 +58,7 @@ public class StateMachine implements State, Updatable {
 	
 	@Override
 	public void stop() {
-		if (isDone())
+		if (isComplete())
 			return;
 		
 		states[index].stop();
@@ -65,11 +66,6 @@ public class StateMachine implements State, Updatable {
 		top = false;
 	}
 
-	@Override
-	public boolean isDone() {
-		return (index < 0) || (index >= states.length);
-	}
-	
 	public State[] getStates() {
 		return states;
 	}

@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.core;
 
-import org.montclairrobotics.sprocket.jrapoport.Action;
+import org.montclairrobotics.sprocket.jrapoport.State;
 import org.montclairrobotics.sprocket.jrapoport.Togglable;
 import org.montclairrobotics.sprocket.loop.Priority;
 import org.montclairrobotics.sprocket.loop.Updatable;
@@ -17,7 +17,7 @@ import org.montclairrobotics.sprocket.utils.Input;
  */
 public class Button implements Updatable, Togglable, Input<Boolean> {
 
-	private Action action;
+	private State action;
 	private boolean wasPressed=false;
 	private Input<Boolean> button;
 	public boolean enabled=true;;
@@ -36,12 +36,12 @@ public class Button implements Updatable, Togglable, Input<Boolean> {
 		return this;
 	}
 	
-	public Button setAction(Action action) {
+	public Button setAction(State action) {
 		this.action=action;
 		return this;
 	}
 	
-	public Action getAction() {
+	public State getAction() {
 		return action;
 	}
 	
@@ -69,11 +69,12 @@ public class Button implements Updatable, Togglable, Input<Boolean> {
 	
 	@Override
 	public void enable() {
-		enabled=true;
+		enabled = true;
 	}
+	
 	@Override
 	public void disable() {
-		enabled=false;
+		enabled = false;
 	}
 	
 	@Override

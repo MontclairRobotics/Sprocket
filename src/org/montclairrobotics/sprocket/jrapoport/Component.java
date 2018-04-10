@@ -1,110 +1,110 @@
 package org.montclairrobotics.sprocket.jrapoport;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.montclairrobotics.sprocket.loop.Updatable;
 
 public abstract class Component implements Updatable, Togglable {
 	protected final String name;
 	
-	private ArrayList<Action> queuedActions = new ArrayList<Action>();
-	private Action currentAction = null;
+	private List<Behavior> behaviors = new ArrayList<Behavior>();
+	private boolean enabled;
 	
 	public Component(String name) {
 		this.name = name;
-	}
-	
-	public Component() {
-		this.name = super.toString();
+		enabled = true;
 	}
 	
 	@Override
 	public String toString() {
-		return name;
+		return "Component: " + name;
 	}
 	
-	/** @return the list of elements of type <tt>Action</tt> that are queued for execution. */
-	public final Action[] getQueuedActions() {
-		return (Action[]) queuedActions.toArray();
+	/** @return the list of elements of type <tt>Behavior</tt> queued for execution. */
+	public final Behavior[] getBehaviors() {
+		return (Behavior[]) behaviors.toArray();
 	}
-
-	/** @return the instance of type <tt>Action</tt> that is currently running. */
-	public final Action getCurrentAction() {
-		return currentAction;
-	}
-
+	
 	/**
-	 * Adds an action to the end of the list of queued actions.
-	 * @param action the action to be added
+	 * Adds a behavior to the list of behaviors.
+	 * @param b the behavior to be added
 	 * @return the success of the operation.
 	 */
-	public final boolean queueAction(Action action) {
-		return queuedActions.add(action);
+	public final boolean addBehavior(Behavior b) {
+		return behaviors.add(b);
 	}
-
+	
+	public final Behavior removeBehavior(int index) {
+		return behaviors.remove(index);
+	}
+	
+	public final boolean removeBehavior(Behavior b) {
+		return behaviors.remove(b);
+	}
+	
 	/**
-	 * Inserts an action at a specific point in the list of queued actions.
-	 * @param index the location to insert
-	 * @param action the action to be added
-	 * @return the success of the operation.
+	 * Enables a specific <tt>Behavior</tt> in this component.
+	 * @param index the index of the behavior
+	 * @return <tt>true</tt> if the behavior exists, and it wasn't already enabled.
 	 */
-	public final void queueAction(int index, Action action) {
-		queuedActions.add(index, action);
-	}
-	
-	/** Clears all actions, both queued and current. */
-	public final void clearAllActions() {
-		clearQueuedActions();
-		currentAction = null;
-	}
-	
-	/** Clears all actions that are queued to run. */
-	public final void clearQueuedActions() {
-		queuedActions.clear();
-	}
-	
-	private void nextAction() {
-		currentAction = queuedActions.remove(0);
-		currentAction.start();
-	}
-
-	@Override
-	public final void enable() {
-		nextAction();
+	public final boolean enableBehavior(int index) {
+		Behavior b = behaviors.get(index);
 		
-		if (currentAction != null)
-			currentAction.start();
+		if (b == null || b.isEnabled())
+			return false;
+		
+		b.enable();
+		return true;
+	}
+	
+	/**
+	 * Disables a specific <tt>Behavior</tt> in this component.
+	 * @param index the index of the behavior
+	 * @return <tt>true</tt> if the behavior exists, and it wasn't already disabled.
+	 */
+	public final boolean disableBehavior(int index) {
+		Behavior b = behaviors.get(index);
+		
+		if (b == null || !b.isEnabled())
+			return false;
+		
+		b.disable();
+		return true;
+	}
+	
+	protected final void clearBehaviors() {
+		behaviors.clear();
 	}
 	
 	@Override
-	public final void disable() {
-		if (currentAction != null)
-			currentAction.stop();
-		
-		queueAction(0, currentAction);
-		currentAction = null;
+	public void enable() {
+		enabled = true;
+		for (Behavior b : behaviors) {
+			b.enable();
+		}
+	}
+	
+	@Override
+	public void disable() {
+		enabled = false;
+		for (Behavior b : behaviors) {
+			b.disable();
+		}
 	}
 	
 	public final boolean isEnabled() {
-		return currentAction != null;
+		return enabled;
 	}
 	
 	@Override
 	public void update() {
-		if (!this.isEnabled()) {
+		if (this.isEnabled())
 			return;
-		}
 		
-		currentAction.update();
-		
-		if (currentAction.isComplete()) {
-			currentAction.stop();
-			
-			if (queuedActions.isEmpty()) {
-				currentAction = null;
-			} else {
-				nextAction();
-			}
+		for (Behavior b : behaviors) {
+			if (b.isEnabled())
+				b.update();
 		}
 	}
 }

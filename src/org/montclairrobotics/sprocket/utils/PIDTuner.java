@@ -1,7 +1,7 @@
 package org.montclairrobotics.sprocket.utils;
 
 import org.montclairrobotics.sprocket.core.Button;
-import org.montclairrobotics.sprocket.jrapoport.Action;
+import org.montclairrobotics.sprocket.jrapoport.State;
 
 public class PIDTuner extends PID {
 	private Input<Double> TempP;
@@ -23,7 +23,7 @@ public class PIDTuner extends PID {
 		realI=new DashboardInput("PID Tuner I");
 		realD=new DashboardInput("PID Tuner D");*/
 		
-		new Button(apply).setAction(new Action() {
+		new Button(apply).setAction(new State() {
 			public void start() { recalculatePIDs(); }
 
 			public void update() {}

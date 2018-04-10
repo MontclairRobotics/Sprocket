@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.auto;
 
-import org.montclairrobotics.sprocket.actions.State;
+import org.montclairrobotics.sprocket.jrapoport.State;
 import org.montclairrobotics.sprocket.actions.StateMachine;
 import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.utils.Debug;

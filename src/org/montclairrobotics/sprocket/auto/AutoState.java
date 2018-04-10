@@ -1,6 +1,6 @@
 package org.montclairrobotics.sprocket.auto;
 
-import org.montclairrobotics.sprocket.actions.State;
+import org.montclairrobotics.sprocket.jrapoport.State;
 import org.montclairrobotics.sprocket.core.Sprocket;
 import org.montclairrobotics.sprocket.drive.DTInput;
 import org.montclairrobotics.sprocket.geometry.Vector;
@@ -73,15 +73,11 @@ public abstract class AutoState implements State, DTInput {
 	public abstract boolean userIsDone();
 	
 	@Override
-	public final boolean isDone() {
+	public final boolean isComplete() {
 		return timeInState() > TIMEOUT || userIsDone();
 	}
 	
 	public void setTimeout(double t) {
 		this.TIMEOUT = t;
-	}
-	
-	public void enabled() {
-		
 	}
 }

@@ -1,6 +1,7 @@
 package org.montclairrobotics.sprocket.auto.states;
 
 import org.montclairrobotics.sprocket.geometry.Vector;
+import org.montclairrobotics.sprocket.utils.Debug;
 
 
 /**
@@ -10,13 +11,12 @@ import org.montclairrobotics.sprocket.geometry.Vector;
  * cases where driving by time makes sense or while testing.
  */
 public class DriveTime extends Delay {
-	
 	public DriveTime(double time,double power) {
 		this(time, Vector.xy(0, power));
 	}
 	
-	public DriveTime(double time,Vector tgtDir) {
-		this(time,tgtDir,0);
+	public DriveTime(double time, Vector tgtDir) {
+		this(time, tgtDir, 0);
 	}
 	
 	public DriveTime(double time, Vector tgtDir, double tgtTurn) {
@@ -25,17 +25,14 @@ public class DriveTime extends Delay {
 		this.tgtTurn = tgtTurn;
 	}
 	
-	
-	@Override
-	public void enabled() {
-	}
 /*
 	@Override
-	public boolean isDone() {
-		SmartDashboard.putNumber("time", time);
-		SmartDashboard.putNumber("stateTime", timeInState());
-		SmartDashboard.putNumber("tgtDirY", tgtDir.getY());
-		return timeInState() > time;
+	public boolean isComplete() {
+		Debug.print("time", TIMEOUT);
+		Debug.print("stateTime", timeInState());
+		Debug.print("tgtDirY", tgtDir.getY());
+		
+		return timeInState() > TIMEOUT;
 	}
 */
 }

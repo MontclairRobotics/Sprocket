@@ -38,7 +38,7 @@ public class DriveEncoders extends AutoState {
 	}
 	
 	@Override
-	public void enabled() {
+	public void update() {
 		/*
 		tgtDir = new XY(0,Utils.constrain(
 				Math.sqrt(Math.abs(2*maxAccel.get()*(stopDist.get()-dt.getDistance().get())))
@@ -52,34 +52,28 @@ public class DriveEncoders extends AutoState {
 				,-speed,speed));
 		 */
 		double tgtV;
-		if(MAX_ENC_ACCEL!=0||MAX_ENC_TICKS_PER_SEC!=0)
-		{
-			double tgtV2inTicks=2*MAX_ENC_ACCEL*(stopDist-dt.get().get());
-			tgtV=Math.sqrt(Math.abs(tgtV2inTicks))/MAX_ENC_TICKS_PER_SEC*(stopDist-dt.get().get()>0?1:-1);
+		if (MAX_ENC_ACCEL != 0 || MAX_ENC_TICKS_PER_SEC != 0) {
+			double tgtV2inTicks = 2 * MAX_ENC_ACCEL * (stopDist - dt.get().get());
+			tgtV = Math.sqrt(Math.abs(tgtV2inTicks)) / MAX_ENC_TICKS_PER_SEC * (stopDist - dt.get().get() > 0 ? 1 : -1);
+			
 			Debug.num("dt-get-get", dt.get().get());
 			Debug.num("stopDist", stopDist);
-			tgtV=Utils.constrain(tgtV, -speed, speed);
+			
+			tgtV = new Range(speed).constrain(tgtV);
+		} else {
+			tgtV = speed*(distance>0?1:0);
 		}
-		else
-		{
-			tgtV=speed*(distance>0?1:0);
-		}
-		tgtDir = Vector.xy(0,tgtV);
 		
-		//tgtDir = new XY(0, speed);
-	}
-
-	@Override
-	public void disabled() {
-
+		tgtDir = Vector.xy(0, tgtV);
 	}
 
 	@Override
 	public boolean userIsDone() {
-		Debug.print("forwards", distance>0?"YES":"NO");
+		Debug.print("forwards", distance > 0 ? "YES" : "NO");
 		Debug.print("DISTANCE", dt.getPosition().getY());
 		Debug.print("StopDistance", stopDist);
-		if(distance>0)
+		
+		if (distance > 0)
 			return dt.getPosition().getY()>stopDist-1;
 		else
 			return dt.getPosition().getY()<stopDist+1;

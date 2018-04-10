@@ -17,16 +17,6 @@ public abstract class Entity extends Component implements Updatable {
 		}
 	}
 	
-	Entity(Component... components) {
-		super();
-		
-		this.components = new ArrayList<Component>();
-		
-		for (Component c : components) {
-			this.components.add(c);
-		}
-	}
-	
 	/**
 	 * This is where this entity updates its components.
 	 * Override this class to perform updates specific to this entity.
@@ -37,6 +27,24 @@ public abstract class Entity extends Component implements Updatable {
 		
 		for (Component c : components) {
 			c.update();
+		}
+	}
+	
+	@Override
+	public void enable() {
+		super.enable();
+		
+		for (Component c : components) {
+			c.enable();
+		}
+	}
+	
+	@Override
+	public void disable() {
+		super.disable();
+		
+		for (Component c : components) {
+			c.disable();
 		}
 	}
 	

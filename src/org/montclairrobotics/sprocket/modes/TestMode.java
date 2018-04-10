@@ -4,9 +4,14 @@ public abstract class TestMode extends RobotMode {
 	private RobotMode mode;
 	
 	public TestMode(RobotMode mode) {
-		super("Test: {" + mode.name + "}");
+		super("{" + mode.name + "}");
 		
 		this.mode = mode;
+	}
+	
+	@Override
+	public String toString() {
+		return "Test Mode" + ((name.isEmpty()) ? "" :  ": " + name);
 	}
 	
 	@Override

@@ -14,6 +14,11 @@ public abstract class RobotMode implements Completable, Updatable {
 		this.INIT_TIME = Supuroketto.currentTimeMillis();
 	}
 	
+	@Override
+	public String toString() {
+		return "Robot Mode" + ((name.isEmpty()) ? "" :  ": " + name);
+	}
+	
 	public long getInitTime() {
 		return INIT_TIME;
 	}

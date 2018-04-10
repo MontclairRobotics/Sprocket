@@ -2,11 +2,16 @@ package org.montclairrobotics.sprocket.modes;
 
 public abstract class TeleopMode extends RobotMode {
 	public TeleopMode(String name) {
-		super("Teleop: " + name);
+		super(name);
 	}
 	
 	public TeleopMode() {
-		super("Robot Mode: Teleop");
+		super("");
+	}
+	
+	@Override
+	public String toString() {
+		return "Teleop Mode" + ((name.isEmpty()) ? "" :  ": " + name);
 	}
 	
 	@Override
