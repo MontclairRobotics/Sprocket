@@ -22,6 +22,7 @@ repositories {
 
 version = '0.1'
 
+//Versions obtained from: https://github.com/Open-RIO/GradleRIO/blob/master/src/main/groovy/jaci/openrio/gradle/wpi/WPIExtension.groovy
 dependencies {
     implementation 'edu.wpi.first.wpilibj:wpilibj-java:2018.4.1'
     implementation 'openrio.mirror.third.ctre:CTRE-phoenix-java:5.2.2.0'
