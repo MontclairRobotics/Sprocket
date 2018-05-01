@@ -22,11 +22,11 @@ repositories {
 
 version = '0.1'
 
-dependencies { 
-    implementation 'edu.wpi.first.wpilibj:wpilibj-java:2018.1.1'
-    implementation 'openrio.mirror.third.ctre:CTRE-phoenix-java:5.1.2.1'
-    implementation 'openrio.mirror.third.kauailabs:navx-java:3.0.342'
-    implementation 'edu.wpi.first.ntcore:ntcore-java:4.0.0'
+dependencies {
+    implementation 'edu.wpi.first.wpilibj:wpilibj-java:2018.4.1'
+    implementation 'openrio.mirror.third.ctre:CTRE-phoenix-java:5.2.2.0'
+    implementation 'openrio.mirror.third.kauailabs:navx-java:3.0.346'
+    implementation 'edu.wpi.first.ntcore:ntcore-java:4.1.0'
     implementation fileTree(dir: "libs", include: ['*.jar'])
     // Use JUnit test framework
     //testImplementation 'junit:junit:4.12'
