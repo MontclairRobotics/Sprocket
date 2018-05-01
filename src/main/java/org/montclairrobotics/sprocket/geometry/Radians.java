@@ -67,7 +67,7 @@ public class Radians implements Angle{
 	}
 	public String toString()
 	{
-		return toDegrees()+"°";
+		return toDegrees()+"Â°";
 	}
 	
 	@Override
