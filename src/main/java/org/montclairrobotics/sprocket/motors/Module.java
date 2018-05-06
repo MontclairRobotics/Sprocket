@@ -90,6 +90,7 @@ public class Module implements Updatable {
     		motor.set(power);
     	}
     	Debug.num("module-" + moduleId, power);
+    	power = val;
     }
 
     @Override
