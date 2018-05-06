@@ -2,6 +2,7 @@ package org.montclairrobotics.sprocket.motors;
 
 import org.montclairrobotics.sprocket.geometry.Distance;
 import org.montclairrobotics.sprocket.utils.Debug;
+import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 
 /**
@@ -26,8 +27,7 @@ public class Module {
     private SEncoder enc;
     private PID pid;
     private MotorInputType inputType;
-    
-    private Distance maxSpeed;
+
     private int moduleId;
     
     /**
@@ -53,10 +53,9 @@ public class Module {
 
 
 
-        if(pid!=null)
-        	pid.setInput(enc);
+        if(pid!=null && enc !=null)
+        	pid.setInput(() -> enc.getScaledSpeed());
         
-        this.maxSpeed=new Distance(1);
         this.moduleId = id;
         id++;
     }
@@ -78,7 +77,7 @@ public class Module {
     	{
     		Debug.msg("motordebug", "Using encoders");
             pid.setTarget(power);
-            power=(power+pid.get())/maxSpeed.get();
+            power=(power+pid.get());
     	}
     	for(Motor motor:motors)
     	{

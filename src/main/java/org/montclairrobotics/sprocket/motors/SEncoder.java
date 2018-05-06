@@ -12,17 +12,19 @@ public class SEncoder implements Input<Double> {
     private Encoder enc;
     private int eId;
     private double ticksPerInch;
+    private double maxSpeed;
 
 
-    public SEncoder(int a, int b, double ticksPerInch, boolean reverse) {
+    public SEncoder(int a, int b, double ticksPerInch, double maxSpeed, boolean reverse) {
         enc = new Encoder(a, b, reverse);
         eId = a;
         Debug.msg("enc-" + eId, "init");
         this.ticksPerInch = ticksPerInch;
+        this.maxSpeed = maxSpeed;
     }
 
-    public SEncoder(int a, int b, double ticksPerInch) {
-        this(a, b, ticksPerInch, false);
+    public SEncoder(int a, int b, double ticksPerInch, double maxSpeed) {
+        this(a, b, ticksPerInch, maxSpeed, false);
     }
 
     public SEncoder(Encoder e, double ticksPerInch) {
@@ -51,6 +53,10 @@ public class SEncoder implements Input<Double> {
 
     public void reset() {
         enc.reset();
+    }
+
+    public double getScaledSpeed(){
+        return getTickRate() / maxSpeed;
     }
 
     public Encoder getWPIEncoder() {
