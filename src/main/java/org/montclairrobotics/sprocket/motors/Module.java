@@ -1,6 +1,9 @@
 package org.montclairrobotics.sprocket.motors;
 
 import org.montclairrobotics.sprocket.geometry.Distance;
+import org.montclairrobotics.sprocket.loop.Priority;
+import org.montclairrobotics.sprocket.loop.Updatable;
+import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Debug;
 import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
@@ -15,10 +18,12 @@ import org.montclairrobotics.sprocket.utils.PID;
  * @author MHS Robotics
  *
  */
-public class Module {
+public class Module implements Updatable {
 	
 	private static int id = 0;
-	
+
+
+
     public enum MotorInputType {PERCENT, SPEED};
     private Motor[] motors;
     
@@ -58,6 +63,7 @@ public class Module {
         
         this.moduleId = id;
         id++;
+        Updater.add(this, Priority.DRIVE_CALC);
     }
     
     public Module(Motor... motors)
@@ -85,7 +91,17 @@ public class Module {
     	}
     	Debug.num("module-" + moduleId, power);
     }
-    
+
+    @Override
+    public void update() {
+        if(pid != null){
+            power = power + pid.get();
+        }
+        for(Motor motor : motors){
+            motor.set(power);
+        }
+    }
+
     /**
      * @return The encoder for this motor
      */
