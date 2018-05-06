@@ -82,7 +82,7 @@ public class Module implements Updatable {
     	if(inputType == MotorInputType.SPEED) 
     	{
     		Debug.msg("motordebug", "Using encoders");
-            pid.setTarget(power);
+            pid.setTarget(val);
             power=(power+pid.get());
     	}
     	for(Motor motor:motors)
@@ -94,11 +94,12 @@ public class Module implements Updatable {
 
     @Override
     public void update() {
-        if(pid != null){
-            power = power + pid.get();
-        }
         for(Motor motor : motors){
-            motor.set(power);
+            if(pid != null){
+                motor.set(power + pid.get());
+            }else{
+                motor.set(power);
+            }
         }
     }
 
