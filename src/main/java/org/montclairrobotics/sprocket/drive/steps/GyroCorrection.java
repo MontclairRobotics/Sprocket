@@ -13,6 +13,8 @@ import org.montclairrobotics.sprocket.utils.Utils;
 
 public class GyroCorrection implements Step<DTTarget>, Togglable {
 
+	public static GyroCorrection globalGyroCorrection;
+	
 	private PID pid;
 	private boolean enabled=true;
 	private boolean used;
@@ -57,6 +59,10 @@ public class GyroCorrection implements Step<DTTarget>, Togglable {
 	public void resetMinMaxOut()
 	{
 		setMinMaxOut(-1,1);
+	}
+	
+	public static void setGlobalGyroCorrection(GyroCorrection gyroCorrection) {
+		globalGyroCorrection = gyroCorrection;
 	}
 	
 	@Override

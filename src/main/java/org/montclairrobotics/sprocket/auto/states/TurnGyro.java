@@ -36,6 +36,13 @@ public class TurnGyro extends AutoState {
 		this.gyro=gyro;
 		this.relative=relative;
 	}
+	
+	public TurnGyro(Angle tgt, boolean relative) {
+		this(tgt, GyroCorrection.globalGyroCorrection, relative);
+		if(GyroCorrection.globalGyroCorrection == null){
+			throw new RuntimeException("Global gyro correction has not been set, use GyroCorrection.setGlobalGyroCorrection(GyroCorrection gyroCorrection)");
+		}
+	}
 	/*
 	public TurnGyro(Input<Double> dashInput, GyroCorrection gyro, boolean relative) {
 		this.dashInput = dashInput;
