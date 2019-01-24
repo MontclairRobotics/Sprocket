@@ -1,7 +1,11 @@
 package org.montclairrobotics.sprocket.motors;
 
 import org.montclairrobotics.sprocket.geometry.Distance;
+import org.montclairrobotics.sprocket.loop.Priority;
+import org.montclairrobotics.sprocket.loop.Updatable;
+import org.montclairrobotics.sprocket.loop.Updater;
 import org.montclairrobotics.sprocket.utils.Debug;
+import org.montclairrobotics.sprocket.utils.Input;
 import org.montclairrobotics.sprocket.utils.PID;
 
 /**
@@ -14,10 +18,12 @@ import org.montclairrobotics.sprocket.utils.PID;
  * @author MHS Robotics
  *
  */
-public class Module {
+public class Module implements Updatable {
 	
 	private static int id = 0;
-	
+
+
+
     public enum MotorInputType {PERCENT, SPEED};
     private Motor[] motors;
     
@@ -26,8 +32,7 @@ public class Module {
     private SEncoder enc;
     private PID pid;
     private MotorInputType inputType;
-    
-    private Distance maxSpeed;
+
     private int moduleId;
     
     /**
@@ -53,12 +58,12 @@ public class Module {
 
 
 
-        if(pid!=null)
-        	pid.setInput(enc);
+        if(pid!=null && enc !=null && enc.maxSpeed != 0)
+        	pid.setInput(() -> enc.getScaledSpeed());
         
-        this.maxSpeed=new Distance(1);
         this.moduleId = id;
         id++;
+        Updater.add(this, Priority.DRIVE_CALC);
     }
     
     public Module(Motor... motors)
@@ -73,20 +78,32 @@ public class Module {
     public void set(double val)
     {
     	power=val;
-    	Debug.msg("Modules running", "yay");
+    	Debug.msg("Modules running", true);
     	if(inputType == MotorInputType.SPEED) 
     	{
     		Debug.msg("motordebug", "Using encoders");
-            pid.setTarget(power);
-            power=(power+pid.get())/maxSpeed.get();
+            pid.setTarget(val);
+            power=(power+pid.get());
     	}
     	for(Motor motor:motors)
     	{
     		motor.set(power);
     	}
     	Debug.num("module-" + moduleId, power);
+    	power = val;
     }
-    
+
+    @Override
+    public void update() {
+        for(Motor motor : motors){
+            if(pid != null && enc.maxSpeed != 0){
+                motor.set(power + pid.get());
+            }else{
+                motor.set(power);
+            }
+        }
+    }
+
     /**
      * @return The encoder for this motor
      */
