@@ -58,7 +58,7 @@ public class Module implements Updatable {
 
 
 
-        if(pid!=null && enc !=null)
+        if(pid!=null && enc !=null && enc.maxSpeed != 0)
         	pid.setInput(() -> enc.getScaledSpeed());
         
         this.moduleId = id;
@@ -78,7 +78,7 @@ public class Module implements Updatable {
     public void set(double val)
     {
     	power=val;
-    	Debug.msg("Modules running", "yay");
+    	Debug.msg("Modules running", true);
     	if(inputType == MotorInputType.SPEED) 
     	{
     		Debug.msg("motordebug", "Using encoders");
@@ -96,7 +96,7 @@ public class Module implements Updatable {
     @Override
     public void update() {
         for(Motor motor : motors){
-            if(pid != null){
+            if(pid != null && enc.maxSpeed != 0){
                 motor.set(power + pid.get());
             }else{
                 motor.set(power);

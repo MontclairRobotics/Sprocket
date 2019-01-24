@@ -12,7 +12,7 @@ public class SEncoder implements Input<Double> {
     private Encoder enc;
     private int eId;
     private double ticksPerInch;
-    private double maxSpeed;
+    public double maxSpeed;
 
 
     public SEncoder(int a, int b, double ticksPerInch, double maxSpeed, boolean reverse) {
@@ -27,9 +27,10 @@ public class SEncoder implements Input<Double> {
         this(a, b, ticksPerInch, maxSpeed, false);
     }
 
-    public SEncoder(Encoder e, double ticksPerInch) {
+    public SEncoder(Encoder e, double ticksPerInch, double maxSpeed) {
         enc = e;
         this.ticksPerInch = ticksPerInch;
+        this.maxSpeed = maxSpeed;
     }
 
 
