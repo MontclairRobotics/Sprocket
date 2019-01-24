@@ -58,6 +58,11 @@ public class XY implements Vector {
         return x * v.getX() + y * v.getY();
     }
 
+    @Override
+    public double crossProduct(Vector v){
+        return getMagnitude() * v.getMagnitude() * angleBetween(v).sin();
+    }
+    
 	@Override
 	public Vector rotate(Angle a) {
 		return new Polar(getMagnitude(),getAngle().add(a));

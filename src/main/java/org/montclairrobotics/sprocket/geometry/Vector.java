@@ -14,6 +14,7 @@ public interface Vector {
     Vector setMag(double mag);
     Vector normalize();
     double dotProduct(Vector v);
+    double crossProduct(Vector v);
 	Vector rotate(Angle angle);
 	Angle angleBetween(Vector c);
 	Vector square();

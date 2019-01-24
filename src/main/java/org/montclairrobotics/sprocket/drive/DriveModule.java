@@ -24,6 +24,7 @@ public class DriveModule extends Module{
     private Vector offset;
     private Vector force;
     private Motor[] motors;
+    public double temp;
     
     
     private double power;

@@ -57,7 +57,12 @@ public class Polar implements Vector {
     public double dotProduct(Vector v) {
         return getX() * v.getX() + getY() * v.getY();
     }
-
+    
+    @Override
+    public double crossProduct(Vector v){
+        return getMagnitude() * v.getMagnitude() * angleBetween(v).sin();
+    }
+    
 	@Override
 	public Vector rotate(Angle a) {
 		return new Polar(magnitude, angle.add(a));
